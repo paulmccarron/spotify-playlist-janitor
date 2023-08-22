@@ -54,7 +54,7 @@ erDiagram
         VARCHAR id PK
         VARCHAR user_id FK
 	    VARCHAR name
-        VARCHAR link
+        VARCHAR href
     }
     SKIPPED_TRACK {
         VARCHAR id PK
