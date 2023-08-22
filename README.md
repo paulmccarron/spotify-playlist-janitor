@@ -32,6 +32,6 @@ The user will authenticate the application's API with their Spotify account so t
 ``` mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram
-    User ||--|| Playlist : ""
     Playlist ||--|| Skipped Track : ""
+    User ||--|| Playlist : ""
 ```
