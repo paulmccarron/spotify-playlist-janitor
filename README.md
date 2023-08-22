@@ -12,3 +12,26 @@ This application aims to reduce the effort of identifying and removing this play
 The user will authenticate the application's API with their Spotify account so that it can read/modify playlists and read their current playback state. It will then poll their current playback state every 0.5 seconds so that it can track when a song begins playing and then a different song begins within a short space of time, establishing that a `skip` has occurred. If this `skip` happened while listening to a playlist chosen by the user, it will be recorded in a database. These `skips` can then be presented to the user via a single-page application so the user can see what songs they are skipping in their chosen playlists, and allow the user to remove these songs if they wish.
 
 
+### MVP
+* Authorize application with users Spotify account
+* Read users current playback activity
+* Read and display users playlists
+* Select playlists to monitor
+* Display skipped tracks for each playlist
+* Select tracks to remove from each playlist
+
+### Stretch Goals
+* Custom rules for each playlist:
+    * Choose between time elasped or percentage played to decided if a song has been skipped
+    * Automatic playlist cleanup once a specified number of skips has occured
+* Create copy of playlists without skipped tracks
+* Live display of users current playback activity
+* Application resilience: no need to reauthorize with Spotify if application restarted unexpectedly 
+
+## Domain Model
+``` mermaid
+%%{init: {'theme':'neutral'}}%%
+erDiagram
+    User ||--|| Playlist : ""
+    Playlist ||--|| Skipped Track : ""
+```
