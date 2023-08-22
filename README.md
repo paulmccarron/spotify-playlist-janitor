@@ -30,7 +30,56 @@ The user will authenticate the application's API with their Spotify account so t
 
 ## Domain Model
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 erDiagram
     USER ||--o{ PLAYLIST : ""
     PLAYLIST ||--o{ SKIPPED_TRACK : ""
+```
+
+## Entity-Relationship Diagram
+``` mermaid
+%%{init: {'theme':'neutral'}}%%
+erDiagram
+    USER ||--o{ PLAYLIST : ""
+    PLAYLIST ||--|| SKIPPED_TRACK : ""
+    SKIPPED_TRACK ||--|| TRACK : ""
+    TRACK ||--o{ ARTIST : ""
+    TRACK ||--|| ALBUM : ""
+    ARTIST }o--|| ALBUM : ""
+
+    USER {
+        VARCHAR id PK
+    }
+    PLAYLIST {
+        VARCHAR id PK
+        VARCHAR user_id FK
+	    VARCHAR name
+        VARCHAR link
+    }
+    SKIPPED_TRACK {
+        VARCHAR id PK
+        VARCHAR playlist_id FK
+        VARCHAR track_id FK
+    }
+    TRACK {
+        VARCHAR id PK
+        VARCHAR artist_id FK
+        VARCHAR track_id FK
+        VARCHAR name
+        VARCHAR length
+        VARCHAR href
+        VARCHAR image_href
+    }
+    ARTIST {
+        VARCHAR id PK
+        VARCHAR name
+        VARCHAR href
+        VARCHAR image_href
+    }
+    ALBUM {
+        VARCHAR id PK
+        VARCHAR name
+        VARCHAR href
+        VARCHAR image_href
+    }
 ```
