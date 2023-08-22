@@ -31,6 +31,6 @@ The user will authenticate the application's API with their Spotify account so t
 ## Domain Model
 ```mermaid
 erDiagram
-    User ||--o{ Playlist : ""
-    Playlist ||--|{ Skipped Track : ""
+    USER ||--o{ PLAYLIST : ""
+    PLAYLIST ||--o{ SKIPPED_TRACK : ""
 ```
