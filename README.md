@@ -40,16 +40,12 @@ erDiagram
 ``` mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram
-    USER ||--o{ PLAYLIST : ""
     PLAYLIST ||--|| SKIPPED_TRACK : ""
     SKIPPED_TRACK ||--|| TRACK : ""
     TRACK ||--o{ ARTIST : ""
     TRACK ||--|| ALBUM : ""
     ARTIST }o--|| ALBUM : ""
 
-    USER {
-        VARCHAR id PK
-    }
     PLAYLIST {
         VARCHAR id PK
         VARCHAR user_id FK
