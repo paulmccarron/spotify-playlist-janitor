@@ -25,10 +25,10 @@ CREATE TABLE track (
     album_id text not null,
 
     CONSTRAINT artist_id FOREIGN KEY (id)
-        REFERENCES artist(id)
+        REFERENCES artist(id),
 
     CONSTRAINT album_id FOREIGN KEY (id)
-        REFERENCES album(id)
+        REFERENCES album(id),
 );
 
 CREATE TABLE skipped_track (
@@ -37,8 +37,8 @@ CREATE TABLE skipped_track (
     track_id text not null,
 
     CONSTRAINT playlist_id FOREIGN KEY (id)
-        REFERENCES playlist(id)
+        REFERENCES playlist(id),
 
     CONSTRAINT track_id FOREIGN KEY (id)
-        REFERENCES track(id)
+        REFERENCES track(id),
 );
