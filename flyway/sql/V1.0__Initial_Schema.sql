@@ -20,25 +20,24 @@ CREATE TABLE track (
     id text PRIMARY KEY not null,
     name text not null,
     length int not null,
-    href text not null,
     artist_id text not null,
     album_id text not null,
 
-    CONSTRAINT artist_id FOREIGN KEY (id)
+    CONSTRAINT fk__artist_id FOREIGN KEY (artist_id)
         REFERENCES artist(id),
 
-    CONSTRAINT album_id FOREIGN KEY (id)
+    CONSTRAINT fk__album_id FOREIGN KEY (album_id)
         REFERENCES album(id)
 );
 
 CREATE TABLE skipped_track (
-    id text PRIMARY KEY not null,
+    id int PRIMARY KEY not null,
     playlist_id text not null,
     track_id text not null,
 
-    CONSTRAINT playlist_id FOREIGN KEY (id)
+    CONSTRAINT fk__playlist_id FOREIGN KEY (playlist_id)
         REFERENCES playlist(id),
 
-    CONSTRAINT track_id FOREIGN KEY (id)
+    CONSTRAINT fk__track_id FOREIGN KEY (track_id)
         REFERENCES track(id)
 );
