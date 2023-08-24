@@ -29,49 +29,7 @@ The user will authenticate the application's API with their Spotify account so t
 * Application resilience: no need to reauthorize with Spotify if application restarted unexpectedly 
 
 ## Domain Model
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-erDiagram
-    USER ||--o{ PLAYLIST : ""
-    PLAYLIST ||--o{ SKIPPED_TRACK : ""
-```
+[link](./docs/domain-model.md#Domain-Model)
 
 ## Entity-Relationship Diagram
-``` mermaid
-%%{init: {'theme':'neutral'}}%%
-erDiagram
-    PLAYLIST ||--|| SKIPPED_TRACK : ""
-    SKIPPED_TRACK ||--|| TRACK : ""
-    TRACK ||--o{ ARTIST : ""
-    TRACK ||--|| ALBUM : ""
-    ARTIST }o--|| ALBUM : ""
-
-    PLAYLIST {
-        VARCHAR id PK
-	    VARCHAR name
-        VARCHAR href
-    }
-    SKIPPED_TRACK {
-        VARCHAR id PK
-        VARCHAR playlist_id FK
-        VARCHAR track_id FK
-    }
-    TRACK {
-        VARCHAR id PK
-        VARCHAR artist_id FK
-        VARCHAR album_id FK
-        VARCHAR name
-        VARCHAR length
-        VARCHAR href
-    }
-    ARTIST {
-        VARCHAR id PK
-        VARCHAR name
-        VARCHAR href
-    }
-    ALBUM {
-        VARCHAR id PK
-        VARCHAR name
-        VARCHAR href
-    }
-```
+[link](./docs/entity-relationship-diagram.md#Entity-Relationship-Diagram)
