@@ -48,7 +48,6 @@ erDiagram
 
     PLAYLIST {
         VARCHAR id PK
-        VARCHAR user_id FK
 	    VARCHAR name
         VARCHAR href
     }
@@ -60,22 +59,19 @@ erDiagram
     TRACK {
         VARCHAR id PK
         VARCHAR artist_id FK
-        VARCHAR track_id FK
+        VARCHAR album_id FK
         VARCHAR name
         VARCHAR length
         VARCHAR href
-        VARCHAR image_href
     }
     ARTIST {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
-        VARCHAR image_href
     }
     ALBUM {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
-        VARCHAR image_href
     }
 ```

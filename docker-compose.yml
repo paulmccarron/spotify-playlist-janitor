@@ -1,0 +1,18 @@
+version: "3"
+name: "spotify-playlist-janitor"
+services:
+    spotify-playlist-janitor-db:
+        image: postgres:alpine
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: SpotifyPlaylistJanitor
+    spotify-playlist-janitor-flyway:
+        image: flyway/flyway:latest-alpine
+        command: -url=jdbc:postgresql://spotify-playlist-janitor-db/SpotifyPlaylistJanitor -schemas=public -user=${DB_USERNAME} -password=${DB_PASSWORD} -connectRetries=60 migrate
+        volumes:
+            - ./flyway/sql:/flyway/sql
+        depends_on:
+            - spotify-playlist-janitor-db
