@@ -1,19 +1,19 @@
 CREATE TABLE playlist (
     id text PRIMARY KEY not null,
     name text not null,
-    href text not null,
+    href text not null
 );
 
 CREATE TABLE artist (
     id text PRIMARY KEY not null,
     name text not null,
-    href text not null,
+    href text not null
 );
 
 CREATE TABLE album (
     id text PRIMARY KEY not null,
     name text not null,
-    href text not null,
+    href text not null
 );
 
 CREATE TABLE track (
@@ -28,7 +28,7 @@ CREATE TABLE track (
         REFERENCES artist(id),
 
     CONSTRAINT album_id FOREIGN KEY (id)
-        REFERENCES album(id),
+        REFERENCES album(id)
 );
 
 CREATE TABLE skipped_track (
@@ -40,5 +40,5 @@ CREATE TABLE skipped_track (
         REFERENCES playlist(id),
 
     CONSTRAINT track_id FOREIGN KEY (id)
-        REFERENCES track(id),
+        REFERENCES track(id)
 );
