@@ -13,6 +13,6 @@ services:
         image: flyway/flyway:latest-alpine
         command: -url=jdbc:postgresql://spotify-playlist-janitor-db/SpotifyPlaylistJanitor -schemas=public -user=${DB_USERNAME} -password=${DB_PASSWORD} -connectRetries=60 migrate
         volumes:
-            - ./flyway/sql:/flyway/sql
+            - ./migrations:/flyway/sql
         depends_on:
             - spotify-playlist-janitor-db
