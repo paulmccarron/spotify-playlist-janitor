@@ -9,7 +9,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
         public ExampleController() { }
 
-        [HttpGet("example")]
+        [HttpGet()]
         public IActionResult GetExample()
         {
             var obj = new { data = new { prop = "value" } };
@@ -17,19 +17,19 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return new OkObjectResult(obj);
         }
 
-        [HttpPost("example")]
+        [HttpPost()]
         public IActionResult PostExample(object postBody)
         {
             return new OkObjectResult(postBody);
         }
 
-        [HttpPut("example/{id}")]
+        [HttpPut("{id}")]
         public IActionResult PutExample(object putBody)
         {
             return new OkObjectResult(putBody);
         }
 
-        [HttpDelete("example/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DelteExample(string id)
         {
             return StatusCode(204, new { Message = $"Deleted entity with id: {id}" });;

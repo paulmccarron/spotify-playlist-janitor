@@ -6,6 +6,7 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+RUN dotnet dev-certs https --trust
 WORKDIR /src
 COPY ["SpotifyPlaylistJanitorAPI/SpotifyPlaylistJanitorAPI.csproj", "SpotifyPlaylistJanitorAPI/"]
 RUN dotnet restore "SpotifyPlaylistJanitorAPI/SpotifyPlaylistJanitorAPI.csproj"
@@ -18,5 +19,6 @@ RUN dotnet publish "SpotifyPlaylistJanitorAPI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+COPY --from=publish /root/.dotnet/corefx/cryptography/x509stores/my/* /root/.dotnet/corefx/cryptography/x509stores/my/
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SpotifyPlaylistJanitorAPI.dll"]
