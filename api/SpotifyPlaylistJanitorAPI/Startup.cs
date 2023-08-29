@@ -1,4 +1,4 @@
-namespace MVCSample4
+namespace SpotifyPlaylistJanitorAPIs
 {
     public class Startup
     {

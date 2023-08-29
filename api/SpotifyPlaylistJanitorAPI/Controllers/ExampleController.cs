@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MVCSample4.Controllers
+namespace SpotifyPlaylistJanitorAPI.Controllers
 {
     [Route("[controller]")]
     //[Authorize]

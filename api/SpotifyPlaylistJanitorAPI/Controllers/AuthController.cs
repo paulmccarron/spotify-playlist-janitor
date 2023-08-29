@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using SpotifyPlaylistJanitorAPI.Models;
 using System.Diagnostics;
 
-namespace MVCSample4.Controllers
+namespace SpotifyPlaylistJanitorAPI.Controllers
 {
     [AllowAnonymous]
     public class AuthController : Controller

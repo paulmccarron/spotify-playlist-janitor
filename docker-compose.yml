@@ -8,11 +8,25 @@ services:
         environment:
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-            POSTGRES_DB: SpotifyPlaylistJanitorDatabase
+            POSTGRES_DB: ${DB_NAME}
     spotify-playlist-janitor-flyway:
         image: flyway/flyway:latest-alpine
-        command: -url=jdbc:postgresql://spotify-playlist-janitor-db/SpotifyPlaylistJanitor -schemas=public -user=${DB_USERNAME} -password=${DB_PASSWORD} -connectRetries=60 migrate
+        command: -url=jdbc:postgresql://spotify-playlist-janitor-db/${DB_NAME} -schemas=public -user=${DB_USERNAME} -password=${DB_PASSWORD} -connectRetries=60 migrate
         volumes:
             - ./migrations:/flyway/sql
         depends_on:
             - spotify-playlist-janitor-db
+    spotify-playlist-janitor-api:
+        build:
+            context: ./api
+            dockerfile: SpotifyPlaylistJanitorAPI/Dockerfile
+        environment:
+            ASPNETCORE_URLS: "https://+:5001;http://+:5000"
+            # DbConnectionString: "Server=spotify-playlist-janitor-db,5432;Database=SpotifyPlay${DB_NAME}listJanitorDatabase;User Id=${DB_USERNAME};Password=${DB_PASSWORD};"
+        volumes:
+            - ./api:/app
+        ports:
+            - 5001:5001
+            - 5000:5000
+        depends_on:
+            - spotify-playlist-janitor-flyway
