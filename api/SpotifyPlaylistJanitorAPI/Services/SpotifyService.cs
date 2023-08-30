@@ -9,6 +9,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
     {
         private readonly SpotifyOption _spotifyOptions;
         private readonly ILogger<SpotifyService> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
         private ISpotifyClient? _spotifyClient { get; set; }
         private IToken? _token { get; set; }
 
@@ -20,10 +21,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
         }
 
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, ILogger<SpotifyService> logger)
+        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, ILogger<SpotifyService> logger, IHttpClientFactory httpClientFactory)
         {
             _spotifyOptions = spotifyOptions.Value;
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task CreateClient(string code, string callbackUrl)
@@ -49,13 +51,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
         private IHTTPClient GetNetHttpClient()
         {
-            var handler = new HttpClientHandler()
-            {
-                ServerCertificateCustomValidationCallback = delegate { return true; },
-            };
-            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-
-            return new NetHttpClient(new HttpClient(handler));
+            var client = _httpClientFactory.CreateClient("Spotify");
+            return new NetHttpClient(client);
         }
 
         private IAPIConnector GetAPIConnector()
