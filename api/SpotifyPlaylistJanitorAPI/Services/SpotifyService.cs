@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Http;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 
 namespace SpotifyPlaylistJanitorAPI.Services
@@ -27,17 +28,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
         public async Task CreateClient(string code, string callbackUrl)
         {
-            _logger.LogInformation("1");
-            var response = await new OAuthClient().RequestToken(
+            var connector = GetAPIConnector();
+            var response = await new OAuthClient(connector).RequestToken(
               new AuthorizationCodeTokenRequest(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, code, new Uri(callbackUrl))
             );
 
-            _logger.LogInformation("2");
             var config = SpotifyClientConfig
               .CreateDefault()
+              .WithHTTPClient(GetNetHttpClient())
               .WithAuthenticator(new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response));
 
-            _logger.LogInformation("3");
             _spotifyClient = new SpotifyClient(config);
         }
 
@@ -45,6 +45,22 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             var thing = await _spotifyClient.UserProfile.Current();
             return await _spotifyClient.UserProfile.Current();
+        }
+
+        private IHTTPClient GetNetHttpClient()
+        {
+            var handler = new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = delegate { return true; },
+            };
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+
+            return new NetHttpClient(new HttpClient(handler));
+        }
+
+        private IAPIConnector GetAPIConnector()
+        {
+            return new APIConnector(SpotifyUrls.APIV1, null, new NewtonsoftJSONSerializer(), GetNetHttpClient(), null, null);
         }
     }
 }

@@ -66,7 +66,6 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             var userName = profile.DisplayName;
             ViewBag.UserName = userName;
 
-            _logger.LogInformation("4");
             return View("~/Views/Auth/Callback.cshtml");
         }
 
