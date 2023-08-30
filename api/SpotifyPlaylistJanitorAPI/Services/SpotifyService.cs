@@ -8,7 +8,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
     public class SpotifyService
     {
         private readonly SpotifyOption _spotifyOptions;
-        private readonly ILogger<SpotifyService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private ISpotifyClient? _spotifyClient { get; set; }
         private IToken? _token { get; set; }
@@ -21,10 +20,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
         }
 
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, ILogger<SpotifyService> logger, IHttpClientFactory httpClientFactory)
+        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, IHttpClientFactory httpClientFactory)
         {
             _spotifyOptions = spotifyOptions.Value;
-            _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
 
