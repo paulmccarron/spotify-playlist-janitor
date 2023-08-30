@@ -1,3 +1,8 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using SpotifyPlaylistJanitorAPI.Infrastructure;
+using SpotifyPlaylistJanitorAPI.Services;
+
 namespace SpotifyPlaylistJanitorAPIs
 {
     public class Startup
@@ -14,10 +19,21 @@ namespace SpotifyPlaylistJanitorAPIs
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SpotifyOption>(_configuration.GetSection("Spotify"));
             services.AddRouting();
+
+            services.AddSingleton<SpotifyService>();
 
             services.AddMvc();
             services.AddSwaggerGen();
+
+            services.AddLogging(builder =>
+                builder
+                    .AddDebug()
+                    .AddConsole()
+                    .AddConfiguration(_configuration.GetSection("Logging"))
+                    .SetMinimumLevel(LogLevel.Information)
+            );
         }
 
         public void Configure(IApplicationBuilder app)
@@ -30,10 +46,11 @@ namespace SpotifyPlaylistJanitorAPIs
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                     options.RoutePrefix = "swagger";
                 });
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Auth/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

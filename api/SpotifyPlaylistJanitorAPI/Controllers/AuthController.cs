@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using SpotifyAPI.Web;
+using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
+using SpotifyPlaylistJanitorAPI.Services;
 using System.Diagnostics;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
@@ -9,11 +12,15 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     [AllowAnonymous]
     public class AuthController : Controller
     {
+        private readonly SpotifyService _spotifyService;
+        private readonly SpotifyOption _spotifyOptions;
         private readonly ILogger<AuthController> _logger;
         private static string STATE = $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
 
-        public AuthController(ILogger<AuthController> logger)
+        public AuthController(SpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions, ILogger<AuthController> logger)
         {
+            _spotifyService = spotifyService;
+            _spotifyOptions = spotifyOptions.Value;
             _logger = logger;
         }
 
@@ -25,13 +32,42 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [HttpGet()]
         public IActionResult Auth()
         {
-            return View();
+            var baseUrl = Request.GetTypedHeaders().Referer.ToString();
+            var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
+            {
+                Scope = new[] {
+                    Scopes.UserReadEmail,
+                    Scopes.PlaylistReadPrivate,
+                    Scopes.PlaylistReadCollaborative,
+                    Scopes.PlaylistModifyPublic,
+                    Scopes.PlaylistModifyPrivate,
+                    Scopes.UserReadPlaybackState,
+                    Scopes.UserReadCurrentlyPlaying,
+                },
+                State = STATE,
+            };
+            var uri = loginRequest.ToUri();
+            return Redirect(uri.ToString());
         }
 
         [HttpGet()]
-        public IActionResult Callback()
+        public async Task<IActionResult> Callback(string code, string state)
         {
-            return View();
+            if (!state.Equals(STATE))
+            {
+                return Error();
+            }
+
+            var baseUrl = Request.GetTypedHeaders().Referer.ToString();
+
+            await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
+
+            var profile = await _spotifyService.GetCurrentUser();
+            var userName = profile.DisplayName;
+            ViewBag.UserName = userName;
+
+            _logger.LogInformation("4");
+            return View("~/Views/Auth/Callback.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
