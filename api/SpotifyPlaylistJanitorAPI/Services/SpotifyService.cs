@@ -108,7 +108,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
             if (clientSecretEmpty)
             {
-                throw new SpotifyArgumentException("No ClientSecret configured");
+                throw new SpotifyArgumentException("No Spotify ClientSecret configured");
             }
         }
     }

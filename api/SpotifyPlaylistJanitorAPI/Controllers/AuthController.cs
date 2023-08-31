@@ -4,9 +4,9 @@ using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
-using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
@@ -14,6 +14,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     /// Controller for authorising application with Spotify API to make calls on behalf of the user
     /// </summary>
     [AllowAnonymous]
+    [ExcludeFromCodeCoverage]
     public class AuthController : Controller
     {
         private readonly ISpotifyService _spotifyService;

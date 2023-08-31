@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SpotifyPlaylistJanitorAPI.Models;
-using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify;
 using Swashbuckle.AspNetCore.Filters;
@@ -46,10 +44,10 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             var user = await _spotifyService.GetCurrentUser();
 
-            return new OkObjectResult(user);
+            return user;
         }
 
-        private ObjectResult GetApplicationNotLoggedResponse()
+        private ActionResult GetApplicationNotLoggedResponse()
         {
             return StatusCode(500, new { Message = "Application has not been logged into your Spotify account." });
         }
