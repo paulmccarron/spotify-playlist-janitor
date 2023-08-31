@@ -47,7 +47,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         public IActionResult Auth()
         {
             _spotifyService.CheckSpotifyCredentials();
-            var baseUrl = Request.GetTypedHeaders().Referer.ToString();
+            var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
             var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
             {
                 Scope = new[] {
@@ -79,7 +79,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
                 return Error();
             }
 
-            var baseUrl = Request.GetTypedHeaders().Referer.ToString();
+            var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
 
             var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
             _spotifyService.SetClient(spotifyClient);
