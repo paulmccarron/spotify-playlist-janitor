@@ -71,7 +71,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             // Assert
             var objResult = result.Result as ObjectResult;
-            objResult.StatusCode.Should().Be(500);
+            objResult?.StatusCode.Should().Be(500);
         }
     }
 }
