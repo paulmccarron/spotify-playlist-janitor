@@ -9,29 +9,44 @@ using System.Diagnostics;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
+    /// <summary>
+    /// Controller for authorising application with Spotify API to make calls on behalf of the user
+    /// </summary>
     [AllowAnonymous]
     public class AuthController : Controller
     {
         private readonly SpotifyService _spotifyService;
         private readonly SpotifyOption _spotifyOptions;
-        private readonly ILogger<AuthController> _logger;
         private static string STATE = $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
 
-        public AuthController(SpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions, ILogger<AuthController> logger)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthController"/> class.
+        /// </summary>
+        /// <param name="spotifyService">The Spotify Service</param>
+        /// <param name="spotifyOptions">The Spotify acces credentials read from environment vars</param>
+        public AuthController(SpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyService = spotifyService;
             _spotifyOptions = spotifyOptions.Value;
-            _logger = logger;
         }
 
+        /// <summary>
+        /// Default view for AuthController
+        /// </summary>
+        /// <returns>Default wiew</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Auth view for AuthController
+        /// </summary>
+        /// <returns>Auth view</returns>
         [HttpGet()]
         public IActionResult Auth()
         {
+            _spotifyService.CheckSpotifyCredentials();
             var baseUrl = Request.GetTypedHeaders().Referer.ToString();
             var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
             {
@@ -50,6 +65,12 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return Redirect(uri.ToString());
         }
 
+        /// <summary>
+        /// Callback view for AuthController
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
+        /// <returns>Callback view</returns>
         [HttpGet()]
         public async Task<IActionResult> Callback(string code, string state)
         {
@@ -70,6 +91,10 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return View("~/Views/Auth/Callback.cshtml");
         }
 
+        /// <summary>
+        /// Error view for AuthController
+        /// </summary>
+        /// <returns>Error view</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
