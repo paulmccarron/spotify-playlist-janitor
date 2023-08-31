@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
-using SpotifyAPI.Web.Http;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
+using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.Services
@@ -11,7 +11,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
     /// <summary>
     /// Service to interact with Spotify API
     /// </summary>
-    public class SpotifyService
+    public class SpotifyService : ISpotifyService
     {
         private readonly SpotifyOption _spotifyOptions;
         private ISpotifyClient? _spotifyClient { get; set; }
@@ -47,7 +47,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
         /// <summary>
         /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// Makes an Oauth request to Spotify API using provided CLientId and ClientSecret
+        /// Makes an Oauth request to Spotify API using provided ClientId and ClientSecret
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow</param>
@@ -91,8 +91,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
             };
         }
 
-        [ExcludeFromCodeCoverage]
-        internal void CheckSpotifyCredentials()
+        /// <summary>
+        /// Throws exception if there are any missing Spotify credentials from environment config
+        /// </summary>
+        /// <exception cref="SpotifyArgumentException"></exception>
+        public void CheckSpotifyCredentials()
         {
             var clientIdEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientId);
             var clientSecretEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientSecret);

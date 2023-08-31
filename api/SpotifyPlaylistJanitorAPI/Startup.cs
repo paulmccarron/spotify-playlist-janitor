@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Services;
+using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -37,7 +38,7 @@ namespace SpotifyPlaylistJanitorAPIs
             services.Configure<SpotifyOption>(_configuration.GetSection("Spotify"));
             services.AddRouting();
 
-            services.AddSingleton<SpotifyService>();
+            services.AddSingleton<ISpotifyService, SpotifyService>();
 
             services.AddMvc();
 

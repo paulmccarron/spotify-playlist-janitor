@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Services;
+using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -14,13 +15,13 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     [ApiController]
     public class SpotifyController : Controller
     {
-        private readonly SpotifyService _spotifyService;
+        private readonly ISpotifyService _spotifyService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyController"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service</param>
-        public SpotifyController(SpotifyService spotifyService)
+        public SpotifyController(ISpotifyService spotifyService)
         {
             _spotifyService = spotifyService;
         }

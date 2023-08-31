@@ -5,6 +5,7 @@ using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Services;
+using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
@@ -15,7 +16,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     [AllowAnonymous]
     public class AuthController : Controller
     {
-        private readonly SpotifyService _spotifyService;
+        private readonly ISpotifyService _spotifyService;
         private readonly SpotifyOption _spotifyOptions;
         private static string STATE = $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
 
@@ -24,7 +25,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <param name="spotifyService">The Spotify Service</param>
         /// <param name="spotifyOptions">The Spotify acces credentials read from environment vars</param>
-        public AuthController(SpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions)
+        public AuthController(ISpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyService = spotifyService;
             _spotifyOptions = spotifyOptions.Value;
