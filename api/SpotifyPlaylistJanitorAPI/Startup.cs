@@ -24,14 +24,6 @@ namespace SpotifyPlaylistJanitorAPIs
 
             services.AddSingleton<SpotifyService>();
 
-            services.AddHttpClient("Spotify")
-               .ConfigureHttpMessageHandlerBuilder((client) =>
-                 new HttpClientHandler()
-                 {
-                     ServerCertificateCustomValidationCallback = delegate { return true; },
-                 }
-               );
-
             services.AddMvc();
             services.AddSwaggerGen();
 

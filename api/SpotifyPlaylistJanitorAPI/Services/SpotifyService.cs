@@ -2,15 +2,14 @@
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Http;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.Services
 {
     public class SpotifyService
     {
         private readonly SpotifyOption _spotifyOptions;
-        private readonly IHttpClientFactory _httpClientFactory;
         private ISpotifyClient? _spotifyClient { get; set; }
-        private IToken? _token { get; set; }
 
         public bool IsLoggedIn
         {
@@ -20,42 +19,33 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
         }
 
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, IHttpClientFactory httpClientFactory)
+        public SpotifyService(IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyOptions = spotifyOptions.Value;
-            _httpClientFactory = httpClientFactory;
         }
 
-        public async Task CreateClient(string code, string callbackUrl)
+        [ExcludeFromCodeCoverage]
+        public async Task<ISpotifyClient> CreateClient(string code, string callbackUrl)
         {
-            var connector = GetAPIConnector();
-            var response = await new OAuthClient(connector).RequestToken(
+            var response = await new OAuthClient().RequestToken(
               new AuthorizationCodeTokenRequest(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, code, new Uri(callbackUrl))
             );
 
             var config = SpotifyClientConfig
               .CreateDefault()
-              .WithHTTPClient(GetNetHttpClient())
               .WithAuthenticator(new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response));
 
-            _spotifyClient = new SpotifyClient(config);
+            return new SpotifyClient(config);
+        }
+
+        public void SetClient(ISpotifyClient? spotifyClient)
+        {
+            _spotifyClient = spotifyClient;
         }
 
         public async Task<PrivateUser> GetCurrentUser()
         {
-            var thing = await _spotifyClient.UserProfile.Current();
             return await _spotifyClient.UserProfile.Current();
-        }
-
-        private IHTTPClient GetNetHttpClient()
-        {
-            var client = _httpClientFactory.CreateClient("Spotify");
-            return new NetHttpClient(client);
-        }
-
-        private IAPIConnector GetAPIConnector()
-        {
-            return new APIConnector(SpotifyUrls.APIV1, null, new NewtonsoftJSONSerializer(), GetNetHttpClient(), null, null);
         }
     }
 }
