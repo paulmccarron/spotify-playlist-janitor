@@ -1,8 +1,7 @@
-# spotify-playlist-janitor Entity-Relationship Diagram
+# Entity-Relationship Diagram
 
 Current interation of the Entity-Relationship Diagram for the Spotify Playlist Janitor project, check `git` history for previous versions.
 
-## Entity-Relationship Diagram
 ``` mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram

@@ -29,7 +29,10 @@ The user will authenticate the application's API with their Spotify account so t
 * Application resilience: no need to reauthorize with Spotify if application restarted unexpectedly 
 
 ## Domain Model
-[link](./docs/domain-model.md#Domain-Model)
+Diagram for domain model can be found [here](./docs/domain-model.md).
 
 ## Entity-Relationship Diagram
-[link](./docs/entity-relationship-diagram.md#Entity-Relationship-Diagram)
+Diagram for entity relationships can be found [here](./docs/entity-relationship-diagram.md).
+
+## Spotify Configuration
+Instructions for setting up SPotify connectivity can be found [here](./docs/spotify-configuration.md) 
