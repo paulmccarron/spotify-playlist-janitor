@@ -13,7 +13,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
         /// <summary>
         /// Implementation of Swashbuckle GetExamples() IExamplesProvider method.
         /// </summary>
-        /// <returns>Example <see cref="SpotifyUserModel"/>SpotifyUserModel.</returns>
+        /// <returns>Example <see cref="SpotifyUserModel"/>.</returns>
         public SpotifyUserModel GetExamples()
         {
             return new SpotifyUserModel

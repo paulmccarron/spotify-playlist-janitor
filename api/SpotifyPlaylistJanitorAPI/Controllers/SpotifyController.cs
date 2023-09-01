@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Filters;
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
     /// <summary>
-    /// Controller for requests to Spotify API
+    /// Controller for requests to Spotify API.
     /// </summary>
     [Route("[controller]")]
     [ApiController]
@@ -18,17 +18,17 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyController"/> class.
         /// </summary>
-        /// <param name="spotifyService">The Spotify Service</param>
+        /// <param name="spotifyService">The Spotify Service.</param>
         public SpotifyController(ISpotifyService spotifyService)
         {
             _spotifyService = spotifyService;
         }
 
         /// <summary>
-        /// Returns the currently logged in user.
+        /// Returns the current user details.
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Currently logged in user.</response>
+        /// <response code="200">Current user details.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("user")]
         [ProducesResponseType(typeof(SpotifyUserModel), StatusCodes.Status200OK)]
@@ -42,9 +42,32 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
                 return GetApplicationNotLoggedResponse();
             }
 
-            var user = await _spotifyService.GetCurrentUser();
+            var user = await _spotifyService.GetUserDetails();
 
             return user;
+        }
+
+        /// <summary>
+        /// Returns the current user's playlists.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Current user's playlists.</response>
+        /// <response code="500">Application has not been logged into users Spotify account.</response>
+        [HttpGet("playlists")]
+        [ProducesResponseType(typeof(IEnumerable<SpotifyPlaylistModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpotifyPlaylistModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
+        public async Task<ActionResult<IEnumerable<SpotifyPlaylistModel>>> GetPlaylists()
+        {
+            if (!_spotifyService.IsLoggedIn)
+            {
+                return GetApplicationNotLoggedResponse();
+            }
+
+            var playlists = await _spotifyService.GetUserPlaylists();
+
+            return Ok(playlists);
         }
 
         private ActionResult GetApplicationNotLoggedResponse()

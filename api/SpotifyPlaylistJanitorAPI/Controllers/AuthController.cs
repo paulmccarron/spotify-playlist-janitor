@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
     /// <summary>
-    /// Controller for authorising application with Spotify API to make calls on behalf of the user
+    /// Controller for authorising application with Spotify API to make calls on behalf of the user.
     /// </summary>
     [AllowAnonymous]
     [ExcludeFromCodeCoverage]
@@ -24,8 +24,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
-        /// <param name="spotifyService">The Spotify Service</param>
-        /// <param name="spotifyOptions">The Spotify acces credentials read from environment vars</param>
+        /// <param name="spotifyService">The Spotify Service.</param>
+        /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         public AuthController(ISpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyService = spotifyService;
@@ -33,18 +33,18 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Default view for AuthController
+        /// Default view for AuthController.
         /// </summary>
-        /// <returns>Default wiew</returns>
+        /// <returns>Default view.</returns>
         public IActionResult Index()
         {
             return View();
         }
 
         /// <summary>
-        /// Auth view for AuthController
+        /// Auth view for AuthController.
         /// </summary>
-        /// <returns>Auth view</returns>
+        /// <returns>Auth view.</returns>
         [HttpGet()]
         public IActionResult Auth()
         {
@@ -68,11 +68,11 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Callback view for AuthController
+        /// Callback view for AuthController.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="state"></param>
-        /// <returns>Callback view</returns>
+        /// <param name="code">Code returned from first part of Authorization flow, used to request Oauth token.</param>
+        /// <param name="state">Additional state parameter to vaidate callback information from first part of Authorization flow.</param>
+        /// <returns>Callback view.</returns>
         [HttpGet()]
         public async Task<IActionResult> Callback(string code, string state)
         {
@@ -86,7 +86,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
             _spotifyService.SetClient(spotifyClient);
 
-            var profile = await _spotifyService.GetCurrentUser();
+            var profile = await _spotifyService.GetUserDetails();
             var userName = profile.DisplayName;
             ViewBag.UserName = userName;
 
@@ -94,9 +94,9 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Error view for AuthController
+        /// Error view for AuthController.
         /// </summary>
-        /// <returns>Error view</returns>
+        /// <returns>Error view.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

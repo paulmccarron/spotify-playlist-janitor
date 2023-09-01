@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SpotifyPlaylistJanitorAPI.Services
 {
     /// <summary>
-    /// Service to interact with Spotify API
+    /// Service to interact with Spotify API.
     /// </summary>
     public class SpotifyService : ISpotifyService
     {
@@ -17,16 +17,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
         private ISpotifyClient? _spotifyClient { get; set; }
 
         /// <summary>
-        /// Sets the internal Spotify Client fro the service
+        /// Sets the internal Spotify Client fro the service.
         /// </summary>
-        /// <param name="spotifyClient"></param>
+        /// <param name="spotifyClient">The Spotify access credentials read from environment vars.</param>
         public void SetClient(ISpotifyClient? spotifyClient)
         {
             _spotifyClient = spotifyClient;
         }
 
         /// <summary>
-        /// Returns true if service has a Spotify Client configured
+        /// Returns true if service has a Spotify Client configured.
         /// </summary>
         public bool IsLoggedIn
         {
@@ -49,9 +49,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
         /// Makes an Oauth request to Spotify API using provided ClientId and ClientSecret
         /// </summary>
-        /// <param name="code">Callback code provide by first part of the Authorization flow</param>
-        /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow</param>
-        /// <returns cref="SpotifyClient">Client that is authenticated for users Spotify account</returns>
+        /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
+        /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
+        /// <returns cref="SpotifyClient">Client that is authenticated for users Spotify account.</returns>
         [ExcludeFromCodeCoverage]
         public async Task<ISpotifyClient> CreateClient(string code, string callbackUrl)
         {
@@ -69,11 +69,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Returns current users details
+        /// Returns current users details.
         /// </summary>
-        /// <returns cref="SpotifyUserModel">User details</returns>
-        /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class</exception>
-        public async Task<SpotifyUserModel> GetCurrentUser()
+        /// <returns cref="SpotifyUserModel">User details.</returns>
+        /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
+        public async Task<SpotifyUserModel> GetUserDetails()
         {
             if (_spotifyClient is null)
             {
@@ -92,7 +92,38 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Throws exception if there are any missing Spotify credentials from environment config
+        /// Returns current users playlists.
+        /// </summary>
+        /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
+        /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
+        public async Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists()
+        {
+            if (_spotifyClient is null)
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            var page = await _spotifyClient.Playlists.CurrentUsers();
+            var allPages = await _spotifyClient.PaginateAll(page);
+            var playlists = allPages
+                .Select(playlist => new SpotifyPlaylistModel
+                {
+                    Id = playlist.Id,
+                    Name = playlist.Name,
+                    Href = playlist.Href,
+                    Images = playlist.Images.Select(image => new SpotifyImageModel {
+                        Height = image.Height,
+                        Width = image.Width,
+                        Url = image.Url,
+                    })
+                })
+                .OrderBy(playlist => playlist?.Name?.ToLower());
+
+            return playlists;
+        }
+
+        /// <summary>
+        /// Throws exception if there are any missing Spotify credentials from environment config.
         /// </summary>
         /// <exception cref="SpotifyArgumentException"></exception>
         public void CheckSpotifyCredentials()

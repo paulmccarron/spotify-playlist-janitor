@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Controllers;
 using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -37,7 +39,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var userHref = "www.spotify.com/href";
 
             _spotifyServiceMock
-                .Setup(mock => mock.GetCurrentUser())
+                .Setup(mock => mock.GetUserDetails())
                 .ReturnsAsync(new SpotifyUserModel
                 {
                     Id = userId,
@@ -68,6 +70,42 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             //Act
             var result = await _spotifyController.GetUser();
+
+            // Assert
+            var objResult = result.Result as ObjectResult;
+            objResult?.StatusCode.Should().Be(500);
+        }
+
+        [Test]
+        public async Task SpotifyController_GetPlaylists_Returns_List_Of_SpotifyPlaylistModel()
+        {
+            //Arrange
+            var spotifyPlaylists = new List<SpotifyPlaylistModel>();
+            Fixture.AddManyTo(spotifyPlaylists);
+
+            _spotifyServiceMock
+                .Setup(mock => mock.GetUserPlaylists())
+                .ReturnsAsync(spotifyPlaylists);
+
+            //Act
+            var result = await _spotifyController.GetPlaylists();
+
+            // Assert
+            result.Should().BeOfType<ActionResult<IEnumerable<SpotifyPlaylistModel>>>();
+
+            result?.Value?.Should().BeEquivalentTo(spotifyPlaylists);
+        }
+
+        [Test]
+        public async Task SpotifyController_GetPlaylists_Throws_When_Not_Logged_In()
+        {
+            // Arrange
+            _spotifyServiceMock
+                .SetupGet(mock => mock.IsLoggedIn)
+                .Returns(false);
+
+            //Act
+            var result = await _spotifyController.GetPlaylists();
 
             // Assert
             var objResult = result.Result as ObjectResult;
