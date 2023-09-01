@@ -22,6 +22,9 @@ services:
             dockerfile: SpotifyPlaylistJanitorAPI/Dockerfile
         environment:
             ASPNETCORE_URLS: "https://+:5001;http://+:5000"
+            ASPNETCORE_ENVIRONMENT: "Development"
+            Spotify__ClientId: ${SPOTIFY_CLIENT_ID}
+            Spotify__ClientSecret: ${SPOTIFY_CLIENT_SECRET}
             # DbConnectionString: "Server=db,5432;Database=SpotifyPlay${DB_NAME}listJanitorDatabase;User Id=${DB_USERNAME};Password=${DB_PASSWORD};"
         ports:
             - 5001:5001

@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistJanitorAPI", "SpotifyPlaylistJanitorAPI\SpotifyPlaylistJanitorAPI.csproj", "{3B9A9D1D-7948-499A-864C-9606BC3D7B77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyPlaylistJanitorAPI", "SpotifyPlaylistJanitorAPI\SpotifyPlaylistJanitorAPI.csproj", "{3B9A9D1D-7948-499A-864C-9606BC3D7B77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyPlaylistJanitorAPI.Tests", "Tests\SpotifyPlaylistJanitorAPI.Tests\SpotifyPlaylistJanitorAPI.Tests.csproj", "{63DDEFD9-8D99-4844-8214-BF51A7293A8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3B9A9D1D-7948-499A-864C-9606BC3D7B77} = {3B9A9D1D-7948-499A-864C-9606BC3D7B77}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{3B9A9D1D-7948-499A-864C-9606BC3D7B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B9A9D1D-7948-499A-864C-9606BC3D7B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B9A9D1D-7948-499A-864C-9606BC3D7B77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63DDEFD9-8D99-4844-8214-BF51A7293A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DDEFD9-8D99-4844-8214-BF51A7293A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DDEFD9-8D99-4844-8214-BF51A7293A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DDEFD9-8D99-4844-8214-BF51A7293A8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
