@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Controllers;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;

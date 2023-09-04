@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace SpotifyPlaylistJanitorAPI.DataAccess.Models;
 
-namespace SpotifyPlaylistJanitorAPI.DataAccess.Models;
-
+#pragma warning disable 1591
 public partial class SpotifyTrack
 {
     public string Id { get; set; } = null!;

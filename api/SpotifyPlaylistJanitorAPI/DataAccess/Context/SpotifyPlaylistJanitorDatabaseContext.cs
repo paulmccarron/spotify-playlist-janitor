@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 
 namespace SpotifyPlaylistJanitorAPI.DataAccess.Context;
 
+#pragma warning disable 1591
 public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 {
     public SpotifyPlaylistJanitorDatabaseContext()
