@@ -40,12 +40,6 @@ jobs:
       - name: Get SQL Client
         run: sudo apt-get install -y postgresql-client
       - name: Run schema script
-        run: |
-          PGPASSWORD=postgres_passowrd 
-          psql -U postgres_user -h postgres-service -p 5432 -d testdb 
-          -f migrations/V1.0__Initial_Schema.sql
+        run: PGPASSWORD=postgres_passowrd psql -U postgres_user -h postgres-service -p 5432 -d testdb -f migrations/V1.0__Initial_Schema.sql
       - name: Run seed data script
-        run: |
-          PGPASSWORD=postgres_passowrd 
-          psql -U postgres_user -h postgres-service -p 5432 -d testdb 
-          -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql
+        run: PGPASSWORD=postgres_passowrd psql -U postgres_user -h postgres-service -p 5432 -d testdb -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql
