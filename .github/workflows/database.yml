@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
+      postgres-service:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: postgres_passowrd
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -31,6 +31,7 @@ jobs:
       - name: Get SQL Client
         run: sudo apt-get install -y postgresql-client
       - name: Run schema script
-        run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@postgres :5432/postgres
+        # run: PGPASSWORD=postgres_passowrd psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@127.0.0.1:5432/postgres
+        run: PGPASSWORD=postgres_passowrd psql -U postgres -h 127.0.0.1 -p 5432 -d testdb -f migrations/V1.0__Initial_Schema.sql
       - name: Run seed data script
-        run: psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@postgres :5432/postgres
+        run: PGPASSWORD=postgres_passowrd psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@127.0.0.1:5432/postgres
