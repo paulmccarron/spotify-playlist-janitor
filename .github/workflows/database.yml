@@ -1,6 +1,6 @@
 # This workflow will run the project sql sripts on an empty databse
 
-name: PostgreSQL sql scripts
+name: SQL Scripts
 
 on:
   pull_request:
