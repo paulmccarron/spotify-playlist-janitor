@@ -25,7 +25,7 @@ services:
             ASPNETCORE_ENVIRONMENT: "Development"
             Spotify__ClientId: ${SPOTIFY_CLIENT_ID}
             Spotify__ClientSecret: ${SPOTIFY_CLIENT_SECRET}
-            # DbConnectionString: "Server=db,5432;Database=${DB_NAME};User Id=${DB_USERNAME};Password=${DB_PASSWORD};"
+            ConnectionStrings__DefaultConnection: "Server=db,5432;Database=${DB_NAME};User Id=${DB_USERNAME};Password=${DB_PASSWORD};"
         ports:
             - 5001:5001
             - 5000:5000

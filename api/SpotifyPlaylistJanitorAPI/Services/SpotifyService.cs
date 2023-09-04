@@ -2,7 +2,7 @@
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
-using SpotifyPlaylistJanitorAPI.Models;
+using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 
@@ -37,7 +37,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpotifyOption"/> class.
+        /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
         /// <param name="spotifyOptions"></param>
         public SpotifyService(IOptions<SpotifyOption> spotifyOptions)

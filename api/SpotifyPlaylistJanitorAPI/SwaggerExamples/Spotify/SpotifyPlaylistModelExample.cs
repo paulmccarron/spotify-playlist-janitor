@@ -1,4 +1,4 @@
-﻿using SpotifyPlaylistJanitorAPI.Models;
+﻿using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
 

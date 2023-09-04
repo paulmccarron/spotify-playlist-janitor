@@ -1,5 +1,5 @@
 ﻿using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.Models;
+using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using System;
 
 namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
