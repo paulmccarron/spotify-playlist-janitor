@@ -10,7 +10,8 @@ on:
       - 'migrations/**'
 
 jobs:
-  container-job:
+  run-postgres-on-ubuntu:
+    container: ubuntu
     runs-on: ubuntu-latest
 
     services:
