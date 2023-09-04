@@ -3,8 +3,6 @@
 name: PostgreSQL sql script
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
