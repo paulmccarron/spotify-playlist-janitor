@@ -11,7 +11,7 @@ on:
       - 'api/**'
 
 jobs:
-  build_and-test:
+  build-and-test:
 
     runs-on: ubuntu-latest
     defaults:
