@@ -19,13 +19,13 @@ erDiagram
     SKIPPED_TRACK {
         VARCHAR id PK
         INT skipped_time
-        VARCHAR playlist_id FK
-        VARCHAR track_id FK
+        VARCHAR spotify_playlist_id FK
+        VARCHAR spotify_track_id FK
     }
     SPOTIFY_TRACK {
         VARCHAR id PK
-        VARCHAR artist_id FK
-        VARCHAR album_id FK
+        VARCHAR spotify_artist_id FK
+        VARCHAR spotify_album_id FK
         VARCHAR name
         VARCHAR length
         VARCHAR href
