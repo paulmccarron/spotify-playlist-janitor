@@ -29,6 +29,6 @@ jobs:
 
     steps:
     - name: Run schema script
-      run: run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@localhost:5432/postgres
+      run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@localhost:5432/postgres
     - name: Run seed data script
-      run: run: psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@localhost:5432/postgres
+      run: psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@localhost:5432/postgres
