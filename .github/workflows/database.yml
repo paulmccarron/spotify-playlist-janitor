@@ -34,8 +34,8 @@ jobs:
           --health-retries 5
 
     steps:
-      # - name: Install sudo package
-      #   run: apt update && apt install sudo
+      - name: Install sudo package
+        run: apt update && apt install sudo
       - name: Get SQL Client
         run: sudo apt-get install -y postgresql-client
       - name: Run schema script
