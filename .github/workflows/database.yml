@@ -16,7 +16,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres
+        image: postgresql-12-postgis-3
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -29,7 +29,6 @@ jobs:
     steps:
     - name: Test database connection
       run: |
-        # for psql
         sudo apt-get install -y postgresql-client
     - name: Run schema script
       run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@localhost:5432/postgres
