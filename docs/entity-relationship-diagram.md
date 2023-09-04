@@ -6,7 +6,7 @@ Current interation of the Entity-Relationship Diagram for the Spotify Playlist J
 %%{init: {'theme':'neutral'}}%%
 erDiagram
     PLAYLIST ||--|| SKIPPED_TRACK : ""
-    SKIPPED_TRACK ||--|| TRACK : ""
+    SKIPPED_TRACK }o--|| TRACK : ""
     TRACK ||--o{ ARTIST : ""
     TRACK ||--|| ALBUM : ""
     ARTIST }o--|| ALBUM : ""
