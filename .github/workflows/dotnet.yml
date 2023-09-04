@@ -6,6 +6,10 @@ name: .NET
 on:
   pull_request:
     types: [opened, reopened]
+    branches:
+      - 'main'
+    paths:
+      - 'api/**'
 
 jobs:
   build:

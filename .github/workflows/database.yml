@@ -1,10 +1,14 @@
 # This workflow will run the project sql sripts on an empty databse
 
-name: PostgreSQL sql script
+name: PostgreSQL sql scripts
 
 on:
   pull_request:
     types: [opened, reopened]
+    branches:
+      - 'main'
+    paths:
+      - 'migrations/**'
 
 jobs:
   container-job:
