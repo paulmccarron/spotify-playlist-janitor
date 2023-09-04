@@ -27,7 +27,7 @@ jobs:
           --health-retries 5
 
     steps:
-     - name: Install sudo package
+      - name: Install sudo package
         run: apt update && apt install sudo
       - name: Get SQL Client
         run: |
