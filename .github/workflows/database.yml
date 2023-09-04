@@ -1,6 +1,6 @@
 # This workflow will run the project sql sripts on an empty databse
 
-name: PostgreSQL
+name: Database
 
 on:
   pull_request:
