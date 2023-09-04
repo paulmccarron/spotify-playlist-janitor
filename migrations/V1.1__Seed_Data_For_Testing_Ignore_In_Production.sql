@@ -1,18 +1,18 @@
-INSERT INTO playlist (id, name, href) 
+INSERT INTO spotify_playlist (id, name, href) 
 VALUES 
     ('3RWXoorVz13dot7I11eiu6', 'Test Playlist', 'https://api.spotify.com/v1/playlists/3RWXoorVz13dot7I11eiu6'),
     ('4jkoiv8phuKuhXboalicqu', 'Test Playlist 2', 'https://api.spotify.com/v1/playlists/4jkoiv8phuKuhXboalicqu'),
     ('1aQvavrk6m4hhEj1NJ0rQB', 'Test Playlist 3', 'https://api.spotify.com/v1/playlists/1aQvavrk6m4hhEj1NJ0rQB'),
     ('4btLcc6A1UmNR7sa2dqlLJ', 'Test Playlist 4', 'https://api.spotify.com/v1/playlists/4btLcc6A1UmNR7sa2dqlLJ');
 
-INSERT INTO artist (id, name, href) 
+INSERT INTO spotify_artist (id, name, href) 
 VALUES 
     ('4tZwfgrHOc3mvqYlEYSvVi', 'Daft Punk', 'https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi'),
     ('0L8ExT028jH3ddEcZwqJJ5', 'Red Hot Chili Peppers', 'https://api.spotify.com/v1/artists/0L8ExT028jH3ddEcZwqJJ5'),
     ('2xaAOVImG2O6lURwqperlD', 'Catfish and the Bottlemen', 'https://api.spotify.com/v1/artists/2xaAOVImG2O6lURwqperlD'),
     ('2DaxqgrOhkeH0fpeiQq2f4', 'Oasis', 'https://api.spotify.com/v1/artists/2DaxqgrOhkeH0fpeiQq2f4');
 
-INSERT INTO album (id, name, href) 
+INSERT INTO spotify_album (id, name, href) 
 VALUES 
     ('3Bz2QPL8NLBn1d03jXtNkT', 'Alive 2007', 'https://api.spotify.com/v1/albums/3Bz2QPL8NLBn1d03jXtNkT'),
     ('4m2880jivSbbyEGAKfITCa', 'Random Access Memories', 'https://api.spotify.com/v1/albums/4m2880jivSbbyEGAKfITCa'),
@@ -32,7 +32,7 @@ VALUES
     ('4XBCWqCXqCdN72K9SklIjy', 'Be Here Now (Deluxe Remastered Edition)', 'https://api.spotify.com/v1/albums/4XBCWqCXqCdN72K9SklIjy'),
     ('2EVWJRhbXWsSm7a6jdKv8O', 'Heathen Chemistry', 'https://api.spotify.com/v1/albums/2EVWJRhbXWsSm7a6jdKv8O');
 
-INSERT INTO track (id, artist_id, album_id, name, length) 
+INSERT INTO spotify_track (id, spotify_artist_id, spotify_album_id, name, length) 
 VALUES 
     -- Daft Punk Tracks
     ('0q9zz6nP5izcUnfYndfVX6', '4tZwfgrHOc3mvqYlEYSvVi', '3Bz2QPL8NLBn1d03jXtNkT', 'Robot Rock / Oh Yeah', 387506),
@@ -157,7 +157,7 @@ VALUES
     ('2tBxJ43XiwEzhf7Xalc5UG', '2DaxqgrOhkeH0fpeiQq2f4', '2EVWJRhbXWsSm7a6jdKv8O', 'Songbird', 127600),
     ('45AQ5zbSJ0j1nM9daSWeq8', '2DaxqgrOhkeH0fpeiQq2f4', '2EVWJRhbXWsSm7a6jdKv8O', 'Little By Little', 292853);
 
-INSERT INTO skipped_track (id, playlist_id, track_id) 
+INSERT INTO skipped_track (skipped_date, spotify_playlist_id, spotify_track_id) 
 VALUES 
     -- Test Playlist skips
     (1692958242, '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),

@@ -5,23 +5,24 @@ Current interation of the Entity-Relationship Diagram for the Spotify Playlist J
 ``` mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram
-    PLAYLIST ||--|| SKIPPED_TRACK : ""
-    SKIPPED_TRACK }o--|| TRACK : ""
-    TRACK ||--o{ ARTIST : ""
-    TRACK ||--|| ALBUM : ""
-    ARTIST }o--|| ALBUM : ""
+    SPOTIFY_PLAYLIST ||--|| SKIPPED_TRACK : ""
+    SKIPPED_TRACK }o--|| SPOTIFY_TRACK : ""
+    SPOTIFY_TRACK ||--o{ SPOTIFY_ARTIST : ""
+    SPOTIFY_TRACK ||--|| SPOTIFY_ALBUM : ""
+    SPOTIFY_ARTIST }o--|| SPOTIFY_ALBUM : ""
 
-    PLAYLIST {
+    SPOTIFY_PLAYLIST {
         VARCHAR id PK
 	    VARCHAR name
         VARCHAR href
     }
     SKIPPED_TRACK {
         VARCHAR id PK
+        INT skipped_time
         VARCHAR playlist_id FK
         VARCHAR track_id FK
     }
-    TRACK {
+    SPOTIFY_TRACK {
         VARCHAR id PK
         VARCHAR artist_id FK
         VARCHAR album_id FK
@@ -29,12 +30,12 @@ erDiagram
         VARCHAR length
         VARCHAR href
     }
-    ARTIST {
+    SPOTIFY_ARTIST {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
     }
-    ALBUM {
+    SPOTIFY_ALBUM {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
