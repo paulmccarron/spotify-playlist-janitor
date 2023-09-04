@@ -22,7 +22,7 @@ jobs:
           # optional (defaults to `5432`)
           POSTGRES_PORT: 5432
           # optional (defaults to `postgres`)
-          POSTGRES_USER: postgres
+          POSTGRES_USER: postgres_user
         ports:
           - 5433:5432
         # Set health checks to wait until postgres has started
@@ -38,7 +38,7 @@ jobs:
       - name: Get SQL Client
         run: sudo apt-get install -y postgresql-client
       - name: Run schema script
-        # run: PGPASSWORD=postgres_passowrd psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@127.0.0.1:5432/postgres
-        run: PGPASSWORD=postgres_passowrd psql -U postgres -h localhost -p 5432 -d testdb -f migrations/V1.0__Initial_Schema.sql
+        run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres_user:postgres_passowrd@127.0.0.1:5432/testdb
+        # run: PGPASSWORD=postgres_passowrd psql -U postgres_user -h localhost -p 5432 -d testdb -f migrations/V1.0__Initial_Schema.sql
       - name: Run seed data script
-        run: PGPASSWORD=postgres_passowrd psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@127.0.0.1:5432/postgres
+        run: PGPASSWORD=postgres_passowrd psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres_user:postgres_passowrd@127.0.0.1:5432/testdb
