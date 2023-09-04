@@ -1,0 +1,32 @@
+# This workflow will run the project sql sripts on an empty databse
+
+name: PostgreSQL sql script
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    container: node:10.18-jessie
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Run schema script
+      run: run: psql -f migrations/V1.0__Initial_Schema.sql postgresql://postgres:postgres@localhost:5432/postgres
+    - name: Run seed data script
+      run: run: psql -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql postgresql://postgres:postgres@localhost:5432/postgres
