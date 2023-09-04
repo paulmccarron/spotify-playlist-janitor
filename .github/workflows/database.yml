@@ -1,6 +1,6 @@
 # This workflow will run the project sql sripts on an empty databse
 
-name: Database
+name: Database Actions
 
 on:
   pull_request:
