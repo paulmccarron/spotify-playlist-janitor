@@ -1,10 +1,12 @@
 using SpotifyPlaylistJanitorAPIs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI
 {
     /// <summary>
     /// Entrypoint class for SpotifyPlaylistJanitorAPI
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         /// <summary>

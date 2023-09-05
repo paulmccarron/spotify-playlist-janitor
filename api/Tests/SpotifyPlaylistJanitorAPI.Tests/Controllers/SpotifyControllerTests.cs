@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SpotifyPlaylistJanitorAPI.Controllers;
+using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
@@ -79,8 +80,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public async Task SpotifyController_GetPlaylists_Returns_List_Of_SpotifyPlaylistModel()
         {
             //Arrange
-            var spotifyPlaylists = new List<SpotifyPlaylistModel>();
-            Fixture.AddManyTo(spotifyPlaylists);
+            var spotifyPlaylists = Fixture.Build<SpotifyPlaylistModel>().CreateMany().ToList();
 
             _spotifyServiceMock
                 .Setup(mock => mock.GetUserPlaylists())
