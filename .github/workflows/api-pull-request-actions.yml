@@ -36,7 +36,7 @@ jobs:
       with:
         testProject: 'Tests/SpotifyPlaylistJanitorAPI.Tests/SpotifyPlaylistJanitorAPI.csproj'
         outputFormat: 'opencover'
-        output: 'Tests/SpotifyPlaylistJanitorAPI.Tests/SpotifyPlaylistJanitorAPI/TestResults/coverage.opencover.xml'
+        output: 'TestResults/coverage.opencover.xml'
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
