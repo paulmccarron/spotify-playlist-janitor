@@ -33,16 +33,16 @@ jobs:
       # run: dotnet test Tests/SpotifyPlaylistJanitorAPI.Tests/ --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory Tests/SpotifyPlaylistJanitorAPI.Tests/coverage
     - name: List files in the repository
       run: ls -R ${{ github.workspace }}/api/Tests/SpotifyPlaylistJanitorAPI.Tests
-    # - name: Create Test Coverage Badge
-    #   uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-    #   id: create_coverage_badge
-    #   with:
-    #     label: Unit Test Coverage
-    #     color: brightgreen
-    #     path: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
-    #     gist-filename: code-coverage.yml
-    #     gist-id: ${{ env.GIST_ID }}
-    #     gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: Unit Test Coverage
+        color: brightgreen
+        path: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
+        gist-filename: code-coverage.yml
+        gist-id: ${{ env.GIST_ID }}
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
