@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -38,8 +40,6 @@ namespace SpotifyPlaylistJanitorAPIs
             services.Configure<SpotifyOption>(_configuration.GetSection("Spotify"));
             services.AddRouting();
 
-            services.AddSingleton<ISpotifyService, SpotifyService>();
-
             services.AddMvc();
 
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
@@ -59,6 +59,13 @@ namespace SpotifyPlaylistJanitorAPIs
                 // Enable Swagger examples
                 options.ExampleFilters();
             });
+
+            services.AddDbContext<SpotifyPlaylistJanitorDatabaseContext>(options =>
+                options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            services.AddSingleton<ISpotifyService, SpotifyService>();
+            services.AddScoped<IDatabaseService, DatabaseService>();
 
             services.AddLogging(builder =>
                 builder

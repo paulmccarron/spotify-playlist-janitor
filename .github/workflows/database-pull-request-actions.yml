@@ -1,0 +1,45 @@
+# This workflow will run the project sql sripts on an empty databse
+
+name: Database Actions
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'migrations/**'
+
+jobs:
+  run-migrations:
+    container: ubuntu
+    runs-on: ubuntu-latest
+
+    services:
+      postgres-service:
+        image: postgres
+        env:
+          POSTGRES_DB: testdb
+          POSTGRES_PASSWORD: postgres_passowrd
+          # optional (defaults to `5432`)
+          POSTGRES_PORT: 5432
+          # optional (defaults to `postgres`)
+          POSTGRES_USER: postgres_user
+        ports:
+          - 5433:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install sudo package
+        run: apt update && apt install sudo
+      - name: Get SQL Client
+        run: sudo apt-get install -y postgresql-client
+      - name: Run schema script
+        run: PGPASSWORD=postgres_passowrd psql -U postgres_user -h postgres-service -p 5432 -d testdb -f migrations/V1.0__Initial_Schema.sql
+      - name: Run seed data script
+        run: PGPASSWORD=postgres_passowrd psql -U postgres_user -h postgres-service -p 5432 -d testdb -f migrations/V1.1__Seed_Data_For_Testing_Ignore_In_Production.sql

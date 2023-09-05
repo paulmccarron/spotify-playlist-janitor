@@ -5,9 +5,8 @@ using Moq;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
-using SpotifyPlaylistJanitorAPI.Models;
+using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
-using System.Linq;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {

@@ -1,11 +1,9 @@
-﻿using SpotifyAPI.Web;
-
-namespace SpotifyPlaylistJanitorAPI.Models
+﻿namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
     /// Model for Spotify playlist information.
     /// </summary>
-    public class SpotifyPlaylistModel
+    public class DatabasePlaylistModel
     {
         /// <summary>
         /// Spotify playlist id.
@@ -21,10 +19,5 @@ namespace SpotifyPlaylistJanitorAPI.Models
         /// Href link to Spotify playlist.
         /// </summary>
         public string? Href { get; set; }
-
-        /// <summary>
-        /// Spotify playlist images.
-        /// </summary>
-        public IEnumerable<SpotifyImageModel>? Images { get; set; }
     }
 }

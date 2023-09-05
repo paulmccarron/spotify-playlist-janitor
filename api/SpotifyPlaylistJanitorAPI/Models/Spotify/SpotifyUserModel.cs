@@ -1,6 +1,6 @@
 ﻿using SpotifyAPI.Web;
 
-namespace SpotifyPlaylistJanitorAPI.Models
+namespace SpotifyPlaylistJanitorAPI.Models.Spotify
 {
     /// <summary>
     /// Model for Spotify user information
