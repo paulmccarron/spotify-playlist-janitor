@@ -27,26 +27,36 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    # - name: Test
-    #   run: dotnet test --no-build --verbosity normal
     - name: Test
-      # run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity detailed Tests/SpotifyPlaylistJanitorAPI.Tests/
-    # - name : coverlet
-    #   uses: b3b00/coverlet-action@1.2.5
-    #   with:
-    #     testProject: 'Tests/SpotifyPlaylistJanitorAPI.Tests/'
-    #     outputFormat: 'opencover'
-    #     output: 'TestResults/coverage.opencover.xml'
-    - name: List files in the repository
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+   - name: List files in the repository
       run: ls -R ${{ github.workspace }}/api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults
-    - name: Create Test Coverage Badge
-      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-      id: create_coverage_badge
+    # - name: Create Test Coverage Badge
+    #   uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+    #   id: create_coverage_badge
+    #   with:
+    #     label: Unit Test Coverage
+    #     color: brightgreen
+    #     path: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
+    #     gist-filename: code-coverage.yml
+    #     gist-id: ${{ env.GIST_ID }}
+    #     gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
+    - name: Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        label: Unit Test Coverage
-        color: brightgreen
-        path: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
-        gist-filename: code-coverage.yml
-        gist-id: ${{ env.GIST_ID }}
-        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
+        filename: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
+        badge: true
+        fail_below_min: false
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: false
+        indicators: true
+        output: both
+        thresholds: '60 80'
+
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
