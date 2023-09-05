@@ -31,7 +31,7 @@ jobs:
     #   run: dotnet test --no-build --verbosity normal
     - name: Test
       # run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity debug Tests/SpotifyPlaylistJanitorAPI.Tests/SpotifyPlaylistJanitorAPI.csproj
     # - name : coverlet
     #   uses: b3b00/coverlet-action@1.2.5
     #   with:
