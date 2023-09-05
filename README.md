@@ -1,3 +1,4 @@
+![badge](https://img.shields.io/endpoint?url=https://gist.github.com/paulmccarron/1598b15d65f0fa4933c552d0c59d55a9/api-code-coverage.json)
 # spotify-playlist-janitor
 
 ## What is the application?
