@@ -40,7 +40,7 @@ jobs:
         label: Unit Test Coverage
         color: brightgreen
         path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
-        gist-filename: code-coverage.yml
+        gist-filename: api-code-coverage.json
         gist-id: ${{ env.GIST_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
     - name: Code Coverage Report
