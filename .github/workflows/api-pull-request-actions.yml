@@ -30,14 +30,14 @@ jobs:
     # - name: Test
     #   run: dotnet test --no-build --verbosity normal
     - name: Test
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal <MyProject>.Tests/
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
       with:
         label: Unit Test Coverage
         color: brightgreen
-        path: SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
+        path: Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
         gist-filename: code-coverage.yml
         gist-id: ${{ env.GIST_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
