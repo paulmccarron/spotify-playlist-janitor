@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.DataAccess.Context;
 
 #pragma warning disable 1591
+[ExcludeFromCodeCoverage]
 public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 {
     public SpotifyPlaylistJanitorDatabaseContext()
