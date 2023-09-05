@@ -29,7 +29,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=cobertura --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=cobertura,opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
       # run: dotnet test Tests/SpotifyPlaylistJanitorAPI.Tests/ --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory Tests/SpotifyPlaylistJanitorAPI.Tests/coverage
     - name: List files in the repository
       run: ls -R ${{ github.workspace }}/api/Tests/SpotifyPlaylistJanitorAPI.Tests
