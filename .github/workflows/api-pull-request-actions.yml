@@ -29,9 +29,14 @@ jobs:
       run: dotnet build --no-restore
     # - name: Test
     #   run: dotnet test --no-build --verbosity normal
-    - name: Test
-      # run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/ -p:CoverletOutputFormat=opencover --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+    # - name: Test
+    #   run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+    - name : coverlet
+      uses: b3b00/coverlet-action@1.2.5
+      with:
+        testProject: 'Tests/SpotifyPlaylistJanitorAPI.Tests/SpotifyPlaylistJanitorAPI.csproj'
+        outputFormat: 'opencover'
+        output: 'Tests/SpotifyPlaylistJanitorAPI.Tests/SpotifyPlaylistJanitorAPI/TestResults/coverage.opencover.xml'
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
