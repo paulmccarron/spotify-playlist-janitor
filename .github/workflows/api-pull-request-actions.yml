@@ -29,7 +29,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       # run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=cobertura --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
-      run: dotnet test src/Example.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test Tests/SpotifyPlaylistJanitorAPI.Tests/ --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
     - name: List files in the repository
       run: ls -R ${{ github.workspace }}/api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults
     # - name: Create Test Coverage Badge
