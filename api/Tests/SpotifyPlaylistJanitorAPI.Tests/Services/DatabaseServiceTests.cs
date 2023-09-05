@@ -52,5 +52,61 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             result.Should().BeOfType<List<DatabasePlaylistModel>>();
             result.Should().BeEquivalentTo(expectedResults);
         }
+
+        [Test]
+        public async Task DatabaseService_GetPlaylist_Returns_Data()
+        {
+            //Arrange
+            var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
+                .CreateMany()
+                .AsQueryable();
+
+            var playlistId = dbPlaylists.First().Id;
+
+            _dbSetPlaylists.AddIQueryables(dbPlaylists);
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylists.Object);
+
+            var expectedResult = dbPlaylists
+                .Select(x => new DatabasePlaylistModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Href = x.Href,
+                })
+                .First();
+
+            //Act
+            var result = await _databaseService.GetPlaylist(playlistId);
+
+            // Assert
+            result.Should().BeOfType<DatabasePlaylistModel>();
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_GetPlaylist_Returns_Null_For_Invalid_Id()
+        {
+            //Arrange
+            var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
+                .CreateMany()
+                .AsQueryable();
+
+            var playlistId = "RANDOM_ID";
+
+            _dbSetPlaylists.AddIQueryables(dbPlaylists);
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylists.Object);
+
+            //Act
+            var result = await _databaseService.GetPlaylist(playlistId);
+
+            // Assert
+            result.Should().BeNull();
+        }
     }
 }

@@ -46,5 +46,25 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             return playlists;
         }
+
+        /// <summary>
+        /// Returns current users tracked playlist from the database by id.
+        /// </summary>
+        /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
+        public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
+        {
+            var playlistDto = await _context.SpotifyPlaylists
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            var playlistModel = playlistDto is null ? null : new DatabasePlaylistModel
+            {
+                Id = playlistDto.Id,
+                Name = playlistDto.Name,
+                Href = playlistDto.Href,
+            };
+
+            return playlistModel;
+        }
     }
 }

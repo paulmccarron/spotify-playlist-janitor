@@ -8,22 +8,19 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
     /// Swagger example.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class DatabasePlaylistModelExample : IExamplesProvider<IEnumerable<DatabasePlaylistModel>>
+    public class DatabasePlaylistModelExample : IExamplesProvider<DatabasePlaylistModel>
     {
         /// <summary>
         /// Implementation of Swashbuckle GetExamples() IExamplesProvider method.
         /// </summary>
-        /// <returns>Example <see cref="IEnumerable{T}"/> of type <see cref="DatabasePlaylistModel"/>.</returns>
-        public IEnumerable<DatabasePlaylistModel> GetExamples()
+        /// <returns>Example <see cref="DatabasePlaylistModel"/>.</returns>
+        public DatabasePlaylistModel GetExamples()
         {
-            return new[]
+            return new DatabasePlaylistModel
             {
-                new DatabasePlaylistModel
-                {
-                    Id = "playlist_id",
-                    Name = "Playlist Name",
-                    Href = "https://open.spotify.com/playlist/playlist_id",
-                }
+                Id = "playlist_id",
+                Name = "Playlist Name",
+                Href = "https://open.spotify.com/playlist/playlist_id",
             };
         }
     }
