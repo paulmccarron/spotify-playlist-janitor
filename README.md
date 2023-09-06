@@ -35,5 +35,8 @@ Diagram for domain model can be found [here](./docs/domain-model.md).
 ## Entity-Relationship Diagram
 Diagram for entity relationships can be found [here](./docs/entity-relationship-diagram.md).
 
+## API Specifications
+API specifications can be found [here](./docs/api-specifications.md).
+
 ## Spotify Configuration
 Instructions for setting up Spotify connectivity can be found [here](./docs/spotify-configuration.md).
