@@ -151,6 +151,23 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
+        public void SpotifyService_CheckSpotifyCredentials_Doesnt_Throw_Exception()
+        {
+            //Arrange
+            _spotifyOptions = Options.Create(new SpotifyOption
+            {
+                ClientId = "mockClientId",
+                ClientSecret = "mockClientSecret",
+            });
+
+            _spotifyService = new SpotifyService(_spotifyOptions);
+
+            //Act
+            //Assert
+            Assert.DoesNotThrow(_spotifyService.CheckSpotifyCredentials);
+        }
+
+        [Test]
         public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_And_Secret_Configured()
         {
             //Arrange
