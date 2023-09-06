@@ -67,7 +67,7 @@ Responses:
 ---
 
 `DELETE /spotify/playlists/{id}/tracks?trackIds[]={track_id_1}&trackIds[]={track_id_2}&trackIds[]={track_id_3}`
-###### Removes tracks from SPotify playlist using track Ids
+###### Removes tracks from Spotify playlist using track Ids
 
 Responses: 
 - `204  No Content`
@@ -83,7 +83,7 @@ Responses:
 ### Database
 
 `GET /data/playlists`
-###### Returns playlists being tracked by the current user
+###### Returns playlists being monitored by the current user
 
 Responses: 
 - `200 OK`
@@ -118,7 +118,7 @@ Responses:
 ---
 
 `POST /data/playlists`
-###### Adds playlist to the database to be tracked for the current user
+###### Adds playlist to the database to be monitored for the current user
 
 Responses: 
 - `201 Created`
@@ -139,7 +139,7 @@ Responses:
 ---
 
 `GET /data/playlists/{id}`
-###### Returns playlist being tracked by the current user by Id
+###### Returns playlist being monitored by the current user by Id
 
 Responses: 
 - `200 OK`
@@ -174,7 +174,7 @@ Responses:
 ---
 
 `GET /data/playlists/{id}/skipped`
-###### Returns playlist being tracked by the current user by Id
+###### Returns tracks that have been skipped in the playlist being monitored
 
 Responses: 
 - `200 OK`
