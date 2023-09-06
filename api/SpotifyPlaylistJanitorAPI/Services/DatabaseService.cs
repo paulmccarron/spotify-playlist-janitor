@@ -72,13 +72,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Returns playlist from database by id.
         /// </summary>
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
-        public async Task<DatabasePlaylistModel> AddPlaylist(string id, string name, string href)
+        public async Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest)
         {
             var playlistDto = new SpotifyPlaylist
             {
-                Id = id,
-                Name = name,
-                Href = href,
+                Id = playlistRequest.Id,
+                Name = playlistRequest.Name,
+                Href = playlistRequest.Href,
             };
 
             await _context.AddAsync(playlistDto);

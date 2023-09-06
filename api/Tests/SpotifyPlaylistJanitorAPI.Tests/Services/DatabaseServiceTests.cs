@@ -122,6 +122,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var name = "name";
             var href = "href";
 
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
             var mockSet = new Mock<DbSet<SpotifyPlaylist>>();
 
             _dbContextMock
@@ -136,7 +143,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             };
 
             //Act
-            var result = await _databaseService.AddPlaylist(id, name, href);
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
 
             // Assert
             _dbContextMock.Verify(m => m.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once());

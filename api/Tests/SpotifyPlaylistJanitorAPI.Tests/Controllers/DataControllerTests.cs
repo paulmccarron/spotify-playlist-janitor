@@ -90,7 +90,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .ReturnsAsync(databasePlaylistNull);
 
             _databaseServiceMock
-                .Setup(mock => mock.AddPlaylist(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(mock => mock.AddPlaylist(It.IsAny<DatabasePlaylistRequest>()))
                 .ReturnsAsync(databasePlaylist);
 
             //Act

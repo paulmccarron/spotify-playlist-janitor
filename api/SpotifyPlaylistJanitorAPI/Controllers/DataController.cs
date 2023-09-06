@@ -83,7 +83,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
                 return BadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
             }
 
-            var playlist = await _databaseService.AddPlaylist(playlistRequest.Id, playlistRequest.Name, playlistRequest.Href);
+            var playlist = await _databaseService.AddPlaylist(playlistRequest);
 
             return new ObjectResult(playlist)
             {
