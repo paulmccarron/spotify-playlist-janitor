@@ -91,6 +91,30 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             };
         }
 
+        /// <summary>
+        /// Deletes current user monitored playlist by id.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="204">Playlist successfully deleted.</response>
+        /// <response code="404">No playlist found for given Id.</response>
+        [HttpDelete("playlists/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
+        public async Task<ActionResult<DatabasePlaylistModel>> DeleteMonitoredPlaylist(string id)
+        {
+            var playlist = await _databaseService.GetPlaylist(id);
+
+            if(playlist is null)
+            {
+                return NotFoundResponse($"Could not find playlist with id: {id}");
+            }
+
+            await _databaseService.DeletePlaylist(id);
+
+            return NoContent();
+        }
+
         private NotFoundObjectResult NotFoundResponse(string message)
         {
             return NotFound(new { Message = message });

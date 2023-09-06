@@ -93,5 +93,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             return playlistModel;
         }
+
+        /// <summary>
+        /// Delete playlist playlist database.
+        /// </summary>
+        public async Task DeletePlaylist(string id)
+        {
+            _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.SpotifyPlaylistId == id));
+            _context.SpotifyPlaylists.RemoveRange(_context.SpotifyPlaylists.Where(playlist => playlist.Id == id));
+            await _context.SaveChangesAsync();
+        }
     }
 }
