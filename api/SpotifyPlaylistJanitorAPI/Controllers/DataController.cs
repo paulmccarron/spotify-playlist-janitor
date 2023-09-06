@@ -26,14 +26,14 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Returns current user tracked playlists.
+        /// Returns current user monitored playlists.
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Current tracked playlists.</response>
+        /// <response code="200">Current monitored playlists.</response>
         [HttpGet("playlists")]
         [ProducesResponseType(typeof(IEnumerable<DatabasePlaylistModel>), StatusCodes.Status200OK)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistsModelExample))]
-        public async Task<ActionResult<IEnumerable<DatabasePlaylistModel>>> GetTrackedPlaylists()
+        public async Task<ActionResult<IEnumerable<DatabasePlaylistModel>>> GetMonitoredPlaylists()
         {
             var playlists = await _databaseService.GetPlaylists();
 
@@ -41,17 +41,17 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Returns current user tracked playlist by id.
+        /// Returns current user monitored playlist by id.
         /// </summary>
         /// <returns></returns>
-        /// <response code="200">Current tracked playlist.</response>
+        /// <response code="200">Current monitored playlist.</response>
         /// <response code="404">No playlist found for given Id.</response>
         [HttpGet("playlists/{id}")]
         [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistModelExample))]
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
-        public async Task<ActionResult<DatabasePlaylistModel>> GetTrackedPlaylist(string id)
+        public async Task<ActionResult<DatabasePlaylistModel>> GetMonitoredPlaylist(string id)
         {
             var playlist = await _databaseService.GetPlaylist(id);
 
@@ -74,7 +74,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [SwaggerResponseExample(StatusCodes.Status201Created, typeof(DatabasePlaylistModelExample))]
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(DatabasePlaylistAlreadyExistsExample))]
-        public async Task<ActionResult<DatabasePlaylistModel>> CreateTrackedPlaylist([FromBody] DatabasePlaylistRequest playlistRequest)
+        public async Task<ActionResult<DatabasePlaylistModel>> CreateMonitoredPlaylist([FromBody] DatabasePlaylistRequest playlistRequest)
         {
             var existingPlaylist = await _databaseService.GetPlaylist(playlistRequest.Id);
 
