@@ -39,7 +39,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_GetTrackedPlaylists_Returns_DatabasePlaylistModel()
+        public async Task DataController_GetTrackedPlaylist_Returns_DatabasePlaylistModel()
         {
             // Arrange
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
@@ -57,7 +57,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_GetTrackedPlaylists_Returns_Not_Found()
+        public async Task DataController_GetTrackedPlaylist_Returns_Not_Found()
         {
             // Arrange
             DatabasePlaylistModel? databasePlaylist = null;
@@ -74,6 +74,51 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             // Assert
             var objResult = result.Result as NotFoundObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
+        public async Task DataController_CreateTrackedPlaylist_Returns_DatabasePlaylistModel()
+        {
+            // Arrange
+            var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
+            DatabasePlaylistModel? databasePlaylistNull = null;
+            var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylistNull);
+
+            _databaseServiceMock
+                .Setup(mock => mock.AddPlaylist(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            //Act
+            var result = await _dataController.CreateTrackedPlaylist(databaseRequest);
+
+            // Assert
+            result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
+            result?.Value?.Should().BeEquivalentTo(databasePlaylist);
+        }
+
+        [Test]
+        public async Task DataController_CreateTrackedPlaylist_Returns_Bad_Request()
+        {
+            // Arrange
+            var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
+            var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            var expectedMessage = new { Message = $"Playlist with id: {databaseRequest.Id} already exists" };
+
+            //Act
+            var result = await _dataController.CreateTrackedPlaylist(databaseRequest);
+
+            // Assert
+            var objResult = result.Result as BadRequestObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
     }

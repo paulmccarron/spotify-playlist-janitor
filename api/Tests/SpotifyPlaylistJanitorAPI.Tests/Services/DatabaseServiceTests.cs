@@ -6,6 +6,10 @@ using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services;
+using System.Drawing;
+using System.Linq;
+using System.Net.Sockets;
+using System.Reflection.Metadata;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
@@ -107,6 +111,37 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             // Assert
             result.Should().BeNull();
+        }
+
+
+        [Test]
+        public async Task DatabaseService_AddPlaylist_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var mockSet = new Mock<DbSet<SpotifyPlaylist>>();
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(mockSet.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id, 
+                Name = name, 
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(id, name, href);
+
+            // Assert
+            _dbContextMock.Verify(m => m.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once());
+            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }

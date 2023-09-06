@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Database;
@@ -28,7 +29,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Returns current users tracked playlists from the database.
+        /// Returns playlists from database.
         /// </summary>
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists()
@@ -48,7 +49,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Returns current users tracked playlist from the database by id.
+        /// Returns playlist from database by id.
         /// </summary>
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
@@ -58,6 +59,32 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .SingleOrDefaultAsync(x => x.Id == id);
 
             var playlistModel = playlistDto is null ? null : new DatabasePlaylistModel
+            {
+                Id = playlistDto.Id,
+                Name = playlistDto.Name,
+                Href = playlistDto.Href,
+            };
+
+            return playlistModel;
+        }
+
+        /// <summary>
+        /// Returns playlist from database by id.
+        /// </summary>
+        /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
+        public async Task<DatabasePlaylistModel> AddPlaylist(string id, string name, string href)
+        {
+            var playlistDto = new SpotifyPlaylist
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            await _context.AddAsync(playlistDto);
+            await _context.SaveChangesAsync();
+
+            var playlistModel = new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
                 Name = playlistDto.Name,
