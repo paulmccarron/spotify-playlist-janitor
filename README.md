@@ -10,7 +10,7 @@ Spotify is great at suggesting new songs and artists to try based on your listen
 This application aims to reduce the effort of identifying and removing this playlist bloat to few clicks worth of effort.
 
 ## How?
-The user will authenticate the application's API with their Spotify account so that it can read/modify playlists and read their current playback state. It will then poll their current playback state every 0.5 seconds so that it can track when a song begins playing and then a different song begins within a short space of time, establishing that a `skip` has occurred. If this `skip` happened while listening to a playlist chosen by the user, it will be recorded in a database. These `skips` can then be presented to the user via a single-page application so the user can see what songs they are skipping in their chosen playlists, and allow the user to remove these songs if they wish.
+The user will authenticate the application's API with their Spotify account so that it can read/modify playlists and read their current playback state. It will then poll their current playback state every 0.5 seconds so that it can monitor when a song begins playing and then a different song begins within a short space of time, establishing that a `skip` has occurred. If this `skip` happened while listening to a playlist chosen by the user, it will be recorded in a database. These `skips` can then be presented to the user via a single-page application so the user can see what songs they are skipping in their chosen playlists, and allow the user to remove these songs if they wish.
 
 
 ### MVP

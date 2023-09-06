@@ -21,7 +21,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_GetTrackedPlaylists_Returns_DatabasePlaylistModels()
+        public async Task DataController_GetMonitoredPlaylists_Returns_DatabasePlaylistModels()
         {
             // Arrange
             var databasePlaylists = Fixture.Build<DatabasePlaylistModel>().CreateMany().ToList();
@@ -31,7 +31,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .ReturnsAsync(databasePlaylists);
 
             //Act
-            var result = await _dataController.GetTrackedPlaylists();
+            var result = await _dataController.GetMonitoredPlaylists();
 
             // Assert
             result.Should().BeOfType<ActionResult<IEnumerable<DatabasePlaylistModel>>>();
@@ -39,7 +39,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_GetTrackedPlaylist_Returns_DatabasePlaylistModel()
+        public async Task DataController_GetMonitoredPlaylist_Returns_DatabasePlaylistModel()
         {
             // Arrange
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
@@ -49,7 +49,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .ReturnsAsync(databasePlaylist);
 
             //Act
-            var result = await _dataController.GetTrackedPlaylist("testId");
+            var result = await _dataController.GetMonitoredPlaylist("testId");
 
             // Assert
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
@@ -57,7 +57,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_GetTrackedPlaylist_Returns_Not_Found()
+        public async Task DataController_GetMonitoredPlaylist_Returns_Not_Found()
         {
             // Arrange
             DatabasePlaylistModel? databasePlaylist = null;
@@ -70,7 +70,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var expectedMessage = new { Message = $"Could not find playlist with id: {playlistId}" };
 
             //Act
-            var result = await _dataController.GetTrackedPlaylist(playlistId);
+            var result = await _dataController.GetMonitoredPlaylist(playlistId);
 
             // Assert
             var objResult = result.Result as NotFoundObjectResult;
@@ -78,7 +78,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_CreateTrackedPlaylist_Returns_DatabasePlaylistModel()
+        public async Task DataController_CreateMonitoredPlaylist_Returns_DatabasePlaylistModel()
         {
             // Arrange
             var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
@@ -94,7 +94,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .ReturnsAsync(databasePlaylist);
 
             //Act
-            var result = await _dataController.CreateTrackedPlaylist(databaseRequest);
+            var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
@@ -102,7 +102,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task DataController_CreateTrackedPlaylist_Returns_Bad_Request()
+        public async Task DataController_CreateMonitoredPlaylist_Returns_Bad_Request()
         {
             // Arrange
             var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
@@ -115,7 +115,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var expectedMessage = new { Message = $"Playlist with id: {databaseRequest.Id} already exists" };
 
             //Act
-            var result = await _dataController.CreateTrackedPlaylist(databaseRequest);
+            var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
             var objResult = result.Result as BadRequestObjectResult;

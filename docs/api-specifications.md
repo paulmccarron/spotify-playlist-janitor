@@ -160,7 +160,7 @@ Responses:
 ---
 
 `DELETE /data/playlists/{id}`
-###### Deletes playlist being tracked by the current user by Id from the databse
+###### Deletes playlist being monitored by the current user by Id from the databse
 
 Responses: 
 - `204 No Content`
