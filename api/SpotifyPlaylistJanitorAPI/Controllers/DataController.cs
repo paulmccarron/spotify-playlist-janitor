@@ -47,7 +47,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <response code="200">Current tracked playlist.</response>
         /// <response code="404">No playlist found for given Id.</response>
         [HttpGet("playlists/{id}")]
-        [ProducesResponseType(typeof(IEnumerable<DatabasePlaylistModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistModelExample))]
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
@@ -63,9 +63,42 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return Ok(playlist);
         }
 
+        /// <summary>
+        /// Add playlist to database for the current user.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="201">Playlist successfully added.</response>
+        /// <response code="400">Playlist already exists.</response>
+        [HttpPost("playlists")]
+        [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        [SwaggerResponseExample(StatusCodes.Status201Created, typeof(DatabasePlaylistModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(DatabasePlaylistAlreadyExistsExample))]
+        public async Task<ActionResult<DatabasePlaylistModel>> CreateTrackedPlaylist([FromBody] DatabasePlaylistRequest playlistRequest)
+        {
+            var existingPlaylist = await _databaseService.GetPlaylist(playlistRequest.Id);
+
+            if (existingPlaylist is not null)
+            {
+                return BadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
+            }
+
+            var playlist = await _databaseService.AddPlaylist(playlistRequest);
+
+            return new ObjectResult(playlist)
+            {
+                StatusCode = 201,
+            };
+        }
+
         private NotFoundObjectResult NotFoundResponse(string message)
         {
             return NotFound(new { Message = message });
+        }
+
+        private BadRequestObjectResult BadRequestResponse(string message)
+        {
+            return BadRequest(new { Message = message });
         }
     }
 }

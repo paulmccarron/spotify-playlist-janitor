@@ -1,8 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace SpotifyPlaylistJanitorAPI.Models
 {
     /// <summary>
     /// Error view model
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ErrorViewModel
     {
         /// <summary>

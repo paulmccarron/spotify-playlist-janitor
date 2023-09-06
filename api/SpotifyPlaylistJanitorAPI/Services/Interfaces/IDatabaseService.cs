@@ -10,15 +10,21 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
     public interface IDatabaseService
     {
         /// <summary>
-        /// Returns current users playlists
+        /// Returns playlists from database.
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
         Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists();
 
         /// <summary>
-        /// Returns current users playlist by id
+        /// Returns playlist from database by id.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         Task<DatabasePlaylistModel?> GetPlaylist(string id);
+
+        /// <summary>
+        /// Add playlist to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
+        Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest);
     }
 }

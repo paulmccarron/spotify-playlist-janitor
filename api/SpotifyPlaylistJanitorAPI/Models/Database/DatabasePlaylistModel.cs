@@ -1,7 +1,7 @@
 ﻿namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
-    /// Model for Spotify playlist information.
+    /// Model for Database playlist information.
     /// </summary>
     public class DatabasePlaylistModel
     {

@@ -28,7 +28,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=\"cobertura,opencover\" --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
+      run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=\"cobertura,opencover\" -p:ExcludeByFile=\"**/*.cshtml\" --no-build --verbosity normal Tests/SpotifyPlaylistJanitorAPI.Tests/
     - name: Create Test Coverage Badge
       uses: simon-k/dotnet-code-coverage-badge@v1.0.0
       id: create_coverage_badge
