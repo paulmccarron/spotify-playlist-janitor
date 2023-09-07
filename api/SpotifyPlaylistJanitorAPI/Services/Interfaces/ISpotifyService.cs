@@ -21,7 +21,7 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         bool IsLoggedIn { get; }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
         /// using provided code and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
@@ -30,16 +30,22 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<ISpotifyClient> CreateClient(string code, string callbackUrl);
 
         /// <summary>
-        /// Returns current users details
+        /// Returns current users details.
         /// </summary>
         /// <returns cref="SpotifyUserModel">User details</returns>
         Task<SpotifyUserModel> GetUserDetails();
 
         /// <summary>
-        /// Returns current users playlists
+        /// Returns current users playlists.
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
         Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists();
+
+        /// <summary>
+        /// Returns current playback state.
+        /// </summary>
+        /// <returns cref="SpotifyPlayingState">Current playback state.</returns>
+        Task<SpotifyPlayingState> GetCurrentPlayback();
 
         /// <summary>
         /// Check for Spotify credentials
