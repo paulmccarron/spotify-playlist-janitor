@@ -43,6 +43,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Returns current user monitored playlist by id.
         /// </summary>
+        /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="200">Current monitored playlist.</response>
         /// <response code="404">No playlist found for given Id.</response>
@@ -66,6 +67,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Add playlist to database for the current user.
         /// </summary>
+        /// <param name="playlistRequest">Playlist request model.</param>
         /// <returns></returns>
         /// <response code="201">Playlist successfully added.</response>
         /// <response code="400">Playlist already exists.</response>
@@ -89,6 +91,31 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             {
                 StatusCode = 201,
             };
+        }
+
+        /// <summary>
+        /// Deletes current user monitored playlist by id.
+        /// </summary>
+        /// <param name="id">Playlist id.</param>
+        /// <returns></returns>
+        /// <response code="204">Playlist successfully deleted.</response>
+        /// <response code="404">No playlist found for given Id.</response>
+        [HttpDelete("playlists/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
+        public async Task<ActionResult> DeleteMonitoredPlaylist(string id)
+        {
+            var playlist = await _databaseService.GetPlaylist(id);
+
+            if(playlist is null)
+            {
+                return NotFoundResponse($"Could not find playlist with id: {id}");
+            }
+
+            await _databaseService.DeletePlaylist(id);
+
+            return NoContent();
         }
 
         private NotFoundObjectResult NotFoundResponse(string message)

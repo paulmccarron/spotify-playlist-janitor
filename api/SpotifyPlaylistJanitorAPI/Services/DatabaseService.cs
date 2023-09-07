@@ -51,7 +51,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Returns playlist from database by id.
         /// </summary>
-        /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
+        /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
         {
             var playlistDto = await _context.SpotifyPlaylists
@@ -69,9 +69,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Returns playlist from database by id.
+        /// Add playlist to database.
         /// </summary>
-        /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
+        /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest)
         {
             var playlistDto = new SpotifyPlaylist
@@ -92,6 +92,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
             };
 
             return playlistModel;
+        }
+
+        /// <summary>
+        /// Deletes playlist from database.
+        /// </summary>
+        public async Task DeletePlaylist(string id)
+        {
+            _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.SpotifyPlaylistId == id));
+            _context.SpotifyPlaylists.RemoveRange(_context.SpotifyPlaylists.Where(playlist => playlist.Id == id));
+            await _context.SaveChangesAsync();
         }
     }
 }

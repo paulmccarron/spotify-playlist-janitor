@@ -8,12 +8,14 @@ using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 {
+    [TestFixture]
     public class DataControllerTests : TestBase
     {
         private DataController _dataController;
         private Mock<IDatabaseService> _databaseServiceMock;
 
-        public DataControllerTests()
+        [SetUp]
+        public void Init()
         {
             _databaseServiceMock = new Mock<IDatabaseService>();
 
@@ -34,6 +36,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylists();
 
             // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylists(), Times.Once);
             result.Should().BeOfType<ActionResult<IEnumerable<DatabasePlaylistModel>>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylists);
         }
@@ -42,6 +45,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public async Task DataController_GetMonitoredPlaylist_Returns_DatabasePlaylistModel()
         {
             // Arrange
+            var id = "id";
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
             _databaseServiceMock
@@ -49,9 +53,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .ReturnsAsync(databasePlaylist);
 
             //Act
-            var result = await _dataController.GetMonitoredPlaylist("testId");
+            var result = await _dataController.GetMonitoredPlaylist(id);
 
             // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylist);
         }
@@ -60,19 +65,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public async Task DataController_GetMonitoredPlaylist_Returns_Not_Found()
         {
             // Arrange
+            var id = "id";
             DatabasePlaylistModel? databasePlaylist = null;
-            var playlistId = Guid.NewGuid().ToString();
 
             _databaseServiceMock
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
-            var expectedMessage = new { Message = $"Could not find playlist with id: {playlistId}" };
+            var expectedMessage = new { Message = $"Could not find playlist with id: {id}" };
 
             //Act
-            var result = await _dataController.GetMonitoredPlaylist(playlistId);
+            var result = await _dataController.GetMonitoredPlaylist(id);
 
             // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
             var objResult = result.Result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
@@ -97,6 +103,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
+            _databaseServiceMock.Verify(mock => mock.AddPlaylist(It.Is<DatabasePlaylistRequest>(request => request.Equals(databaseRequest))), Times.Once);
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylist);
         }
@@ -118,7 +126,51 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
+            _databaseServiceMock.Verify(mock => mock.AddPlaylist(It.IsAny<DatabasePlaylistRequest>()), Times.Never);
             var objResult = result.Result as BadRequestObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
+        public async Task DataController_DeleteMonitoredPlaylist_Removes_Playlist()
+        {
+            // Arrange
+            var id = "id";
+            var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            //Act
+            var result = await _dataController.DeleteMonitoredPlaylist(id);
+
+            // Assert
+            _databaseServiceMock.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Once());
+            result.Should().BeOfType<NoContentResult>();
+        }
+
+        [Test]
+        public async Task DataController_DeleteMonitoredPlaylist_Returns_Not_Found()
+        {
+            // Arrange
+            var id = "id";
+            DatabasePlaylistModel? databasePlaylist = null;
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            var expectedMessage = new { Message = $"Could not find playlist with id: {id}" };
+
+            //Act
+            var result = await _dataController.DeleteMonitoredPlaylist(id);
+
+            // Assert
+            _databaseServiceMock.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Never);
+            result.Should().BeOfType<NotFoundObjectResult>();
+            var objResult = result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
     }
