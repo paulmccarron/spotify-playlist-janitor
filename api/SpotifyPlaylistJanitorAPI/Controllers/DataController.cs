@@ -43,6 +43,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Returns current user monitored playlist by id.
         /// </summary>
+        /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="200">Current monitored playlist.</response>
         /// <response code="404">No playlist found for given Id.</response>
@@ -66,6 +67,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Add playlist to database for the current user.
         /// </summary>
+        /// <param name="playlistRequest">Playlist request model.</param>
         /// <returns></returns>
         /// <response code="201">Playlist successfully added.</response>
         /// <response code="400">Playlist already exists.</response>
@@ -94,6 +96,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <summary>
         /// Deletes current user monitored playlist by id.
         /// </summary>
+        /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="204">Playlist successfully deleted.</response>
         /// <response code="404">No playlist found for given Id.</response>
