@@ -9,24 +9,21 @@ using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 {
+    [TestFixture]
     public class SpotifyControllerTests : TestBase
     {
         private SpotifyController _spotifyController;
         private Mock<ISpotifyService> _spotifyServiceMock;
 
-        public SpotifyControllerTests()
-        {
-            _spotifyServiceMock = new Mock<ISpotifyService>();
-
-            _spotifyController = new SpotifyController(_spotifyServiceMock.Object);
-        }
-
         [SetUp]
         public void Setup()
         {
+            _spotifyServiceMock = new Mock<ISpotifyService>();
             _spotifyServiceMock
                 .SetupGet(mock => mock.IsLoggedIn)
                 .Returns(true);
+
+            _spotifyController = new SpotifyController(_spotifyServiceMock.Object);
         }
 
         [Test]

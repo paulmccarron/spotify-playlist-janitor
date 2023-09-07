@@ -101,7 +101,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
-        public async Task<ActionResult<DatabasePlaylistModel>> DeleteMonitoredPlaylist(string id)
+        public async Task<ActionResult> DeleteMonitoredPlaylist(string id)
         {
             var playlist = await _databaseService.GetPlaylist(id);
 

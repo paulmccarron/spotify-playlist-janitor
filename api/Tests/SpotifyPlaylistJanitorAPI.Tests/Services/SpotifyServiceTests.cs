@@ -10,13 +10,15 @@ using SpotifyPlaylistJanitorAPI.Services;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
+    [TestFixture]
     public class SpotifyServiceTests : TestBase
     {
         private SpotifyService _spotifyService;
         private IOptions<SpotifyOption> _spotifyOptions;
         private Mock<ISpotifyClient> _spotifyClientMock;
 
-        public SpotifyServiceTests()
+        [SetUp]
+        public void Setup()
         {
             _spotifyClientMock = new Mock<ISpotifyClient>();
             _spotifyOptions = Options.Create(new SpotifyOption
@@ -26,11 +28,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             });
 
             _spotifyService = new SpotifyService(_spotifyOptions);
-        }
-
-        [SetUp]
-        public void Setup()
-        {
             _spotifyService.SetClient(_spotifyClientMock.Object);
         }
 
