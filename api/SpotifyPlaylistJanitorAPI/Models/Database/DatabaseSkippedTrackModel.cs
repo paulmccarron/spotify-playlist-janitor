@@ -1,7 +1,7 @@
 ﻿namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
-    /// Model for Database playlist information.
+    /// Model for Database skipped track information.
     /// </summary>
     public class DatabaseSkippedTrackModel
     {

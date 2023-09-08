@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Models.Database;
@@ -75,8 +76,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = playlistRequest.Href,
             };
 
-            await _context.AddAsync(playlistDto);
-            await _context.SaveChangesAsync();
+            if (!_context.SpotifyPlaylists.Any(track => track.Id.Equals(playlistRequest.Id)))
+            {
+                await _context.AddAsync(playlistDto);
+                await _context.SaveChangesAsync();
+            }
 
             var playlistModel = new DatabasePlaylistModel
             {
@@ -96,6 +100,97 @@ namespace SpotifyPlaylistJanitorAPI.Services
             _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.SpotifyPlaylistId == id));
             _context.SpotifyPlaylists.RemoveRange(_context.SpotifyPlaylists.Where(playlist => playlist.Id == id));
             await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Add track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
+        public async Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest)
+        {
+            var trackDto = new SpotifyTrack
+            {
+                Id = trackRequest.Id,
+                Name = trackRequest.Name,
+                Length = trackRequest.Length,
+                SpotifyAlbumId = trackRequest.AlbumId,
+                SpotifyArtistId = trackRequest.ArtistId,
+            };
+
+            if(!_context.SpotifyTracks.Any(track => track.Id.Equals(trackRequest.Id)))
+            {
+                await _context.AddAsync(trackDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var trackModel = new DatabaseTrackModel
+            {
+                Id = trackDto.Id,
+                Name = trackDto.Name,
+                Length = trackDto.Length,
+                AlbumId = trackDto.SpotifyAlbumId,
+                ArtistId = trackDto.SpotifyArtistId,
+            };
+
+            return trackModel;
+        }
+
+        /// <summary>
+        /// Add artist to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
+        public async Task<DatabaseArtistModel> AddArtist(DatabaseArtistModel artistRequest)
+        {
+            var artistDto = new SpotifyArtist
+            {
+                Id = artistRequest.Id,
+                Name = artistRequest.Name,
+                Href = artistRequest.Href,
+            };
+
+            if (!_context.SpotifyArtists.Any(artist => artist.Id.Equals(artistRequest.Id)))
+            {
+                await _context.AddAsync(artistDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var artistModel = new DatabaseArtistModel
+            {
+                Id = artistDto.Id,
+                Name = artistDto.Name,
+                Href = artistDto.Href,
+            };
+
+            return artistModel;
+        }
+
+        /// <summary>
+        /// Add album to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseAlbumModel" />.</returns>
+        public async Task<DatabaseAlbumModel> AddAlbum(DatabaseAlbumModel albumRequest)
+        {
+            var albumDto = new SpotifyAlbum
+            {
+                Id = albumRequest.Id,
+                Name = albumRequest.Name,
+                Href = albumRequest.Href,
+            };
+
+            if (!_context.SpotifyAlbums.Any(album => album.Id.Equals(albumDto.Id)))
+            {
+                await _context.AddAsync(albumDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var albumModel = new DatabaseAlbumModel
+            {
+                Id = albumDto.Id,
+                Name = albumDto.Name,
+                Href = albumDto.Href,
+            };
+
+            return albumModel;
         }
 
         /// <summary>

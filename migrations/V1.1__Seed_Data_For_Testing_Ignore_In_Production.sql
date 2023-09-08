@@ -3,7 +3,8 @@ VALUES
     ('3RWXoorVz13dot7I11eiu6', 'Test Playlist', 'https://api.spotify.com/v1/playlists/3RWXoorVz13dot7I11eiu6'),
     ('4jkoiv8phuKuhXboalicqu', 'Test Playlist 2', 'https://api.spotify.com/v1/playlists/4jkoiv8phuKuhXboalicqu'),
     ('1aQvavrk6m4hhEj1NJ0rQB', 'Test Playlist 3', 'https://api.spotify.com/v1/playlists/1aQvavrk6m4hhEj1NJ0rQB'),
-    ('4btLcc6A1UmNR7sa2dqlLJ', 'Test Playlist 4', 'https://api.spotify.com/v1/playlists/4btLcc6A1UmNR7sa2dqlLJ');
+    ('4btLcc6A1UmNR7sa2dqlLJ', 'Test Playlist 4', 'https://api.spotify.com/v1/playlists/4btLcc6A1UmNR7sa2dqlLJ'),
+    ('0creVHKMskko3Kv9T2pPQA', 'Test Playlist 5', 'https://api.spotify.com/v1/playlists/0creVHKMskko3Kv9T2pPQA');
 
 INSERT INTO spotify_artist (id, name, href) 
 VALUES 
