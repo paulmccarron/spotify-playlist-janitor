@@ -143,8 +143,43 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _databaseService.AddPlaylist(datatbaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once());
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddPlaylist_Skips_When_Exists_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
             result.Should().BeEquivalentTo(expectedResult);
         }
 
@@ -178,9 +213,225 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.DeletePlaylist(id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once());
-            _dbContextMock.Verify(context => context.SpotifyPlaylists.RemoveRange(It.IsAny<IEnumerable<SpotifyPlaylist>>()), Times.Once());
-            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
+            _dbContextMock.Verify(context => context.SpotifyPlaylists.RemoveRange(It.IsAny<IEnumerable<SpotifyPlaylist>>()), Times.Once);
+            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddArtist_Adds_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddArtist_Skips_When_Exists_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddAlbum_Adds_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddAlbum_Skips_When_Exists_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddTrack_Adds_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddTrack_Skips_When_Exists_And_Returns_Data()
+        {
+            //Arrange
+            var id = "id";
+            var name = "name";
+            var href = "href";
+
+            var datatbaseRequest = new DatabasePlaylistRequest
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistsMock.Object);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = id,
+                Name = name,
+                Href = href,
+            };
+
+            //Act
+            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+
+            // Assert
+            Assert.Fail();
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -217,7 +468,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 It.Is<SkippedTrack>(skipped => skipped.SkippedDate.Equals(skippedTime.ToUnixTimeSeconds())), 
                 It.IsAny<CancellationToken>()), 
             Times.Once());
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             result.Should().BeEquivalentTo(expectedResult);
         }
     }

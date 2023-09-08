@@ -103,39 +103,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Add track to database.
-        /// </summary>
-        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
-        public async Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest)
-        {
-            var trackDto = new SpotifyTrack
-            {
-                Id = trackRequest.Id,
-                Name = trackRequest.Name,
-                Length = trackRequest.Length,
-                SpotifyAlbumId = trackRequest.AlbumId,
-                SpotifyArtistId = trackRequest.ArtistId,
-            };
-
-            if(!_context.SpotifyTracks.Any(track => track.Id.Equals(trackRequest.Id)))
-            {
-                await _context.AddAsync(trackDto);
-                await _context.SaveChangesAsync();
-            }
-
-            var trackModel = new DatabaseTrackModel
-            {
-                Id = trackDto.Id,
-                Name = trackDto.Name,
-                Length = trackDto.Length,
-                AlbumId = trackDto.SpotifyAlbumId,
-                ArtistId = trackDto.SpotifyArtistId,
-            };
-
-            return trackModel;
-        }
-
-        /// <summary>
         /// Add artist to database.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
@@ -191,6 +158,39 @@ namespace SpotifyPlaylistJanitorAPI.Services
             };
 
             return albumModel;
+        }
+
+        /// <summary>
+        /// Add track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
+        public async Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest)
+        {
+            var trackDto = new SpotifyTrack
+            {
+                Id = trackRequest.Id,
+                Name = trackRequest.Name,
+                Length = trackRequest.Length,
+                SpotifyAlbumId = trackRequest.AlbumId,
+                SpotifyArtistId = trackRequest.ArtistId,
+            };
+
+            if (!_context.SpotifyTracks.Any(track => track.Id.Equals(trackRequest.Id)))
+            {
+                await _context.AddAsync(trackDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var trackModel = new DatabaseTrackModel
+            {
+                Id = trackDto.Id,
+                Name = trackDto.Name,
+                Length = trackDto.Length,
+                AlbumId = trackDto.SpotifyAlbumId,
+                ArtistId = trackDto.SpotifyArtistId,
+            };
+
+            return trackModel;
         }
 
         /// <summary>
