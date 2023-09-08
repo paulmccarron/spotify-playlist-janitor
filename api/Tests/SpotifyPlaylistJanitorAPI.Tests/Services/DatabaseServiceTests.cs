@@ -14,13 +14,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     {
         private DatabaseService _databaseService;
         private Mock<SpotifyPlaylistJanitorDatabaseContext> _dbContextMock;
-        private Mock<DbSet<SpotifyPlaylist>> _dbSetPlaylistsMock;
+        private Mock<DbSet<SpotifyPlaylist>> _dbSetPlaylistMock;
+        private Mock<DbSet<SpotifyArtist>> _dbSetArtistMock;
+        private Mock<DbSet<SpotifyAlbum>> _dbSetAlbumMock;
+        private Mock<DbSet<SpotifyTrack>> _dbSetTrackMock;
         private Mock<DbSet<SkippedTrack>> _dbSetSkippedMock;
 
         [SetUp]
         public void Init()
         {
-            _dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
+            _dbSetPlaylistMock = new Mock<DbSet<SpotifyPlaylist>>();
+            _dbSetArtistMock = new Mock<DbSet<SpotifyArtist>>();
+            _dbSetAlbumMock = new Mock<DbSet<SpotifyAlbum>>();
+            _dbSetTrackMock = new Mock<DbSet<SpotifyTrack>>();
             _dbSetSkippedMock = new Mock<DbSet<SkippedTrack>>();
             _dbContextMock = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
             _databaseService = new DatabaseService(_dbContextMock.Object);
@@ -34,11 +40,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetPlaylistsMock.AddIQueryables(dbPlaylists);
+            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResults = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -66,11 +72,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var playlistId = dbPlaylists.First().Id;
 
-            _dbSetPlaylistsMock.AddIQueryables(dbPlaylists);
+            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -99,11 +105,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var playlistId = "RANDOM_ID";
 
-            _dbSetPlaylistsMock.AddIQueryables(dbPlaylists);
+            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             //Act
             var result = await _databaseService.GetPlaylist(playlistId);
@@ -130,7 +136,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -165,7 +171,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -203,11 +209,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetPlaylistsMock.AddIQueryables(dbPlaylists);
+            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             //Act
             await _databaseService.DeletePlaylist(id);
@@ -235,7 +241,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -271,7 +277,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -307,7 +313,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -343,7 +349,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -379,7 +385,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
@@ -415,7 +421,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistsMock.Object);
+                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = new DatabasePlaylistModel
             {
