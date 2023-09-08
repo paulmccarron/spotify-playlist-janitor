@@ -7,7 +7,6 @@ using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
-using static SpotifyAPI.Web.PlaylistRemoveItemsRequest;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {

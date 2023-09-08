@@ -1,20 +1,13 @@
 ﻿using AutoFixture;
-using FluentAssertions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
-using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
-using SpotifyPlaylistJanitorAPI.Exceptions;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
-using System;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {

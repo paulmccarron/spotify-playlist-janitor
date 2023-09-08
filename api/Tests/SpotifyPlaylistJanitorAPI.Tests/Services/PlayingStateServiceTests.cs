@@ -1,11 +1,6 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
-using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.Exceptions;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
