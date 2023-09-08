@@ -1,4 +1,5 @@
 ﻿using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 
@@ -59,25 +60,40 @@ namespace SpotifyPlaylistJanitorAPI.Services
             if (_spotifyService.IsLoggedIn)
             {
                 var currentlyPlaying = _spotifyService.GetCurrentPlayback().Result;
-                
-                if (currentlyPlaying.IsPlaying)
+
+                if (currentlyPlaying.IsPlaying && currentlyPlaying.Track is not null)
                 {
                     using var scope = _scopeFactory.CreateScope();
                     var dbContext = scope.ServiceProvider
                         .GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
                     var databaseService = new DatabaseService(dbContext);
 
-                    _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track?.PlaylistId ?? "unknown"}");
-                    _logger.LogDebug($"Currently playing: {currentlyPlaying.Track?.Name ?? "unknown"}");
+                    _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track.PlaylistId}");
+                    _logger.LogDebug($"Currently playing: {currentlyPlaying.Track.Name}");
                     
                     var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying);
                     if (skip)
                     {
-                        var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track?.PlaylistId ?? "").Result;
+                        var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId).Result;
 
                         if (databasePlaylist is not null)
                         {
-                            _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name ?? "unknown"} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId ?? "unknown"}");
+                            if(!string.IsNullOrEmpty(currentlyPlaying.Track?.Id))
+                            {
+                                var skippedTrack = new DatabaseSkippedTrackModel
+                                {
+                                    PlaylistId = currentlyPlaying.Track.PlaylistId,
+                                    TrackId = currentlyPlaying.Track.Id,
+                                    SkippedDate = DateTimeOffset.UtcNow
+                                };
+
+                                _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
+                                databaseService.AddSkippedTrack(skippedTrack).Wait();
+                            }
+                            else
+                            {
+                                _logger.LogDebug($"Track with unknown id was skipped while playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
+                            }
                         }
                     }
                 }

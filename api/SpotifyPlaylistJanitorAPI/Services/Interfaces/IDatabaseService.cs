@@ -30,5 +30,11 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Deletes playlist from database.
         /// </summary>
         Task DeletePlaylist(string id);
+
+        /// <summary>
+        /// Add skipped track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
+        Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest);
     }
 }

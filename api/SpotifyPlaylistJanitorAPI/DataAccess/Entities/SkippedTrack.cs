@@ -6,7 +6,7 @@ public partial class SkippedTrack
 {
     public int Id { get; set; }
 
-    public int SkippedDate { get; set; }
+    public long SkippedDate { get; set; }
 
     public string SpotifyPlaylistId { get; set; } = null!;
 

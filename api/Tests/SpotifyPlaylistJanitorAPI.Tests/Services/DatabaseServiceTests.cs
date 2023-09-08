@@ -114,7 +114,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
 
         [Test]
-        public async Task DatabaseService_AddPlaylist_Returns_Data()
+        public async Task DatabaseService_AddPlaylist_Adds_And_Returns_Data()
         {
             //Arrange
             var id = "id";
@@ -181,6 +181,44 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once());
             _dbContextMock.Verify(context => context.SpotifyPlaylists.RemoveRange(It.IsAny<IEnumerable<SpotifyPlaylist>>()), Times.Once());
             _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Test]
+        public async Task DatabaseService_AddSkippedTrack_Adds_And_Returns_Data()
+        {
+            //Arrange
+            var playlistId = "playlistId";
+            var trackId = "trackId";
+            var skippedTime = new DateTimeOffset(2023, 9, 8, 14, 0, 0, 0, TimeSpan.Zero);
+
+            var datatbaseRequest = new DatabaseSkippedTrackModel
+            {
+                PlaylistId = playlistId,
+                TrackId = trackId,
+                SkippedDate = skippedTime,
+            };
+
+            _dbContextMock
+                .Setup(mock => mock.SkippedTracks)
+                .Returns(_dbSetSkippedMock.Object);
+
+            var expectedResult = new DatabaseSkippedTrackModel
+            {
+                PlaylistId = playlistId,
+                TrackId = trackId,
+                SkippedDate = skippedTime,
+            };
+
+            //Act
+            var result = await _databaseService.AddSkippedTrack(datatbaseRequest);
+
+            // Assert
+            _dbContextMock.Verify(context => context.AddAsync(
+                It.Is<SkippedTrack>(skipped => skipped.SkippedDate.Equals(skippedTime.ToUnixTimeSeconds())), 
+                It.IsAny<CancellationToken>()), 
+            Times.Once());
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once());
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }
