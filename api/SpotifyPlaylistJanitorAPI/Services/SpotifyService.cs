@@ -39,7 +39,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
-        /// <param name="spotifyOptions"></param>
+        /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         public SpotifyService(IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyOptions = spotifyOptions.Value;
@@ -117,7 +117,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         Url = image.Url,
                     })
                 })
-                .OrderBy(playlist => playlist?.Name?.ToLower());
+                .OrderBy(playlist => playlist.Name?.ToLower());
 
             return playlists;
         }

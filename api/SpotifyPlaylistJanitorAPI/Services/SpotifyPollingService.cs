@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SpotifyPlaylistJanitorAPI.Services
 {
     /// <summary>
-    /// 
+    /// Hosted Service that polls users Spotify playback activity to monitor when skips occur.
     /// </summary>
     public class SpotifyPollingService : IHostedService, IDisposable, ISpotifyPollingService
     {
@@ -19,10 +19,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="spotifyService"></param>
-        /// <param name="playingStateService"></param>
-        /// <param name="logger"></param>
-        /// <param name="scopeFactory"></param>
+        /// <param name="spotifyService">The Spotify Service.</param>
+        /// <param name="playingStateService">The Playing State Service.</param>
+        /// <param name="scopeFactory">Injected ASP.NET Service Scope Factory</param>
+        /// <param name="logger">The Application Logger.</param>
         [ExcludeFromCodeCoverage]
         public SpotifyPollingService(ISpotifyService spotifyService, 
             IPlayingStateService playingStateService,
@@ -36,7 +36,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// 
+        /// Hosted Service start method. Calls PollSpotifyPlayback on a Timer.
         /// </summary>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
@@ -51,12 +51,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// 
+        /// Poll users current Spotify playback activity.
         /// </summary>
-        /// <param name="state"></param>
+        /// <param name="state">Optional state paramter</param>
         public void PollSpotifyPlayback(object? state)
         {
-            Interlocked.Increment(ref executionCount);
             if (_spotifyService.IsLoggedIn)
             {
                 var currentlyPlaying = _spotifyService.GetCurrentPlayback().Result;
@@ -64,12 +63,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 if (currentlyPlaying.IsPlaying)
                 {
                     using var scope = _scopeFactory.CreateScope();
-                    var context = scope.ServiceProvider
+                    var dbContext = scope.ServiceProvider
                         .GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
-                    var databaseService = new DatabaseService(context);
+                    var databaseService = new DatabaseService(dbContext);
 
-                    _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track?.PlaylistId}");
-                    _logger.LogDebug($"Currently playing: {currentlyPlaying.Track?.Name}");
+                    _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track?.PlaylistId ?? "unknown"}");
+                    _logger.LogDebug($"Currently playing: {currentlyPlaying.Track?.Name ?? "unknown"}");
                     
                     var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying);
                     if (skip)
@@ -78,13 +77,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                         if (databasePlaylist is not null)
                         {
-                            _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
+                            _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name ?? "unknown"} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId ?? "unknown"}");
                         }
                     }
                 }
                 else if (executionCount % 10 == 0)
                 {
-                    _logger.LogInformation($"Not currently listening to a monitored playlist");
+                    _logger.LogInformation("Not currently listening to a monitored playlist");
                 }
 
                 _playingStateService.PlayingState = currentlyPlaying;
@@ -93,13 +92,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 if (executionCount % 200 == 0)
                 {
-                    _logger.LogInformation($"Not currently logged into Spotify");
+                    _logger.LogInformation("Not currently logged into Spotify");
                 }
             }
+
+            Interlocked.Increment(ref executionCount);
         }
 
         /// <summary>
-        /// 
+        /// Hosted Service stop method. 
         /// </summary>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
@@ -114,7 +115,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// 
+        /// Disposes any resources that implement IDisposable.
         /// </summary>
         [ExcludeFromCodeCoverage]
         public void Dispose()

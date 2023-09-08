@@ -1,19 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
-using SpotifyPlaylistJanitorAPI.Exceptions;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Database;
-using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.Services
 {
     /// <summary>
-    /// Service to interact with Spotify API.
+    /// Service to interact with application database.
     /// </summary>
     public class DatabaseService : IDatabaseService
     {

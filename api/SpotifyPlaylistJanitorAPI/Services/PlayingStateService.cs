@@ -3,12 +3,22 @@ using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Services
 {
+    /// <summary>
+    /// Service to keep current playback state and compare with new playback state to evaluate possible track skips.
+    /// </summary>
     public class PlayingStateService : IPlayingStateService
     {
         private readonly ILogger<PlayingStateService> _logger;
 
+        /// <summary>
+        /// Users current playback state.
+        /// </summary>
         public SpotifyPlayingState PlayingState { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayingStateService"/> class.
+        /// </summary>
+        /// <param name="logger">The Application Logger.</param>
         public PlayingStateService(ILogger<PlayingStateService> logger)
         {
             _logger = logger;
@@ -18,6 +28,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
             };
         }
 
+        /// <summary>
+        /// Compares current playing state with new playing state to evaluate if a skip has occured.
+        /// </summary>
+        /// <param name="newPlayingState"></param>
+        /// <returns>Returns <see cref="bool"/> based on a track changing to a new track in the same playlist before the configured 10 second cut-off.</returns>
         public bool CheckSkipHasHappened(SpotifyPlayingState newPlayingState)
         {
             if (PlayingState.IsPlaying && !newPlayingState.IsPlaying)

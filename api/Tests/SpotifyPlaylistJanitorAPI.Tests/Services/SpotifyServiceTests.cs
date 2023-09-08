@@ -99,7 +99,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task SpotifyService_GetUserPlaylists_Returns_Data()
         {
             //Arrange
-            var spotifyPlaylists = Fixture.Build<SimplePlaylist>().Without(x => x.Tracks).CreateMany().ToList();
+            var spotifyPlaylists = Fixture.Build<SimplePlaylist>()
+                .Without(x => x.Tracks)
+                .CreateMany()
+                .ToList();
 
             var mockPlaylists = new Mock<IPlaylistsClient>();
             mockPlaylists
