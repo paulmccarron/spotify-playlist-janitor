@@ -29,6 +29,32 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _dbSetTrackMock = new Mock<DbSet<SpotifyTrack>>();
             _dbSetSkippedMock = new Mock<DbSet<SkippedTrack>>();
             _dbContextMock = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
+
+            _dbSetPlaylistMock.AddIQueryables(new List<SpotifyPlaylist>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistMock.Object);
+
+            _dbSetArtistMock.AddIQueryables(new List<SpotifyArtist>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyArtists)
+                .Returns(_dbSetArtistMock.Object);
+
+            _dbSetAlbumMock.AddIQueryables(new List<SpotifyAlbum>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyAlbums)
+                .Returns(_dbSetAlbumMock.Object);
+
+            _dbSetTrackMock.AddIQueryables(new List<SpotifyTrack>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyTracks)
+                .Returns(_dbSetTrackMock.Object);
+
+            _dbSetSkippedMock.AddIQueryables(new List<SkippedTrack>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SkippedTracks)
+                .Returns(_dbSetSkippedMock.Object);
+
             _databaseService = new DatabaseService(_dbContextMock.Object);
         }
 
@@ -73,10 +99,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var playlistId = dbPlaylists.First().Id;
 
             _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResult = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -123,70 +145,37 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task DatabaseService_AddPlaylist_Adds_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
-
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id, 
-                Name = name, 
-                Href = href,
-            };
+            var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddPlaylist(databaseRequest);
 
             // Assert
             _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddPlaylist_Skips_When_Exists_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
+            var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
 
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
+                .With(playlist => playlist.Id, databaseRequest.Id)
+                .CreateMany()
+                .AsQueryable();
 
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddPlaylist(databaseRequest);
 
             // Assert
             _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
@@ -201,19 +190,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
 
-            _dbContextMock
-                .Setup(mock => mock.SkippedTracks)
-                .Returns(_dbSetSkippedMock.Object);
-
             var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
                 .CreateMany()
                 .AsQueryable();
 
             _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
 
             //Act
             await _databaseService.DeletePlaylist(id);
@@ -228,216 +209,111 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task DatabaseService_AddArtist_Adds_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
-
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var databaseRequest = Fixture.Build<DatabaseArtistModel>().Create();
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddArtist(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyArtist>(), It.IsAny<CancellationToken>()), Times.Once);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddArtist_Skips_When_Exists_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
+            var databaseRequest = Fixture.Build<DatabaseArtistModel>().Create();
 
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var dbArtists = Fixture.Build<SpotifyArtist>()
+                .With(artist => artist.Id, databaseRequest.Id)
+                .CreateMany()
+                .AsQueryable();
 
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            _dbSetArtistMock.AddIQueryables(dbArtists);
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddArtist(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyArtist>(), It.IsAny<CancellationToken>()), Times.Never);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddAlbum_Adds_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
-
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var databaseRequest = Fixture.Build<DatabaseAlbumModel>().Create();
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddAlbum(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyAlbum>(), It.IsAny<CancellationToken>()), Times.Once);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddAlbum_Skips_When_Exists_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
+            var databaseRequest = Fixture.Build<DatabaseAlbumModel>().Create();
 
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var dbAlbums = Fixture.Build<SpotifyAlbum>()
+                .With(album => album.Id, databaseRequest.Id)
+                .CreateMany()
+                .AsQueryable();
 
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            _dbSetAlbumMock.AddIQueryables(dbAlbums);
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddAlbum(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyAlbum>(), It.IsAny<CancellationToken>()), Times.Never);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddTrack_Adds_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
-
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            var databaseRequest = Fixture.Build<DatabaseTrackModel>().Create();
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddTrack(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyTrack>(), It.IsAny<CancellationToken>()), Times.Once);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
         public async Task DatabaseService_AddTrack_Skips_When_Exists_And_Returns_Data()
         {
             //Arrange
-            var id = "id";
-            var name = "name";
-            var href = "href";
+            var databaseRequest = Fixture.Build<DatabaseTrackModel>().Create();
+            
+            var dbTracks = Fixture.Build<SpotifyTrack>()
+                .With(album => album.Id, databaseRequest.Id)
+                .CreateMany()
+                .AsQueryable();
 
-            var datatbaseRequest = new DatabasePlaylistRequest
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
-
-            _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            var expectedResult = new DatabasePlaylistModel
-            {
-                Id = id,
-                Name = name,
-                Href = href,
-            };
+            _dbSetTrackMock.AddIQueryables(dbTracks);
 
             //Act
-            var result = await _databaseService.AddPlaylist(datatbaseRequest);
+            var result = await _databaseService.AddTrack(databaseRequest);
 
             // Assert
-            Assert.Fail();
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyPlaylist>(), It.IsAny<CancellationToken>()), Times.Never);
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<SpotifyTrack>(), It.IsAny<CancellationToken>()), Times.Never);
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-            result.Should().BeEquivalentTo(expectedResult);
+            result.Should().BeEquivalentTo(databaseRequest);
         }
 
         [Test]
@@ -471,8 +347,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             // Assert
             _dbContextMock.Verify(context => context.AddAsync(
-                It.Is<SkippedTrack>(skipped => skipped.SkippedDate.Equals(skippedTime.ToUnixTimeSeconds())), 
-                It.IsAny<CancellationToken>()), 
+                It.Is<SkippedTrack>(skipped => skipped.SkippedDate.Equals(skippedTime.ToUnixTimeSeconds())),
+                It.IsAny<CancellationToken>()),
             Times.Once());
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             result.Should().BeEquivalentTo(expectedResult);

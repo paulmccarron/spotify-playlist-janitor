@@ -76,7 +76,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = playlistRequest.Href,
             };
 
-            if (!_context.SpotifyPlaylists.Any(track => track.Id.Equals(playlistRequest.Id)))
+            var alreadyExists = await _context.SpotifyPlaylists
+                .ToAsyncEnumerable()
+                .AnyAsync(track => track.Id.Equals(playlistRequest.Id));
+
+            if(!alreadyExists)
             {
                 await _context.AddAsync(playlistDto);
                 await _context.SaveChangesAsync();
@@ -115,7 +119,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = artistRequest.Href,
             };
 
-            if (!_context.SpotifyArtists.Any(artist => artist.Id.Equals(artistRequest.Id)))
+            var alreadyExists = await _context.SpotifyArtists
+                .ToAsyncEnumerable()
+                .AnyAsync(artist => artist.Id.Equals(artistRequest.Id));
+
+            if(!alreadyExists)
             {
                 await _context.AddAsync(artistDto);
                 await _context.SaveChangesAsync();
@@ -144,7 +152,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = albumRequest.Href,
             };
 
-            if (!_context.SpotifyAlbums.Any(album => album.Id.Equals(albumDto.Id)))
+            var alreadyExists = await _context.SpotifyAlbums
+                .ToAsyncEnumerable()
+                .AnyAsync(album => album.Id.Equals(albumDto.Id));
+
+            if(!alreadyExists)
             {
                 await _context.AddAsync(albumDto);
                 await _context.SaveChangesAsync();
@@ -175,7 +187,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 SpotifyArtistId = trackRequest.ArtistId,
             };
 
-            if (!_context.SpotifyTracks.Any(track => track.Id.Equals(trackRequest.Id)))
+            var alreadyExists = await _context.SpotifyTracks
+                .ToAsyncEnumerable()
+                .AnyAsync(track => track.Id.Equals(trackRequest.Id));
+
+            if(!alreadyExists)
             {
                 await _context.AddAsync(trackDto);
                 await _context.SaveChangesAsync();
