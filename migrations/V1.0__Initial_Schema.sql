@@ -32,7 +32,7 @@ CREATE TABLE spotify_track (
 
 CREATE TABLE skipped_track (
     id SERIAL PRIMARY KEY not null,
-    skipped_date int not null,
+    skipped_date bigint not null,
     spotify_playlist_id text not null,
     spotify_track_id text not null,
 

@@ -97,5 +97,31 @@ namespace SpotifyPlaylistJanitorAPI.Services
             _context.SpotifyPlaylists.RemoveRange(_context.SpotifyPlaylists.Where(playlist => playlist.Id == id));
             await _context.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Add skipped track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
+        public async Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest)
+        {
+            var playlistDto = new SkippedTrack
+            {
+                SpotifyPlaylistId = skippedTrackRequest.PlaylistId,
+                SpotifyTrackId = skippedTrackRequest.TrackId,
+                SkippedDate = skippedTrackRequest.SkippedDate.ToUnixTimeSeconds(),
+            };
+
+            await _context.AddAsync(playlistDto);
+            await _context.SaveChangesAsync();
+
+            var skippedTrackModel = new DatabaseSkippedTrackModel
+            {
+                PlaylistId = playlistDto.SpotifyPlaylistId,
+                TrackId = playlistDto.SpotifyTrackId,
+                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(playlistDto.SkippedDate),
+            };
+
+            return skippedTrackModel;
+        }
     }
 }

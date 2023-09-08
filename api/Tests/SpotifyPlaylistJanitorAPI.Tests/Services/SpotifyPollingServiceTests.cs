@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
@@ -21,6 +22,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         private Mock<ILogger<SpotifyPollingService>> _loggerMock;
 
         private Mock<SpotifyPlaylistJanitorDatabaseContext> _dbContextMock;
+        private SpotifyTrackModel _playingStateTrack;
         private SpotifyPlayingState _playingState;
 
         [SetUp]
@@ -35,15 +37,16 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.IsLoggedIn)
                 .Returns(true);
 
-            _playingState = new SpotifyPlayingState
-            {
-                IsPlaying = true,
-                Track = new SpotifyTrackModel
-                {
-                    Name = "Test_Name",
-                    PlaylistId = "Test_PlaylistId"
-                }
-            };
+            _playingStateTrack = Fixture.Build<SpotifyTrackModel>()
+                .With(x => x.Id, "Test_Id")
+                .With(x => x.Name, "Test_Name")
+                .With(x => x.PlaylistId, "Test_PlaylistId")
+                .With(x => x.Progress, 20000)
+                .Create();
+            _playingState = Fixture.Build<SpotifyPlayingState>()
+                .With(x => x.IsPlaying, true)
+                .With(x => x.Track, _playingStateTrack)
+                .Create();
 
             _spotifyServiceMock
                 .Setup(mock => mock.GetCurrentPlayback())
@@ -136,7 +139,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
                 .CreateMany()
                 .ToList();
-            dbPlaylists[0].Id = _playingState.Track?.PlaylistId ?? "";
+            dbPlaylists[0].Id = _playingState.Track?.PlaylistId;
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
             Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
@@ -157,27 +160,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
-        public void SpotifyPollingService_PollSpotifyPlayback_Logs_Info_Song_Was_Skipped_Unknown()
+        public void SpotifyPollingService_PollSpotifyPlayback_Logs_Debug_Unknown_Song_Was_Skipped()
         {
             //Arrange
-            _playingState = new SpotifyPlayingState
-            {
-                IsPlaying = true,
-                Track = new SpotifyTrackModel
-                {
-                    Name = null,
-                    PlaylistId = null
-                }
-            };
+            _playingState.Track.Id = "";
 
             _spotifyServiceMock
                 .Setup(mock => mock.GetCurrentPlayback())
-                .ReturnsAsync(_playingState);
 
+                .ReturnsAsync(_playingState);
             var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
                 .CreateMany()
                 .ToList();
-            dbPlaylists[0].Id = "";
+            dbPlaylists[0].Id = _playingState.Track.PlaylistId;
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
             Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
@@ -192,9 +187,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _spotifyPollingService.PollSpotifyPlayback(null);
 
             //Assert
-            VerifyLog(_loggerMock, LogLevel.Debug, "Currently listening to playlist: unknown");
-            VerifyLog(_loggerMock, LogLevel.Debug, "Currently playing: unknown");
-            VerifyLog(_loggerMock, LogLevel.Information, "Skipped track: unknown was playing from monitored playlist: unknown");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently listening to playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently playing: {_playingState.Track?.Name}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"Track with unknown id was skipped while playing from monitored playlist: {_playingState.Track?.PlaylistId}");
         }
     }
 }

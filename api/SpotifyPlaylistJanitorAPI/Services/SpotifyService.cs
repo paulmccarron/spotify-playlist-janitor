@@ -141,7 +141,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var currently = await _spotifyClient.Player.GetCurrentPlayback();
 
-            if (currently != null)
+            if (currently is not null)
             {
                 playingState.IsPlaying = currently.IsPlaying
                     && currently.CurrentlyPlayingType.Equals("track")
@@ -153,7 +153,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     playingState.Track = new SpotifyTrackModel
                     {
                         Id = item.Id,
-                        PlaylistId = currently.Context.Uri.Split(":").LastOrDefault(),
+                        PlaylistId = currently.Context.Uri.Split(":").Last(),
                         ListeningOn = currently.Device.Name,
                         Name = item.Name,
                         Artists = item.Artists.Select(artist => new SpotifyArtistModel

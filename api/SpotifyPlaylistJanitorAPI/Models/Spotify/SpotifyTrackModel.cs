@@ -13,12 +13,12 @@
         /// <summary>
         /// Spotify track name.
         /// </summary>
-        public string? Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Spotify playlist id.
         /// </summary>
-        public string? PlaylistId { get; set; }
+        public required string PlaylistId { get; set; }
 
         /// <summary>
         /// List of Spotify artists associated with the track.
@@ -33,12 +33,12 @@
         /// <summary>
         /// Length of the song in milliseconds.
         /// </summary>
-        public int? Duration { get; set; }
+        public required int Duration { get; set; }
 
         /// <summary>
         /// Playback progress of the song in milliseconds.
         /// </summary>
-        public int? Progress { get; set; }
+        public required int Progress { get; set; }
 
         /// <summary>
         /// Device track is being played on.
