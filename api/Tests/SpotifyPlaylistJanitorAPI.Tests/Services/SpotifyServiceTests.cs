@@ -98,7 +98,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task SpotifyService_GetUserPlaylists_Returns_Data()
         {
             //Arrange
-            var spotifyPlaylists = Fixture.Build<SimplePlaylist>().Without(x => x.Tracks).CreateMany().ToList();
+            var spotifyPlaylists = Fixture.Build<SimplePlaylist>()
+                .Without(x => x.Tracks)
+                .CreateMany()
+                .ToList();
 
             var mockPlaylists = new Mock<IPlaylistsClient>();
             mockPlaylists
@@ -142,6 +145,165 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             //Act
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetUserPlaylists);
+
+            // Assert
+            Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
+        }
+
+        [Test]
+        public async Task SpotifyService_GetCurrentPlayback_Returns_Data_For_Current_Context_Playlist()
+        {
+            //Arrange
+            var context = Fixture.Build<Context>()
+                .With(x => x.Type, "playlist")
+                .Create();
+
+            var playingItem = Fixture.Build<FullTrack>()
+                .Create();
+
+            var spotifyCurrentPlayback = Fixture.Build<CurrentlyPlayingContext>()
+                .With(x => x.IsPlaying, true)
+                .With(x => x.CurrentlyPlayingType, "track")
+                .With(x => x.Context, context)
+                .With(x => x.Item, playingItem)
+                .Create();
+
+            var mockPlayer = new Mock<IPlayerClient>();
+            mockPlayer
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(spotifyCurrentPlayback);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Player)
+                .Returns(mockPlayer.Object);
+
+            var expectedPlayback = new SpotifyPlayingState
+            {
+                IsPlaying = true,
+                Track = new SpotifyTrackModel
+                {
+                    Id = playingItem.Id,
+                    PlaylistId = spotifyCurrentPlayback.Context.Uri.Split(":").LastOrDefault(),
+                    ListeningOn = spotifyCurrentPlayback.Device.Name,
+                    Name = playingItem.Name,
+                    Artists = playingItem.Artists.Select(artist => new SpotifyArtistModel
+                    {
+                        Name = artist.Name,
+                        Id = artist.Id,
+                        Href = artist.Href,
+                    }),
+                    Album = new SpotifyAlbumModel
+                    {
+                        Id = playingItem.Album.Id,
+                        Name = playingItem.Album.Name,
+                        Href = playingItem.Album.Href,
+                        Images = playingItem.Album.Images.Select(image => new SpotifyImageModel
+                        {
+                            Height = image.Height,
+                            Width = image.Width,
+                            Url = image.Url,
+                        })
+                    },
+                    Duration = playingItem.DurationMs,
+                    Progress = spotifyCurrentPlayback.ProgressMs,
+                }
+            };
+
+            //Act
+            var result = await _spotifyService.GetCurrentPlayback();
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedPlayback);
+        }
+
+        [Test]
+        public async Task SpotifyService_GetCurrentPlayback_Returns_Data_For_Current_Context_Album()
+        {
+            //Arrange
+            var context = Fixture.Build<Context>()
+                .With(x => x.Type, "album")
+                .Create();
+
+            var playingItem = Fixture.Build<FullTrack>()
+                .Create();
+
+            var spotifyCurrentPlayback = Fixture.Build<CurrentlyPlayingContext>()
+                .With(x => x.IsPlaying, true)
+                .With(x => x.CurrentlyPlayingType, "track")
+                .With(x => x.Context, context)
+                .With(x => x.Item, playingItem)
+                .Create();
+
+            var mockPlayer = new Mock<IPlayerClient>();
+            mockPlayer
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(spotifyCurrentPlayback);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Player)
+                .Returns(mockPlayer.Object);
+
+            var expectedPlayback = new SpotifyPlayingState
+            {
+                IsPlaying = false,
+                Track = null
+            };
+
+            //Act
+            var result = await _spotifyService.GetCurrentPlayback();
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedPlayback);
+        }
+
+        [Test]
+        public async Task SpotifyService_GetCurrentPlayback_Returns_Data_For_Currently_Playing_Type_Podcast()
+        {
+            //Arrange
+            var context = Fixture.Build<Context>()
+                .With(x => x.Type, "playlist")
+                .Create();
+
+            var playingItem = Fixture.Build<FullTrack>()
+                .Create();
+
+            var spotifyCurrentPlayback = Fixture.Build<CurrentlyPlayingContext>()
+                .With(x => x.IsPlaying, true)
+                .With(x => x.CurrentlyPlayingType, "podcast")
+                .With(x => x.Context, context)
+                .With(x => x.Item, playingItem)
+                .Create();
+
+            var mockPlayer = new Mock<IPlayerClient>();
+            mockPlayer
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(spotifyCurrentPlayback);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Player)
+                .Returns(mockPlayer.Object);
+
+            var expectedPlayback = new SpotifyPlayingState
+            {
+                IsPlaying = false,
+                Track = null
+            };
+
+            //Act
+            var result = await _spotifyService.GetCurrentPlayback();
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedPlayback);
+        }
+
+        [Test]
+        public void SpotifyService_GetCurrentPlayback_Throws_Exception_If_No_Spotify_Client_Configured()
+        {
+            //Arrange
+            _spotifyService.SetClient(null);
+
+            //Act
+            var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetCurrentPlayback);
 
             // Assert
             Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));

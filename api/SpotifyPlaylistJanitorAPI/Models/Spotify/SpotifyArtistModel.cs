@@ -1,28 +1,23 @@
 ﻿namespace SpotifyPlaylistJanitorAPI.Models.Spotify
 {
     /// <summary>
-    /// Model for Spotify playlist information.
+    /// Model for Spotify artist information.
     /// </summary>
-    public class SpotifyPlaylistModel
+    public class SpotifyArtistModel
     {
         /// <summary>
-        /// Spotify playlist id.
+        /// Spotify artist id.
         /// </summary>
         public string? Id { get; set; }
 
         /// <summary>
-        /// Spotify playlist name.
+        /// Spotify artist name.
         /// </summary>
         public string? Name { get; set; }
 
         /// <summary>
-        /// Href link to Spotify playlist.
+        /// Href link to Spotify artist.
         /// </summary>
         public string? Href { get; set; }
-
-        /// <summary>
-        /// Spotify playlist images.
-        /// </summary>
-        public IEnumerable<SpotifyImageModel>? Images { get; set; }
     }
 }

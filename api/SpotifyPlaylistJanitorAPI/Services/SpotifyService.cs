@@ -39,7 +39,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
-        /// <param name="spotifyOptions"></param>
+        /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         public SpotifyService(IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyOptions = spotifyOptions.Value;
@@ -117,9 +117,70 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         Url = image.Url,
                     })
                 })
-                .OrderBy(playlist => playlist?.Name?.ToLower());
+                .OrderBy(playlist => playlist.Name?.ToLower());
 
             return playlists;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns cref="SpotifyPlayingState">Current playback state.</returns>
+        /// <exception cref="SpotifyArgumentException"></exception>
+        public async Task<SpotifyPlayingState> GetCurrentPlayback()
+        {
+            if (_spotifyClient is null)
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            var playingState = new SpotifyPlayingState
+            {
+                IsPlaying = false,
+            };
+
+            var currently = await _spotifyClient.Player.GetCurrentPlayback();
+
+            if (currently != null)
+            {
+                playingState.IsPlaying = currently.IsPlaying
+                    && currently.CurrentlyPlayingType.Equals("track")
+                    && currently.Context.Type.Equals("playlist");
+
+                if (playingState.IsPlaying)
+                {
+                    var item = (FullTrack)currently.Item;
+                    playingState.Track = new SpotifyTrackModel
+                    {
+                        Id = item.Id,
+                        PlaylistId = currently.Context.Uri.Split(":").LastOrDefault(),
+                        ListeningOn = currently.Device.Name,
+                        Name = item.Name,
+                        Artists = item.Artists.Select(artist => new SpotifyArtistModel
+                        {
+                            Name = artist.Name,
+                            Id = artist.Id,
+                            Href = artist.Href,
+                        }),
+                        Album = new SpotifyAlbumModel
+                        {
+                            Id = item.Album.Id,
+                            Name = item.Album.Name,
+                            Href = item.Album.Href,
+                            Images = item.Album.Images.Select(image => new SpotifyImageModel
+                            {
+                                Height = image.Height,
+                                Width = image.Width,
+                                Url = image.Url,
+                            })
+                        },
+                        Duration = item.DurationMs,
+                        Progress = currently.ProgressMs,
+                    };
+                }
+            }
+
+            return playingState;
         }
 
         /// <summary>

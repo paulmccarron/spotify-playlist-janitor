@@ -1,6 +1,4 @@
-﻿using SpotifyAPI.Web;
-
-namespace SpotifyPlaylistJanitorAPI.Models.Spotify
+﻿namespace SpotifyPlaylistJanitorAPI.Models.Spotify
 {
     /// <summary>
     /// Model for Spotify image information.

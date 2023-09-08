@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
@@ -66,6 +67,8 @@ namespace SpotifyPlaylistJanitorAPIs
 
             services.AddSingleton<ISpotifyService, SpotifyService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
+            services.AddSingleton<IPlayingStateService, PlayingStateService>();
+            services.AddHostedService<SpotifyPollingService>();
 
             services.AddLogging(builder =>
                 builder

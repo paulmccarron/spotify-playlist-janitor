@@ -1,11 +1,10 @@
-﻿using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.Models.Database;
-using System;
+﻿using SpotifyPlaylistJanitorAPI.Models.Database;
 
 namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
 {
     /// <summary>
-    /// Introduced to simplify unit testing as well as to provide flexibility for future.
+    /// Service to interact with application database.
+    /// Interface introduced to simplify unit testing as well as to provide flexibility for future.
     /// </summary>
     public interface IDatabaseService
     {
