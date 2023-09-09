@@ -143,12 +143,34 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
             Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
-
             dbSetPlaylistsMock.AddIQueryables(queryAblePlaylists);
-
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
                 .Returns(dbSetPlaylistsMock.Object);
+
+            Mock<DbSet<SpotifyArtist>> dbSetArtistsMock = new Mock<DbSet<SpotifyArtist>>();
+            dbSetArtistsMock.AddIQueryables(new List<SpotifyArtist>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyArtists)
+                .Returns(dbSetArtistsMock.Object);
+
+            Mock<DbSet<SpotifyAlbum>> dbSetAlbumsMock = new Mock<DbSet<SpotifyAlbum>>();
+            dbSetAlbumsMock.AddIQueryables(new List<SpotifyAlbum>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyAlbums)
+                .Returns(dbSetAlbumsMock.Object);
+
+            Mock<DbSet<SpotifyTrack>> dbSetTracksMock = new Mock<DbSet<SpotifyTrack>>();
+            dbSetTracksMock.AddIQueryables(new List<SpotifyTrack>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SpotifyTracks)
+                .Returns(dbSetTracksMock.Object);
+
+            Mock<DbSet<SkippedTrack>> dbSetSkippedTracksMock = new Mock<DbSet<SkippedTrack>>();
+            dbSetSkippedTracksMock.AddIQueryables(new List<SkippedTrack>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.SkippedTracks)
+                .Returns(dbSetSkippedTracksMock.Object);
 
             //Act
             _spotifyPollingService.PollSpotifyPlayback(null);
@@ -167,7 +189,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             _spotifyServiceMock
                 .Setup(mock => mock.GetCurrentPlayback())
-
                 .ReturnsAsync(_playingState);
             var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
                 .CreateMany()
@@ -176,9 +197,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
             Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
-
             dbSetPlaylistsMock.AddIQueryables(queryAblePlaylists);
-
             _dbContextMock
                 .Setup(mock => mock.SpotifyPlaylists)
                 .Returns(dbSetPlaylistsMock.Object);

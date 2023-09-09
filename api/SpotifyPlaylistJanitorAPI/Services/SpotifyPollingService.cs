@@ -80,14 +80,41 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         {
                             if(!string.IsNullOrEmpty(currentlyPlaying.Track?.Id))
                             {
+                                var artist = currentlyPlaying.Track.Artists.First();
+                                var artistRequest = new DatabaseArtistModel
+                                {
+                                    Id = artist.Id,
+                                    Name = artist.Name,
+                                    Href = artist.Href,
+                                };
+                                databaseService.AddArtist(artistRequest).Wait();
+
+                                var albumRequest = new DatabaseAlbumModel
+                                {
+                                    Id = currentlyPlaying.Track.Album.Id,
+                                    Name = currentlyPlaying.Track.Album.Name,
+                                    Href = currentlyPlaying.Track.Album.Href,
+                                };
+                                databaseService.AddAlbum(albumRequest).Wait();
+
+                                var trackRequest = new DatabaseTrackModel
+                                {
+                                    Id = currentlyPlaying.Track.Id,
+                                    Name = currentlyPlaying.Track.Name,
+                                    ArtistId = artistRequest.Id,
+                                    AlbumId = currentlyPlaying.Track.Album.Id,
+                                    Length = currentlyPlaying.Track.Duration,
+                                };
+                                databaseService.AddTrack(trackRequest).Wait();
+
+                                _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
+                                
                                 var skippedTrack = new DatabaseSkippedTrackModel
                                 {
                                     PlaylistId = currentlyPlaying.Track.PlaylistId,
                                     TrackId = currentlyPlaying.Track.Id,
                                     SkippedDate = DateTimeOffset.UtcNow
                                 };
-
-                                _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
                                 databaseService.AddSkippedTrack(skippedTrack).Wait();
                             }
                             else

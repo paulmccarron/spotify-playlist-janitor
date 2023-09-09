@@ -3,7 +3,7 @@
 namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
-    /// Model for creating database playlist.
+    /// Model for creating database Playlist.
     /// </summary>
     public class DatabasePlaylistRequest
     {

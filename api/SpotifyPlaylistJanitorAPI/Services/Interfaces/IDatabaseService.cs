@@ -32,9 +32,36 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task DeletePlaylist(string id);
 
         /// <summary>
+        /// Add artist to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
+        ///
+        Task<DatabaseArtistModel> AddArtist(DatabaseArtistModel artistRequest);
+
+        /// <summary>
+        /// Add album to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseAlbumModel" />.</returns>
+        ///
+        Task<DatabaseAlbumModel> AddAlbum(DatabaseAlbumModel albumRequest);
+
+        /// <summary>
+        /// Add track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
+        ///
+        Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest);
+
+        /// <summary>
         /// Add skipped track to database.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
         Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest);
+
+        /// <summary>
+        /// Get skipped tracks for monitored plauylist from database.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackModel" />.</returns>
+        Task<IEnumerable<DatabaseSkippedTrackModel>> GetPlaylistSkippedTracks(string playlistId);
     }
 }

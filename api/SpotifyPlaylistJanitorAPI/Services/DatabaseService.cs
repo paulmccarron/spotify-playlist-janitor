@@ -75,8 +75,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = playlistRequest.Href,
             };
 
-            await _context.AddAsync(playlistDto);
-            await _context.SaveChangesAsync();
+            var alreadyExists = await _context.SpotifyPlaylists
+                .ToAsyncEnumerable()
+                .AnyAsync(track => track.Id.Equals(playlistRequest.Id));
+
+            if(!alreadyExists)
+            {
+                await _context.AddAsync(playlistDto);
+                await _context.SaveChangesAsync();
+            }
 
             var playlistModel = new DatabasePlaylistModel
             {
@@ -99,29 +106,151 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
+        /// Add artist to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
+        public async Task<DatabaseArtistModel> AddArtist(DatabaseArtistModel artistRequest)
+        {
+            var artistDto = new SpotifyArtist
+            {
+                Id = artistRequest.Id,
+                Name = artistRequest.Name,
+                Href = artistRequest.Href,
+            };
+
+            var alreadyExists = await _context.SpotifyArtists
+                .ToAsyncEnumerable()
+                .AnyAsync(artist => artist.Id.Equals(artistRequest.Id));
+
+            if(!alreadyExists)
+            {
+                await _context.AddAsync(artistDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var artistModel = new DatabaseArtistModel
+            {
+                Id = artistDto.Id,
+                Name = artistDto.Name,
+                Href = artistDto.Href,
+            };
+
+            return artistModel;
+        }
+
+        /// <summary>
+        /// Add album to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseAlbumModel" />.</returns>
+        public async Task<DatabaseAlbumModel> AddAlbum(DatabaseAlbumModel albumRequest)
+        {
+            var albumDto = new SpotifyAlbum
+            {
+                Id = albumRequest.Id,
+                Name = albumRequest.Name,
+                Href = albumRequest.Href,
+            };
+
+            var alreadyExists = await _context.SpotifyAlbums
+                .ToAsyncEnumerable()
+                .AnyAsync(album => album.Id.Equals(albumDto.Id));
+
+            if(!alreadyExists)
+            {
+                await _context.AddAsync(albumDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var albumModel = new DatabaseAlbumModel
+            {
+                Id = albumDto.Id,
+                Name = albumDto.Name,
+                Href = albumDto.Href,
+            };
+
+            return albumModel;
+        }
+
+        /// <summary>
+        /// Add track to database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
+        public async Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest)
+        {
+            var trackDto = new SpotifyTrack
+            {
+                Id = trackRequest.Id,
+                Name = trackRequest.Name,
+                Length = trackRequest.Length,
+                SpotifyAlbumId = trackRequest.AlbumId,
+                SpotifyArtistId = trackRequest.ArtistId,
+            };
+
+            var alreadyExists = await _context.SpotifyTracks
+                .ToAsyncEnumerable()
+                .AnyAsync(track => track.Id.Equals(trackRequest.Id));
+
+            if(!alreadyExists)
+            {
+                await _context.AddAsync(trackDto);
+                await _context.SaveChangesAsync();
+            }
+
+            var trackModel = new DatabaseTrackModel
+            {
+                Id = trackDto.Id,
+                Name = trackDto.Name,
+                Length = trackDto.Length,
+                AlbumId = trackDto.SpotifyAlbumId,
+                ArtistId = trackDto.SpotifyArtistId,
+            };
+
+            return trackModel;
+        }
+
+        /// <summary>
         /// Add skipped track to database.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
         public async Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest)
         {
-            var playlistDto = new SkippedTrack
+            var skippedTrackDto = new SkippedTrack
             {
                 SpotifyPlaylistId = skippedTrackRequest.PlaylistId,
                 SpotifyTrackId = skippedTrackRequest.TrackId,
                 SkippedDate = skippedTrackRequest.SkippedDate.ToUnixTimeSeconds(),
             };
 
-            await _context.AddAsync(playlistDto);
+            await _context.AddAsync(skippedTrackDto);
             await _context.SaveChangesAsync();
 
             var skippedTrackModel = new DatabaseSkippedTrackModel
             {
-                PlaylistId = playlistDto.SpotifyPlaylistId,
-                TrackId = playlistDto.SpotifyTrackId,
-                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(playlistDto.SkippedDate),
+                PlaylistId = skippedTrackDto.SpotifyPlaylistId,
+                TrackId = skippedTrackDto.SpotifyTrackId,
+                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(skippedTrackDto.SkippedDate),
             };
 
             return skippedTrackModel;
+        }
+
+        /// <summary>
+        /// Get skipped tracks for monitored plauylist from database.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackModel" />.</returns>
+        public async Task<IEnumerable<DatabaseSkippedTrackModel>> GetPlaylistSkippedTracks(string playlistId){
+            var skippedTracks = await _context.SkippedTracks
+                .Where(track => track.SpotifyPlaylistId == playlistId)
+                .Select(track => new DatabaseSkippedTrackModel
+                {
+                    PlaylistId = playlistId,
+                    TrackId = track.SpotifyTrackId,
+                    SkippedDate = DateTimeOffset.FromUnixTimeSeconds(track.SkippedDate),
+                })
+                .ToAsyncEnumerable()
+                .ToListAsync();
+
+            return skippedTracks;
         }
     }
 }
