@@ -118,6 +118,32 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Returns skipped tracks from current user monitored playlist by playlist id.
+        /// </summary>
+        /// <param name="id">Playlist id.</param>
+        /// <returns></returns>
+        /// <response code="200">Monitored playlist skipped tracks.</response>
+        /// <response code="404">No playlist found for given Id.</response>
+        [HttpGet("playlists/{id}/skipped")]
+        [ProducesResponseType(typeof(IEnumerable<DatabaseSkippedTrackModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabaseSkippedTrackModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
+        public async Task<ActionResult<IEnumerable<DatabaseSkippedTrackModel>>> GetMonitoredPlaylistSkippedTracks(string id)
+        {
+            var playlist = await _databaseService.GetPlaylist(id);
+
+            if(playlist is null)
+            {
+                return NotFoundResponse($"Could not find playlist with id: {id}");
+            }
+
+            var skippedTracks = await _databaseService.GetPlaylistSkippedTracks(id);
+
+            return Ok(skippedTracks);
+        }
+
         private NotFoundObjectResult NotFoundResponse(string message)
         {
             return NotFound(new { Message = message });

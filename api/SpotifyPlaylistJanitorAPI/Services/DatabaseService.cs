@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Models.Database;
@@ -215,24 +214,43 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
         public async Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest)
         {
-            var playlistDto = new SkippedTrack
+            var skippedTrackDto = new SkippedTrack
             {
                 SpotifyPlaylistId = skippedTrackRequest.PlaylistId,
                 SpotifyTrackId = skippedTrackRequest.TrackId,
                 SkippedDate = skippedTrackRequest.SkippedDate.ToUnixTimeSeconds(),
             };
 
-            await _context.AddAsync(playlistDto);
+            await _context.AddAsync(skippedTrackDto);
             await _context.SaveChangesAsync();
 
             var skippedTrackModel = new DatabaseSkippedTrackModel
             {
-                PlaylistId = playlistDto.SpotifyPlaylistId,
-                TrackId = playlistDto.SpotifyTrackId,
-                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(playlistDto.SkippedDate),
+                PlaylistId = skippedTrackDto.SpotifyPlaylistId,
+                TrackId = skippedTrackDto.SpotifyTrackId,
+                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(skippedTrackDto.SkippedDate),
             };
 
             return skippedTrackModel;
+        }
+
+        /// <summary>
+        /// Get skipped tracks for monitored plauylist from database.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackModel" />.</returns>
+        public async Task<IEnumerable<DatabaseSkippedTrackModel>> GetPlaylistSkippedTracks(string playlistId){
+            var skippedTracks = await _context.SkippedTracks
+                .Where(track => track.SpotifyPlaylistId == playlistId)
+                .Select(track => new DatabaseSkippedTrackModel
+                {
+                    PlaylistId = playlistId,
+                    TrackId = track.SpotifyTrackId,
+                    SkippedDate = DateTimeOffset.FromUnixTimeSeconds(track.SkippedDate),
+                })
+                .ToAsyncEnumerable()
+                .ToListAsync();
+
+            return skippedTracks;
         }
     }
 }

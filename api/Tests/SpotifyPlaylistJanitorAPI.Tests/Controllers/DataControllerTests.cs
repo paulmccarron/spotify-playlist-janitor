@@ -173,5 +173,54 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var objResult = result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
+
+        [Test]
+        public async Task DataController_GetMonitoredPlaylistSkippedTracks_Returns_DatabasePlaylistModel()
+        {
+            // Arrange
+            var id = "id";
+            var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            var databaseSkippedTracks = Fixture.Build<DatabaseSkippedTrackModel>().CreateMany();
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()))
+                .ReturnsAsync(databaseSkippedTracks);
+
+            //Act
+            var result = await _dataController.GetMonitoredPlaylistSkippedTracks(id);
+
+            // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Once);
+            result.Should().BeOfType<ActionResult<IEnumerable<DatabaseSkippedTrackModel>>>();
+            result?.Value?.Should().BeEquivalentTo(databaseSkippedTracks);
+        }
+
+        [Test]
+        public async Task DataController_GetMonitoredPlaylistSkippedTracks_Returns_Not_Found()
+        {
+            // Arrange
+            var id = "id";
+            DatabasePlaylistModel? databasePlaylist = null;
+
+            _databaseServiceMock
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            var expectedMessage = new { Message = $"Could not find playlist with id: {id}" };
+
+            //Act
+            var result = await _dataController.GetMonitoredPlaylistSkippedTracks(id);
+
+            // Assert
+            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            _databaseServiceMock.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Never);
+            var objResult = result.Result as NotFoundObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
     }
 }

@@ -353,5 +353,41 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             result.Should().BeEquivalentTo(expectedResult);
         }
+        
+        [Test]
+        public async Task DatabaseService_GetPlaylistSkippedTracks_Returns_Data()
+        {
+            //Arrange
+            var playlistId = "playlist_id";
+            var dateTime = DateTimeOffset.UtcNow;
+            var dateTimeSeconds = dateTime.ToUnixTimeSeconds();
+
+            var dbSkippedTracks = Fixture.Build<SkippedTrack>()
+                .With(x => x.SkippedDate, dateTimeSeconds)
+                .With(x => x.SpotifyPlaylistId, playlistId)
+                .CreateMany()
+                .AsQueryable();
+
+            _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
+
+            _dbContextMock
+                .Setup(mock => mock.SpotifyPlaylists)
+                .Returns(_dbSetPlaylistMock.Object);
+
+            var expectedResults = dbSkippedTracks
+                .Select(track => new DatabaseSkippedTrackModel
+                {
+                    PlaylistId = playlistId,
+                    TrackId = track.SpotifyTrackId,
+                    SkippedDate = DateTimeOffset.FromUnixTimeSeconds(track.SkippedDate),
+                });
+
+            //Act
+            var result = await _databaseService.GetPlaylistSkippedTracks(playlistId);
+
+            // Assert
+            result.Should().BeOfType<List<DatabaseSkippedTrackModel>>();
+            result.Should().BeEquivalentTo(expectedResults);
+        }
     }
 }
