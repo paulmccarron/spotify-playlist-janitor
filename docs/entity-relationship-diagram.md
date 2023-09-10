@@ -5,39 +5,68 @@ Current interation of the Entity-Relationship Diagram for the Spotify Playlist J
 ``` mermaid
 %%{init: {'theme':'neutral'}}%%
 erDiagram
-    SPOTIFY_PLAYLIST ||--|| SKIPPED_TRACK : ""
-    SKIPPED_TRACK }o--|| SPOTIFY_TRACK : ""
-    SPOTIFY_TRACK ||--o{ SPOTIFY_ARTIST : ""
-    SPOTIFY_TRACK ||--|| SPOTIFY_ALBUM : ""
-    SPOTIFY_ARTIST }o--|| SPOTIFY_ALBUM : ""
+    PLAYLISTS ||--o{ SKIPPED_TRACKS : ""
+    SKIPPED_TRACKS }o--|| TRACKS : ""
+    TRACKS }o--o{ ARTISTS_TRACKS : ""
+    ARTISTS_TRACKS }o--o{ ARTISTS : ""
+    ARTISTS }o--o{ ARTISTS_ALBUMS : ""
+    ARTISTS_ALBUMS }o--o{ ALBUMS : ""
+    TRACKS ||--o{ ALBUMS : ""
+    ALBUMS }o--o{ ALBUMS_IMAGES : ""
+    ALBUMS_IMAGES }o--|| IMAGES : ""
 
-    SPOTIFY_PLAYLIST {
+    PLAYLISTS {
         VARCHAR id PK
-	    VARCHAR name
-        VARCHAR href
     }
-    SKIPPED_TRACK {
-        VARCHAR id PK
-        INT skipped_time
-        VARCHAR spotify_playlist_id FK
-        VARCHAR spotify_track_id FK
-    }
-    SPOTIFY_TRACK {
-        VARCHAR id PK
-        VARCHAR spotify_artist_id FK
-        VARCHAR spotify_album_id FK
-        VARCHAR name
-        VARCHAR length
-        VARCHAR href
-    }
-    SPOTIFY_ARTIST {
+
+    ARTISTS {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
     }
-    SPOTIFY_ALBUM {
+
+    ALBUMS {
         VARCHAR id PK
         VARCHAR name
         VARCHAR href
+    }
+
+    TRACKS {
+        VARCHAR id PK
+        VARCHAR name
+        INT length
+        VARCHAR album_id FK
+    }
+
+    IMAGES {
+        INT id PK
+        VARCHAR url
+        INT length
+        INT length
+    }
+
+    ARTISTS_ALBUMS {
+        VARCHAR artist_id_album_id PK
+        VARCHAR artist_id FK
+        VARCHAR album_id FK
+    }
+
+    ARTISTS_TRACKS {
+        VARCHAR artist_id_track_id PK
+        VARCHAR artist_id FK
+        VARCHAR track_id FK
+    }
+
+    ALBUMS_IMAGES {
+        VARCHAR album_id_image_id PK
+        VARCHAR album_id FK
+        VARCHAR image_id FK
+    }
+    
+    SKIPPED_TRACKS {
+        VARCHAR id PK
+        TIMESTAMP skipped_time
+        VARCHAR playlist_id FK
+        VARCHAR track_id FK
     }
 ```
