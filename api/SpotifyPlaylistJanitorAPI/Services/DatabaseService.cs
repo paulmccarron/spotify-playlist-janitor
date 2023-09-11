@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
-//using SpotifyPlaylistJanitorAPI.DataAccess.Context;
-//using SpotifyPlaylistJanitorAPI.DataAccess.Models;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 

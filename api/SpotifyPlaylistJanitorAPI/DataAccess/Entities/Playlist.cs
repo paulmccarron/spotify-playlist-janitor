@@ -1,4 +1,4 @@
-﻿namespace SpotifyPlaylistJanitorAPI.DataAccess;
+﻿namespace SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 
 #pragma warning disable 1591
 public partial class Playlist

@@ -2,8 +2,8 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services;
 using System;

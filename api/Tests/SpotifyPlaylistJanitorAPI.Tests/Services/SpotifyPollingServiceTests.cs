@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -191,8 +190,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.Tracks)
                 .Returns(dbSetTracksMock.Object);
 
-            Mock<DbSet<DataAccess.Image>> dbSetImagesMock = new Mock<DbSet<DataAccess.Image>>();
-            var dbImages = Fixture.Build<DataAccess.Image>()
+            Mock<DbSet<Image>> dbSetImagesMock = new Mock<DbSet<Image>>();
+            var dbImages = Fixture.Build<Image>()
                 .With(x => x.Id, 0)
                 .CreateMany()
                 .AsQueryable();
