@@ -34,34 +34,48 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <summary>
         /// Add artist to database.
         /// </summary>
-        ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
-        ///
-        Task<DatabaseArtistModel> AddArtist(DatabaseArtistModel artistRequest);
+        Task AddArtist(DatabaseArtistModel artistRequest);
 
         /// <summary>
         /// Add album to database.
         /// </summary>
-        ///<returns>Returns a <see cref = "DatabaseAlbumModel" />.</returns>
-        ///
-        Task<DatabaseAlbumModel> AddAlbum(DatabaseAlbumModel albumRequest);
+        Task AddAlbum(DatabaseAlbumRequest albumRequest);
+
+        /// <summary>
+        /// Add image to database.
+        /// </summary>
+        Task<DatabaseImageModel> AddImage(int height, int width, string url);
 
         /// <summary>
         /// Add track to database.
         /// </summary>
-        ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
         ///
-        Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest);
+        Task AddTrack(DatabaseTrackModel trackRequest);
+
+        /// <summary>
+        /// Add artist to track relationship to database.
+        /// </summary>
+        Task AddArtistToTrack(string artistId, string trackId);
+
+        /// <summary>
+        /// Add artist to album relationship to database.
+        /// </summary>
+        Task AddArtistToAlbum(string artistId, string albumId);
+
+        /// <summary>
+        /// Add image to album relationship to database.
+        /// </summary>
+        Task AddImageToAlbum(int imageId, string albumId);
 
         /// <summary>
         /// Add skipped track to database.
         /// </summary>
-        ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
-        Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest);
+        Task AddSkippedTrack(DatabaseSkippedTrackRequest skippedTrackRequest);
 
         /// <summary>
         /// Get skipped tracks for monitored plauylist from database.
         /// </summary>
-        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackModel" />.</returns>
-        Task<IEnumerable<DatabaseSkippedTrackModel>> GetPlaylistSkippedTracks(string playlistId);
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackResponse" />.</returns>
+        Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId);
     }
 }

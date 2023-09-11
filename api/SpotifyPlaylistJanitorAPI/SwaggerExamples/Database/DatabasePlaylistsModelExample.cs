@@ -20,10 +20,20 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
             {
                 new DatabasePlaylistModel
                 {
-                    Id = "playlist_id",
-                    Name = "Playlist Name",
-                    Href = "https://open.spotify.com/playlist/playlist_id",
-                }
+                    Id = "playlist_id_1",
+                },
+                new DatabasePlaylistModel
+                {
+                    Id = "playlist_id_2",
+                },
+                new DatabasePlaylistModel
+                {
+                    Id = "playlist_id_3",
+                },
+                new DatabasePlaylistModel
+                {
+                    Id = "playlist_id_4",
+                },
             };
         }
     }

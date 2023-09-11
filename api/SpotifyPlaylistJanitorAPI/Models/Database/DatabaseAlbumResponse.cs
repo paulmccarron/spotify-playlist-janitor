@@ -1,28 +1,28 @@
 ﻿namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
-    /// Model for Database track information.
+    /// Model for Database album information.
     /// </summary>
-    public class DatabaseTrackModel
+    public class DatabaseAlbumResponse
     {
         /// <summary>
-        /// Spotify track id.
+        /// Spotify album id.
         /// </summary>
         public required string Id { get; set; }
 
         /// <summary>
-        /// Spotify track name.
+        /// Spotify album name.
         /// </summary>
         public required string Name { get; set; }
 
         /// <summary>
-        /// Spotify track length.
+        /// Spotify album href.
         /// </summary>
-        public required int Length { get; set; }
+        public required string Href { get; set; }
 
         /// <summary>
-        /// Spotify album id.
+        /// Spotify album images.
         /// </summary>
-        public required string AlbumId { get; set; }
+        public required IEnumerable<DatabaseImageModel> Images { get; set; }
     }
 }

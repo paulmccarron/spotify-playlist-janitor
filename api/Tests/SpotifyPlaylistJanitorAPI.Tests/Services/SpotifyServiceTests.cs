@@ -154,11 +154,24 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task SpotifyService_GetCurrentPlayback_Returns_Data_For_Current_Context_Playlist()
         {
             //Arrange
+            var albumHref = "albumHref";
+            var artistHref = "artistHref";
             var context = Fixture.Build<Context>()
                 .With(x => x.Type, "playlist")
                 .Create();
+            
+            var album = Fixture.Build<SimpleAlbum>()
+                .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", albumHref } })
+                .Create();
+
+            var artists = Fixture.Build<SimpleArtist>()
+                .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", artistHref } })
+                .CreateMany()
+                .ToList();
 
             var playingItem = Fixture.Build<FullTrack>()
+                .With(x => x.Album, album)
+                .With(x => x.Artists, artists)
                 .Create();
 
             var spotifyCurrentPlayback = Fixture.Build<CurrentlyPlayingContext>()
@@ -190,13 +203,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                     {
                         Name = artist.Name,
                         Id = artist.Id,
-                        Href = artist.Href,
+                        Href = artistHref,
                     }),
                     Album = new SpotifyAlbumModel
                     {
                         Id = playingItem.Album.Id,
                         Name = playingItem.Album.Name,
-                        Href = playingItem.Album.Href,
+                        Href = albumHref,
                         Images = playingItem.Album.Images.Select(image => new SpotifyImageModel
                         {
                             Height = image.Height,

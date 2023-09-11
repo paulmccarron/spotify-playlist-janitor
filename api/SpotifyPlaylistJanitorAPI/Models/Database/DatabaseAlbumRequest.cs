@@ -3,7 +3,7 @@
     /// <summary>
     /// Model for Database album information.
     /// </summary>
-    public class DatabaseAlbumModel
+    public class DatabaseAlbumRequest
     {
         /// <summary>
         /// Spotify album id.

@@ -12,17 +12,5 @@ namespace SpotifyPlaylistJanitorAPI.Models.Database
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         public required string Id { get; set; }
-
-        /// <summary>
-        /// Spotify playlist name.
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public required string Name { get; set; }
-
-        /// <summary>
-        /// Href link to Spotify playlist.
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public required string Href { get; set; }
     }
 }

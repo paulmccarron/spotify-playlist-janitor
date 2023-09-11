@@ -3,7 +3,7 @@
     /// <summary>
     /// Model for Database skipped track information.
     /// </summary>
-    public class DatabaseSkippedTrackModel
+    public class DatabaseSkippedTrackRequest
     {
         /// <summary>
         /// Spotify playlist id.
@@ -18,6 +18,8 @@
         /// <summary>
         /// DateTime if when skip occurred.
         /// </summary>
-        public required DateTimeOffset SkippedDate { get; set; }
+        public required DateTime? SkippedDate { get; set; }
+
+
     }
 }

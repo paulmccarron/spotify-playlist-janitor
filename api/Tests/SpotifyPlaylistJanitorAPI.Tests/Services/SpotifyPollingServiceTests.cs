@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
-using SpotifyPlaylistJanitorAPI.DataAccess.Models;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -24,6 +23,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         private Mock<SpotifyPlaylistJanitorDatabaseContext> _dbContextMock;
         private SpotifyTrackModel _playingStateTrack;
         private SpotifyPlayingState _playingState;
+        private const string TRACK_ID = "TRACK_ID";
+        private const string ARTIST_ID = "ARTIST_ID";
+        private const string ALBUM_ID = "ALBUM_ID";
+        private const int IMAGE_ID = 123;
 
         [SetUp]
         public void Setup()
@@ -37,10 +40,18 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.IsLoggedIn)
                 .Returns(true);
 
+            var mockArtists = Fixture.Build<SpotifyArtistModel>()
+                .With(x => x.Id, ARTIST_ID)
+                .CreateMany();
+            var mockAlbum = Fixture.Build<SpotifyAlbumModel>()
+                .With(x => x.Id, ALBUM_ID)
+                .Create();
             _playingStateTrack = Fixture.Build<SpotifyTrackModel>()
-                .With(x => x.Id, "Test_Id")
+                .With(x => x.Id, TRACK_ID)
                 .With(x => x.Name, "Test_Name")
                 .With(x => x.PlaylistId, "Test_PlaylistId")
+                .With(x => x.Artists, mockArtists)
+                .With(x => x.Album, mockAlbum)
                 .With(x => x.Progress, 20000)
                 .Create();
             _playingState = Fixture.Build<SpotifyPlayingState>()
@@ -136,35 +147,58 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyPollingService_PollSpotifyPlayback_Logs_Info_Song_Was_Skipped()
         {
             //Arrange
-            var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
+            var dbPlaylists = Fixture.Build<Playlist>()
                 .CreateMany()
                 .ToList();
             dbPlaylists[0].Id = _playingState.Track?.PlaylistId;
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
-            Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
+            Mock<DbSet<Playlist>> dbSetPlaylistsMock = new Mock<DbSet<Playlist>>();
             dbSetPlaylistsMock.AddIQueryables(queryAblePlaylists);
             _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
+                .Setup(mock => mock.Playlists)
                 .Returns(dbSetPlaylistsMock.Object);
 
-            Mock<DbSet<SpotifyArtist>> dbSetArtistsMock = new Mock<DbSet<SpotifyArtist>>();
-            dbSetArtistsMock.AddIQueryables(new List<SpotifyArtist>().AsQueryable());
+            Mock<DbSet<Artist>> dbSetArtistsMock = new Mock<DbSet<Artist>>();
+            var dbArtists = Fixture.Build<Artist>()
+                .With(x => x.Id, ARTIST_ID)
+                .CreateMany()
+                .AsQueryable();
+            dbSetArtistsMock.AddIQueryables(dbArtists);
             _dbContextMock
-                .Setup(mock => mock.SpotifyArtists)
+                .Setup(mock => mock.Artists)
                 .Returns(dbSetArtistsMock.Object);
 
-            Mock<DbSet<SpotifyAlbum>> dbSetAlbumsMock = new Mock<DbSet<SpotifyAlbum>>();
-            dbSetAlbumsMock.AddIQueryables(new List<SpotifyAlbum>().AsQueryable());
+            Mock<DbSet<Album>> dbSetAlbumsMock = new Mock<DbSet<Album>>();
+            var dbAlbums = Fixture.Build<Album>()
+                .With(x => x.Id, ALBUM_ID)
+                .CreateMany()
+                .AsQueryable();
+            dbSetAlbumsMock.AddIQueryables(dbAlbums);
             _dbContextMock
-                .Setup(mock => mock.SpotifyAlbums)
+                .Setup(mock => mock.Albums)
                 .Returns(dbSetAlbumsMock.Object);
 
-            Mock<DbSet<SpotifyTrack>> dbSetTracksMock = new Mock<DbSet<SpotifyTrack>>();
-            dbSetTracksMock.AddIQueryables(new List<SpotifyTrack>().AsQueryable());
+            Mock<DbSet<Track>> dbSetTracksMock = new Mock<DbSet<Track>>();
+            var dbTracks = Fixture.Build<Track>()
+                .With(x => x.Id, TRACK_ID)
+                .With(x => x.Artists, new List<Artist>())
+                .CreateMany()
+                .AsQueryable();
+            dbSetTracksMock.AddIQueryables(dbTracks);
             _dbContextMock
-                .Setup(mock => mock.SpotifyTracks)
+                .Setup(mock => mock.Tracks)
                 .Returns(dbSetTracksMock.Object);
+
+            Mock<DbSet<Image>> dbSetImagesMock = new Mock<DbSet<Image>>();
+            var dbImages = Fixture.Build<Image>()
+                .With(x => x.Id, 0)
+                .CreateMany()
+                .AsQueryable();
+            dbSetImagesMock.AddIQueryables(dbImages);
+            _dbContextMock
+                .Setup(mock => mock.Images)
+                .Returns(dbSetImagesMock.Object);
 
             Mock<DbSet<SkippedTrack>> dbSetSkippedTracksMock = new Mock<DbSet<SkippedTrack>>();
             dbSetSkippedTracksMock.AddIQueryables(new List<SkippedTrack>().AsQueryable());
@@ -190,16 +224,16 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _spotifyServiceMock
                 .Setup(mock => mock.GetCurrentPlayback())
                 .ReturnsAsync(_playingState);
-            var dbPlaylists = Fixture.Build<SpotifyPlaylist>()
+            var dbPlaylists = Fixture.Build<Playlist>()
                 .CreateMany()
                 .ToList();
             dbPlaylists[0].Id = _playingState.Track.PlaylistId;
             var queryAblePlaylists = dbPlaylists.AsQueryable();
 
-            Mock<DbSet<SpotifyPlaylist>> dbSetPlaylistsMock = new Mock<DbSet<SpotifyPlaylist>>();
+            Mock<DbSet<Playlist>> dbSetPlaylistsMock = new Mock<DbSet<Playlist>>();
             dbSetPlaylistsMock.AddIQueryables(queryAblePlaylists);
             _dbContextMock
-                .Setup(mock => mock.SpotifyPlaylists)
+                .Setup(mock => mock.Playlists)
                 .Returns(dbSetPlaylistsMock.Object);
 
             //Act
