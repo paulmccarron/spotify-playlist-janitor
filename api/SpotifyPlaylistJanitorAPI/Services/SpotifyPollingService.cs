@@ -72,6 +72,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     _logger.LogDebug($"Currently playing: {currentlyPlaying.Track.Name}");
                     
                     var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying);
+                    _playingStateService.PlayingState = currentlyPlaying;
                     if (skip)
                     {
                         var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId).Result;
@@ -80,16 +81,18 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         {
                             if(!string.IsNullOrEmpty(currentlyPlaying.Track?.Id))
                             {
-                                var artist = currentlyPlaying.Track.Artists.First();
-                                var artistRequest = new DatabaseArtistModel
+                                foreach(var artist in currentlyPlaying.Track.Artists)
                                 {
-                                    Id = artist.Id,
-                                    Name = artist.Name,
-                                    Href = artist.Href,
-                                };
-                                databaseService.AddArtist(artistRequest).Wait();
+                                    var artistRequest = new DatabaseArtistModel
+                                    {
+                                        Id = artist.Id,
+                                        Name = artist.Name,
+                                        Href = artist.Href,
+                                    };
+                                    databaseService.AddArtist(artistRequest).Wait();
+                                }
 
-                                var albumRequest = new DatabaseAlbumModel
+                                var albumRequest = new DatabaseAlbumRequest
                                 {
                                     Id = currentlyPlaying.Track.Album.Id,
                                     Name = currentlyPlaying.Track.Album.Name,
@@ -106,13 +109,28 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                 };
                                 databaseService.AddTrack(trackRequest).Wait();
 
+                                //add artists to track
+                                //add artists to album
+                                foreach (var artist in currentlyPlaying.Track.Artists)
+                                {
+                                    databaseService.AddArtistToTrack(artist.Id, currentlyPlaying.Track.Id).Wait();
+                                    databaseService.AddArtistToAlbum(artist.Id, currentlyPlaying.Track.Album.Id).Wait();
+                                }
+
+                                //add images and add images to album
+                                foreach (var image in currentlyPlaying.Track.Album.Images)
+                                {
+                                    var imageResult = databaseService.AddImage(image.Height, image.Width, image.Url).Result;
+                                    databaseService.AddImageToAlbum(imageResult.Id, currentlyPlaying.Track.Album.Id).Wait();
+                                }
+
                                 _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
                                 
-                                var skippedTrack = new DatabaseSkippedTrackModel
+                                var skippedTrack = new DatabaseSkippedTrackRequest
                                 {
                                     PlaylistId = currentlyPlaying.Track.PlaylistId,
                                     TrackId = currentlyPlaying.Track.Id,
-                                    SkippedDate = DateTime.UtcNow
+                                    SkippedDate = DateTime.Now
                                 };
                                 databaseService.AddSkippedTrack(skippedTrack).Wait();
                             }
@@ -127,8 +145,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 {
                     _logger.LogInformation("Not currently listening to a monitored playlist");
                 }
-
-                _playingStateService.PlayingState = currentlyPlaying;
             }
             else
             {

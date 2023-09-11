@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
+using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
@@ -150,23 +151,27 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 if (playingState.IsPlaying)
                 {
                     var item = (FullTrack)currently.Item;
+                    item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     playingState.Track = new SpotifyTrackModel
                     {
                         Id = item.Id,
                         PlaylistId = currently.Context.Uri.Split(":").Last(),
                         ListeningOn = currently.Device.Name,
                         Name = item.Name,
-                        Artists = item.Artists.Select(artist => new SpotifyArtistModel
-                        {
-                            Name = artist.Name,
-                            Id = artist.Id,
-                            Href = artist.Href,
+                        Artists = item.Artists.Select(artist => {
+                            artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
+                            return new SpotifyArtistModel
+                            {
+                                Name = artist.Name,
+                                Id = artist.Id,
+                                Href = artistHref,
+                            };
                         }),
                         Album = new SpotifyAlbumModel
                         {
                             Id = item.Album.Id,
                             Name = item.Album.Name,
-                            Href = item.Album.Href,
+                            Href = albumHref,
                             Images = item.Album.Images.Select(image => new SpotifyImageModel
                             {
                                 Height = image.Height,

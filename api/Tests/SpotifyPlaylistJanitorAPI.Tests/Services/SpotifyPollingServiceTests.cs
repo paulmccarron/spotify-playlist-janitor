@@ -24,6 +24,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         private Mock<SpotifyPlaylistJanitorDatabaseContext> _dbContextMock;
         private SpotifyTrackModel _playingStateTrack;
         private SpotifyPlayingState _playingState;
+        private const string TRACK_ID = "TRACK_ID";
+        private const string ARTIST_ID = "ARTIST_ID";
+        private const string ALBUM_ID = "ALBUM_ID";
+        private const int IMAGE_ID = 123;
 
         [SetUp]
         public void Setup()
@@ -37,10 +41,18 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.IsLoggedIn)
                 .Returns(true);
 
+            var mockArtists = Fixture.Build<SpotifyArtistModel>()
+                .With(x => x.Id, ARTIST_ID)
+                .CreateMany();
+            var mockAlbum = Fixture.Build<SpotifyAlbumModel>()
+                .With(x => x.Id, ALBUM_ID)
+                .Create();
             _playingStateTrack = Fixture.Build<SpotifyTrackModel>()
-                .With(x => x.Id, "Test_Id")
+                .With(x => x.Id, TRACK_ID)
                 .With(x => x.Name, "Test_Name")
                 .With(x => x.PlaylistId, "Test_PlaylistId")
+                .With(x => x.Artists, mockArtists)
+                .With(x => x.Album, mockAlbum)
                 .With(x => x.Progress, 20000)
                 .Create();
             _playingState = Fixture.Build<SpotifyPlayingState>()
@@ -149,22 +161,45 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Returns(dbSetPlaylistsMock.Object);
 
             Mock<DbSet<Artist>> dbSetArtistsMock = new Mock<DbSet<Artist>>();
-            dbSetArtistsMock.AddIQueryables(new List<Artist>().AsQueryable());
+            var dbArtists = Fixture.Build<Artist>()
+                .With(x => x.Id, ARTIST_ID)
+                .CreateMany()
+                .AsQueryable();
+            dbSetArtistsMock.AddIQueryables(dbArtists);
             _dbContextMock
                 .Setup(mock => mock.Artists)
                 .Returns(dbSetArtistsMock.Object);
 
             Mock<DbSet<Album>> dbSetAlbumsMock = new Mock<DbSet<Album>>();
-            dbSetAlbumsMock.AddIQueryables(new List<Album>().AsQueryable());
+            var dbAlbums = Fixture.Build<Album>()
+                .With(x => x.Id, ALBUM_ID)
+                .CreateMany()
+                .AsQueryable();
+            dbSetAlbumsMock.AddIQueryables(dbAlbums);
             _dbContextMock
                 .Setup(mock => mock.Albums)
                 .Returns(dbSetAlbumsMock.Object);
 
             Mock<DbSet<Track>> dbSetTracksMock = new Mock<DbSet<Track>>();
-            dbSetTracksMock.AddIQueryables(new List<Track>().AsQueryable());
+            var dbTracks = Fixture.Build<Track>()
+                .With(x => x.Id, TRACK_ID)
+                .With(x => x.Artists, new List<Artist>())
+                .CreateMany()
+                .AsQueryable();
+            dbSetTracksMock.AddIQueryables(dbTracks);
             _dbContextMock
                 .Setup(mock => mock.Tracks)
                 .Returns(dbSetTracksMock.Object);
+
+            Mock<DbSet<DataAccess.Image>> dbSetImagesMock = new Mock<DbSet<DataAccess.Image>>();
+            var dbImages = Fixture.Build<DataAccess.Image>()
+                .With(x => x.Id, 0)
+                .CreateMany()
+                .AsQueryable();
+            dbSetImagesMock.AddIQueryables(dbImages);
+            _dbContextMock
+                .Setup(mock => mock.Images)
+                .Returns(dbSetImagesMock.Object);
 
             Mock<DbSet<SkippedTrack>> dbSetSkippedTracksMock = new Mock<DbSet<SkippedTrack>>();
             dbSetSkippedTracksMock.AddIQueryables(new List<SkippedTrack>().AsQueryable());

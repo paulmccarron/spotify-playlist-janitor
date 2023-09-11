@@ -160,40 +160,41 @@ VALUES
 
 INSERT INTO images (id, height, width, url) 
 VALUES 
+    --using negative id values to prevent Entity Framework issues
     --Alive 2007
-    (1, 64, 64, 'https://i.scdn.co/image/ab67616d00004851176ca6e2a6efb0e3aaf4e37a'),
+    (-1, 64, 64, 'https://i.scdn.co/image/ab67616d00004851176ca6e2a6efb0e3aaf4e37a'),
     --Random Access Memories
-    (2, 64, 64, 'https://i.scdn.co/image/ab67616d000048519b9b36b0e22870b9f542d937'),
+    (-2, 64, 64, 'https://i.scdn.co/image/ab67616d000048519b9b36b0e22870b9f542d937'),
     --TRON: Legacy
-    (3, 64, 64, 'https://i.scdn.co/image/ab67616d000048518323143296ff7b2801e32789'),
+    (-3, 64, 64, 'https://i.scdn.co/image/ab67616d000048518323143296ff7b2801e32789'),
     --Human After All
-    (4, 64, 64, 'https://i.scdn.co/image/ab67616d000048512ed719bad67261c7bf090c70'),
+    (-4, 64, 64, 'https://i.scdn.co/image/ab67616d000048512ed719bad67261c7bf090c70'),
     --Discovery
-    (5, 64, 64, 'https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2'),
+    (-5, 64, 64, 'https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2'),
     --Homework
-    (6, 64, 64, 'https://i.scdn.co/image/ab67616d000048518ac778cc7d88779f74d33311'),
+    (-6, 64, 64, 'https://i.scdn.co/image/ab67616d000048518ac778cc7d88779f74d33311'),
     --The Getaway
-    (7, 64, 64, 'https://i.scdn.co/image/ab67616d0000485158406b3f1ac3ceaff7a64fef'),
+    (-7, 64, 64, 'https://i.scdn.co/image/ab67616d0000485158406b3f1ac3ceaff7a64fef'),
     --Stadium Arcadium
-    (8, 64, 64, 'https://i.scdn.co/image/ab67616d0000485109fd83d32aee93dceba78517'),
+    (-8, 64, 64, 'https://i.scdn.co/image/ab67616d0000485109fd83d32aee93dceba78517'),
     --By the Way
-    (9, 64, 64, 'https://i.scdn.co/image/ab67616d00004851de1af2785a83cc660155a0c4'),
+    (-9, 64, 64, 'https://i.scdn.co/image/ab67616d00004851de1af2785a83cc660155a0c4'),
     --Californication
-    (10, 64, 64, 'https://i.scdn.co/image/ab67616d00004851a9249ebb15ca7a5b75f16a90'),
+    (-10, 64, 64, 'https://i.scdn.co/image/ab67616d00004851a9249ebb15ca7a5b75f16a90'),
     --The Balance
-    (11, 64, 64, 'https://i.scdn.co/image/ab67616d00004851835a9e77dae1c928f871ac73'),
+    (-11, 64, 64, 'https://i.scdn.co/image/ab67616d00004851835a9e77dae1c928f871ac73'),
     --The Ride
-    (12, 64, 64, 'https://i.scdn.co/image/ab67616d0000485174558885d860bb58d78d1de8'),
+    (-12, 64, 64, 'https://i.scdn.co/image/ab67616d0000485174558885d860bb58d78d1de8'),
     --The Balcony
-    (13, 64, 64, 'https://i.scdn.co/image/ab67616d00004851b87da477ad10e87b09b88d1e'),
+    (-13, 64, 64, 'https://i.scdn.co/image/ab67616d00004851b87da477ad10e87b09b88d1e'),
     --Definitely Maybe
-    (14, 64, 64, 'https://i.scdn.co/image/ab67616d00004851d86a1e021e7acc7c07c7d668'),
+    (-14, 64, 64, 'https://i.scdn.co/image/ab67616d00004851d86a1e021e7acc7c07c7d668'),
     --(What''s The Story) Morning Glory? 
-    (15, 64, 64, 'https://i.scdn.co/image/ab67616d000048517a4c8c59851c88f6794c3cbf'),
+    (-15, 64, 64, 'https://i.scdn.co/image/ab67616d000048517a4c8c59851c88f6794c3cbf'),
     --Be Here Now
-    (16, 64, 64, 'https://i.scdn.co/image/ab67616d00004851aeda362a434f01d0eff70b4e'),
+    (-16, 64, 64, 'https://i.scdn.co/image/ab67616d00004851aeda362a434f01d0eff70b4e'),
     --Heathen Chemistry
-    (17, 64, 64, 'https://i.scdn.co/image/ab67616d00004851bd14866d69108524bc32fb37');
+    (-17, 64, 64, 'https://i.scdn.co/image/ab67616d00004851bd14866d69108524bc32fb37');
 
 INSERT INTO artists_tracks (artist_id, track_id) 
 VALUES 
@@ -366,149 +367,151 @@ VALUES
 
 INSERT INTO albums_images (album_id, image_id) 
 VALUES 
-    ('3Bz2QPL8NLBn1d03jXtNkT', 1),
-    ('4m2880jivSbbyEGAKfITCa', 2),
-    ('3AMXFnwHWXCvNr5NCCpLZI', 3),
-    ('2T7DdrOvsqOqU9bGTkjBYu', 4),
-    ('2noRn2Aes5aoNVsU6iWThc', 5),
-    ('5uRdvUR7xCnHmUW8n64n9y', 6),
-    ('43otFXrY0bgaq5fB3GrZj6', 7),
-    ('7xl50xr9NDkd3i2kBbzsNZ', 8),
-    ('6deiaArbeoqp1xPEGdEKp1', 9),
-    ('0fLhefnjlIV3pGNF9Wo8CD', 10),
-    ('0eELSmJrZpzOKfdO80nJ9r', 11),
-    ('07IHAhsG4FnnfHQSb3bbAZ', 12),
-    ('0C0OFASoQC57yC12vQhCwN', 13),
-    ('3AMHMM2aNG6k3d7ybcQ5bY', 14),
-    ('6tOe4eAF8xNhEkl9WyvsE4', 15),
-    ('4XBCWqCXqCdN72K9SklIjy', 16),
-    ('2EVWJRhbXWsSm7a6jdKv8O', 17);
+    --using negative id values to prevent Entity Framework issues
+    ('3Bz2QPL8NLBn1d03jXtNkT', -1),
+    ('4m2880jivSbbyEGAKfITCa', -2),
+    ('3AMXFnwHWXCvNr5NCCpLZI', -3),
+    ('2T7DdrOvsqOqU9bGTkjBYu', -4),
+    ('2noRn2Aes5aoNVsU6iWThc', -5),
+    ('5uRdvUR7xCnHmUW8n64n9y', -6),
+    ('43otFXrY0bgaq5fB3GrZj6', -7),
+    ('7xl50xr9NDkd3i2kBbzsNZ', -8),
+    ('6deiaArbeoqp1xPEGdEKp1', -9),
+    ('0fLhefnjlIV3pGNF9Wo8CD', -10),
+    ('0eELSmJrZpzOKfdO80nJ9r', -11),
+    ('07IHAhsG4FnnfHQSb3bbAZ', -12),
+    ('0C0OFASoQC57yC12vQhCwN', -13),
+    ('3AMHMM2aNG6k3d7ybcQ5bY', -14),
+    ('6tOe4eAF8xNhEkl9WyvsE4', -15),
+    ('4XBCWqCXqCdN72K9SklIjy', -16),
+    ('2EVWJRhbXWsSm7a6jdKv8O', -17);
 
-INSERT INTO skipped_tracks (skipped_date, playlist_id, track_id) 
+INSERT INTO skipped_tracks (id, skipped_date, playlist_id, track_id) 
 VALUES 
+    --using negative id values to prevent Entity Framework issues
     -- Test Playlist skips
-    ('2023-09-10 11:30:30', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
-    ('2023-09-10 11:30:31', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
-    ('2023-09-10 11:30:32', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
-    ('2023-09-10 11:30:33', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
-    ('2023-09-10 11:30:34', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
-    ('2023-09-10 11:30:35', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-1, '2023-09-10 11:30:30', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-2, '2023-09-10 11:30:31', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-3, '2023-09-10 11:30:32', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-4, '2023-09-10 11:30:33', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-5, '2023-09-10 11:30:34', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
+    (-6, '2023-09-10 11:30:35', '3RWXoorVz13dot7I11eiu6', '0oks4FnzhNp5QPTZtoet7c'),
 
-    ('2023-09-10 11:31:30', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
-    ('2023-09-10 11:31:31', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
-    ('2023-09-10 11:31:32', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
-    ('2023-09-10 11:31:33', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
-    ('2023-09-10 11:31:34', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
+    (-7, '2023-09-10 11:31:30', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
+    (-8, '2023-09-10 11:31:31', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
+    (-9, '2023-09-10 11:31:32', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
+    (-10, '2023-09-10 11:31:33', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
+    (-11, '2023-09-10 11:31:34', '3RWXoorVz13dot7I11eiu6', '0yf4PlZ8rG3MrnqsmTzvMp'),
 
-    ('2023-09-10 11:32:30', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
-    ('2023-09-10 11:32:31', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
-    ('2023-09-10 11:32:32', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
-    ('2023-09-10 11:32:33', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
+    (-12, '2023-09-10 11:32:30', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
+    (-13, '2023-09-10 11:32:31', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
+    (-14, '2023-09-10 11:32:32', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
+    (-15, '2023-09-10 11:32:33', '3RWXoorVz13dot7I11eiu6', '4csD9dmdLHnarNyu1wG8Iv'),
 
-    ('2023-09-10 11:33:30', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
-    ('2023-09-10 11:33:31', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
-    ('2023-09-10 11:33:32', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
+    (-16, '2023-09-10 11:33:30', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
+    (-17, '2023-09-10 11:33:31', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
+    (-18, '2023-09-10 11:33:32', '3RWXoorVz13dot7I11eiu6', '73MAeHX5sqLYfuYclsrvHc'),
 
-    ('2023-09-10 11:34:31', '3RWXoorVz13dot7I11eiu6', '63JXZZRbmzooashakb0zbu'),
-    ('2023-09-10 11:34:32', '3RWXoorVz13dot7I11eiu6', '63JXZZRbmzooashakb0zbu'),
+    (-19, '2023-09-10 11:34:31', '3RWXoorVz13dot7I11eiu6', '63JXZZRbmzooashakb0zbu'),
+    (-20, '2023-09-10 11:34:32', '3RWXoorVz13dot7I11eiu6', '63JXZZRbmzooashakb0zbu'),
 
-    ('2023-09-10 11:35:30', '3RWXoorVz13dot7I11eiu6', '78H72MElkOY9cRnaudxZFY'),
+    (-21, '2023-09-10 11:35:30', '3RWXoorVz13dot7I11eiu6', '78H72MElkOY9cRnaudxZFY'),
 
     -- Test Playlist 2 skips
-    ('2023-09-10 11:36:30', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:31', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:32', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:33', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:34', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:35', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
-    ('2023-09-10 11:36:36', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-22, '2023-09-10 11:36:30', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-23, '2023-09-10 11:36:31', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-24, '2023-09-10 11:36:32', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-25, '2023-09-10 11:36:33', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-26, '2023-09-10 11:36:34', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-27, '2023-09-10 11:36:35', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
+    (-28, '2023-09-10 11:36:36', '4jkoiv8phuKuhXboalicqu', '0cv2LgkvEoQiGgFWcZaAMA'),
 
-    ('2023-09-10 11:37:30', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
-    ('2023-09-10 11:37:31', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
-    ('2023-09-10 11:37:32', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
+    (-29, '2023-09-10 11:37:30', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
+    (-30, '2023-09-10 11:37:31', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
+    (-31, '2023-09-10 11:37:32', '4jkoiv8phuKuhXboalicqu', '5f2ZVFERwwh3asebmurZEf'),
 
-    ('2023-09-10 11:38:30', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
-    ('2023-09-10 11:38:31', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
-    ('2023-09-10 11:38:32', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
-    ('2023-09-10 11:38:33', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
-    ('2023-09-10 11:38:34', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
+    (-32, '2023-09-10 11:38:30', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
+    (-33, '2023-09-10 11:38:31', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
+    (-34, '2023-09-10 11:38:32', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
+    (-35, '2023-09-10 11:38:33', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
+    (-36, '2023-09-10 11:38:34', '4jkoiv8phuKuhXboalicqu', '42z5BOO8cJda4qWBnHFLQV'),
 
-    ('2023-09-10 11:39:30', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-    ('2023-09-10 11:39:31', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-    ('2023-09-10 11:39:32', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-    ('2023-09-10 11:39:33', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-    ('2023-09-10 11:39:34', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-    ('2023-09-10 11:39:35', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
-
-    -- Test Playlist 3 skips
-    ('2023-09-10 11:40:30', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:31', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:32', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:33', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:34', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:35', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:36', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-    ('2023-09-10 11:40:37', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
-
-    ('2023-09-10 11:41:30', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
-    ('2023-09-10 11:41:31', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
-    ('2023-09-10 11:41:32', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
-    ('2023-09-10 11:41:33', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
-    ('2023-09-10 11:41:34', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
-
-    ('2023-09-10 11:42:30', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
-    ('2023-09-10 11:42:31', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
-    ('2023-09-10 11:42:32', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
-
-    ('2023-09-10 11:43:30', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:31', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:32', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:33', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:34', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:35', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:36', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:37', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-    ('2023-09-10 11:43:38', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
-
-    ('2023-09-10 11:44:30', '1aQvavrk6m4hhEj1NJ0rQB', '2PAeLLcnw42x5ZszOfFz50'),
-    ('2023-09-10 11:44:31', '1aQvavrk6m4hhEj1NJ0rQB', '2PAeLLcnw42x5ZszOfFz50'),
-
-    ('2023-09-10 11:45:30', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
-    ('2023-09-10 11:45:31', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
-    ('2023-09-10 11:45:32', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
-    ('2023-09-10 11:45:33', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
+    (-37, '2023-09-10 11:39:30', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
+    (-38, '2023-09-10 11:39:31', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
+    (-39, '2023-09-10 11:39:32', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
+    (-40, '2023-09-10 11:39:33', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
+    (-41, '2023-09-10 11:39:34', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
+    (-42, '2023-09-10 11:39:35', '4jkoiv8phuKuhXboalicqu', '3s3oiCHAHLWmKZUYk1ozJG'),
 
     -- Test Playlist 3 skips
-    ('2023-09-10 11:46:30', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
-    ('2023-09-10 11:46:31', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
-    ('2023-09-10 11:46:32', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
+    (-43, '2023-09-10 11:40:30', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-44, '2023-09-10 11:40:31', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-45, '2023-09-10 11:40:32', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-46, '2023-09-10 11:40:33', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-47, '2023-09-10 11:40:34', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-48, '2023-09-10 11:40:35', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-49, '2023-09-10 11:40:36', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
+    (-50, '2023-09-10 11:40:37', '1aQvavrk6m4hhEj1NJ0rQB', '21slhimb1blAmvpjq0l8rh'),
 
-    ('2023-09-10 11:47:30', '4btLcc6A1UmNR7sa2dqlLJ', '20EkniSUbhZ86v1Oc0hhUI'),
-    ('2023-09-10 11:47:31', '4btLcc6A1UmNR7sa2dqlLJ', '20EkniSUbhZ86v1Oc0hhUI'),
+    (-51, '2023-09-10 11:41:30', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
+    (-52, '2023-09-10 11:41:31', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
+    (-53, '2023-09-10 11:41:32', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
+    (-54, '2023-09-10 11:41:33', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
+    (-55, '2023-09-10 11:41:34', '1aQvavrk6m4hhEj1NJ0rQB', '28VT0090inPlN6bfxoVdmB'),
 
-    ('2023-09-10 11:48:30', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
-    ('2023-09-10 11:48:31', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
-    ('2023-09-10 11:48:32', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
-    ('2023-09-10 11:48:33', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
-    ('2023-09-10 11:48:34', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
-    ('2023-09-10 11:48:35', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-56, '2023-09-10 11:42:30', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
+    (-57, '2023-09-10 11:42:31', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
+    (-58, '2023-09-10 11:42:32', '1aQvavrk6m4hhEj1NJ0rQB', '4hEhOvEz9tulJQXZ7hiqkz'),
 
-    ('2023-09-10 11:49:30', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
-    ('2023-09-10 11:49:31', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
-    ('2023-09-10 11:49:32', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
-    ('2023-09-10 11:49:33', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
+    (-59, '2023-09-10 11:43:30', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-60, '2023-09-10 11:43:31', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-61, '2023-09-10 11:43:32', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-62, '2023-09-10 11:43:33', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-63, '2023-09-10 11:43:34', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-64, '2023-09-10 11:43:35', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-65, '2023-09-10 11:43:36', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-66, '2023-09-10 11:43:37', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
+    (-67, '2023-09-10 11:43:38', '1aQvavrk6m4hhEj1NJ0rQB', '0ZfEeIu7CNHQhbCTiVv3cx'),
 
-    ('2023-09-10 11:50:30', '4btLcc6A1UmNR7sa2dqlLJ', '5g4IouEbo38FZi8M1Ga4ey'),
+    (-68, '2023-09-10 11:44:30', '1aQvavrk6m4hhEj1NJ0rQB', '2PAeLLcnw42x5ZszOfFz50'),
+    (-69, '2023-09-10 11:44:31', '1aQvavrk6m4hhEj1NJ0rQB', '2PAeLLcnw42x5ZszOfFz50'),
 
-    ('2023-09-10 11:51:30', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:31', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:32', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:33', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:34', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:35', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
-    ('2023-09-10 11:51:36', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-70, '2023-09-10 11:45:30', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
+    (-71, '2023-09-10 11:45:31', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
+    (-72, '2023-09-10 11:45:32', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
+    (-73, '2023-09-10 11:45:33', '1aQvavrk6m4hhEj1NJ0rQB', '1JblvWxcwHXMLth0c6ssFy'),
 
-    ('2023-09-10 11:52:30', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
-    ('2023-09-10 11:52:31', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
-    ('2023-09-10 11:52:32', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
-    ('2023-09-10 11:52:33', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG');
+    -- Test Playlist 3 skips
+    (-74, '2023-09-10 11:46:30', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
+    (-75, '2023-09-10 11:46:31', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
+    (-76, '2023-09-10 11:46:32', '4btLcc6A1UmNR7sa2dqlLJ', '7HHNKKfD9oNshMTyklBeWu'),
+
+    (-77, '2023-09-10 11:47:30', '4btLcc6A1UmNR7sa2dqlLJ', '20EkniSUbhZ86v1Oc0hhUI'),
+    (-78, '2023-09-10 11:47:31', '4btLcc6A1UmNR7sa2dqlLJ', '20EkniSUbhZ86v1Oc0hhUI'),
+
+    (-79, '2023-09-10 11:48:30', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-80, '2023-09-10 11:48:31', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-81, '2023-09-10 11:48:32', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-82, '2023-09-10 11:48:33', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-83, '2023-09-10 11:48:34', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+    (-84, '2023-09-10 11:48:35', '4btLcc6A1UmNR7sa2dqlLJ', '4FDEDR99kqoGZOV88Wpnpg'),
+
+    (-85, '2023-09-10 11:49:30', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
+    (-86, '2023-09-10 11:49:31', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
+    (-87, '2023-09-10 11:49:32', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
+    (-88, '2023-09-10 11:49:33', '4btLcc6A1UmNR7sa2dqlLJ', '4yWTh6qETpN1Vlfg5LBHEV'),
+
+    (-89, '2023-09-10 11:50:30', '4btLcc6A1UmNR7sa2dqlLJ', '5g4IouEbo38FZi8M1Ga4ey'),
+
+    (-90, '2023-09-10 11:51:30', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-91, '2023-09-10 11:51:31', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-92, '2023-09-10 11:51:32', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-93, '2023-09-10 11:51:33', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-94, '2023-09-10 11:51:34', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-95, '2023-09-10 11:51:35', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+    (-96, '2023-09-10 11:51:36', '4btLcc6A1UmNR7sa2dqlLJ', '3ujwIruj897uySuJuwoPQN'),
+
+    (-97, '2023-09-10 11:52:30', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
+    (-98, '2023-09-10 11:52:31', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
+    (-99, '2023-09-10 11:52:32', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
+    (-100, '2023-09-10 11:52:33', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG');

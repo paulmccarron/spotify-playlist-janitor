@@ -185,7 +185,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
-            var databaseSkippedTracks = Fixture.Build<DatabaseSkippedTrackModel>().CreateMany();
+            var databaseSkippedTracks = Fixture.Build<DatabaseSkippedTrackResponse>().CreateMany();
 
             _databaseServiceMock
                 .Setup(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()))
@@ -196,7 +196,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             // Assert
             _databaseServiceMock.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Once);
-            result.Should().BeOfType<ActionResult<IEnumerable<DatabaseSkippedTrackModel>>>();
+            result.Should().BeOfType<ActionResult<IEnumerable<DatabaseSkippedTrackResponse>>>();
             result?.Value?.Should().BeEquivalentTo(databaseSkippedTracks);
         }
 
