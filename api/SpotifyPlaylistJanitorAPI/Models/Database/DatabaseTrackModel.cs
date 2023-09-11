@@ -23,11 +23,6 @@
         /// <summary>
         /// Spotify album id.
         /// </summary>
-        public required string ArtistId { get; set; }
-
-        /// <summary>
-        /// Spotify artist id.
-        /// </summary>
         public required string AlbumId { get; set; }
     }
 }

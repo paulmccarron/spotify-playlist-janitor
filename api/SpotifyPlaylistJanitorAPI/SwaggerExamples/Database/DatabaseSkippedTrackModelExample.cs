@@ -22,25 +22,25 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
                 {
                     TrackId = "track_id_1",
                     PlaylistId = "playlist_id",
-                    SkippedDate = new DateTimeOffset(),   
+                    SkippedDate = new DateTime(),   
                 },
                 new DatabaseSkippedTrackModel
                 {
                     TrackId = "track_id_2",
                     PlaylistId = "playlist_id",
-                    SkippedDate = new DateTimeOffset(),   
+                    SkippedDate = new DateTime(),   
                 },
                 new DatabaseSkippedTrackModel
                 {
                     TrackId = "track_id_3",
                     PlaylistId = "playlist_id",
-                    SkippedDate = new DateTimeOffset(),   
+                    SkippedDate = new DateTime(),   
                 },
                 new DatabaseSkippedTrackModel
                 {
                     TrackId = "track_id_4",
                     PlaylistId = "playlist_id",
-                    SkippedDate = new DateTimeOffset(),   
+                    SkippedDate = new DateTime(),   
                 },
             };
         }

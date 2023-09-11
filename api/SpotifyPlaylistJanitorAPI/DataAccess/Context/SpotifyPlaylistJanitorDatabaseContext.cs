@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SpotifyPlaylistJanitorAPI.DataAccess.Models;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace SpotifyPlaylistJanitorAPI.DataAccess.Context;
 
 #pragma warning disable 1591
 [ExcludeFromCodeCoverage]
+
 public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 {
     public SpotifyPlaylistJanitorDatabaseContext()
@@ -17,97 +19,163 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
     {
     }
 
+    public virtual DbSet<Album> Albums { get; set; }
+
+    public virtual DbSet<Artist> Artists { get; set; }
+
+    public virtual DbSet<Image> Images { get; set; }
+
+    public virtual DbSet<Playlist> Playlists { get; set; }
+
     public virtual DbSet<SkippedTrack> SkippedTracks { get; set; }
 
-    public virtual DbSet<SpotifyAlbum> SpotifyAlbums { get; set; }
-
-    public virtual DbSet<SpotifyArtist> SpotifyArtists { get; set; }
-
-    public virtual DbSet<SpotifyPlaylist> SpotifyPlaylists { get; set; }
-
-    public virtual DbSet<SpotifyTrack> SpotifyTracks { get; set; }
+    public virtual DbSet<Track> Tracks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql("name=DefaultConnection");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Album>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("albums_pkey");
+
+            entity.ToTable("albums");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Href).HasColumnName("href");
+            entity.Property(e => e.Name).HasColumnName("name");
+
+            entity.HasMany(d => d.Images).WithMany(p => p.Albums)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AlbumsImage",
+                    r => r.HasOne<Image>().WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("albums_images_image_id_fkey"),
+                    l => l.HasOne<Album>().WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("albums_images_album_id_fkey"),
+                    j =>
+                    {
+                        j.HasKey("AlbumId", "ImageId").HasName("albums_images_pkey");
+                        j.ToTable("albums_images");
+                        j.IndexerProperty<string>("AlbumId").HasColumnName("album_id");
+                        j.IndexerProperty<int>("ImageId").HasColumnName("image_id");
+                    });
+        });
+
+        modelBuilder.Entity<Artist>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("artists_pkey");
+
+            entity.ToTable("artists");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Href).HasColumnName("href");
+            entity.Property(e => e.Name).HasColumnName("name");
+
+            entity.HasMany(d => d.Albums).WithMany(p => p.Artists)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ArtistsAlbum",
+                    r => r.HasOne<Album>().WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("artists_albums_album_id_fkey"),
+                    l => l.HasOne<Artist>().WithMany()
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("artists_albums_artist_id_fkey"),
+                    j =>
+                    {
+                        j.HasKey("ArtistId", "AlbumId").HasName("artists_albums_pkey");
+                        j.ToTable("artists_albums");
+                        j.IndexerProperty<string>("ArtistId").HasColumnName("artist_id");
+                        j.IndexerProperty<string>("AlbumId").HasColumnName("album_id");
+                    });
+
+            entity.HasMany(d => d.Tracks).WithMany(p => p.Artists)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ArtistsTrack",
+                    r => r.HasOne<Track>().WithMany()
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("artists_tracks_track_id_fkey"),
+                    l => l.HasOne<Artist>().WithMany()
+                        .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("artists_tracks_artist_id_fkey"),
+                    j =>
+                    {
+                        j.HasKey("ArtistId", "TrackId").HasName("artists_tracks_pkey");
+                        j.ToTable("artists_tracks");
+                        j.IndexerProperty<string>("ArtistId").HasColumnName("artist_id");
+                        j.IndexerProperty<string>("TrackId").HasColumnName("track_id");
+                    });
+        });
+
+        modelBuilder.Entity<Image>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("images_pkey");
+
+            entity.ToTable("images");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Height).HasColumnName("height");
+            entity.Property(e => e.Url).HasColumnName("url");
+            entity.Property(e => e.Width).HasColumnName("width");
+        });
+
+        modelBuilder.Entity<Playlist>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("playlists_pkey");
+
+            entity.ToTable("playlists");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+        });
+
         modelBuilder.Entity<SkippedTrack>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("skipped_track_pkey");
+            entity.HasKey(e => e.Id).HasName("skipped_tracks_pkey");
 
-            entity.ToTable("skipped_track");
+            entity.ToTable("skipped_tracks");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.SkippedDate).HasColumnName("skipped_date");
-            entity.Property(e => e.SpotifyPlaylistId).HasColumnName("spotify_playlist_id");
-            entity.Property(e => e.SpotifyTrackId).HasColumnName("spotify_track_id");
+            entity.Property(e => e.PlaylistId).HasColumnName("playlist_id");
+            entity.Property(e => e.SkippedDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("skipped_date");
+            entity.Property(e => e.TrackId).HasColumnName("track_id");
 
-            entity.HasOne(d => d.SpotifyPlaylist).WithMany(p => p.SkippedTracks)
-                .HasForeignKey(d => d.SpotifyPlaylistId)
+            entity.HasOne(d => d.Playlist).WithMany(p => p.SkippedTracks)
+                .HasForeignKey(d => d.PlaylistId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk__spotify_playlist_id");
+                .HasConstraintName("skipped_tracks_playlist_id_fkey");
 
-            entity.HasOne(d => d.SpotifyTrack).WithMany(p => p.SkippedTracks)
-                .HasForeignKey(d => d.SpotifyTrackId)
+            entity.HasOne(d => d.Track).WithMany(p => p.SkippedTracks)
+                .HasForeignKey(d => d.TrackId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk__track_id");
+                .HasConstraintName("skipped_tracks_track_id_fkey");
         });
 
-        modelBuilder.Entity<SpotifyAlbum>(entity =>
+        modelBuilder.Entity<Track>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("spotify_album_pkey");
+            entity.HasKey(e => e.Id).HasName("tracks_pkey");
 
-            entity.ToTable("spotify_album");
+            entity.ToTable("tracks");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Href).HasColumnName("href");
-            entity.Property(e => e.Name).HasColumnName("name");
-        });
-
-        modelBuilder.Entity<SpotifyArtist>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("spotify_artist_pkey");
-
-            entity.ToTable("spotify_artist");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Href).HasColumnName("href");
-            entity.Property(e => e.Name).HasColumnName("name");
-        });
-
-        modelBuilder.Entity<SpotifyPlaylist>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("spotify_playlist_pkey");
-
-            entity.ToTable("spotify_playlist");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Href).HasColumnName("href");
-            entity.Property(e => e.Name).HasColumnName("name");
-        });
-
-        modelBuilder.Entity<SpotifyTrack>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("spotify_track_pkey");
-
-            entity.ToTable("spotify_track");
-
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AlbumId).HasColumnName("album_id");
             entity.Property(e => e.Length).HasColumnName("length");
             entity.Property(e => e.Name).HasColumnName("name");
-            entity.Property(e => e.SpotifyAlbumId).HasColumnName("spotify_album_id");
-            entity.Property(e => e.SpotifyArtistId).HasColumnName("spotify_artist_id");
 
-            entity.HasOne(d => d.SpotifyAlbum).WithMany(p => p.SpotifyTracks)
-                .HasForeignKey(d => d.SpotifyAlbumId)
+            entity.HasOne(d => d.Album).WithMany(p => p.Tracks)
+                .HasForeignKey(d => d.AlbumId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk__spotify_album_id");
-
-            entity.HasOne(d => d.SpotifyArtist).WithMany(p => p.SpotifyTracks)
-                .HasForeignKey(d => d.SpotifyArtistId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk__spotify_artist_id");
+                .HasConstraintName("tracks_album_id_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

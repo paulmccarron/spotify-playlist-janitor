@@ -18,6 +18,6 @@
         /// <summary>
         /// DateTime if when skip occurred.
         /// </summary>
-        public required DateTimeOffset SkippedDate { get; set; }
+        public required DateTime? SkippedDate { get; set; }
     }
 }

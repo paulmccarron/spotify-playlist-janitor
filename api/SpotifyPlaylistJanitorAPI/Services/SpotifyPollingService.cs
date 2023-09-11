@@ -101,7 +101,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                 {
                                     Id = currentlyPlaying.Track.Id,
                                     Name = currentlyPlaying.Track.Name,
-                                    ArtistId = artistRequest.Id,
                                     AlbumId = currentlyPlaying.Track.Album.Id,
                                     Length = currentlyPlaying.Track.Duration,
                                 };
@@ -113,7 +112,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                 {
                                     PlaylistId = currentlyPlaying.Track.PlaylistId,
                                     TrackId = currentlyPlaying.Track.Id,
-                                    SkippedDate = DateTimeOffset.UtcNow
+                                    SkippedDate = DateTime.UtcNow
                                 };
                                 databaseService.AddSkippedTrack(skippedTrack).Wait();
                             }

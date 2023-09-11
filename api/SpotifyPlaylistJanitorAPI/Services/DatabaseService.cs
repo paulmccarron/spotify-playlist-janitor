@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
-using SpotifyPlaylistJanitorAPI.DataAccess.Models;
+//using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+//using SpotifyPlaylistJanitorAPI.DataAccess.Models;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
@@ -28,14 +30,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists()
         {
-            var playlists = await _context.SpotifyPlaylists
+            var playlists = await _context.Playlists
                 .Select(x => new DatabasePlaylistModel
                 {
                     Id = x.Id,
-                    Name = x.Name,
-                    Href = x.Href,
                 })
-                .OrderBy(playlist => playlist.Name)
                 .ToAsyncEnumerable()
                 .ToListAsync();
 
@@ -48,15 +47,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
         {
-            var playlistDto = await _context.SpotifyPlaylists
+            var playlistDto = await _context.Playlists
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Id == id);
 
             var playlistModel = playlistDto is null ? null : new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
-                Name = playlistDto.Name,
-                Href = playlistDto.Href,
             };
 
             return playlistModel;
@@ -68,16 +65,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest)
         {
-            var playlistDto = new SpotifyPlaylist
+            var playlistDto = new Playlist
             {
                 Id = playlistRequest.Id,
-                Name = playlistRequest.Name,
-                Href = playlistRequest.Href,
             };
 
-            var alreadyExists = await _context.SpotifyPlaylists
+            var alreadyExists = await _context.Playlists
                 .ToAsyncEnumerable()
-                .AnyAsync(track => track.Id.Equals(playlistRequest.Id));
+                .AnyAsync(playlist => playlist.Id.Equals(playlistRequest.Id));
 
             if(!alreadyExists)
             {
@@ -88,8 +83,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistModel = new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
-                Name = playlistDto.Name,
-                Href = playlistDto.Href,
             };
 
             return playlistModel;
@@ -100,8 +93,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task DeletePlaylist(string id)
         {
-            _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.SpotifyPlaylistId == id));
-            _context.SpotifyPlaylists.RemoveRange(_context.SpotifyPlaylists.Where(playlist => playlist.Id == id));
+            _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.PlaylistId == id));
+            _context.Playlists.RemoveRange(_context.Playlists.Where(playlist => playlist.Id == id));
             await _context.SaveChangesAsync();
         }
 
@@ -111,14 +104,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns a <see cref = "DatabaseArtistModel" />.</returns>
         public async Task<DatabaseArtistModel> AddArtist(DatabaseArtistModel artistRequest)
         {
-            var artistDto = new SpotifyArtist
+            var artistDto = new Artist
             {
                 Id = artistRequest.Id,
                 Name = artistRequest.Name,
                 Href = artistRequest.Href,
             };
 
-            var alreadyExists = await _context.SpotifyArtists
+            var alreadyExists = await _context.Artists
                 .ToAsyncEnumerable()
                 .AnyAsync(artist => artist.Id.Equals(artistRequest.Id));
 
@@ -144,14 +137,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns a <see cref = "DatabaseAlbumModel" />.</returns>
         public async Task<DatabaseAlbumModel> AddAlbum(DatabaseAlbumModel albumRequest)
         {
-            var albumDto = new SpotifyAlbum
+            var albumDto = new Album
             {
                 Id = albumRequest.Id,
                 Name = albumRequest.Name,
                 Href = albumRequest.Href,
             };
 
-            var alreadyExists = await _context.SpotifyAlbums
+            var alreadyExists = await _context.Albums
                 .ToAsyncEnumerable()
                 .AnyAsync(album => album.Id.Equals(albumDto.Id));
 
@@ -172,21 +165,20 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Add track to database.
+        /// Add playlist to database.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabaseTrackModel" />.</returns>
         public async Task<DatabaseTrackModel> AddTrack(DatabaseTrackModel trackRequest)
         {
-            var trackDto = new SpotifyTrack
+            var trackDto = new Track
             {
                 Id = trackRequest.Id,
                 Name = trackRequest.Name,
                 Length = trackRequest.Length,
-                SpotifyAlbumId = trackRequest.AlbumId,
-                SpotifyArtistId = trackRequest.ArtistId,
+                AlbumId = trackRequest.AlbumId,
             };
 
-            var alreadyExists = await _context.SpotifyTracks
+            var alreadyExists = await _context.Tracks
                 .ToAsyncEnumerable()
                 .AnyAsync(track => track.Id.Equals(trackRequest.Id));
 
@@ -201,24 +193,23 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Id = trackDto.Id,
                 Name = trackDto.Name,
                 Length = trackDto.Length,
-                AlbumId = trackDto.SpotifyAlbumId,
-                ArtistId = trackDto.SpotifyArtistId,
+                AlbumId = trackDto.AlbumId,
             };
 
             return trackModel;
         }
 
         /// <summary>
-        /// Add skipped track to database.
+        /// Add skipped playlist to database.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabaseSkippedTrackModel" />.</returns>
         public async Task<DatabaseSkippedTrackModel> AddSkippedTrack(DatabaseSkippedTrackModel skippedTrackRequest)
         {
             var skippedTrackDto = new SkippedTrack
             {
-                SpotifyPlaylistId = skippedTrackRequest.PlaylistId,
-                SpotifyTrackId = skippedTrackRequest.TrackId,
-                SkippedDate = skippedTrackRequest.SkippedDate.ToUnixTimeSeconds(),
+                PlaylistId = skippedTrackRequest.PlaylistId,
+                TrackId = skippedTrackRequest.TrackId,
+                SkippedDate = skippedTrackRequest.SkippedDate,
             };
 
             await _context.AddAsync(skippedTrackDto);
@@ -226,9 +217,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var skippedTrackModel = new DatabaseSkippedTrackModel
             {
-                PlaylistId = skippedTrackDto.SpotifyPlaylistId,
-                TrackId = skippedTrackDto.SpotifyTrackId,
-                SkippedDate = DateTimeOffset.FromUnixTimeSeconds(skippedTrackDto.SkippedDate),
+                PlaylistId = skippedTrackDto.PlaylistId,
+                TrackId = skippedTrackDto.TrackId,
+                SkippedDate = skippedTrackRequest.SkippedDate,
             };
 
             return skippedTrackModel;
@@ -240,12 +231,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackModel" />.</returns>
         public async Task<IEnumerable<DatabaseSkippedTrackModel>> GetPlaylistSkippedTracks(string playlistId){
             var skippedTracks = await _context.SkippedTracks
-                .Where(track => track.SpotifyPlaylistId == playlistId)
+                .Where(track => track.PlaylistId == playlistId)
                 .Select(track => new DatabaseSkippedTrackModel
                 {
                     PlaylistId = playlistId,
-                    TrackId = track.SpotifyTrackId,
-                    SkippedDate = DateTimeOffset.FromUnixTimeSeconds(track.SkippedDate),
+                    TrackId = track.TrackId,
+                    SkippedDate = track.SkippedDate,
                 })
                 .ToAsyncEnumerable()
                 .ToListAsync();
