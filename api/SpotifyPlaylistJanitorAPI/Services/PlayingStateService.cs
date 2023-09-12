@@ -47,9 +47,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
             else if (PlayingState.IsPlaying && newPlayingState.IsPlaying)
             {
-                if ((PlayingState.Track?.PlaylistId ?? "").Equals(newPlayingState.Track?.PlaylistId)
-                && !(PlayingState.Track?.Id + PlayingState.Track?.Name ?? "")
-                    .Equals(newPlayingState.Track?.Id + PlayingState.Track?.Name))
+                if (PlayingState.Track?.PlaylistId == newPlayingState.Track?.PlaylistId
+                    && PlayingState.Track?.Id != newPlayingState.Track?.Id)
                 {
                     _logger.LogDebug($"Song has changed from {PlayingState?.Track?.Name} to {newPlayingState?.Track?.Name}");
                     var previousProgress = PlayingState?.Track?.Progress;

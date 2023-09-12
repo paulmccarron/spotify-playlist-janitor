@@ -44,5 +44,10 @@
         /// Device track is being played on.
         /// </summary>
         public string? ListeningOn { get; set; }
+
+        /// <summary>
+        /// Track is local file.
+        /// </summary>
+        public bool IsLocal { get; set; }
     }
 }

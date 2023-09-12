@@ -79,7 +79,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                         if (databasePlaylist is not null)
                         {
-                            if(!string.IsNullOrEmpty(currentlyPlaying.Track?.Id))
+                            if(!currentlyPlaying.Track.IsLocal)
                             {
                                 foreach(var artist in currentlyPlaying.Track.Artists)
                                 {
@@ -136,7 +136,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                             }
                             else
                             {
-                                _logger.LogDebug($"Track with unknown id was skipped while playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
+                                _logger.LogDebug($"Local track: ${currentlyPlaying.Track?.Name} was skipped while playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
                             }
                         }
                     }

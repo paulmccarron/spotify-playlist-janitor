@@ -48,7 +48,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
         /// <summary>
         /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// using provided code and callbackUrl.
+        /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
+        /// response code, and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
@@ -219,6 +220,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         },
                         Duration = item.DurationMs,
                         Progress = currently.ProgressMs,
+                        IsLocal = item.IsLocal,
                     };
                 }
             }

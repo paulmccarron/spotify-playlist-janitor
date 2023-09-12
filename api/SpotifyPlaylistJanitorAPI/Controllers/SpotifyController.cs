@@ -72,7 +72,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Returns current user's playlists by id.
+        /// Returns current user's playlist by id.
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Current user's playlist.</response>

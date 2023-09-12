@@ -291,6 +291,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                     },
                     Duration = playingItem.DurationMs,
                     Progress = spotifyCurrentPlayback.ProgressMs,
+                    IsLocal = playingItem.IsLocal,
                 }
             };
 
