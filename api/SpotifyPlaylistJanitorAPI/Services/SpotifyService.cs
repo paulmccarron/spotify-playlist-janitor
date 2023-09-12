@@ -104,12 +104,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
 
-            var request = new PlaylistCurrentUsersRequest
-            {
-                Limit = 50
-            };
-
-            var page = await _spotifyClient.Playlists.CurrentUsers(request);
+            var page = await _spotifyClient.Playlists.CurrentUsers();
             var allPages = await _spotifyClient.PaginateAll(page);
             var playlists = allPages
                 .Select(playlist => new SpotifyPlaylistModel
@@ -178,27 +173,24 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
 
-            var request = new PlaylistGetItemsRequest
-            {
-                Limit = 50,
-            };
-            //request.Fields.Add("items(track(id,name,artists(id,name,external_urls),album(id,name,external_urls,images)),is_local)");
-            request.Fields.Add("items(track(id),is_local)");
-
+            var request = new PlaylistGetItemsRequest();
+            request.Fields.Add("items(track(name,type,id,artists(id,name,external_urls),album(id,name,external_urls,images),duration_ms,is_local))");
+            
             var thing = request.BuildQueryParams();
 
             var page = await _spotifyClient.Playlists.GetItems(id, request);
             var allPages = await _spotifyClient.PaginateAll(page);
 
             var tracks = allPages
+                .Where(item => item.Track is FullTrack)
+                .Select(item => (FullTrack)item.Track)
                 .Select(track => {
-                    var item = (FullTrack)track.Track;
-                    item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
+                    track.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     return new SpotifyTrackModel
                     {
-                        Id = item.Id,
-                        Name = item.Name,
-                        Artists = item.Artists.Select(artist => {
+                        Id = track.Id,
+                        Name = track.Name,
+                        Artists = track.Artists.Select(artist => {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -209,17 +201,18 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         }),
                         Album = new SpotifyAlbumModel
                         {
-                            Id = item.Album.Id,
-                            Name = item.Album.Name,
+                            Id = track.Album.Id,
+                            Name = track.Album.Name,
                             Href = albumHref,
-                            Images = item.Album.Images.Select(image => new SpotifyImageModel
+                            Images = track.Album.Images.Select(image => new SpotifyImageModel
                             {
                                 Height = image.Height,
                                 Width = image.Width,
                                 Url = image.Url,
                             })
                         },
-                        IsLocal = item.IsLocal,
+                        Duration = track.DurationMs,
+                        IsLocal = track.IsLocal,
                     };
                 });
 
@@ -251,17 +244,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     && currently.CurrentlyPlayingType.Equals("track")
                     && currently.Context.Type.Equals("playlist");
 
-                if (playingState.IsPlaying)
+                if (playingState.IsPlaying && currently.Item is FullTrack track)
                 {
-                    var item = (FullTrack)currently.Item;
-                    item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
+                    track.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     playingState.Track = new SpotifyCurrentlyPlayingTrackModel
                     {
-                        Id = item.Id,
+                        Id = track.Id,
                         PlaylistId = currently.Context.Uri.Split(":").Last(),
                         ListeningOn = currently.Device.Name,
-                        Name = item.Name,
-                        Artists = item.Artists.Select(artist => {
+                        Name = track.Name,
+                        Artists = track.Artists.Select(artist => {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -272,19 +264,19 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         }),
                         Album = new SpotifyAlbumModel
                         {
-                            Id = item.Album.Id,
-                            Name = item.Album.Name,
+                            Id = track.Album.Id,
+                            Name = track.Album.Name,
                             Href = albumHref,
-                            Images = item.Album.Images.Select(image => new SpotifyImageModel
+                            Images = track.Album.Images.Select(image => new SpotifyImageModel
                             {
                                 Height = image.Height,
                                 Width = image.Width,
                                 Url = image.Url,
                             })
                         },
-                        Duration = item.DurationMs,
+                        Duration = track.DurationMs,
                         Progress = currently.ProgressMs,
-                        IsLocal = item.IsLocal,
+                        IsLocal = track.IsLocal,
                     };
                 }
             }

@@ -275,6 +275,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                                 Url = image.Url,
                             })
                         },
+                        Duration = item.DurationMs,
                         IsLocal = item.IsLocal,
                     };
                 });

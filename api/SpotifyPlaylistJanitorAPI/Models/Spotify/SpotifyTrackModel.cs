@@ -26,6 +26,11 @@
         public SpotifyAlbumModel? Album { get; set; }
 
         /// <summary>
+        /// Length of the song in milliseconds.
+        /// </summary>
+        public required int Duration { get; set; }
+
+        /// <summary>
         /// Track is local file.
         /// </summary>
         public bool IsLocal { get; set; }
