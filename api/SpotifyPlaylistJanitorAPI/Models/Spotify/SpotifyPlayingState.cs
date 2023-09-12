@@ -13,6 +13,6 @@
         /// <summary>
         /// Currently playing track.
         /// </summary>
-        public SpotifyTrackModel? Track { get; set; }
+        public SpotifyCurrentlyPlayingTrackModel? Track { get; set; }
     }
 }

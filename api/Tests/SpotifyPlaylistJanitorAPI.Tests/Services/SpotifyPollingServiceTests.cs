@@ -46,7 +46,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var mockAlbum = Fixture.Build<SpotifyAlbumModel>()
                 .With(x => x.Id, ALBUM_ID)
                 .Create();
-            _playingStateTrack = Fixture.Build<SpotifyTrackModel>()
+            _playingStateTrack = Fixture.Build<SpotifyCurrentlyPlayingTrackModel>()
                 .With(x => x.Id, TRACK_ID)
                 .With(x => x.Name, "Test_Name")
                 .With(x => x.PlaylistId, "Test_PlaylistId")

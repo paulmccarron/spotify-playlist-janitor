@@ -16,11 +16,6 @@
         public required string Name { get; set; }
 
         /// <summary>
-        /// Spotify playlist id.
-        /// </summary>
-        public required string PlaylistId { get; set; }
-
-        /// <summary>
         /// List of Spotify artists associated with the track.
         /// </summary>
         public IEnumerable<SpotifyArtistModel> Artists { get; set; } = new List<SpotifyArtistModel>();
@@ -29,21 +24,6 @@
         /// Spotify album associated with the track.
         /// </summary>
         public SpotifyAlbumModel? Album { get; set; }
-
-        /// <summary>
-        /// Length of the song in milliseconds.
-        /// </summary>
-        public required int Duration { get; set; }
-
-        /// <summary>
-        /// Playback progress of the song in milliseconds.
-        /// </summary>
-        public required int Progress { get; set; }
-
-        /// <summary>
-        /// Device track is being played on.
-        /// </summary>
-        public string? ListeningOn { get; set; }
 
         /// <summary>
         /// Track is local file.

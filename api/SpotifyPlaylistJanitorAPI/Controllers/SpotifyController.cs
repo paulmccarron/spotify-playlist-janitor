@@ -57,7 +57,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [HttpGet("playlists")]
         [ProducesResponseType(typeof(IEnumerable<SpotifyPlaylistModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpotifyPlaylistModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpotifyPlaylistsModelExample))]
         [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
         public async Task<ActionResult<IEnumerable<SpotifyPlaylistModel>>> GetPlaylists()
         {
@@ -79,7 +79,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <response code="404">No playlist found for that id.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("playlists/{id}")]
-        [ProducesResponseType(typeof(IEnumerable<SpotifyPlaylistModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SpotifyPlaylistModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpotifyPlaylistModelExample))]
@@ -100,6 +100,39 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             }
 
             return Ok(playlist);
+        }
+
+        /// <summary>
+        /// Returns tracks from current user's playlist by id.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Tracks from current user's playlist.</response>
+        /// <response code="404">No playlist found for that id.</response>
+        /// <response code="500">Application has not been logged into users Spotify account.</response>
+        [HttpGet("playlists/{id}/tracks")]
+        [ProducesResponseType(typeof(IEnumerable<SpotifyTrackModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpotifyTracksModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(SpotifyPlaylistNotFoundExample))]
+        [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
+        public async Task<ActionResult<IEnumerable<SpotifyTrackModel>>> GetPlaylistTracks(string id)
+        {
+            if (!_spotifyService.IsLoggedIn)
+            {
+                return GetApplicationNotLoggedResponse();
+            }
+
+            var playlist = await _spotifyService.GetUserPlaylist(id);
+
+            if (playlist is null)
+            {
+                return PlaylistNotFoundResponse(id);
+            }
+
+            var tracks = await _spotifyService.GetUserPlaylistTracks(id);
+
+            return Ok(tracks);
         }
 
         private ActionResult GetApplicationNotLoggedResponse()
