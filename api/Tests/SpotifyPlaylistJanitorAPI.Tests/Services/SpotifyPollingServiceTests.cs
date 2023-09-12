@@ -53,6 +53,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Artists, mockArtists)
                 .With(x => x.Album, mockAlbum)
                 .With(x => x.Progress, 20000)
+                .With(x => x.IsLocal, false)
                 .Create();
             _playingState = Fixture.Build<SpotifyPlayingState>()
                 .With(x => x.IsPlaying, true)
@@ -216,10 +217,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
-        public void SpotifyPollingService_PollSpotifyPlayback_Logs_Debug_Unknown_Song_Was_Skipped()
+        public void SpotifyPollingService_PollSpotifyPlayback_Logs_Debug_Local_Song_Was_Skipped()
         {
             //Arrange
-            _playingState.Track.Id = "";
+            _playingState.Track.IsLocal = true;
 
             _spotifyServiceMock
                 .Setup(mock => mock.GetCurrentPlayback())
@@ -242,7 +243,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             //Assert
             VerifyLog(_loggerMock, LogLevel.Debug, $"Currently listening to playlist: {_playingState.Track?.PlaylistId}");
             VerifyLog(_loggerMock, LogLevel.Debug, $"Currently playing: {_playingState.Track?.Name}");
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Track with unknown id was skipped while playing from monitored playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"Local track: ${_playingState.Track?.Name} was skipped while playing from monitored playlist: {_playingState.Track?.PlaylistId}");
         }
     }
 }

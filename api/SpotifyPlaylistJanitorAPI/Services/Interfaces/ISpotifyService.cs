@@ -26,25 +26,31 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
-        /// <returns cref="SpotifyClient">Client that is authenticated for users Spotify account.</returns>
+        /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
         Task<ISpotifyClient> CreateClient(string code, string callbackUrl);
 
         /// <summary>
         /// Returns current users details.
         /// </summary>
-        /// <returns cref="SpotifyUserModel">User details</returns>
+        /// <returns><see cref = "SpotifyUserModel" /> with user details</returns>
         Task<SpotifyUserModel> GetUserDetails();
 
         /// <summary>
         /// Returns current users playlists.
         /// </summary>
-        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
+        ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
         Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists();
+
+        /// <summary>
+        /// Returns current users playlist by id.
+        /// </summary>
+        /// <returns><see cref = "SpotifyPlaylistModel" /></returns>
+        Task<SpotifyPlaylistModel?> GetUserPlaylist(string id);
 
         /// <summary>
         /// Returns current playback state.
         /// </summary>
-        /// <returns cref="SpotifyPlayingState">Current playback state.</returns>
+        /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>
         Task<SpotifyPlayingState> GetCurrentPlayback();
 
         /// <summary>

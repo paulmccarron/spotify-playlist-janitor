@@ -48,11 +48,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
         /// <summary>
         /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// Makes an Oauth request to Spotify API using provided ClientId and ClientSecret
+        /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
+        /// response code, and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
-        /// <returns cref="SpotifyClient">Client that is authenticated for users Spotify account.</returns>
+        /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
         [ExcludeFromCodeCoverage]
         public async Task<ISpotifyClient> CreateClient(string code, string callbackUrl)
         {
@@ -72,7 +73,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Returns current users details.
         /// </summary>
-        /// <returns cref="SpotifyUserModel">User details.</returns>
+        /// <returns><see cref = "SpotifyUserModel" /> with user details</returns>
         /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
         public async Task<SpotifyUserModel> GetUserDetails()
         {
@@ -111,7 +112,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 {
                     Id = playlist.Id,
                     Name = playlist.Name,
-                    Href = playlist.Href,
+                    Href = playlist.ExternalUrls["spotify"],
                     Images = playlist.Images.Select(image => new SpotifyImageModel {
                         Height = image.Height,
                         Width = image.Width,
@@ -124,9 +125,47 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// 
+        /// Returns current users playlist by id.
         /// </summary>
-        /// <returns cref="SpotifyPlayingState">Current playback state.</returns>
+        /// <returns><see cref = "SpotifyPlaylistModel" /></returns>
+        /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
+        public async Task<SpotifyPlaylistModel?> GetUserPlaylist(string id)
+        {
+            if (_spotifyClient is null)
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            try
+            {
+
+                var spotifyPlaylist = await _spotifyClient.Playlists.Get(id);
+
+                var playlistModel = new SpotifyPlaylistModel
+                {
+                    Id = spotifyPlaylist?.Id,
+                    Name = spotifyPlaylist?.Name,
+                    Href = spotifyPlaylist?.ExternalUrls["spotify"],
+                    Images = spotifyPlaylist?.Images?.Select(image => new SpotifyImageModel
+                    {
+                        Height = image.Height,
+                        Width = image.Width,
+                        Url = image.Url,
+                    })
+                };
+
+                return playlistModel;
+            }
+            catch(APIException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns current playback state.
+        /// </summary>
+        /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>
         /// <exception cref="SpotifyArgumentException"></exception>
         public async Task<SpotifyPlayingState> GetCurrentPlayback()
         {
@@ -181,6 +220,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         },
                         Duration = item.DurationMs,
                         Progress = currently.ProgressMs,
+                        IsLocal = item.IsLocal,
                     };
                 }
             }

@@ -27,7 +27,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task SpotifyController_GetUser_Returns_SpotifyUserModel()
+        public async Task SpotifyController_GetUser_Returns_Data()
         {
             // Arrange
             var userId = "userId";
@@ -58,7 +58,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task SpotifyController_GetUser_Throws_When_Not_Logged_In()
+        public async Task SpotifyController_GetUser_Returns_Error_When_Not_Logged_In()
         {
             // Arrange
             _spotifyServiceMock
@@ -74,7 +74,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task SpotifyController_GetPlaylists_Returns_List_Of_SpotifyPlaylistModel()
+        public async Task SpotifyController_GetPlaylists_Returns_Data()
         {
             //Arrange
             var spotifyPlaylists = Fixture.Build<SpotifyPlaylistModel>().CreateMany().ToList();
@@ -93,7 +93,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
-        public async Task SpotifyController_GetPlaylists_Throws_When_Not_Logged_In()
+        public async Task SpotifyController_GetPlaylists_Returns_Error_When_Not_Logged_In()
         {
             // Arrange
             _spotifyServiceMock
@@ -102,6 +102,62 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             //Act
             var result = await _spotifyController.GetPlaylists();
+
+            // Assert
+            var objResult = result.Result as ObjectResult;
+            objResult?.StatusCode.Should().Be(500);
+        }
+
+        [Test]
+        public async Task SpotifyController_GetPlaylist_Returns_Data()
+        {
+            //Arrange
+            var spotifyPlaylist = Fixture.Build<SpotifyPlaylistModel>().Create();
+
+            _spotifyServiceMock
+                .Setup(mock => mock.GetUserPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(spotifyPlaylist);
+
+            //Act
+            var result = await _spotifyController.GetPlaylist("id");
+
+            // Assert
+            result.Should().BeOfType<ActionResult<SpotifyPlaylistModel>>();
+
+            result?.Value?.Should().BeEquivalentTo(spotifyPlaylist);
+        }
+
+        [Test]
+        public async Task SpotifyController_GetPlaylist_Returns_Not_Found()
+        {
+            //Arrange
+            var id = "playlist_id";
+            SpotifyPlaylistModel spotifyPlaylist = null;
+
+            _spotifyServiceMock
+                .Setup(mock => mock.GetUserPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(spotifyPlaylist);
+
+            var expectedMessage = new { Message = $"Could not find Spotify playlist with id: {id}" };
+
+            //Act
+            var result = await _spotifyController.GetPlaylist(id);
+
+            // Assert
+            var objResult = result.Result as NotFoundObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
+        public async Task SpotifyController_GetPlaylist_Returns_Error_When_Not_Logged_In()
+        {
+            // Arrange
+            _spotifyServiceMock
+                .SetupGet(mock => mock.IsLoggedIn)
+                .Returns(false);
+
+            //Act
+            var result = await _spotifyController.GetPlaylist("id");
 
             // Assert
             var objResult = result.Result as ObjectResult;

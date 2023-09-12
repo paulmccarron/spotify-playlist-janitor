@@ -8,30 +8,30 @@ VALUES
 
 INSERT INTO artists (id, name, href) 
 VALUES 
-    ('4tZwfgrHOc3mvqYlEYSvVi', 'Daft Punk', 'https://api.spotify.com/v1/artists/4tZwfgrHOc3mvqYlEYSvVi'),
-    ('0L8ExT028jH3ddEcZwqJJ5', 'Red Hot Chili Peppers', 'https://api.spotify.com/v1/artists/0L8ExT028jH3ddEcZwqJJ5'),
-    ('2xaAOVImG2O6lURwqperlD', 'Catfish and the Bottlemen', 'https://api.spotify.com/v1/artists/2xaAOVImG2O6lURwqperlD'),
-    ('2DaxqgrOhkeH0fpeiQq2f4', 'Oasis', 'https://api.spotify.com/v1/artists/2DaxqgrOhkeH0fpeiQq2f4');
+    ('4tZwfgrHOc3mvqYlEYSvVi', 'Daft Punk', 'https://open.spotify.com/artist/4tZwfgrHOc3mvqYlEYSvVi'),
+    ('0L8ExT028jH3ddEcZwqJJ5', 'Red Hot Chili Peppers', 'https://open.spotify.com/artist/0L8ExT028jH3ddEcZwqJJ5'),
+    ('2xaAOVImG2O6lURwqperlD', 'Catfish and the Bottlemen', 'https://open.spotify.com/artist/2xaAOVImG2O6lURwqperlD'),
+    ('2DaxqgrOhkeH0fpeiQq2f4', 'Oasis', 'https://open.spotify.com/artist/2DaxqgrOhkeH0fpeiQq2f4');
 
 INSERT INTO albums (id, name, href) 
 VALUES 
-    ('3Bz2QPL8NLBn1d03jXtNkT', 'Alive 2007', 'https://api.spotify.com/v1/albums/3Bz2QPL8NLBn1d03jXtNkT'),
-    ('4m2880jivSbbyEGAKfITCa', 'Random Access Memories', 'https://api.spotify.com/v1/albums/4m2880jivSbbyEGAKfITCa'),
-    ('3AMXFnwHWXCvNr5NCCpLZI', 'TRON: Legacy - The Complete Edition (Original Motion Picture Soundtrack)', 'https://api.spotify.com/v1/albums/3AMXFnwHWXCvNr5NCCpLZI'),
-    ('2T7DdrOvsqOqU9bGTkjBYu', 'Human After All', 'https://api.spotify.com/v1/albums/2T7DdrOvsqOqU9bGTkjBYu'),
-    ('2noRn2Aes5aoNVsU6iWThc', 'Discovery', 'https://api.spotify.com/v1/albums/2noRn2Aes5aoNVsU6iWThc'),
-    ('5uRdvUR7xCnHmUW8n64n9y', 'Homework', 'https://api.spotify.com/v1/albums/5uRdvUR7xCnHmUW8n64n9y'),
-    ('43otFXrY0bgaq5fB3GrZj6', 'The Getaway', 'https://api.spotify.com/v1/albums/43otFXrY0bgaq5fB3GrZj6'),
-    ('7xl50xr9NDkd3i2kBbzsNZ', 'Stadium Arcadium', 'https://api.spotify.com/v1/albums/7xl50xr9NDkd3i2kBbzsNZ'),
-    ('6deiaArbeoqp1xPEGdEKp1', 'By the Way (Deluxe Edition)', 'https://api.spotify.com/v1/albums/6deiaArbeoqp1xPEGdEKp1'),
-    ('0fLhefnjlIV3pGNF9Wo8CD', 'Californication', 'https://api.spotify.com/v1/albums/0fLhefnjlIV3pGNF9Wo8CD'),
-    ('0eELSmJrZpzOKfdO80nJ9r', 'The Balance', 'https://api.spotify.com/v1/albums/0eELSmJrZpzOKfdO80nJ9r'),
-    ('07IHAhsG4FnnfHQSb3bbAZ', 'The Ride', 'https://api.spotify.com/v1/albums/07IHAhsG4FnnfHQSb3bbAZ'),
-    ('0C0OFASoQC57yC12vQhCwN', 'The Balcony', 'https://api.spotify.com/v1/albums/0C0OFASoQC57yC12vQhCwN'),
-    ('3AMHMM2aNG6k3d7ybcQ5bY', 'Definitely Maybe (Deluxe Edition Remastered)', 'https://api.spotify.com/v1/albums/3AMHMM2aNG6k3d7ybcQ5bY'),
-    ('6tOe4eAF8xNhEkl9WyvsE4', '(What''s The Story) Morning Glory? (Deluxe Remastered Edition)', 'https://api.spotify.com/v1/albums/6tOe4eAF8xNhEkl9WyvsE4'),
-    ('4XBCWqCXqCdN72K9SklIjy', 'Be Here Now (Deluxe Remastered Edition)', 'https://api.spotify.com/v1/albums/4XBCWqCXqCdN72K9SklIjy'),
-    ('2EVWJRhbXWsSm7a6jdKv8O', 'Heathen Chemistry', 'https://api.spotify.com/v1/albums/2EVWJRhbXWsSm7a6jdKv8O');
+    ('3Bz2QPL8NLBn1d03jXtNkT', 'Alive 2007', 'https://open.spotify.com/album/3Bz2QPL8NLBn1d03jXtNkT'),
+    ('4m2880jivSbbyEGAKfITCa', 'Random Access Memories', 'https://open.spotify.com/album/4m2880jivSbbyEGAKfITCa'),
+    ('3AMXFnwHWXCvNr5NCCpLZI', 'TRON: Legacy - The Complete Edition (Original Motion Picture Soundtrack)', 'https://open.spotify.com/album/3AMXFnwHWXCvNr5NCCpLZI'),
+    ('2T7DdrOvsqOqU9bGTkjBYu', 'Human After All', 'https://open.spotify.com/album/2T7DdrOvsqOqU9bGTkjBYu'),
+    ('2noRn2Aes5aoNVsU6iWThc', 'Discovery', 'https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc'),
+    ('5uRdvUR7xCnHmUW8n64n9y', 'Homework', 'https://open.spotify.com/album/5uRdvUR7xCnHmUW8n64n9y'),
+    ('43otFXrY0bgaq5fB3GrZj6', 'The Getaway', 'https://open.spotify.com/album/43otFXrY0bgaq5fB3GrZj6'),
+    ('7xl50xr9NDkd3i2kBbzsNZ', 'Stadium Arcadium', 'https://open.spotify.com/album/7xl50xr9NDkd3i2kBbzsNZ'),
+    ('6deiaArbeoqp1xPEGdEKp1', 'By the Way (Deluxe Edition)', 'https://open.spotify.com/album/6deiaArbeoqp1xPEGdEKp1'),
+    ('0fLhefnjlIV3pGNF9Wo8CD', 'Californication', 'https://open.spotify.com/album/0fLhefnjlIV3pGNF9Wo8CD'),
+    ('0eELSmJrZpzOKfdO80nJ9r', 'The Balance', 'https://open.spotify.com/album/0eELSmJrZpzOKfdO80nJ9r'),
+    ('07IHAhsG4FnnfHQSb3bbAZ', 'The Ride', 'https://open.spotify.com/album/07IHAhsG4FnnfHQSb3bbAZ'),
+    ('0C0OFASoQC57yC12vQhCwN', 'The Balcony', 'https://open.spotify.com/album/0C0OFASoQC57yC12vQhCwN'),
+    ('3AMHMM2aNG6k3d7ybcQ5bY', 'Definitely Maybe (Deluxe Edition Remastered)', 'https://open.spotify.com/album/3AMHMM2aNG6k3d7ybcQ5bY'),
+    ('6tOe4eAF8xNhEkl9WyvsE4', '(What''s The Story) Morning Glory? (Deluxe Remastered Edition)', 'https://open.spotify.com/album/6tOe4eAF8xNhEkl9WyvsE4'),
+    ('4XBCWqCXqCdN72K9SklIjy', 'Be Here Now (Deluxe Remastered Edition)', 'https://open.spotify.com/album/4XBCWqCXqCdN72K9SklIjy'),
+    ('2EVWJRhbXWsSm7a6jdKv8O', 'Heathen Chemistry', 'https://open.spotify.com/album/2EVWJRhbXWsSm7a6jdKv8O');
 
 INSERT INTO tracks (id, album_id, name, length) 
 VALUES 

@@ -99,6 +99,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var spotifyPlaylists = Fixture.Build<SimplePlaylist>()
+                .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", "spotify_url" } })
                 .Without(x => x.Tracks)
                 .CreateMany()
                 .ToList();
@@ -121,7 +122,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 {
                     Id = playlist.Id,
                     Name = playlist.Name,
-                    Href = playlist.Href,
+                    Href = playlist.ExternalUrls["spotify"],
                     Images = playlist.Images.Select(image => new SpotifyImageModel
                     {
                         Height = image.Height,
@@ -145,6 +146,77 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             //Act
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetUserPlaylists);
+
+            // Assert
+            Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
+        }
+
+        [Test]
+        public async Task SpotifyService_GetUserPlaylist_Returns_Data()
+        {
+            //Arrange
+            var spotifyPlaylist = Fixture.Build<FullPlaylist>()
+                .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", "spotify_url" } })
+                .Without(x => x.Tracks)
+                .Create();
+
+            var mockPlaylists = new Mock<IPlaylistsClient>();
+            mockPlaylists
+                .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(spotifyPlaylist);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Playlists)
+                .Returns(mockPlaylists.Object);
+
+            var expectedPlaylist = new SpotifyPlaylistModel
+                {
+                    Id = spotifyPlaylist.Id,
+                    Name = spotifyPlaylist.Name,
+                    Href = spotifyPlaylist.ExternalUrls["spotify"],
+                    Images = spotifyPlaylist.Images.Select(image => new SpotifyImageModel
+                    {
+                        Height = image.Height,
+                        Width = image.Width,
+                        Url = image.Url,
+                    })
+                };
+
+            //Act
+            var result = await _spotifyService.GetUserPlaylist("id");
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedPlaylist);
+        }
+
+        [Test]
+        public async Task SpotifyService_GetUserPlaylist_Returns_Null()
+        {
+            //Arrange
+           var mockPlaylists = new Mock<IPlaylistsClient>();
+            mockPlaylists
+                .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new APIException());
+
+            _spotifyClientMock
+                .Setup(mock => mock.Playlists)
+                .Returns(mockPlaylists.Object);
+
+           //Act
+            var result = await _spotifyService.GetUserPlaylist("id");
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public void SpotifyService_GetUserPlaylist_Throws_Exception_If_No_Spotify_Client_Configured()
+        {
+            //Arrange
+            _spotifyService.SetClient(null);
+
+            //Act
+            var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.GetUserPlaylist("id"));
 
             // Assert
             Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
@@ -219,6 +291,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                     },
                     Duration = playingItem.DurationMs,
                     Progress = spotifyCurrentPlayback.ProgressMs,
+                    IsLocal = playingItem.IsLocal,
                 }
             };
 
