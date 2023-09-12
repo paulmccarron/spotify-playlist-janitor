@@ -163,6 +163,57 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
+        /// Returns tracks from current users playlist by id.
+        /// </summary>
+        ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyTrackModel" />.</returns>
+        /// <exception cref="SpotifyArgumentException"></exception>
+        public async Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string id)
+        {
+            if (_spotifyClient is null)
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            var page = await _spotifyClient.Playlists.GetItems(id);
+            var allPages = await _spotifyClient.PaginateAll(page);
+
+            var tracks = allPages
+                .Select(track => {
+                    var item = (FullTrack)track.Track;
+                    item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
+                    return new SpotifyTrackModel
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Artists = item.Artists.Select(artist => {
+                            artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
+                            return new SpotifyArtistModel
+                            {
+                                Name = artist.Name,
+                                Id = artist.Id,
+                                Href = artistHref,
+                            };
+                        }),
+                        Album = new SpotifyAlbumModel
+                        {
+                            Id = item.Album.Id,
+                            Name = item.Album.Name,
+                            Href = albumHref,
+                            Images = item.Album.Images.Select(image => new SpotifyImageModel
+                            {
+                                Height = image.Height,
+                                Width = image.Width,
+                                Url = image.Url,
+                            })
+                        },
+                        IsLocal = item.IsLocal,
+                    };
+                });
+
+            return tracks;
+        }
+
+        /// <summary>
         /// Returns current playback state.
         /// </summary>
         /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>
@@ -191,7 +242,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 {
                     var item = (FullTrack)currently.Item;
                     item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
-                    playingState.Track = new SpotifyTrackModel
+                    playingState.Track = new SpotifyCurrentlyPlayingTrackModel
                     {
                         Id = item.Id,
                         PlaylistId = currently.Context.Uri.Split(":").Last(),

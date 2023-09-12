@@ -48,6 +48,12 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<SpotifyPlaylistModel?> GetUserPlaylist(string id);
 
         /// <summary>
+        /// Returns tracks from current users playlist by id.
+        /// </summary>
+        ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyTrackModel" />.</returns>
+        Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string id);
+
+        /// <summary>
         /// Returns current playback state.
         /// </summary>
         /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>

@@ -223,6 +223,83 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
+        public async Task SpotifyService_GetUserPlaylistTracks_Returns_Data()
+        {
+            //Arrange
+            var mockTracks = Fixture.Build<PlaylistTrack<IPlayableItem>>()
+                .With(x => x.Track, Fixture.Build<FullTrack>()
+                    .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", "spotify_url" } })
+                    .Create())
+                .CreateMany()
+                .ToList();
+
+            var mockPlaylists = new Mock<IPlaylistsClient>();
+            mockPlaylists
+                .Setup(mock => mock.GetItems(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Paging<PlaylistTrack<IPlayableItem>>());
+
+            _spotifyClientMock
+                .Setup(mock => mock.Playlists)
+                .Returns(mockPlaylists.Object);
+
+            _spotifyClientMock
+                .Setup(mock => mock.PaginateAll(It.IsAny<IPaginatable<PlaylistTrack<IPlayableItem>>>(), It.IsAny<IPaginator>()))
+                .ReturnsAsync(mockTracks);
+
+            var expectedTracks = mockTracks
+                .Select(track => {
+                    var item = (FullTrack)track.Track;
+                    item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
+                    return new SpotifyTrackModel
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Artists = item.Artists.Select(artist => {
+                            artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
+                            return new SpotifyArtistModel
+                            {
+                                Name = artist.Name,
+                                Id = artist.Id,
+                                Href = artistHref,
+                            };
+                        }),
+                        Album = new SpotifyAlbumModel
+                        {
+                            Id = item.Album.Id,
+                            Name = item.Album.Name,
+                            Href = albumHref,
+                            Images = item.Album.Images.Select(image => new SpotifyImageModel
+                            {
+                                Height = image.Height,
+                                Width = image.Width,
+                                Url = image.Url,
+                            })
+                        },
+                        IsLocal = item.IsLocal,
+                    };
+                });
+
+            //Act
+            var result = await _spotifyService.GetUserPlaylistTracks("id");
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedTracks);
+        }
+
+        [Test]
+        public void SpotifyService_GetUserPlaylistTracks_Throws_Exception_If_No_Spotify_Client_Configured()
+        {
+            //Arrange
+            _spotifyService.SetClient(null);
+
+            //Act
+            var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.GetUserPlaylistTracks("id"));
+
+            // Assert
+            Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
+        }
+
+        [Test]
         public async Task SpotifyService_GetCurrentPlayback_Returns_Data_For_Current_Context_Playlist()
         {
             //Arrange
@@ -265,7 +342,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var expectedPlayback = new SpotifyPlayingState
             {
                 IsPlaying = true,
-                Track = new SpotifyTrackModel
+                Track = new SpotifyCurrentlyPlayingTrackModel
                 {
                     Id = playingItem.Id,
                     PlaylistId = spotifyCurrentPlayback.Context.Uri.Split(":").LastOrDefault(),

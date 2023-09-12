@@ -27,7 +27,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 IsPlaying = false,
             };
 
-            _currentTrack = Fixture.Build<SpotifyTrackModel>()
+            _currentTrack = Fixture.Build<SpotifyCurrentlyPlayingTrackModel>()
                 .With(x => x.Id, "currently_playing_id")
                 .With(x => x.Name, "current_track_name")
                 .With(x => x.PlaylistId, "playlist_id")
@@ -98,7 +98,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             //Arrange
             _playingStateService.PlayingState = _currentState;
 
-            var newTrack = Fixture.Build<SpotifyTrackModel>()
+            var newTrack = Fixture.Build<SpotifyCurrentlyPlayingTrackModel>()
                 .With(x => x.Id, "new_track_id")
                 .With(x => x.Name, "new_track_name")
                 .With(x => x.PlaylistId, "new_playlist_id")
@@ -122,7 +122,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _currentState.IsPlaying = true;
             _playingStateService.PlayingState = _currentState;
 
-            var newTrack = Fixture.Build<SpotifyTrackModel>()
+            var newTrack = Fixture.Build<SpotifyCurrentlyPlayingTrackModel>()
                 .With(x => x.Id, "new_track_id")
                 .With(x => x.Name, "new_track_name")
                 .With(x => x.PlaylistId, _currentState?.Track?.PlaylistId)
@@ -147,7 +147,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _currentState.Track.Progress = 5000;
             _playingStateService.PlayingState = _currentState;
 
-            var newTrack = Fixture.Build<SpotifyTrackModel>()
+            var newTrack = Fixture.Build<SpotifyCurrentlyPlayingTrackModel>()
                 .With(x => x.Id, "new_track_id")
                 .With(x => x.Name, "new_track_name")
                 .With(x => x.PlaylistId, _currentState?.Track?.PlaylistId)
