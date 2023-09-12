@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.DataAccess;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
@@ -105,7 +104,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
 
-            var page = await _spotifyClient.Playlists.CurrentUsers();
+            var request = new PlaylistCurrentUsersRequest
+            {
+                Limit = 50
+            };
+
+            var page = await _spotifyClient.Playlists.CurrentUsers(request);
             var allPages = await _spotifyClient.PaginateAll(page);
             var playlists = allPages
                 .Select(playlist => new SpotifyPlaylistModel
@@ -174,7 +178,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
 
-            var page = await _spotifyClient.Playlists.GetItems(id);
+            var request = new PlaylistGetItemsRequest
+            {
+                Limit = 50,
+            };
+            //request.Fields.Add("items(track(id,name,artists(id,name,external_urls),album(id,name,external_urls,images)),is_local)");
+            request.Fields.Add("items(track(id),is_local)");
+
+            var thing = request.BuildQueryParams();
+
+            var page = await _spotifyClient.Playlists.GetItems(id, request);
             var allPages = await _spotifyClient.PaginateAll(page);
 
             var tracks = allPages
