@@ -223,6 +223,43 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
+        public async Task SpotifyService_DeletePlaylistTracks_Returns()
+        {
+            //Arrange
+            var snapshotResponse = new SnapshotResponse
+            {
+                SnapshotId = "snaphot_id"
+            };
+            var mockPlaylists = new Mock<IPlaylistsClient>();
+            mockPlaylists
+                .Setup(mock => mock.RemoveItems(It.IsAny<string>(), It.IsAny<PlaylistRemoveItemsRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(snapshotResponse);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Playlists)
+                .Returns(mockPlaylists.Object);
+
+            //Act
+            var result = await _spotifyService.DeletePlaylistTracks("id", new List<string>());
+
+            // Assert
+            result.Should().BeEquivalentTo(snapshotResponse);
+        }
+
+        [Test]
+        public void SpotifyService_DeletePlaylistTracks_Throws_Exception_If_No_Spotify_Client_Configured()
+        {
+            //Arrange
+            _spotifyService.SetClient(null);
+
+            //Act
+            var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.DeletePlaylistTracks("id", new List<string>()));
+
+            // Assert
+            Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
+        }
+
+        [Test]
         public async Task SpotifyService_GetUserPlaylistTracks_Returns_Data()
         {
             //Arrange

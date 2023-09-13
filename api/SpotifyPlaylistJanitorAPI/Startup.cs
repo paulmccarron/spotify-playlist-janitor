@@ -85,19 +85,28 @@ namespace SpotifyPlaylistJanitorAPIs
         /// <param name="app">The ApplicationBuilder.</param>
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+
             if (_hostingEnvironment.IsDevelopment())
             {
-                app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                     options.RoutePrefix = "swagger";
-
                 });
                 app.UseDeveloperExceptionPage();
             }
             else
             {
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = "swagger";
+
+                    // Disable "Try it out" button in production environment
+                    options.SupportedSubmitMethods(Array.Empty<Swashbuckle.AspNetCore.SwaggerUI.SubmitMethod>());
+                });
+
                 app.UseExceptionHandler("/Auth/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -110,6 +119,8 @@ namespace SpotifyPlaylistJanitorAPIs
             {
                 ServeUnknownFileTypes = true,
             };
+
+            app.UsePathBase(new PathString($"/api"));
 
             app.UseStaticFiles(options);
 

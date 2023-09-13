@@ -620,5 +620,27 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             result.Should().BeOfType<List<DatabaseSkippedTrackResponse>>();
             result.Should().BeEquivalentTo(expectedResults);
         }
+
+        [Test]
+        public async Task DatabaseService_DeleteSkippedTracks_Removes_Data()
+        {
+            //Arrange
+            var id = "id";
+
+            var dbSkippedTracks = Fixture.Build<SkippedTrack>()
+                .CreateMany()
+                .AsQueryable();
+
+            _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
+
+            var trackIds = dbSkippedTracks.Select(track => track.TrackId);
+
+            //Act
+            await _databaseService.DeleteSkippedTracks(id, trackIds);
+
+            // Assert
+            _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
+            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
     }
 }

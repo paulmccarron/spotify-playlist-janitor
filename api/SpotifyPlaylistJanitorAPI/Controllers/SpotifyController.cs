@@ -15,14 +15,17 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     public class SpotifyController : Controller
     {
         private readonly ISpotifyService _spotifyService;
+        private readonly IDatabaseService _databaseService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyController"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service.</param>
-        public SpotifyController(ISpotifyService spotifyService)
+        /// <param name="databaseService">The Database Service.</param>
+        public SpotifyController(ISpotifyService spotifyService, IDatabaseService databaseService)
         {
             _spotifyService = spotifyService;
+            _databaseService = databaseService;
         }
 
         /// <summary>
@@ -133,6 +136,41 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             var tracks = await _spotifyService.GetUserPlaylistTracks(id);
 
             return Ok(tracks);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="trackIds"></param>
+        /// <returns></returns>
+        /// <response code="204">Tracks successfully removed from current user's playlist.</response>
+        /// <response code="404">No playlist found for that id.</response>
+        /// <response code="500">Application has not been logged into users Spotify account.</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(SpotifyPlaylistNotFoundExample))]
+        [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
+        [HttpDelete("playlists/{id}/tracks")]
+        public async Task<ActionResult<object>> DeletePlaylistTracks(string id, [FromQuery(Name = "trackIds[]")] IEnumerable<string> trackIds)
+        {
+            if (!_spotifyService.IsLoggedIn)
+            {
+                return GetApplicationNotLoggedResponse();
+            }
+
+            var playlist = await _spotifyService.GetUserPlaylist(id);
+
+            if (playlist is null)
+            {
+                return PlaylistNotFoundResponse(id);
+            }
+
+            await _spotifyService.DeletePlaylistTracks(id, trackIds);
+            await _databaseService.DeleteSkippedTracks(id, trackIds);
+
+            return NoContent();
         }
 
         private ActionResult GetApplicationNotLoggedResponse()

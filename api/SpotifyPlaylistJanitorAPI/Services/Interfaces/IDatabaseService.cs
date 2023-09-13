@@ -73,6 +73,11 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task AddSkippedTrack(DatabaseSkippedTrackRequest skippedTrackRequest);
 
         /// <summary>
+        /// Remove skipped tracks from database.
+        /// </summary>
+        Task DeleteSkippedTracks(string playlistId, IEnumerable<string> trackIds);
+
+        /// <summary>
         /// Get skipped tracks for monitored plauylist from database.
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackResponse" />.</returns>

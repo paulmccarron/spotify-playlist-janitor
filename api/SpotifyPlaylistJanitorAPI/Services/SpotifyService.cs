@@ -175,8 +175,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var request = new PlaylistGetItemsRequest();
             request.Fields.Add("items(track(name,type,id,artists(id,name,external_urls),album(id,name,external_urls,images),duration_ms,is_local))");
-            
-            var thing = request.BuildQueryParams();
 
             var page = await _spotifyClient.Playlists.GetItems(id, request);
             var allPages = await _spotifyClient.PaginateAll(page);
@@ -217,6 +215,30 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 });
 
             return tracks;
+        }
+
+        /// <summary>
+        /// Remove tracks from current users playlist.
+        /// </summary>
+        /// <param name="playlistId">Id of Spotify playlist.</param>
+        /// <param name="trackIds">Collection if track Ids to remove.</param>
+        /// <returns></returns>
+        public async Task<SnapshotResponse> DeletePlaylistTracks(string playlistId, IEnumerable<string> trackIds)
+        {
+            if (_spotifyClient is null)
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            var request = new PlaylistRemoveItemsRequest
+            {
+                Tracks = trackIds
+                    .Take(100)
+                    .Select(trackId => new PlaylistRemoveItemsRequest.Item { Uri = $"spotify:track:{trackId}" })
+                    .ToList()
+            };
+
+            return await _spotifyClient.Playlists.RemoveItems(playlistId, request);
         }
 
         /// <summary>
