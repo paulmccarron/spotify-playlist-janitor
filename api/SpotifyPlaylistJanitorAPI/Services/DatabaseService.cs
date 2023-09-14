@@ -72,7 +72,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToAsyncEnumerable()
                 .AnyAsync(playlist => playlist.Id.Equals(playlistRequest.Id));
 
-            if(!alreadyExists)
+            if (!alreadyExists)
             {
                 await _context.AddAsync(playlistDto);
                 await _context.SaveChangesAsync();
@@ -112,7 +112,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToAsyncEnumerable()
                 .AnyAsync(artist => artist.Id.Equals(artistRequest.Id));
 
-            if(!alreadyExists)
+            if (!alreadyExists)
             {
                 await _context.AddAsync(artistDto);
                 await _context.SaveChangesAsync();
@@ -135,7 +135,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToAsyncEnumerable()
                 .AnyAsync(album => album.Id.Equals(albumDto.Id));
 
-            if(!alreadyExists)
+            if (!alreadyExists)
             {
                 await _context.AddAsync(albumDto);
                 await _context.SaveChangesAsync();
@@ -158,7 +158,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToAsyncEnumerable()
                 .FirstOrDefaultAsync(image => image.Height == height && image.Width == width && image.Url == url);
 
-            if(imageDto is null)
+            if (imageDto is null)
             {
                 await _context.AddAsync(imageRequest);
                 await _context.SaveChangesAsync();
@@ -168,8 +168,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .FirstOrDefaultAsync(image => image.Height == height && image.Width == width && image.Url == url);
             }
 
-            return new DatabaseImageModel 
-            { 
+            return new DatabaseImageModel
+            {
                 Id = imageDto?.Id ?? 0,
                 Height = imageDto?.Height ?? 0,
                 Width = imageDto?.Width ?? 0,
@@ -290,10 +290,23 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
+        /// Remove skipped tracks from database.
+        /// </summary>
+        public async Task DeleteSkippedTracks(string playlistId, IEnumerable<string> trackIds)
+        {
+            _context.SkippedTracks.RemoveRange(
+                _context.SkippedTracks
+                    .Where(track => track.PlaylistId == playlistId && trackIds.Contains(track.TrackId))
+            );
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Get skipped tracks for monitored plauylist from database.
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackResponse" />.</returns>
-        public async Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId){
+        public async Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId)
+        {
             var skippedTracks = await _context.SkippedTracks
                 .Where(skipped => skipped.PlaylistId == playlistId)
                 .Include(skipped => skipped.Track)
@@ -310,16 +323,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     .Select(artist => new DatabaseArtistModel
                     {
                         Id = artist.Id,
-                        Name= artist.Name,
+                        Name = artist.Name,
                         Href = artist.Href,
                     }),
-                    Album = new DatabaseAlbumResponse 
-                    { 
+                    Album = new DatabaseAlbumResponse
+                    {
                         Id = skipped.Track.Album.Id,
                         Name = skipped.Track.Album.Name,
                         Href = skipped.Track.Album.Href,
                         Images = skipped.Track.Album.Images
-                        .Select(image => new DatabaseImageModel 
+                        .Select(image => new DatabaseImageModel
                         {
                             Id = image.Id,
                             Height = image.Height,

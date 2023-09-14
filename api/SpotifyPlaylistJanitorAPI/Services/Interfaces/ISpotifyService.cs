@@ -60,6 +60,14 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<SpotifyPlayingState> GetCurrentPlayback();
 
         /// <summary>
+        /// Remove tracks from current users playlist.
+        /// </summary>
+        /// <param name="playlistId">Id of Spotify playlist.</param>
+        /// <param name="trackIds">Collection if track Ids to remove.</param>
+        /// <returns></returns>
+        Task<SnapshotResponse> DeletePlaylistTracks(string playlistId, IEnumerable<string> trackIds);
+
+        /// <summary>
         /// Check for Spotify credentials
         /// </summary>
         void CheckSpotifyCredentials();

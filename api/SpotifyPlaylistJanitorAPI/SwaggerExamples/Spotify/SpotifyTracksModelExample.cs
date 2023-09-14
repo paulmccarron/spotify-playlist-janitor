@@ -48,6 +48,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
                             }
                         },
                     },
+                    Duration = 100000,
                     IsLocal = false,
                 },
                 new SpotifyTrackModel
@@ -78,6 +79,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
                             }
                         },
                     },
+                    Duration = 100000,
                     IsLocal = true,
                 }
             };

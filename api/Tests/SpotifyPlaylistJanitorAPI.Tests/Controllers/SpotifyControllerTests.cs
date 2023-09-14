@@ -14,6 +14,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
     {
         private SpotifyController _spotifyController;
         private Mock<ISpotifyService> _spotifyServiceMock;
+        private Mock<IDatabaseService> _databaseServiceMock;
 
         [SetUp]
         public void Setup()
@@ -23,7 +24,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
                 .SetupGet(mock => mock.IsLoggedIn)
                 .Returns(true);
 
-            _spotifyController = new SpotifyController(_spotifyServiceMock.Object);
+            _databaseServiceMock = new Mock<IDatabaseService>();
+
+            _spotifyController = new SpotifyController(
+                _spotifyServiceMock.Object, 
+                _databaseServiceMock.Object
+                );
         }
 
         [Test]
@@ -222,6 +228,66 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             //Act
             var result = await _spotifyController.GetPlaylistTracks("id");
+
+            // Assert
+            var objResult = result.Result as ObjectResult;
+            objResult?.StatusCode.Should().Be(500);
+        }
+
+        [Test]
+        public async Task SpotifyController_DeletePlaylistTracks_Returns_No_Content()
+        {
+            //Arrange
+            var trackIds = Fixture.Build<string>().CreateMany();
+            var spotifyPlaylist = Fixture.Build<SpotifyPlaylistModel>().Create();
+
+            _spotifyServiceMock
+                .Setup(mock => mock.GetUserPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(spotifyPlaylist);
+
+            //Act
+            var result = await _spotifyController.DeletePlaylistTracks("id", trackIds);
+
+            // Assert
+            _spotifyServiceMock.Verify(mock => mock.DeletePlaylistTracks(It.IsAny<string>(), It.IsAny<IEnumerable<string>>()), Times.Once());
+            _databaseServiceMock.Verify(mock => mock.DeleteSkippedTracks(It.IsAny<string>(), It.IsAny<IEnumerable<string>>()), Times.Once());
+            result.Result.Should().BeOfType<NoContentResult>();
+        }
+
+        [Test]
+        public async Task SpotifyController_DeletePlaylistTracks_Returns_Not_Found()
+        {
+            //Arrange
+            var id = "playlist_id";
+            var trackIds = Fixture.Build<string>().CreateMany();
+            SpotifyPlaylistModel spotifyPlaylist = null;
+
+            _spotifyServiceMock
+                .Setup(mock => mock.GetUserPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(spotifyPlaylist);
+
+            var expectedMessage = new { Message = $"Could not find Spotify playlist with id: {id}" };
+
+            //Act
+            var result = await _spotifyController.DeletePlaylistTracks(id, trackIds);
+
+            // Assert
+            var objResult = result.Result as NotFoundObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
+        public async Task SpotifyController_DeletePlaylistTracks_Returns_Error_When_Not_Logged_In()
+        {
+            // Arrange
+            var trackIds = Fixture.Build<string>().CreateMany();
+
+            _spotifyServiceMock
+                .SetupGet(mock => mock.IsLoggedIn)
+                .Returns(false);
+
+            //Act
+            var result = await _spotifyController.DeletePlaylistTracks("id", trackIds);
 
             // Assert
             var objResult = result.Result as ObjectResult;
