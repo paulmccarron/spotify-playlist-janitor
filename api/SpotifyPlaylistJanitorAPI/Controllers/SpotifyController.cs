@@ -142,7 +142,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="trackIds"></param>
+        /// <param name="trackIds">Max 100 track Ids supported.</param>
         /// <returns></returns>
         /// <response code="204">Tracks successfully removed from current user's playlist.</response>
         /// <response code="404">No playlist found for that id.</response>

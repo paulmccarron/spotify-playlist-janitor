@@ -50,7 +50,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         {
             _spotifyService.CheckSpotifyCredentials();
             var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
-            var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
+            var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/auth/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
             {
                 Scope = new[] {
                     Scopes.UserReadEmail,
@@ -86,11 +86,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
             _spotifyService.SetClient(spotifyClient);
 
-            var profile = await _spotifyService.GetUserDetails();
-            var userName = profile.DisplayName;
-            ViewBag.UserName = userName;
-
-            return View("~/Views/Auth/Callback.cshtml");
+            return Redirect("~/");
         }
 
         /// <summary>

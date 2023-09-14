@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Spotify Playlist Janitor</h1>
+    <p>For more information, see documentation <a href="https://github.com/paulmccarron/spotify-playlist-janitor/tree/main#readme" target="_blank">here</a>.</p>
+    <br />
+    <p>@ViewBag.Message</p>
+    @using (Html.BeginForm("Auth", "Auth", FormMethod.Get))
+    {
+        <input type="submit" name="submit" value="@ViewBag.Button" />
+    }
+</div>
