@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
+using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services;
 using System;
@@ -21,6 +22,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         private Mock<DbSet<Track>> _dbSetTrackMock;
         private Mock<DbSet<Image>> _dbSetImageMock;
         private Mock<DbSet<SkippedTrack>> _dbSetSkippedMock;
+        private Mock<DbSet<User>> _dbSetUserMock;
 
         [SetUp]
         public void Init()
@@ -31,6 +33,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _dbSetTrackMock = new Mock<DbSet<Track>>();
             _dbSetImageMock = new Mock<DbSet<Image>>();
             _dbSetSkippedMock = new Mock<DbSet<SkippedTrack>>();
+            _dbSetUserMock = new Mock<DbSet<User>>();
             _dbContextMock = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
 
             _dbSetPlaylistMock.AddIQueryables(new List<Playlist>().AsQueryable());
@@ -63,6 +66,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.SkippedTracks)
                 .Returns(_dbSetSkippedMock.Object);
 
+            _dbSetUserMock.AddIQueryables(new List<User>().AsQueryable());
+            _dbContextMock
+                .Setup(mock => mock.Users)
+                .Returns(_dbSetUserMock.Object);
+
             _databaseService = new DatabaseService(_dbContextMock.Object);
         }
 
@@ -75,10 +83,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .AsQueryable();
 
             _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
-
-            _dbContextMock
-                .Setup(mock => mock.Playlists)
-                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResults = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -132,10 +136,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var playlistId = "RANDOM_ID";
 
             _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
-
-            _dbContextMock
-                .Setup(mock => mock.Playlists)
-                .Returns(_dbSetPlaylistMock.Object);
 
             //Act
             var result = await _databaseService.GetPlaylist(playlistId);
@@ -514,10 +514,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 SkippedDate = skippedTime,
             };
 
-            _dbContextMock
-                .Setup(mock => mock.SkippedTracks)
-                .Returns(_dbSetSkippedMock.Object);
-
             var expectedResult = new DatabaseSkippedTrackRequest
             {
                 PlaylistId = playlistId,
@@ -573,15 +569,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .AsQueryable();
 
             _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
-
-            var dbTracks = Fixture.Build<Track>()
-                .With(x => x.Id, track_id)
-                .CreateMany(1)
-                .AsQueryable();
-
-            _dbContextMock
-                .Setup(mock => mock.Playlists)
-                .Returns(_dbSetPlaylistMock.Object);
 
             var expectedResults = dbSkippedTracks
                 .Select(skipped => new DatabaseSkippedTrackResponse
@@ -641,6 +628,55 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             // Assert
             _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
             _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseService_GetUser_Returns_Data()
+        {
+            //Arrange
+            var dbUsers = Fixture.Build<User>()
+                .CreateMany()
+                .AsQueryable();
+
+            var userName = dbUsers.First().Username;
+
+            _dbSetUserMock.AddIQueryables(dbUsers);
+
+            var expectedResult = dbUsers
+                .Select(x => new UserDataModel
+                {
+                    Id = x.Id,
+                    UserName = x.Username,
+                    PasswordHash = x.PasswordHash,
+                    IsAdmin = x.IsAdmin,
+                })
+                .First();
+
+            //Act
+            var result = await _databaseService.GetUser(userName);
+
+            // Assert
+            result.Should().BeOfType<UserDataModel>();
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_GetUser_Returns_Null_For_Invalid_Id()
+        {
+            //Arrange
+            var dbUsers = Fixture.Build<User>()
+                .CreateMany()
+                .AsQueryable();
+
+            var userName = "RANDOM_ID";
+
+            _dbSetUserMock.AddIQueryables(dbUsers);
+
+            //Act
+            var result = await _databaseService.GetUser(userName);
+
+            // Assert
+            result.Should().BeNull();
         }
     }
 }

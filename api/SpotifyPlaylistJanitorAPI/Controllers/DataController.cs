@@ -12,7 +12,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class DataController : Controller
+    public class DataController : BaseController
     {
         private readonly IDatabaseService _databaseService;
 
@@ -58,7 +58,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             return Ok(playlist);
@@ -82,7 +82,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if (existingPlaylist is not null)
             {
-                return BadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
+                return GetBadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
             }
 
             var playlist = await _databaseService.AddPlaylist(playlistRequest);
@@ -110,7 +110,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             await _databaseService.DeletePlaylist(id);
@@ -136,22 +136,12 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             var skippedTracks = await _databaseService.GetPlaylistSkippedTracks(id);
 
             return Ok(skippedTracks);
-        }
-
-        private NotFoundObjectResult NotFoundResponse(string message)
-        {
-            return NotFound(new { Message = message });
-        }
-
-        private BadRequestObjectResult BadRequestResponse(string message)
-        {
-            return BadRequest(new { Message = message });
         }
     }
 }

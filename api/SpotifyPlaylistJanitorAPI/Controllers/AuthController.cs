@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
@@ -9,19 +7,16 @@ using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
     /// <summary>
     /// Controller for authorising application with Spotify API to make calls on behalf of the user.
     /// </summary>
-    [ExcludeFromCodeCoverage]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly ISpotifyService _spotifyService;
+        private readonly IAuthService _authService;
         private readonly SpotifyOption _spotifyOptions;
         private static string STATE = $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
 
@@ -29,10 +24,12 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service.</param>
+        /// <param name="authService">The Authentication Service.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
-        public AuthController(ISpotifyService spotifyService, IOptions<SpotifyOption> spotifyOptions)
+        public AuthController(ISpotifyService spotifyService, IAuthService authService, IOptions<SpotifyOption> spotifyOptions)
         {
             _spotifyService = spotifyService;
+            _authService = authService;
             _spotifyOptions = spotifyOptions.Value;
         }
 
@@ -40,6 +37,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// Default view for AuthController.
         /// </summary>
         /// <returns>Default view.</returns>
+        [ExcludeFromCodeCoverage]
         public IActionResult Index()
         {
             return View();
@@ -49,6 +47,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// Auth view for AuthController.
         /// </summary>
         /// <returns>Auth view.</returns>
+        [ExcludeFromCodeCoverage]
         [HttpGet()]
         public IActionResult Auth()
         {
@@ -77,6 +76,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="code">Code returned from first part of Authorization flow, used to request Oauth token.</param>
         /// <param name="state">Additional state parameter to vaidate callback information from first part of Authorization flow.</param>
         /// <returns>Callback view.</returns>
+        [ExcludeFromCodeCoverage]
         [HttpGet()]
         public async Task<IActionResult> Callback(string code, string state)
         {
@@ -89,7 +89,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
             
-            ////check attempted login against databse users
+            ////check attempted login against database users
             //var userProfile = await spotifyClient.UserProfile.Current();
             //var userEmail = userProfile.Email;
 
@@ -98,88 +98,44 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             return Redirect("~/");
         }
 
+        /// <summary>
+        /// Register a new user with the application.
+        /// </summary>
+        /// <param name="newUser">New User request.</param>
+        /// <returns></returns>
+        /// <response code="204">User successfully registered with the application.</response>
+        /// <response code="400">User already registered with the application.</response>
         [HttpPost("/register")]
-        public IActionResult Register([FromBody] UserLoginRequest newUser)
+        public async Task<IActionResult> RegisterUser([FromBody] UserLoginRequest newUser)
         {
-            //add username and password hash to database
-            return Ok();
+            var registered = await _authService.RegisterUser(newUser);
+
+            if (!registered)
+            {
+                return GetBadRequestResponse("User already exists.");
+            }
+
+            return NoContent();
         }
 
+        /// <summary>
+        /// Log a user into the application.
+        /// </summary>
+        /// <param name="login">User login request.</param>
+        /// <returns></returns>
+        /// <response code="200">Successful login request, returns Bearer Token.</response>
+        /// <response code="401">Unsuccessful login request, returns 401 unauthorized.</response>
         [HttpPost("/login")]
-        public IActionResult Login([FromBody] UserLoginRequest login)
+        public async Task<ActionResult<JWTModel>> Login([FromBody] UserLoginRequest login)
         {
-            IActionResult response = Unauthorized();
-            var user = AuthenticateUser(login);
+            var jwt = await _authService.AuthenticateUser(login);
 
-            if (user != null)
+            if(jwt is null)
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new { token = tokenString });
+                return Unauthorized();
             }
 
-            return response;
-        }
-
-        [HttpGet]
-        [Route("/admins")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminEndPoint()
-        {
-            var currentUser = GetCurrentUser();
-            return Ok($"Hi you are an {currentUser.Role}");
-        }
-
-        private string GenerateJSONWebToken(UserModel userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_spotifyOptions.ClientSecret));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier,userInfo.Username),
-                new Claim(ClaimTypes.Role,userInfo.Role)
-            };
-
-            var token = new JwtSecurityToken(
-                _spotifyOptions.ClientId,
-                _spotifyOptions.ClientId,
-                claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        private UserModel AuthenticateUser(UserLoginRequest login)
-        {
-            UserModel user = null;
-
-            //Validate the User Credentials
-            //Demo Purpose, I have Passed HardCoded User Information
-            if (login.Username == "paulcmccarron@gmail.com")
-            {
-                user = new UserModel { Username = "paulcmccarron@gmail.com", Role = "Admin" };
-            }
-            if (login.Username == "paulcmccarron@hotmail.com")
-            {
-                user = new UserModel { Username = "paulcmccarron@hotmail.com", Role = "User" };
-            }
-            return user;
-        }
-
-        private UserModel GetCurrentUser()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
-            {
-                var userClaims = identity.Claims;
-                return new UserModel
-                {
-                    Username = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value,
-                    Role = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value
-                };
-            }
-            return null;
+            return Ok(jwt);
         }
 
         /// <summary>

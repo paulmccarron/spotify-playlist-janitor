@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
+using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
@@ -345,6 +346,49 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToListAsync();
 
             return skippedTracks;
+        }
+
+        /// <summary>
+        /// Returns user from database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "UserDataModel" />.</returns>
+        public async Task<UserDataModel?> GetUser(string username)
+        {
+            var userDto = await _context.Users
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
+
+            var userModel = userDto is null ? null : new UserDataModel
+            {
+                Id = userDto.Id,
+                UserName = userDto.Username,
+                PasswordHash = userDto.PasswordHash,
+                IsAdmin = userDto.IsAdmin,
+            };
+
+            return userModel;
+        }
+
+        /// <summary>
+        /// Adds user to database.
+        /// </summary>
+        public async Task AddUser(string username, string passwordHash)
+        {
+            var userDtos = await _context.Users
+                .ToAsyncEnumerable()
+                .ToListAsync();
+
+            var userDto = new User
+            {
+                Username = username,
+                PasswordHash = passwordHash,
+                IsAdmin = userDtos.Count() == 0,
+            };
+
+            await _context.AddAsync(userDto);
+            await _context.SaveChangesAsync();
+
+            return;
         }
     }
 }

@@ -30,6 +30,8 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 
     public virtual DbSet<Track> Tracks { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql("name=DefaultConnection");
 
@@ -175,6 +177,22 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
                 .HasForeignKey(d => d.AlbumId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("tracks_album_id_fkey");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("users_pkey");
+
+            entity.ToTable("users");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IsAdmin).HasColumnName("is_admin");
+            entity.Property(e => e.PasswordHash)
+                .IsRequired()
+                .HasColumnName("password_hash");
+            entity.Property(e => e.Username)
+                .IsRequired()
+                .HasColumnName("username");
         });
 
         OnModelCreatingPartial(modelBuilder);

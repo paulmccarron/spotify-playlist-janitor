@@ -85,6 +85,8 @@ namespace SpotifyPlaylistJanitorAPIs
 
             services.AddSingleton<ISpotifyService, SpotifyService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, DatabaseUserService>();
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
             services.AddHostedService<SpotifyPollingService>();
 
