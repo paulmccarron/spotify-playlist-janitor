@@ -72,6 +72,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             // Assert
             _authService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
+            result.Should().BeOfType<BadRequestObjectResult>();
             var objResult = result as BadRequestObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
@@ -112,7 +113,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 
             // Assert
             _authService.Verify(mock => mock.AuthenticateUser(userLoginRequest), Times.Once);
-            result.Should().BeOfType<UnauthorizedResult>();
+            result.Result.Should().BeOfType<UnauthorizedResult>();
         }
     }
 }

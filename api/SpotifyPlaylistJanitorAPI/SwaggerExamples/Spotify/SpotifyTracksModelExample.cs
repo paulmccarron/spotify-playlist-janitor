@@ -1,8 +1,6 @@
-﻿using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
-using SpotifyPlaylistJanitorAPI.Models.Spotify;
+﻿using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
-using static SpotifyAPI.Web.PlaylistRemoveItemsRequest;
 
 namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
 {

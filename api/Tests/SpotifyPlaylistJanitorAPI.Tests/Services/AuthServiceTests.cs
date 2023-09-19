@@ -1,14 +1,9 @@
 ﻿using Moq;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using SpotifyPlaylistJanitorAPI.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
-using SpotifyAPI.Web;
 using System.Security.Cryptography;
 using AutoFixture;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
@@ -16,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using FluentAssertions;
+using SpotifyPlaylistJanitorAPI.System;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
@@ -39,6 +35,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             });
 
             _authService = new AuthService(_userServiceMock.Object, _spotifyOptions);
+
+            SystemTime.SetDateTime(DateTime.Now);
+        }
+
+        [TearDown]
+        public void Dispose()
+        {
+            SystemTime.ResetDateTime();
         }
 
         [Test]
@@ -67,9 +71,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
-            var expectedResult = Fixture.Build<JWTModel>()
-                .With( x => x.Token, GenerateJSONWebToken(userModel))
-                .Create();
+            var expectedResult = new JWTModel
+            {
+                Token = GenerateJSONWebToken(userModel)
+            };
 
             //Act
             var result = await _authService.AuthenticateUser(userLogin);
@@ -104,9 +109,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
-            var expectedResult = Fixture.Build<JWTModel>()
-                .With(x => x.Token, GenerateJSONWebToken(userModel))
-                .Create();
+            var expectedResult = new JWTModel
+            {
+                Token = GenerateJSONWebToken(userModel)
+            };
 
             //Act
             var result = await _authService.AuthenticateUser(userLogin);
@@ -166,6 +172,62 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             result.Should().BeNull();
         }
 
+        [Test]
+        public async Task AuthService_RegisterUser_Returns_True()
+        {
+            //Arrange
+            UserDataModel user = null;
+            var username = "username";
+            var password = "test_password";
+            var passwordHash = HashString(password);
+
+            var userLogin = Fixture.Build<UserLoginRequest>()
+                .With(x => x.Username, username)
+                .With(x => x.Password, password)
+                .Create();
+
+            _userServiceMock
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(user);
+
+            //Act
+            var result = await _authService.RegisterUser(userLogin);
+
+            //Assert
+            _userServiceMock.Verify(mock => mock.AddUser(username, passwordHash), Times.Once);
+            result.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task AuthService_RegisterUser_Returns_False()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userLogin = Fixture.Build<UserLoginRequest>()
+                .With(x => x.Username, username)
+                .With(x => x.Password, password)
+                .Create();
+
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .With(x => x.PasswordHash, HashString(password))
+                .With(x => x.IsAdmin, false)
+                .Create();
+
+            _userServiceMock
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            var result = await _authService.RegisterUser(userLogin);
+
+            //Assert
+            _userServiceMock.Verify(mock => mock.AddUser(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            result.Should().BeFalse();
+        }
+
         private string HashString(string stringToHash)
         {
             var salt = Encoding.ASCII.GetBytes(CLIENT_SECRET);
@@ -194,7 +256,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 CLIENT_ID,
                 CLIENT_ID,
                 claims,
-                expires: DateTime.Now.AddMinutes(120),
+                expires: SystemTime.Now().AddMinutes(120),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

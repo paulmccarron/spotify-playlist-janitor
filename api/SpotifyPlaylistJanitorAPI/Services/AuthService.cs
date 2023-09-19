@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
+using SpotifyPlaylistJanitorAPI.System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -111,7 +110,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 _spotifyOptions.ClientId,
                 _spotifyOptions.ClientId,
                 claims,
-                expires: DateTime.Now.AddMinutes(120),
+                expires: SystemTime.Now().AddMinutes(120),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -678,5 +678,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             // Assert
             result.Should().BeNull();
         }
+
+        [Test]
+        public async Task DatabaseService_AddUser_Adds_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+            var passwordHash = "paswordHash";
+
+            //Act
+            await _databaseService.AddUser(username, passwordHash);
+
+            // Assert
+            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
+            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
     }
 }

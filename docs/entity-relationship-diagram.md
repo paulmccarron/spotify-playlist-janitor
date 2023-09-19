@@ -69,4 +69,11 @@ erDiagram
         VARCHAR playlist_id FK
         VARCHAR track_id FK
     }
+    
+    USERS {
+        VARCHAR id PK
+        VARCHAR username
+        VARCHAR password_hash
+        BOOL is_admin
+    }
 ```

@@ -5,6 +5,8 @@ using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
+using SpotifyPlaylistJanitorAPI.SwaggerExamples.Auth;
+using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -99,12 +101,26 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
+        /// Error view for AuthController.
+        /// </summary>
+        /// <returns>Error view.</returns>
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ExcludeFromCodeCoverage]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
         /// Register a new user with the application.
         /// </summary>
         /// <param name="newUser">New User request.</param>
         /// <returns></returns>
         /// <response code="204">User successfully registered with the application.</response>
         /// <response code="400">User already registered with the application.</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(UserAlreadyExistsExample))]
         [HttpPost("/register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserLoginRequest newUser)
         {
@@ -125,6 +141,9 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <returns></returns>
         /// <response code="200">Successful login request, returns Bearer Token.</response>
         /// <response code="401">Unsuccessful login request, returns 401 unauthorized.</response>
+        [ProducesResponseType(typeof(UserLoginExample), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(UserLoginExample))]
         [HttpPost("/login")]
         public async Task<ActionResult<JWTModel>> Login([FromBody] UserLoginRequest login)
         {
@@ -136,16 +155,6 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             }
 
             return Ok(jwt);
-        }
-
-        /// <summary>
-        /// Error view for AuthController.
-        /// </summary>
-        /// <returns>Error view.</returns>
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

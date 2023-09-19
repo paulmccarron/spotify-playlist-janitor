@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -11,6 +12,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     /// Controller for requests to Spotify API.
     /// </summary>
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class SpotifyController : Controller
     {
@@ -33,6 +35,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Current user details.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("user")]
         [ProducesResponseType(typeof(SpotifyUserModel), StatusCodes.Status200OK)]
@@ -56,6 +59,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Current user's playlists.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("playlists")]
         [ProducesResponseType(typeof(IEnumerable<SpotifyPlaylistModel>), StatusCodes.Status200OK)]
@@ -79,6 +83,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Current user's playlist.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for that id.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("playlists/{id}")]
@@ -110,6 +115,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Tracks from current user's playlist.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for that id.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
         [HttpGet("playlists/{id}/tracks")]
@@ -145,9 +151,9 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="trackIds">Max 100 track Ids supported.</param>
         /// <returns></returns>
         /// <response code="204">Tracks successfully removed from current user's playlist.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for that id.</response>
         /// <response code="500">Application has not been logged into users Spotify account.</response>
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(SpotifyPlaylistNotFoundExample))]
