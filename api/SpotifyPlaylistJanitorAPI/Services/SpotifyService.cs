@@ -81,7 +81,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
             
-            var currentUser =  await _spotifyClient.UserProfile.Current();
+            var currentUser = await _spotifyClient.UserProfile.Current();
 
             return new SpotifyUserModel
             {

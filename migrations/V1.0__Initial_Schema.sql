@@ -66,3 +66,10 @@ CREATE TABLE skipped_tracks (
     FOREIGN KEY (playlist_id) REFERENCES playlists(id),
     FOREIGN KEY (track_id) REFERENCES tracks(id)
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY not null,
+    username text not null,
+    password_hash text not null,
+    is_admin boolean not null
+);

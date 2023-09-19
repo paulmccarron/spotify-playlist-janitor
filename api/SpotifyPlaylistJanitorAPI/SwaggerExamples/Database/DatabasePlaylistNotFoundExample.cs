@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SpotifyPlaylistJanitorAPI.Models;
-using SpotifyPlaylistJanitorAPI.Models.Database;
+﻿using SpotifyPlaylistJanitorAPI.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
 

@@ -4,6 +4,7 @@ using SpotifyPlaylistJanitorAPI.Models;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.SwaggerExamples.Database;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
@@ -11,8 +12,9 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     /// Controller for requests to the database.
     /// </summary>
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
-    public class DataController : Controller
+    public class DataController : BaseController
     {
         private readonly IDatabaseService _databaseService;
 
@@ -30,6 +32,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// </summary>
         /// <returns></returns>
         /// <response code="200">Current monitored playlists.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         [HttpGet("playlists")]
         [ProducesResponseType(typeof(IEnumerable<DatabasePlaylistModel>), StatusCodes.Status200OK)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistsModelExample))]
@@ -46,6 +49,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="200">Current monitored playlist.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for given Id.</response>
         [HttpGet("playlists/{id}")]
         [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status200OK)]
@@ -58,7 +62,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             return Ok(playlist);
@@ -71,6 +75,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <returns></returns>
         /// <response code="201">Playlist successfully added.</response>
         /// <response code="400">Playlist already exists.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         [HttpPost("playlists")]
         [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
@@ -82,7 +87,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if (existingPlaylist is not null)
             {
-                return BadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
+                return GetBadRequestResponse($"Playlist with id: {playlistRequest.Id} already exists");
             }
 
             var playlist = await _databaseService.AddPlaylist(playlistRequest);
@@ -99,6 +104,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="204">Playlist successfully deleted.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for given Id.</response>
         [HttpDelete("playlists/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -110,7 +116,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             await _databaseService.DeletePlaylist(id);
@@ -124,6 +130,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="id">Playlist id.</param>
         /// <returns></returns>
         /// <response code="200">Monitored playlist skipped tracks.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
         /// <response code="404">No playlist found for given Id.</response>
         [HttpGet("playlists/{id}/skipped")]
         [ProducesResponseType(typeof(IEnumerable<DatabaseSkippedTrackResponse>), StatusCodes.Status200OK)]
@@ -136,22 +143,12 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             if(playlist is null)
             {
-                return NotFoundResponse($"Could not find playlist with id: {id}");
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
             }
 
             var skippedTracks = await _databaseService.GetPlaylistSkippedTracks(id);
 
             return Ok(skippedTracks);
-        }
-
-        private NotFoundObjectResult NotFoundResponse(string message)
-        {
-            return NotFound(new { Message = message });
-        }
-
-        private BadRequestObjectResult BadRequestResponse(string message)
-        {
-            return BadRequest(new { Message = message });
         }
     }
 }

@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
@@ -8,6 +10,7 @@ using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Text;
 
 namespace SpotifyPlaylistJanitorAPIs
 {
@@ -41,6 +44,21 @@ namespace SpotifyPlaylistJanitorAPIs
             services.Configure<SpotifyOption>(_configuration.GetSection("Spotify"));
             services.AddRouting();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = _configuration["Spotify:ClientId"],
+                        ValidAudience = _configuration["Spotify:ClientId"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientSecret"]))
+                    };
+                });
+
             services.AddMvc();
 
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
@@ -51,6 +69,35 @@ namespace SpotifyPlaylistJanitorAPIs
                     Title = "Spotify Playlist Janitor",
                     Version = $"v1",
                     Description = "Spotify Playlist Janitor back end API"
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme.<br/> 
+                      Enter 'Bearer' [space] and then your token in the text input below.<br/> 
+                      Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                    }
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -67,6 +114,8 @@ namespace SpotifyPlaylistJanitorAPIs
 
             services.AddSingleton<ISpotifyService, SpotifyService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, DatabaseUserService>();
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
             services.AddHostedService<SpotifyPollingService>();
 

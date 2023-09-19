@@ -2,13 +2,13 @@
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics.CodeAnalysis;
 
-namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
+namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Auth
 {
     /// <summary>
     /// Swagger example.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ApplicationNotLoggedInExample : IExamplesProvider<ErrorResponseModel>
+    public class UserAlreadyExistsExample : IExamplesProvider<ErrorResponseModel>
     {
         /// <summary>
         /// Implementation of Swashbuckle GetExamples() IExamplesProvider method.
@@ -18,7 +18,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify
         {
             return new ErrorResponseModel
             {
-                Message = "Application has not been logged into your Spotify account."
+                Message = "User already exists.",
             };
         }
     }

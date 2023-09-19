@@ -239,10 +239,46 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
+            var trackIds = Fixture.Build<string>().CreateMany(50).ToList();
+
             //Act
-            var result = await _spotifyService.DeletePlaylistTracks("id", new List<string>());
+            var result = await _spotifyService.DeletePlaylistTracks("id", trackIds);
 
             // Assert
+            _spotifyClientMock.Verify(mock => mock.Playlists.RemoveItems(
+                It.IsAny<string>(),
+                It.Is<PlaylistRemoveItemsRequest>(request => request.Tracks.Count == trackIds.Count),
+                It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeEquivalentTo(snapshotResponse);
+        }
+
+        [Test]
+        public async Task SpotifyService_DeletePlaylistTracks_Only_Deletes_100_Tracks_Returns()
+        {
+            //Arrange
+            var snapshotResponse = new SnapshotResponse
+            {
+                SnapshotId = "snaphot_id"
+            };
+            var mockPlaylists = new Mock<IPlaylistsClient>();
+            mockPlaylists
+                .Setup(mock => mock.RemoveItems(It.IsAny<string>(), It.IsAny<PlaylistRemoveItemsRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(snapshotResponse);
+
+            _spotifyClientMock
+                .Setup(mock => mock.Playlists)
+                .Returns(mockPlaylists.Object);
+
+            var trackIds = Fixture.Build<string>().CreateMany(150).ToList();
+
+            //Act
+            var result = await _spotifyService.DeletePlaylistTracks("id", trackIds);
+
+            // Assert
+            _spotifyClientMock.Verify(mock => mock.Playlists.RemoveItems(
+                It.IsAny<string>(),
+                It.Is<PlaylistRemoveItemsRequest>(request => request.Tracks.Count == 100),
+                It.IsAny<CancellationToken>()), Times.Once);
             result.Should().BeEquivalentTo(snapshotResponse);
         }
 

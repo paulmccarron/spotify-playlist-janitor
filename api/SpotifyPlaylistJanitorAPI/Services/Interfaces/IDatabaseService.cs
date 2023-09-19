@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistJanitorAPI.Models.Database;
+﻿using SpotifyPlaylistJanitorAPI.Models.Auth;
+using SpotifyPlaylistJanitorAPI.Models.Database;
 
 namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
 {
@@ -82,5 +83,16 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackResponse" />.</returns>
         Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId);
+
+        /// <summary>
+        /// Returns user from database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "UserDataModel" />.</returns>
+        Task<UserDataModel?> GetUser(string username);
+
+        /// <summary>
+        /// Adds user to database.
+        /// </summary>
+        Task AddUser(string username, string passwordHash);
     }
 }
