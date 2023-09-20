@@ -75,5 +75,7 @@ erDiagram
         VARCHAR username
         VARCHAR password_hash
         BOOL is_admin
+        VARCHAR refresh_token
+        TIMESTAMP refresh_token_expiry
     }
 ```
