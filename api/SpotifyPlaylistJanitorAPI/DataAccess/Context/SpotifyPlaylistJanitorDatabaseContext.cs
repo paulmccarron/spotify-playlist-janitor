@@ -193,6 +193,11 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasColumnName("username");
+            entity.Property(e => e.RefreshToken)
+                .HasColumnName("refresh_token");
+            entity.Property(e => e.RefreshTokenExpiry)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("refresh_token_expiry");
         });
 
         OnModelCreatingPartial(modelBuilder);

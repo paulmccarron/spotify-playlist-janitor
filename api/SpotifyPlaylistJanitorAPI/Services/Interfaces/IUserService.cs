@@ -18,5 +18,15 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Adds user to store.
         /// </summary>
         Task AddUser(string username, string passwordHash);
+
+        /// <summary>
+        /// Set user refresh token in store.
+        /// </summary>
+        Task SetUserRefreshToken(string username, string refreshToken, DateTime tokenExpiry);
+
+        /// <summary>
+        /// Remove user refresh token from store.
+        /// </summary>
+        Task ExpireUserRefreshToken(string username);
     }
 }

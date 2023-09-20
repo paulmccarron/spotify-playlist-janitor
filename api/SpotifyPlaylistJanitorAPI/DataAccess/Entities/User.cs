@@ -10,4 +10,8 @@ public partial class User
     public string PasswordHash { get; set; } = null!;
 
     public bool IsAdmin { get; set; }
+
+    public string? RefreshToken { get; set; } = null;
+
+    public DateTime? RefreshTokenExpiry { get; set; } = null;
 }

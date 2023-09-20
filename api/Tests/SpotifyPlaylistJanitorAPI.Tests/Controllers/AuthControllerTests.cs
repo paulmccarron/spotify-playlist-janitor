@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -18,6 +19,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         private AuthController _authController;
         private Mock<ISpotifyService> _spotifyServiceMock;
         private Mock<IAuthService> _authService;
+        private Mock<IHttpContextAccessor> _httpContextAccessorMock;
         private IOptions<SpotifyOption> _spotifyOptions;
 
         [SetUp]
@@ -34,7 +36,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             _authController = new AuthController(
                 _spotifyServiceMock.Object, 
                 _authService.Object, 
-                _spotifyOptions);
+                _spotifyOptions,
+                _httpContextAccessorMock.Object);
         }
 
         [Test]

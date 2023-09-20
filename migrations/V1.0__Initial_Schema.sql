@@ -71,5 +71,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY not null,
     username text not null,
     password_hash text not null,
-    is_admin boolean not null
+    is_admin boolean not null,
+    refresh_token text,
+    refresh_token_expiry timestamp
 );

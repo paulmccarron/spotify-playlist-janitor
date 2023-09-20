@@ -119,6 +119,8 @@ namespace SpotifyPlaylistJanitorAPIs
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
             services.AddHostedService<SpotifyPollingService>();
 
+            services.AddHttpContextAccessor();
+
             services.AddLogging(builder =>
                 builder
                     .AddDebug()

@@ -364,6 +364,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 UserName = userDto.Username,
                 PasswordHash = userDto.PasswordHash,
                 IsAdmin = userDto.IsAdmin,
+                RefreshToken = userDto.RefreshToken,
+                RefreshTokenExpiry = userDto.RefreshTokenExpiry,
             };
 
             return userModel;
@@ -387,8 +389,28 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             await _context.AddAsync(userDto);
             await _context.SaveChangesAsync();
+        }
 
-            return;
+        /// <summary>
+        /// Updates user refresh token in database.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="refreshToken"></param>
+        /// <param name="refreshTokenExpiry"></param>
+        /// <returns></returns>
+        public async Task UpdateUserRefreshToken(string username, string? refreshToken, DateTime? refreshTokenExpiry)
+        {
+            var userDto = await _context.Users
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
+
+            if(userDto is not null)
+            {
+                userDto.RefreshToken = refreshToken;
+                userDto.RefreshTokenExpiry = refreshTokenExpiry;
+
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

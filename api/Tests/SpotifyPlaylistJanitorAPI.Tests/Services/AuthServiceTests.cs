@@ -73,14 +73,18 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var expectedResult = new JWTModel
             {
-                Token = GenerateJSONWebToken(userModel)
+                AccessToken = GenerateJSONWebToken(userModel),
+                ExpiresIn = (int)TimeSpan.FromHours(1).TotalMilliseconds,
+                RefreshToken = "",
             };
 
             //Act
             var result = await _authService.AuthenticateUser(userLogin);
 
             //Assert
-            result.Should().BeEquivalentTo(expectedResult);
+            result.AccessToken.Should().BeSameAs(expectedResult.AccessToken);
+            result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
+            result.RefreshToken.Should().NotBeNullOrWhiteSpace();
         }
 
         [Test]
@@ -111,14 +115,18 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var expectedResult = new JWTModel
             {
-                Token = GenerateJSONWebToken(userModel)
+                AccessToken = GenerateJSONWebToken(userModel),
+                ExpiresIn = (int)TimeSpan.FromHours(1).TotalMilliseconds,
+                RefreshToken = "",
             };
 
             //Act
             var result = await _authService.AuthenticateUser(userLogin);
 
             //Assert
-            result.Should().BeEquivalentTo(expectedResult);
+            result.AccessToken.Should().BeSameAs(expectedResult.AccessToken);
+            result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
+            result.RefreshToken.Should().NotBeNullOrWhiteSpace();
         }
 
         [Test]

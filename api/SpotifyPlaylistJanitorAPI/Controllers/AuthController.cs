@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
@@ -9,6 +11,7 @@ using SpotifyPlaylistJanitorAPI.SwaggerExamples.Auth;
 using Swashbuckle.AspNetCore.Filters;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
@@ -20,6 +23,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         private readonly ISpotifyService _spotifyService;
         private readonly IAuthService _authService;
         private readonly SpotifyOption _spotifyOptions;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private static string STATE = $"{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
 
         /// <summary>
@@ -28,11 +32,13 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <param name="spotifyService">The Spotify Service.</param>
         /// <param name="authService">The Authentication Service.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
-        public AuthController(ISpotifyService spotifyService, IAuthService authService, IOptions<SpotifyOption> spotifyOptions)
+        /// <param name="httpContextAccessor">Http Context Accessor.</param>
+        public AuthController(ISpotifyService spotifyService, IAuthService authService, IOptions<SpotifyOption> spotifyOptions, IHttpContextAccessor httpContextAccessor)
         {
             _spotifyService = spotifyService;
             _authService = authService;
             _spotifyOptions = spotifyOptions.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -155,6 +161,48 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             }
 
             return Ok(jwt);
+        }
+
+        /// <summary>
+        /// Log a user into the application.
+        /// </summary>
+        /// <param name="refreshRequest">Token refresh request.</param>
+        /// <returns></returns>
+        /// <response code="200">Successful refresh request, returns new Bearer Token.</response>
+        /// <response code="400">Unsuccessful refresh request, supplied refresh token is invalid.</response>
+        [ProducesResponseType(typeof(UserLoginExample), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(UserLoginExample))]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(InvalidRefreshResponseExample))]
+        [Authorize]
+        [HttpPost("/refresh")]
+        public async Task<ActionResult<JWTModel>> Refresh([FromBody] TokenRefreshModel refreshRequest)
+        {
+            var accessToken = await _httpContextAccessor.HttpContext?.GetTokenAsync("access_token");
+            var jwt = await _authService.RefreshUserToken(accessToken, refreshRequest.RefreshToken);
+
+            if (jwt is null)
+            {
+                return GetBadRequestResponse("Invalid refresh request.");
+            }
+
+            return Ok(jwt);
+        }
+
+        /// <summary>
+        /// Revoke current users refresh token.
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="204">Successful revoked users refresh token.</response>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize]
+        [HttpPost("/revoke")]
+        public async Task<ActionResult<JWTModel>> Revoke()
+        {
+            var username = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            await _authService.ExpireUserRefreshToken(username);
+
+            return NoContent();
         }
     }
 }
