@@ -44,7 +44,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             JWTModel? jwt = null;
             UserModel? user = null;
-            var storedUser = await _userService.GetUser(login.Username);
+            var storedUser = await _userService.GetUser(login.Email);
 
             if(storedUser is not null)
             {
@@ -74,7 +74,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 var refreshTokenExpiry = now.AddHours(refreshTokenExpiryHours);
 
-                await _userService.SetUserRefreshToken(login.Username, refreshToken, refreshTokenExpiry);
+                await _userService.SetUserRefreshToken(login.Email, refreshToken, refreshTokenExpiry);
             }
 
 
@@ -88,7 +88,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns a <see cref = "bool" /> signifying successfully registering requested user.</returns>
         public async Task<bool> RegisterUser(UserLoginRequest login)
         {
-            var storedUser = await _userService.GetUser(login.Username);
+            var storedUser = await _userService.GetUser(login.Email);
 
             if (storedUser is not null)
             {
@@ -97,7 +97,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var passwordHash = HashPasword(login.Password);
 
-            await _userService.AddUser(login.Username, passwordHash);
+            await _userService.AddUser(login.Email, passwordHash);
 
             return true;
         }

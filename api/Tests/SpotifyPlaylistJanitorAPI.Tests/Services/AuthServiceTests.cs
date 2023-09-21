@@ -52,7 +52,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, password)
                 .Create();
 
@@ -94,7 +94,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, password)
                 .Create();
 
@@ -136,7 +136,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, "incorrect_password")
                 .Create();
 
@@ -165,7 +165,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, password)
                 .Create();
 
@@ -190,7 +190,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var passwordHash = HashString(password);
 
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, password)
                 .Create();
 
@@ -214,7 +214,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var password = "test_password";
 
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Username, username)
+                .With(x => x.Email, username)
                 .With(x => x.Password, password)
                 .Create();
 

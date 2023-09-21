@@ -6,9 +6,9 @@
     public class UserLoginRequest
     {
         /// <summary>
-        /// User name.
+        /// User email.
         /// </summary>
-        public required string Username { get; set; }
+        public required string Email { get; set; }
 
         /// <summary>
         /// User password.
