@@ -19,22 +19,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class AuthServiceTests : TestBase
     {
         private AuthService _authService;
-        private Mock<IUserService> _userServiceMock;
-        private IOptions<SpotifyOption> _spotifyOptions;
-        private const string CLIENT_ID = "mockClientId";
-        private const string CLIENT_SECRET = "mockClientSecret-mockClientSecret";
 
         [SetUp]
         public void Init()
         {
-            _userServiceMock = new Mock<IUserService>();
-            _spotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = CLIENT_ID,
-                ClientSecret = CLIENT_SECRET,
-            });
-
-            _authService = new AuthService(_userServiceMock.Object, _spotifyOptions);
+            _authService = new AuthService(MockUserService.Object, SpotifyOptions);
 
             SystemTime.SetDateTime(DateTime.Now);
         }
@@ -67,7 +56,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Role, "Admin")
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
@@ -82,7 +71,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.AuthenticateUser(userLogin);
 
             //Assert
-            result.AccessToken.Should().BeSameAs(expectedResult.AccessToken);
+            result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
             result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
             result.RefreshToken.Should().NotBeNullOrWhiteSpace();
         }
@@ -109,7 +98,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Role, "User")
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
@@ -124,7 +113,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.AuthenticateUser(userLogin);
 
             //Assert
-            result.AccessToken.Should().BeSameAs(expectedResult.AccessToken);
+            result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
             result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
             result.RefreshToken.Should().NotBeNullOrWhiteSpace();
         }
@@ -146,7 +135,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.IsAdmin, true)
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
@@ -169,7 +158,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Password, password)
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
@@ -194,7 +183,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Password, password)
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(user);
 
@@ -202,7 +191,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RegisterUser(userLogin);
 
             //Assert
-            _userServiceMock.Verify(mock => mock.AddUser(username, passwordHash), Times.Once);
+            MockUserService.Verify(mock => mock.AddUser(username, passwordHash), Times.Once);
             result.Should().BeTrue();
         }
 
@@ -224,7 +213,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.IsAdmin, false)
                 .Create();
 
-            _userServiceMock
+            MockUserService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userDataModel);
 
@@ -232,42 +221,256 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RegisterUser(userLogin);
 
             //Assert
-            _userServiceMock.Verify(mock => mock.AddUser(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            MockUserService.Verify(mock => mock.AddUser(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             result.Should().BeFalse();
         }
 
-        private string HashString(string stringToHash)
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_Admin_Data()
         {
-            var salt = Encoding.ASCII.GetBytes(CLIENT_SECRET);
-            var hash = Rfc2898DeriveBytes.Pbkdf2(
-                Encoding.UTF8.GetBytes(stringToHash),
-                salt,
-                350000,
-                HashAlgorithmName.SHA512,
-                64);
+            //Arrange
+            var username = "username";
+            var password = "test_password";
 
-            return Convert.ToHexString(hash);
-        }
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, username)
+                .With(x => x.Role, "Admin")
+                .Create();
 
-        private string GenerateJSONWebToken(UserModel userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(CLIENT_SECRET));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+            var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
-            var claims = new[]
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .With(x => x.PasswordHash, HashString(password))
+                .With(x => x.IsAdmin, true)
+                .With(x => x.RefreshToken, refreshToken)
+                .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            var expectedResult = new JWTModel
             {
-                new Claim(ClaimTypes.NameIdentifier,userInfo.Username),
-                new Claim(ClaimTypes.Role,userInfo.Role)
+                AccessToken = GenerateJSONWebToken(userModel),
+                ExpiresIn = (int)TimeSpan.FromHours(1).TotalMilliseconds,
+                RefreshToken = "",
             };
 
-            var token = new JwtSecurityToken(
-                CLIENT_ID,
-                CLIENT_ID,
-                claims,
-                expires: SystemTime.Now().AddMinutes(120),
-                signingCredentials: credentials);
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            //Assert
+            result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
+            result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
+            result.RefreshToken.Should().NotBeNullOrWhiteSpace();
+        }
+
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_User_Data()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, username)
+                .With(x => x.Role, "User")
+                .Create();
+
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+            var refreshTokenExpiry = SystemTime.Now().AddHours(1);
+
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .With(x => x.PasswordHash, HashString(password))
+                .With(x => x.IsAdmin, false)
+                .With(x => x.RefreshToken, refreshToken)
+                .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            var expectedResult = new JWTModel
+            {
+                AccessToken = GenerateJSONWebToken(userModel),
+                ExpiresIn = (int)TimeSpan.FromHours(1).TotalMilliseconds,
+                RefreshToken = "",
+            };
+
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
+
+            //Assert
+            result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
+            result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
+            result.RefreshToken.Should().NotBeNullOrWhiteSpace();
+        }
+
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_Null_When_No_Username()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, string.Empty)
+                .With(x => x.Role, "User")
+                .Create();
+
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+            var refreshTokenExpiry = SystemTime.Now().AddHours(1);
+
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
+
+            //Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_Null_When_User_Wrong()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, username)
+                .With(x => x.Role, "User")
+                .Create();
+
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+
+            UserDataModel userDataModel = null;
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
+
+            //Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_Null_When_Refresh_Token_Wrong()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, username)
+                .With(x => x.Role, "User")
+                .Create();
+
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+            var refreshTokenExpiry = SystemTime.Now().AddHours(1);
+
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .With(x => x.PasswordHash, HashString(password))
+                .With(x => x.IsAdmin, false)
+                .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
+
+            //Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task AuthService_RefreshUserToken_Returns_Null_When_Refresh_Token_Expired()
+        {
+            //Arrange
+            var username = "username";
+            var password = "test_password";
+
+            var userModel = Fixture.Build<UserModel>()
+                .With(x => x.Username, username)
+                .With(x => x.Role, "User")
+                .Create();
+
+            var accessToken = GenerateJSONWebToken(userModel);
+            var refreshToken = "refreshToken";
+            var refreshTokenExpiry = SystemTime.Now().AddHours(-1);
+
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .With(x => x.PasswordHash, HashString(password))
+                .With(x => x.IsAdmin, false)
+                .With(x => x.RefreshToken, refreshToken)
+                .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            var result = await _authService.RefreshUserToken(accessToken, refreshToken);
+
+            //Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task AuthService_ExpireUserRefreshToken_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+           
+            var userDataModel = Fixture.Build<UserDataModel>()
+                .With(x => x.UserName, username)
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            await _authService.ExpireUserRefreshToken(username);
+
+            //Assert
+            MockUserService.Verify(mock => mock.ExpireUserRefreshToken(It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public async Task AuthService_ExpireUserRefreshToken_Skips_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+
+            UserDataModel userDataModel = null;
+
+            MockUserService
+                .Setup(mock => mock.GetUser(It.IsAny<string>()))
+                .ReturnsAsync(userDataModel);
+
+            //Act
+            await _authService.ExpireUserRefreshToken(username);
+
+            //Assert
+            MockUserService.Verify(mock => mock.ExpireUserRefreshToken(It.IsAny<string>()), Times.Never);
         }
     }
 }

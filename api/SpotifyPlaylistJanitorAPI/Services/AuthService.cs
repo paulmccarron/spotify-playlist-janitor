@@ -187,7 +187,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 _spotifyOptions.ClientId,
                 _spotifyOptions.ClientId,
                 claims,
-                expires: now.AddMinutes(refreshTokenExpiryHours),
+                expires: now.AddHours(refreshTokenExpiryHours),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

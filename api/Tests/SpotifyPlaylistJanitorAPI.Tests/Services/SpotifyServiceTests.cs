@@ -14,21 +14,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class SpotifyServiceTests : TestBase
     {
         private SpotifyService _spotifyService;
-        private IOptions<SpotifyOption> _spotifyOptions;
-        private Mock<ISpotifyClient> _spotifyClientMock;
 
         [SetUp]
         public void Setup()
         {
-            _spotifyClientMock = new Mock<ISpotifyClient>();
-            _spotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "mockClientId",
-                ClientSecret = "mockClientSecret",
-            });
-
-            _spotifyService = new SpotifyService(_spotifyOptions);
-            _spotifyService.SetClient(_spotifyClientMock.Object);
+            _spotifyService = new SpotifyService(SpotifyOptions);
+            _spotifyService.SetClient(MockSpotifyClient.Object);
         }
 
         [Test]
@@ -66,7 +57,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                     Href = userHref,
                 });
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.UserProfile)
                 .Returns(mockUserProfile.Object);
 
@@ -109,11 +100,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.CurrentUsers(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Paging<SimplePlaylist>());
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.PaginateAll(It.IsAny<IPaginatable<SimplePlaylist>>(), It.IsAny<IPaginator>()))
                 .ReturnsAsync(spotifyPlaylists);
 
@@ -165,7 +156,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(spotifyPlaylist);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
@@ -198,7 +189,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new APIException());
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
@@ -235,7 +226,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.RemoveItems(It.IsAny<string>(), It.IsAny<PlaylistRemoveItemsRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(snapshotResponse);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
@@ -245,7 +236,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _spotifyService.DeletePlaylistTracks("id", trackIds);
 
             // Assert
-            _spotifyClientMock.Verify(mock => mock.Playlists.RemoveItems(
+            MockSpotifyClient.Verify(mock => mock.Playlists.RemoveItems(
                 It.IsAny<string>(),
                 It.Is<PlaylistRemoveItemsRequest>(request => request.Tracks.Count == trackIds.Count),
                 It.IsAny<CancellationToken>()), Times.Once);
@@ -265,7 +256,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.RemoveItems(It.IsAny<string>(), It.IsAny<PlaylistRemoveItemsRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(snapshotResponse);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
@@ -275,7 +266,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _spotifyService.DeletePlaylistTracks("id", trackIds);
 
             // Assert
-            _spotifyClientMock.Verify(mock => mock.Playlists.RemoveItems(
+            MockSpotifyClient.Verify(mock => mock.Playlists.RemoveItems(
                 It.IsAny<string>(),
                 It.Is<PlaylistRemoveItemsRequest>(request => request.Tracks.Count == 100),
                 It.IsAny<CancellationToken>()), Times.Once);
@@ -311,11 +302,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetItems(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Paging<PlaylistTrack<IPlayableItem>>());
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.PaginateAll(It.IsAny<IPaginatable<PlaylistTrack<IPlayableItem>>>(), It.IsAny<IPaginator>()))
                 .ReturnsAsync(mockTracks);
 
@@ -409,7 +400,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(spotifyCurrentPlayback);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Player)
                 .Returns(mockPlayer.Object);
 
@@ -476,7 +467,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(spotifyCurrentPlayback);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Player)
                 .Returns(mockPlayer.Object);
 
@@ -516,7 +507,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.GetCurrentPlayback(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(spotifyCurrentPlayback);
 
-            _spotifyClientMock
+            MockSpotifyClient
                 .Setup(mock => mock.Player)
                 .Returns(mockPlayer.Object);
 
@@ -549,16 +540,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         [Test]
         public void SpotifyService_CheckSpotifyCredentials_Doesnt_Throw_Exception()
         {
-            //Arrange
-            _spotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "mockClientId",
-                ClientSecret = "mockClientSecret",
-            });
-
-            _spotifyService = new SpotifyService(_spotifyOptions);
-
-            //Act
             //Assert
             Assert.DoesNotThrow(_spotifyService.CheckSpotifyCredentials);
         }
@@ -567,13 +548,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_And_Secret_Configured()
         {
             //Arrange
-            _spotifyOptions = Options.Create(new SpotifyOption
+            SpotifyOptions = Options.Create(new SpotifyOption
             {
                 ClientId = "",
                 ClientSecret = "",
             });
 
-            _spotifyService = new SpotifyService(_spotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
@@ -586,13 +567,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_Configured()
         {
             //Arrange
-            _spotifyOptions = Options.Create(new SpotifyOption
+            SpotifyOptions = Options.Create(new SpotifyOption
             {
                 ClientId = "",
                 ClientSecret = "mockClientSecret",
             });
 
-            _spotifyService = new SpotifyService(_spotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
@@ -605,13 +586,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Secret_Configured()
         {
             //Arrange
-            _spotifyOptions = Options.Create(new SpotifyOption
+            SpotifyOptions = Options.Create(new SpotifyOption
             {
                 ClientId = "mockClientId",
                 ClientSecret = "",
             });
 
-            _spotifyService = new SpotifyService(_spotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);

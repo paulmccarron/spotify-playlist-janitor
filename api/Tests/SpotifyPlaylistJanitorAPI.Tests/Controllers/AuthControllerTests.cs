@@ -1,15 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Moq;
 using SpotifyPlaylistJanitorAPI.Controllers;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
-using SpotifyPlaylistJanitorAPI.Models.Database;
-using SpotifyPlaylistJanitorAPI.Models.Spotify;
-using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 {
@@ -17,27 +11,15 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
     public class AuthControllerTests : TestBase
     {
         private AuthController _authController;
-        private Mock<ISpotifyService> _spotifyServiceMock;
-        private Mock<IAuthService> _authService;
-        private Mock<IHttpContextAccessor> _httpContextAccessorMock;
-        private IOptions<SpotifyOption> _spotifyOptions;
 
         [SetUp]
         public void Init()
         {
-            _spotifyServiceMock = new Mock<ISpotifyService>();
-            _authService = new Mock<IAuthService>();
-            _spotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "mockClientId",
-                ClientSecret = "mockClientSecret",
-            });
-
             _authController = new AuthController(
-                _spotifyServiceMock.Object, 
-                _authService.Object, 
-                _spotifyOptions,
-                _httpContextAccessorMock.Object);
+                MockSpotifyService.Object, 
+                MockAuthService.Object, 
+                SpotifyOptions,
+                MockHttpContextAccessor.Object);
         }
 
         [Test]
@@ -46,7 +28,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             // Arrange
             var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
 
-            _authService
+            MockAuthService
                 .Setup(mock => mock.RegisterUser(It.IsAny<UserLoginRequest>()))
                 .ReturnsAsync(true);
 
@@ -54,7 +36,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _authController.RegisterUser(userLoginRequest);
 
             // Assert
-            _authService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
             result.Should().BeOfType<NoContentResult>();
         }
 
@@ -64,7 +46,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             // Arrange
             var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
 
-            _authService
+            MockAuthService
                 .Setup(mock => mock.RegisterUser(It.IsAny<UserLoginRequest>()))
                 .ReturnsAsync(false);
 
@@ -74,7 +56,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _authController.RegisterUser(userLoginRequest);
 
             // Assert
-            _authService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
             result.Should().BeOfType<BadRequestObjectResult>();
             var objResult = result as BadRequestObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
@@ -87,7 +69,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
             var jwtModel = Fixture.Build<JWTModel>().Create();
 
-            _authService
+            MockAuthService
                 .Setup(mock => mock.AuthenticateUser(It.IsAny<UserLoginRequest>()))
                 .ReturnsAsync(jwtModel);
 
@@ -95,7 +77,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _authController.Login(userLoginRequest);
 
             // Assert
-            _authService.Verify(mock => mock.AuthenticateUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.AuthenticateUser(userLoginRequest), Times.Once);
             result.Should().BeOfType<ActionResult<JWTModel>>();
             result?.Value?.Should().BeEquivalentTo(jwtModel);
         }
@@ -107,7 +89,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
             JWTModel jwtModel = null;
 
-            _authService
+            MockAuthService
                 .Setup(mock => mock.AuthenticateUser(It.IsAny<UserLoginRequest>()))
                 .ReturnsAsync(jwtModel);
 
@@ -115,8 +97,59 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _authController.Login(userLoginRequest);
 
             // Assert
-            _authService.Verify(mock => mock.AuthenticateUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.AuthenticateUser(userLoginRequest), Times.Once);
             result.Result.Should().BeOfType<UnauthorizedResult>();
+        }
+
+        [Test]
+        public async Task AuthController_Refresh_Returns_Data()
+        {
+            // Arrange
+            var refreshRequest = Fixture.Build<TokenRefreshModel>().Create();
+            var jwtModel = Fixture.Build<JWTModel>().Create();
+
+            MockAuthService
+                .Setup(mock => mock.RefreshUserToken(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(jwtModel);
+
+            //Act
+            var result = await _authController.Refresh(refreshRequest);
+
+            // Assert
+            result.Should().BeOfType<ActionResult<JWTModel>>();
+            result?.Value?.Should().BeEquivalentTo(jwtModel);
+        }
+
+        [Test]
+        public async Task AuthController_Refresh_Returns_Bad_Request()
+        {
+            // Arrange
+            var refreshRequest = Fixture.Build<TokenRefreshModel>().Create();
+            JWTModel jwtModel = null;
+
+            MockAuthService
+                .Setup(mock => mock.RefreshUserToken(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(jwtModel);
+
+            var expectedMessage = new { Message = "Invalid refresh request." };
+
+            //Act
+            var result = await _authController.Refresh(refreshRequest);
+
+            // Assert
+            var objResult = result.Result as BadRequestObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
+        public async Task AuthController_Revoke_Returns_NoContent()
+        {
+            //Act
+            var result = await _authController.Revoke();
+
+            // Assert
+            MockAuthService.Verify(mock => mock.ExpireUserRefreshToken(It.IsAny<string>()), Times.Once);
+            result.Result.Should().BeOfType<NoContentResult>();
         }
     }
 }
