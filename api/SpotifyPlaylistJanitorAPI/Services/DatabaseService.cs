@@ -30,9 +30,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists()
         {
             var playlists = await _context.Playlists
-                .Select(x => new DatabasePlaylistModel
+                .Select(playlistDto => new DatabasePlaylistModel
                 {
-                    Id = x.Id,
+                    Id = playlistDto.Id,
+                    SkipThreshold = playlistDto.SkipThreshold,
+                    IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
+                    AutoCleanupLimit = playlistDto.AutoCleanupLimit,
                 })
                 .ToAsyncEnumerable()
                 .ToListAsync();
@@ -53,6 +56,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistModel = playlistDto is null ? null : new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
+                SkipThreshold = playlistDto.SkipThreshold,
+                IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
+                AutoCleanupLimit = playlistDto.AutoCleanupLimit,
             };
 
             return playlistModel;
@@ -67,6 +73,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistDto = new Playlist
             {
                 Id = playlistRequest.Id,
+                SkipThreshold = playlistRequest.SkipThreshold,
+                IgnoreInitialSkips = playlistRequest.IgnoreInitialSkips,
+                AutoCleanupLimit = playlistRequest.AutoCleanupLimit,
             };
 
             var alreadyExists = await _context.Playlists
@@ -82,7 +91,41 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistModel = new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
+                SkipThreshold = playlistDto.SkipThreshold,
+                IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
+                AutoCleanupLimit = playlistDto.AutoCleanupLimit,
             };
+
+            return playlistModel;
+        }
+
+        /// <summary>
+        /// Add playlist to database.
+        /// </summary>
+        /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
+        public async Task<DatabasePlaylistModel?> UpdatePlaylist(string id, DatabasePlaylistUpdateRequest playlistUpdateRequest)
+        {
+            DatabasePlaylistModel? playlistModel = null;
+            var playlistDto = await _context.Playlists
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (playlistDto is not null)
+            {
+                playlistDto.SkipThreshold = playlistUpdateRequest.SkipThreshold;
+                playlistDto.IgnoreInitialSkips = playlistUpdateRequest.IgnoreInitialSkips;
+                playlistDto.AutoCleanupLimit = playlistUpdateRequest.AutoCleanupLimit;
+
+                await _context.SaveChangesAsync();
+
+                playlistModel = new DatabasePlaylistModel
+                {
+                    Id = id,
+                    SkipThreshold = playlistUpdateRequest.SkipThreshold,
+                    IgnoreInitialSkips = playlistUpdateRequest.IgnoreInitialSkips,
+                    AutoCleanupLimit = playlistUpdateRequest.AutoCleanupLimit,
+                };
+            }
 
             return playlistModel;
         }

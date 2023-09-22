@@ -1,15 +1,12 @@
-﻿namespace SpotifyPlaylistJanitorAPI.Models.Database
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SpotifyPlaylistJanitorAPI.Models.Database
 {
     /// <summary>
-    /// Model for database Playlist information.
+    /// Model for creating database Playlist.
     /// </summary>
-    public class DatabasePlaylistModel
+    public class DatabasePlaylistUpdateRequest
     {
-        /// <summary>
-        /// Spotify playlist id.
-        /// </summary>
-        public string? Id { get; set; }
-
         /// <summary>
         /// Skip threshold for playlist tracks in seconds.
         /// </summary>

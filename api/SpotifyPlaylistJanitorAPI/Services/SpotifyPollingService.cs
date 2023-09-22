@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+﻿using SpotifyAPI.Web;
+using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
@@ -25,7 +26,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <param name="scopeFactory">Injected ASP.NET Service Scope Factory</param>
         /// <param name="logger">The Application Logger.</param>
         [ExcludeFromCodeCoverage]
-        public SpotifyPollingService(ISpotifyService spotifyService, 
+        public SpotifyPollingService(ISpotifyService spotifyService,
             IPlayingStateService playingStateService,
             IServiceScopeFactory scopeFactory,
             ILogger<SpotifyPollingService> logger)
@@ -70,18 +71,19 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                     _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track.PlaylistId}");
                     _logger.LogDebug($"Currently playing: {currentlyPlaying.Track.Name}");
-                    
-                    var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying);
-                    _playingStateService.PlayingState = currentlyPlaying;
-                    if (skip)
-                    {
-                        var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId).Result;
 
-                        if (databasePlaylist is not null)
+                    var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId).Result;
+
+                    if (databasePlaylist is not null)
+                    {
+                        var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying, databasePlaylist);
+                        _playingStateService.UpdatePlayingState(currentlyPlaying);
+
+                        if (skip)
                         {
-                            if(!currentlyPlaying.Track.IsLocal)
+                            if (!currentlyPlaying.Track.IsLocal)
                             {
-                                foreach(var artist in currentlyPlaying.Track.Artists)
+                                foreach (var artist in currentlyPlaying.Track.Artists)
                                 {
                                     var artistRequest = new DatabaseArtistModel
                                     {
@@ -125,7 +127,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                 }
 
                                 _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
-                                
+
                                 var skippedTrack = new DatabaseSkippedTrackRequest
                                 {
                                     PlaylistId = currentlyPlaying.Track.PlaylistId,
@@ -141,9 +143,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         }
                     }
                 }
-                else if (executionCount % 10 == 0)
+                else
                 {
-                    _logger.LogInformation("Not currently listening to a monitored playlist");
+                    if (executionCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Not currently listening to a monitored playlist");
+                    }
+                    _playingStateService.UpdatePlayingState(currentlyPlaying);
                 }
             }
             else

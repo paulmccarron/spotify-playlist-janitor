@@ -1,5 +1,8 @@
 CREATE TABLE playlists (
-    id text PRIMARY KEY not null
+    id text PRIMARY KEY not null,
+    skip_threshold int,
+    ignore_initial_skips boolean not null,
+    auto_cleanup_limit int
 );
 
 CREATE TABLE artists (

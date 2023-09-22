@@ -12,5 +12,20 @@ namespace SpotifyPlaylistJanitorAPI.Models.Database
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         public required string Id { get; set; }
+
+        /// <summary>
+        /// Skip threshold for playlist tracks in seconds.
+        /// </summary>
+        public int? SkipThreshold { get; set; }
+
+        /// <summary>
+        /// Ignore intial skips for playlist playback.
+        /// </summary>
+        public bool IgnoreInitialSkips { get; set; }
+
+        /// <summary>
+        /// Auto track-cleanup limit for playlist tracks.
+        /// </summary>
+        public int? AutoCleanupLimit { get; set; }
     }
 }

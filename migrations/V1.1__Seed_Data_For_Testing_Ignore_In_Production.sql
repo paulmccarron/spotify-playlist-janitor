@@ -1,10 +1,10 @@
-INSERT INTO playlists (id) 
+INSERT INTO playlists (id, skip_threshold, ignore_initial_skips, auto_cleanup_limit) 
 VALUES 
-    ('3RWXoorVz13dot7I11eiu6'),
-    ('4jkoiv8phuKuhXboalicqu'),
-    ('1aQvavrk6m4hhEj1NJ0rQB'),
-    ('4btLcc6A1UmNR7sa2dqlLJ'),
-    ('0creVHKMskko3Kv9T2pPQA');
+    ('3RWXoorVz13dot7I11eiu6', null, false, null),
+    ('4jkoiv8phuKuhXboalicqu', null, false, null),
+    ('1aQvavrk6m4hhEj1NJ0rQB', null, false, null),
+    ('4btLcc6A1UmNR7sa2dqlLJ', null, false, null),
+    ('0creVHKMskko3Kv9T2pPQA', null, false, null);
 
 INSERT INTO artists (id, name, href) 
 VALUES 

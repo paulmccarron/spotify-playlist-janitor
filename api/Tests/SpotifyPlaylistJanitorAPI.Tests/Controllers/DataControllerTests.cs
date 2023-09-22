@@ -129,6 +129,50 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         }
 
         [Test]
+        public async Task DataController_UpdateMonitoredPlaylist_Returns_DatabasePlaylistModel()
+        {
+            // Arrange
+            var id = "id";
+            var updateRequest = Fixture.Build<DatabasePlaylistUpdateRequest>().Create();
+            var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
+
+            MockDatabaseService
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            //Act
+            var result = await _dataController.UpdateMonitoredPlaylist(id, updateRequest);
+
+            // Assert
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
+            result?.Value?.Should().BeEquivalentTo(databasePlaylist);
+        }
+
+        [Test]
+        public async Task DataController_UpdateMonitoredPlaylist_Returns_Not_Found()
+        {
+            // Arrange
+            var id = "id";
+            var updateRequest = Fixture.Build<DatabasePlaylistUpdateRequest>().Create();
+            DatabasePlaylistModel? databasePlaylist = null;
+
+            MockDatabaseService
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .ReturnsAsync(databasePlaylist);
+
+            var expectedMessage = new { Message = $"Could not find playlist with id: {id}" };
+
+            //Act
+            var result = await _dataController.UpdateMonitoredPlaylist(id, updateRequest);
+
+            // Assert
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            var objResult = result.Result as NotFoundObjectResult;
+            objResult?.Value.Should().BeEquivalentTo(expectedMessage);
+        }
+
+        [Test]
         public async Task DataController_DeleteMonitoredPlaylist_Removes_Playlist()
         {
             // Arrange

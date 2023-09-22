@@ -99,6 +99,34 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
+        /// Update current user monitored playlist by id.
+        /// </summary>
+        /// <param name="id">Playlist id.</param>
+        /// <param name="playlistUpdateRequest">Playlist update request.</param>
+        /// <returns></returns>
+        /// <response code="200">Playlist successfully updated.</response>
+        /// <response code="401">No valid Bearer Token in request header.</response>
+        /// <response code="404">No playlist found for given Id.</response>
+        [HttpPut("playlists/{id}")]
+        [ProducesResponseType(typeof(DatabasePlaylistModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status404NotFound)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistModelExample))]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
+        public async Task<ActionResult<DatabasePlaylistModel>> UpdateMonitoredPlaylist(string id, [FromBody] DatabasePlaylistUpdateRequest playlistUpdateRequest)
+        {
+            var playlist = await _databaseService.GetPlaylist(id);
+
+            if (playlist is null)
+            {
+                return GetNotFoundResponse($"Could not find playlist with id: {id}");
+            }
+
+            var playlistModel = await _databaseService.UpdatePlaylist(id, playlistUpdateRequest);
+
+            return Ok(playlistModel);
+        }
+
+        /// <summary>
         /// Deletes current user monitored playlist by id.
         /// </summary>
         /// <param name="id">Playlist id.</param>
