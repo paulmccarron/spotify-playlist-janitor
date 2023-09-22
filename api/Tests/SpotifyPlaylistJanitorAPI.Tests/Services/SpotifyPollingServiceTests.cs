@@ -15,8 +15,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class SpotifyPollingServiceTests : TestBase
     {
         private ISpotifyPollingService _spotifyPollingService;
-        private Mock<ISpotifyService> _spotifyServiceMock;
-        private Mock<IPlayingStateService> _playingStateServiceMock;
         private Mock<IServiceScopeFactory> _scopeFactoryMock;
         private Mock<ILogger<SpotifyPollingService>> _loggerMock;
 
@@ -26,17 +24,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         private const string TRACK_ID = "TRACK_ID";
         private const string ARTIST_ID = "ARTIST_ID";
         private const string ALBUM_ID = "ALBUM_ID";
-        private const int IMAGE_ID = 123;
 
         [SetUp]
         public void Setup()
         {
-            _spotifyServiceMock = new Mock<ISpotifyService>();
-            _playingStateServiceMock = new Mock<IPlayingStateService>();
             _scopeFactoryMock = new Mock<IServiceScopeFactory>();
             _loggerMock = new Mock<ILogger<SpotifyPollingService>>();
 
-            _spotifyServiceMock
+            MockSpotifyService
                 .Setup(mock => mock.IsLoggedIn)
                 .Returns(true);
 
@@ -60,7 +55,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .With(x => x.Track, _playingStateTrack)
                 .Create();
 
-            _spotifyServiceMock
+            MockSpotifyService
                 .Setup(mock => mock.GetCurrentPlayback())
                 .ReturnsAsync(_playingState);
 
@@ -79,13 +74,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.CreateScope())
                 .Returns(mockServiceScope.Object);
 
-            _playingStateServiceMock
+            MockPlayingStateService
                 .Setup(mock => mock.CheckSkipHasHappened(It.IsAny<SpotifyPlayingState>()))
                 .Returns(true);
 
             _spotifyPollingService = new SpotifyPollingService(
-                _spotifyServiceMock.Object,
-                _playingStateServiceMock.Object,
+                MockSpotifyService.Object,
+                MockPlayingStateService.Object,
                 _scopeFactoryMock.Object,
                 _loggerMock.Object
                 );
@@ -97,7 +92,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyPollingService_PollSpotifyPlayback_Logs_Info_Not_Logged_In()
         {
             //Arrange
-            _spotifyServiceMock
+            MockSpotifyService
                 .Setup(mock => mock.IsLoggedIn)
                 .Returns(false);
 
@@ -117,7 +112,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 IsPlaying = false,
             };
 
-            _spotifyServiceMock
+            MockSpotifyService
                 .Setup(mock => mock.GetCurrentPlayback())
                 .ReturnsAsync(currentPlayback);
 
@@ -132,7 +127,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyPollingService_PollSpotifyPlayback_Logs_Debug_Currently_Listening()
         {
             //Arrange
-            _playingStateServiceMock
+            MockPlayingStateService
                 .Setup(mock => mock.CheckSkipHasHappened(It.IsAny<SpotifyPlayingState>()))
                 .Returns(false);
 
@@ -222,7 +217,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             //Arrange
             _playingState.Track.IsLocal = true;
 
-            _spotifyServiceMock
+            MockSpotifyService
                 .Setup(mock => mock.GetCurrentPlayback())
                 .ReturnsAsync(_playingState);
             var dbPlaylists = Fixture.Build<Playlist>()

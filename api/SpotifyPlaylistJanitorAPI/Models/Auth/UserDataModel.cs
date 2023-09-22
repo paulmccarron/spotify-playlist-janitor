@@ -24,5 +24,15 @@
         /// Is user an admin.
         /// </summary>
         public required bool IsAdmin { get; set; }
+
+        /// <summary>
+        /// Current refresh token for user.
+        /// </summary>
+        public string? RefreshToken { get; set; }
+
+        /// <summary>
+        /// Current refresh token expiry date for user.
+        /// </summary>
+        public DateTime? RefreshTokenExpiry { get; set; }
     }
 }

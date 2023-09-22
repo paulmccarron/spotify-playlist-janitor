@@ -1,13 +1,11 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services;
-using System;
+using SpotifyPlaylistJanitorAPI.System;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
@@ -15,63 +13,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class DatabaseServiceTests : TestBase
     {
         private DatabaseService _databaseService;
-        private Mock<SpotifyPlaylistJanitorDatabaseContext> _dbContextMock;
-        private Mock<DbSet<Playlist>> _dbSetPlaylistMock;
-        private Mock<DbSet<Artist>> _dbSetArtistMock;
-        private Mock<DbSet<Album>> _dbSetAlbumMock;
-        private Mock<DbSet<Track>> _dbSetTrackMock;
-        private Mock<DbSet<Image>> _dbSetImageMock;
-        private Mock<DbSet<SkippedTrack>> _dbSetSkippedMock;
-        private Mock<DbSet<User>> _dbSetUserMock;
 
         [SetUp]
         public void Init()
         {
-            _dbSetPlaylistMock = new Mock<DbSet<Playlist>>();
-            _dbSetArtistMock = new Mock<DbSet<Artist>>();
-            _dbSetAlbumMock = new Mock<DbSet<Album>>();
-            _dbSetTrackMock = new Mock<DbSet<Track>>();
-            _dbSetImageMock = new Mock<DbSet<Image>>();
-            _dbSetSkippedMock = new Mock<DbSet<SkippedTrack>>();
-            _dbSetUserMock = new Mock<DbSet<User>>();
-            _dbContextMock = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
-
-            _dbSetPlaylistMock.AddIQueryables(new List<Playlist>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Playlists)
-                .Returns(_dbSetPlaylistMock.Object);
-
-            _dbSetArtistMock.AddIQueryables(new List<Artist>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Artists)
-                .Returns(_dbSetArtistMock.Object);
-
-            _dbSetAlbumMock.AddIQueryables(new List<Album>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Albums)
-                .Returns(_dbSetAlbumMock.Object);
-
-            _dbSetTrackMock.AddIQueryables(new List<Track>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Tracks)
-                .Returns(_dbSetTrackMock.Object);
-
-            _dbSetImageMock.AddIQueryables(new List<Image>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Images)
-                .Returns(_dbSetImageMock.Object);
-
-            _dbSetSkippedMock.AddIQueryables(new List<SkippedTrack>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.SkippedTracks)
-                .Returns(_dbSetSkippedMock.Object);
-
-            _dbSetUserMock.AddIQueryables(new List<User>().AsQueryable());
-            _dbContextMock
-                .Setup(mock => mock.Users)
-                .Returns(_dbSetUserMock.Object);
-
-            _databaseService = new DatabaseService(_dbContextMock.Object);
+            _databaseService = new DatabaseService(MockDbContext.Object);
         }
 
         [Test]
@@ -82,7 +28,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             var expectedResults = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -108,7 +54,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var playlistId = dbPlaylists.First().Id;
 
-            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             var expectedResult = dbPlaylists
                 .Select(x => new DatabasePlaylistModel
@@ -135,7 +81,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var playlistId = "RANDOM_ID";
 
-            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             //Act
             var result = await _databaseService.GetPlaylist(playlistId);
@@ -155,8 +101,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _databaseService.AddPlaylist(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
             result.Should().BeEquivalentTo(databaseRequest);
         }
 
@@ -171,14 +117,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             //Act
             var result = await _databaseService.AddPlaylist(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Never);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
             result.Should().BeEquivalentTo(databaseRequest);
         }
 
@@ -192,21 +138,21 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
+            MockDbSetSkipped.AddIQueryables(dbSkippedTracks);
 
             var dbPlaylists = Fixture.Build<Playlist>()
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetPlaylistMock.AddIQueryables(dbPlaylists);
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             //Act
             await _databaseService.DeletePlaylist(id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
-            _dbContextMock.Verify(context => context.Playlists.RemoveRange(It.IsAny<IEnumerable<Playlist>>()), Times.Once);
-            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
+            MockDbContext.Verify(context => context.Playlists.RemoveRange(It.IsAny<IEnumerable<Playlist>>()), Times.Once);
+            MockDbContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -219,8 +165,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddArtist(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Artist>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Artist>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -234,14 +180,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetArtistMock.AddIQueryables(dbArtists);
+            MockDbSetArtist.AddIQueryables(dbArtists);
 
             //Act
             await _databaseService.AddArtist(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Artist>(), It.IsAny<CancellationToken>()), Times.Never);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Artist>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -254,8 +200,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddAlbum(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Album>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Album>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -269,14 +215,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetAlbumMock.AddIQueryables(dbAlbums);
+            MockDbSetAlbum.AddIQueryables(dbAlbums);
 
             //Act
             await _databaseService.AddAlbum(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Album>(), It.IsAny<CancellationToken>()), Times.Never);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Album>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -289,8 +235,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddTrack(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Track>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Track>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -304,14 +250,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetTrackMock.AddIQueryables(dbTracks);
+            MockDbSetTrack.AddIQueryables(dbTracks);
 
             //Act
             await _databaseService.AddTrack(databaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Track>(), It.IsAny<CancellationToken>()), Times.Never);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Track>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -326,8 +272,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddImage(height, width, url);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Image>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Image>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -345,14 +291,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany(1)
                 .AsQueryable();
 
-            _dbSetImageMock.AddIQueryables(dbImages);
+            MockDbSetImage.AddIQueryables(dbImages);
 
             //Act
             await _databaseService.AddImage(height, width, url);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<Image>(), It.IsAny<CancellationToken>()), Times.Never);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<Image>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -363,20 +309,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetArtistMock.AddIQueryables(dbArtists);
+            MockDbSetArtist.AddIQueryables(dbArtists);
 
             var dbTracks = Fixture.Build<Track>()
                 .With(x => x.Artists, new List<Artist>())
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetTrackMock.AddIQueryables(dbTracks);
+            MockDbSetTrack.AddIQueryables(dbTracks);
 
             //Act
             await _databaseService.AddArtistToTrack(dbArtists.First().Id, dbTracks.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -387,20 +333,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetArtistMock.AddIQueryables(dbArtists);
+            MockDbSetArtist.AddIQueryables(dbArtists);
 
             var dbTracks = Fixture.Build<Track>()
                 .With(x => x.Artists, new List<Artist>(dbArtists))
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetTrackMock.AddIQueryables(dbTracks);
+            MockDbSetTrack.AddIQueryables(dbTracks);
 
             //Act
             await _databaseService.AddArtistToTrack(dbArtists.First().Id, dbTracks.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -411,20 +357,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetArtistMock.AddIQueryables(dbArtists);
+            MockDbSetArtist.AddIQueryables(dbArtists);
 
             var dbAlbums = Fixture.Build<Album>()
                 .With(x => x.Artists, new List<Artist>())
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetAlbumMock.AddIQueryables(dbAlbums);
+            MockDbSetAlbum.AddIQueryables(dbAlbums);
 
             //Act
             await _databaseService.AddArtistToAlbum(dbArtists.First().Id, dbAlbums.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -435,20 +381,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetArtistMock.AddIQueryables(dbArtists);
+            MockDbSetArtist.AddIQueryables(dbArtists);
 
             var dbAlbums = Fixture.Build<Album>()
                 .With(x => x.Artists, new List<Artist>(dbArtists))
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetAlbumMock.AddIQueryables(dbAlbums);
+            MockDbSetAlbum.AddIQueryables(dbAlbums);
 
             //Act
             await _databaseService.AddArtistToAlbum(dbArtists.First().Id, dbAlbums.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -459,20 +405,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetImageMock.AddIQueryables(dbImages);
+            MockDbSetImage.AddIQueryables(dbImages);
 
             var dbAlbums = Fixture.Build<Album>()
                 .With(x => x.Images, new List<Image>())
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetAlbumMock.AddIQueryables(dbAlbums);
+            MockDbSetAlbum.AddIQueryables(dbAlbums);
 
             //Act
             await _databaseService.AddImageToAlbum(dbImages.First().Id, dbAlbums.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -483,20 +429,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetImageMock.AddIQueryables(dbImages);
+            MockDbSetImage.AddIQueryables(dbImages);
 
             var dbAlbums = Fixture.Build<Album>()
                 .With(x => x.Images, new List<Image>(dbImages))
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetAlbumMock.AddIQueryables(dbAlbums);
+            MockDbSetAlbum.AddIQueryables(dbAlbums);
 
             //Act
             await _databaseService.AddImageToAlbum(dbImages.First().Id, dbAlbums.First().Id);
 
             // Assert
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Test]
@@ -525,11 +471,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddSkippedTrack(datatbaseRequest);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(
+            MockDbContext.Verify(context => context.AddAsync(
                 It.Is<SkippedTrack>(skipped => skipped.SkippedDate.Equals(skippedTime)),
                 It.IsAny<CancellationToken>()),
             Times.Once());
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
         
         [Test]
@@ -568,7 +514,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany(1)
                 .AsQueryable();
 
-            _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
+            MockDbSetSkipped.AddIQueryables(dbSkippedTracks);
 
             var expectedResults = dbSkippedTracks
                 .Select(skipped => new DatabaseSkippedTrackResponse
@@ -618,7 +564,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .CreateMany()
                 .AsQueryable();
 
-            _dbSetSkippedMock.AddIQueryables(dbSkippedTracks);
+            MockDbSetSkipped.AddIQueryables(dbSkippedTracks);
 
             var trackIds = dbSkippedTracks.Select(track => track.TrackId);
 
@@ -626,8 +572,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.DeleteSkippedTracks(id, trackIds);
 
             // Assert
-            _dbContextMock.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
-            _dbContextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SkippedTracks.RemoveRange(It.IsAny<IEnumerable<SkippedTrack>>()), Times.Once);
+            MockDbContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Test]
@@ -640,7 +586,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var userName = dbUsers.First().Username;
 
-            _dbSetUserMock.AddIQueryables(dbUsers);
+            MockDbSetUser.AddIQueryables(dbUsers);
 
             var expectedResult = dbUsers
                 .Select(x => new UserDataModel
@@ -649,6 +595,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                     UserName = x.Username,
                     PasswordHash = x.PasswordHash,
                     IsAdmin = x.IsAdmin,
+                    RefreshToken = x.RefreshToken,
+                    RefreshTokenExpiry = x.RefreshTokenExpiry,
                 })
                 .First();
 
@@ -670,7 +618,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var userName = "RANDOM_ID";
 
-            _dbSetUserMock.AddIQueryables(dbUsers);
+            MockDbSetUser.AddIQueryables(dbUsers);
 
             //Act
             var result = await _databaseService.GetUser(userName);
@@ -690,8 +638,52 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseService.AddUser(username, passwordHash);
 
             // Assert
-            _dbContextMock.Verify(context => context.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
-            _dbContextMock.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseService_UpdateUserRefreshToken_Saves_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+            var refreshToken = "refreshToken";
+            var tokenExpiry = SystemTime.Now();
+
+            var dbUsers = Fixture.Build<User>()
+                .With(x => x.Username, username)
+                .CreateMany(1)
+                .AsQueryable();
+
+            MockDbSetUser.AddIQueryables(dbUsers);
+
+            //Act
+            await _databaseService.UpdateUserRefreshToken(username, refreshToken, tokenExpiry);
+
+            // Assert
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseService_UpdateUserRefreshToken_Skips_Save_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+            var refreshToken = "refreshToken";
+            var tokenExpiry = SystemTime.Now();
+
+            var dbUsers = Fixture.Build<User>()
+                .With(x => x.Username, username)
+                .CreateMany()
+                .AsQueryable();
+
+            MockDbSetUser.AddIQueryables(dbUsers);
+
+            //Act
+            await _databaseService.UpdateUserRefreshToken("RANDOM_USER", refreshToken, tokenExpiry);
+
+            // Assert
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 }

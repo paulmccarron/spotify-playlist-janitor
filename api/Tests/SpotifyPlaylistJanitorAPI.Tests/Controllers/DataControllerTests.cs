@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SpotifyPlaylistJanitorAPI.Controllers;
 using SpotifyPlaylistJanitorAPI.Models.Database;
-using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
 {
@@ -12,14 +11,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
     public class DataControllerTests : TestBase
     {
         private DataController _dataController;
-        private Mock<IDatabaseService> _databaseServiceMock;
 
         [SetUp]
         public void Init()
         {
-            _databaseServiceMock = new Mock<IDatabaseService>();
-
-            _dataController = new DataController(_databaseServiceMock.Object);
+            _dataController = new DataController(MockDatabaseService.Object);
         }
 
         [Test]
@@ -28,7 +24,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             // Arrange
             var databasePlaylists = Fixture.Build<DatabasePlaylistModel>().CreateMany().ToList();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylists())
                 .ReturnsAsync(databasePlaylists);
 
@@ -36,7 +32,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylists();
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylists(), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylists(), Times.Once);
             result.Should().BeOfType<ActionResult<IEnumerable<DatabasePlaylistModel>>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylists);
         }
@@ -48,7 +44,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -56,7 +52,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylist(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylist);
         }
@@ -68,7 +64,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             DatabasePlaylistModel? databasePlaylist = null;
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -78,7 +74,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylist(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
             var objResult = result.Result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
@@ -91,11 +87,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             DatabasePlaylistModel? databasePlaylistNull = null;
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylistNull);
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.AddPlaylist(It.IsAny<DatabasePlaylistRequest>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -103,8 +99,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
-            _databaseServiceMock.Verify(mock => mock.AddPlaylist(It.Is<DatabasePlaylistRequest>(request => request.Equals(databaseRequest))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.AddPlaylist(It.Is<DatabasePlaylistRequest>(request => request.Equals(databaseRequest))), Times.Once);
             result.Should().BeOfType<ActionResult<DatabasePlaylistModel>>();
             result?.Value?.Should().BeEquivalentTo(databasePlaylist);
         }
@@ -116,7 +112,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -126,8 +122,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.CreateMonitoredPlaylist(databaseRequest);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
-            _databaseServiceMock.Verify(mock => mock.AddPlaylist(It.IsAny<DatabasePlaylistRequest>()), Times.Never);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(databaseRequest.Id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.AddPlaylist(It.IsAny<DatabasePlaylistRequest>()), Times.Never);
             var objResult = result.Result as BadRequestObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }
@@ -139,7 +135,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -147,7 +143,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.DeleteMonitoredPlaylist(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Once());
+            MockDatabaseService.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Once());
             result.Should().BeOfType<NoContentResult>();
         }
 
@@ -158,7 +154,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             DatabasePlaylistModel? databasePlaylist = null;
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -168,7 +164,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.DeleteMonitoredPlaylist(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Never);
+            MockDatabaseService.Verify(mock => mock.DeletePlaylist(It.IsAny<string>()), Times.Never);
             result.Should().BeOfType<NotFoundObjectResult>();
             var objResult = result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
@@ -181,13 +177,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             var databasePlaylist = Fixture.Build<DatabasePlaylistModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
             var databaseSkippedTracks = Fixture.Build<DatabaseSkippedTrackResponse>().CreateMany();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()))
                 .ReturnsAsync(databaseSkippedTracks);
 
@@ -195,7 +191,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylistSkippedTracks(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Once);
             result.Should().BeOfType<ActionResult<IEnumerable<DatabaseSkippedTrackResponse>>>();
             result?.Value?.Should().BeEquivalentTo(databaseSkippedTracks);
         }
@@ -207,7 +203,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var id = "id";
             DatabasePlaylistModel? databasePlaylist = null;
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
                 .ReturnsAsync(databasePlaylist);
 
@@ -217,8 +213,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
             var result = await _dataController.GetMonitoredPlaylistSkippedTracks(id);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
-            _databaseServiceMock.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Never);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s.Equals(id))), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylistSkippedTracks(It.Is<string>(s => s.Equals(id))), Times.Never);
             var objResult = result.Result as NotFoundObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);
         }

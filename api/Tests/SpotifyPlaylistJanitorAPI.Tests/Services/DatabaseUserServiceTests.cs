@@ -3,7 +3,7 @@ using FluentAssertions;
 using Moq;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services;
-using SpotifyPlaylistJanitorAPI.Services.Interfaces;
+using SpotifyPlaylistJanitorAPI.System;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
@@ -11,14 +11,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class DatabaseUserServiceTests : TestBase
     {
         private DatabaseUserService _databaseUserService;
-        private Mock<IDatabaseService> _databaseServiceMock;
 
         [SetUp]
         public void Init()
         {
-            _databaseServiceMock = new Mock<IDatabaseService>();
 
-            _databaseUserService = new DatabaseUserService(_databaseServiceMock.Object);
+            _databaseUserService = new DatabaseUserService(MockDatabaseService.Object);
         }
 
         [Test]
@@ -28,7 +26,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var userName = "username";
             var userModel = Fixture.Build<UserDataModel>().Create();
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userModel);
 
@@ -36,7 +34,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _databaseUserService.GetUser(userName);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetUser(userName), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetUser(userName), Times.Once);
             result.Should().BeEquivalentTo(userModel);
         }
 
@@ -47,7 +45,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var userName = "username";
             UserDataModel userModel = null;
 
-            _databaseServiceMock
+            MockDatabaseService
                 .Setup(mock => mock.GetUser(It.IsAny<string>()))
                 .ReturnsAsync(userModel);
 
@@ -55,7 +53,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _databaseUserService.GetUser(userName);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.GetUser(userName), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetUser(userName), Times.Once);
             result.Should().BeNull();
         }
 
@@ -70,7 +68,35 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _databaseUserService.AddUser(userName, password);
 
             // Assert
-            _databaseServiceMock.Verify(mock => mock.AddUser(userName, password), Times.Once);
+            MockDatabaseService.Verify(mock => mock.AddUser(userName, password), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseUserService_SetUserRefreshToken_Returns_Task()
+        {
+            // Arrange
+            var userName = "username";
+            var refreshToken = "refreshToken";
+            var tokenExpiry = SystemTime.Now();
+
+            //Act
+            await _databaseUserService.SetUserRefreshToken(userName, refreshToken, tokenExpiry);
+
+            // Assert
+            MockDatabaseService.Verify(mock => mock.UpdateUserRefreshToken(userName, refreshToken, tokenExpiry), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseUserService_ExpireUserRefreshToken_Returns_Task()
+        {
+            // Arrange
+            var userName = "username";
+
+            //Act
+            await _databaseUserService.ExpireUserRefreshToken(userName);
+
+            // Assert
+            MockDatabaseService.Verify(mock => mock.UpdateUserRefreshToken(userName, null, null), Times.Once);
         }
     }
 }

@@ -5,10 +5,22 @@
     /// </summary>
     public class UserLoginRequest
     {
+        private string _email = "";
+
         /// <summary>
-        /// User name.
+        /// User email.
         /// </summary>
-        public required string Username { get; set; }
+        public required string Email
+        {
+            get
+            {
+                return _email.ToLower();
+            }
+            set
+            {
+                _email = value;
+            }
+        }
 
         /// <summary>
         /// User password.

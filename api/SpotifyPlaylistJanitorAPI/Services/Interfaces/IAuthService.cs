@@ -21,5 +21,20 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <param name="login"></param>
         ///<returns>Returns a <see cref = "bool" /> signifying successfully registering requested user.</returns>
         Task<bool> RegisterUser(UserLoginRequest login);
+
+        /// <summary>
+        /// Re-authenticate user with token refresh request.
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="refreshToken"></param>
+        ///<returns>Returns a <see cref = "JWTModel" />.</returns>
+        Task<JWTModel?> RefreshUserToken(string accessToken, string refreshToken);
+
+        /// <summary>
+        /// Expire any refresh token assigned to user.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        Task ExpireUserRefreshToken(string username);
     }
 }
