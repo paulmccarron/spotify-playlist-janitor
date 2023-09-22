@@ -1,9 +1,7 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SpotifyPlaylistJanitorAPI.Models.Auth
+﻿namespace SpotifyPlaylistJanitorAPI.Models.Auth
 {
     /// <summary>
-    /// Model to hold token refresh request details
+    /// Model for token refresh request.
     /// </summary>
     public class TokenRefreshModel
     {

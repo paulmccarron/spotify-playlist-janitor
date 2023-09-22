@@ -5,7 +5,7 @@
     /// </summary>
     public class UserLoginRequest
     {
-        private string _email;
+        private string _email = "";
 
         /// <summary>
         /// User email.

@@ -164,7 +164,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         }
 
         /// <summary>
-        /// Log a user into the application.
+        /// Refresh user bearer token.
         /// </summary>
         /// <param name="refreshRequest">Token refresh request.</param>
         /// <returns></returns>

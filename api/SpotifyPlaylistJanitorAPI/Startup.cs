@@ -55,7 +55,7 @@ namespace SpotifyPlaylistJanitorAPIs
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = _configuration["Spotify:ClientId"],
                         ValidAudience = _configuration["Spotify:ClientId"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientSecret"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Spotify:ClientSecret"] ?? ""))
                     };
                 });
 

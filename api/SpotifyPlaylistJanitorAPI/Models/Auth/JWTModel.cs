@@ -14,7 +14,7 @@ namespace SpotifyPlaylistJanitorAPI.Models.Auth
         public required string AccessToken { get; set; }
 
         /// <summary>
-        /// Token type .
+        /// Token type.
         /// </summary>
         [JsonPropertyName("token_type")]
         public string TokenType { get; set; } = "Bearer";
