@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Quartz;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
+using SpotifyPlaylistJanitorAPI.Jobs;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
@@ -128,6 +129,19 @@ namespace SpotifyPlaylistJanitorAPIs
                     .AddConfiguration(_configuration.GetSection("Logging"))
                     .SetMinimumLevel(LogLevel.Information)
             );
+
+            services.AddQuartz(q =>
+            {
+                q.ScheduleJob<SkippedTrackRemoveJob>(trigger => trigger
+                    .WithIdentity("SkippedTrackRemoveJob")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromHours(1)).RepeatForever())
+                    .WithDescription("Schedueld job to check for skipped tracks to auto-remove from playlists.")
+                );
+            });
+
+            // ASP.NET Core hosting
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
 
         /// <summary>

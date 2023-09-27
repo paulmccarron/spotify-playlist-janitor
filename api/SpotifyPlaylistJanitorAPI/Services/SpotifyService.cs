@@ -17,7 +17,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         private ISpotifyClient? _spotifyClient { get; set; }
 
         /// <summary>
-        /// Sets the internal Spotify Client fro the service.
+        /// Sets the internal Spotify Client for the service.
         /// </summary>
         /// <param name="spotifyClient">The Spotify access credentials read from environment vars.</param>
         public void SetClient(ISpotifyClient? spotifyClient)
