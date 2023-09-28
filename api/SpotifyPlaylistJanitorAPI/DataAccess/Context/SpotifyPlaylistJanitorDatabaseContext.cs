@@ -135,6 +135,9 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
             entity.ToTable("playlists");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AutoCleanupLimit).HasColumnName("auto_cleanup_limit");
+            entity.Property(e => e.IgnoreInitialSkips).HasColumnName("ignore_initial_skips");
+            entity.Property(e => e.SkipThreshold).HasColumnName("skip_threshold");
         });
 
         modelBuilder.Entity<SkippedTrack>(entity =>

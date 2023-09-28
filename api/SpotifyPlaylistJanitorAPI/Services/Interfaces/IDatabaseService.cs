@@ -28,6 +28,12 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest);
 
         /// <summary>
+        /// Update playlist in the database.
+        /// </summary>
+        ///<returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
+        Task<DatabasePlaylistModel?> UpdatePlaylist(string id, DatabasePlaylistUpdateRequest playlistUpdateRequest);
+
+        /// <summary>
         /// Deletes playlist from database.
         /// </summary>
         Task DeletePlaylist(string id);

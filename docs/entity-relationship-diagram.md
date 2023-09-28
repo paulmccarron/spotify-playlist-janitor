@@ -17,6 +17,9 @@ erDiagram
 
     PLAYLISTS {
         VARCHAR id PK
+        INT skip_threshold
+        BOOL ignore_initial_skips
+        INT auto_cleanup_limit
     }
 
     ARTISTS {

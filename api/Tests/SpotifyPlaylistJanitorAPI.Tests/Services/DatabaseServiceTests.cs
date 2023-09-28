@@ -31,9 +31,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             var expectedResults = dbPlaylists
-                .Select(x => new DatabasePlaylistModel
+                .Select(playlistDto => new DatabasePlaylistModel
                 {
-                    Id = x.Id,
+                    Id = playlistDto.Id,
+                    SkipThreshold = playlistDto.SkipThreshold,
+                    IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
+                    AutoCleanupLimit = playlistDto.AutoCleanupLimit,
                 });
 
             //Act
@@ -57,9 +60,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             var expectedResult = dbPlaylists
-                .Select(x => new DatabasePlaylistModel
+                .Select(playlistDto => new DatabasePlaylistModel
                 {
-                    Id = x.Id,
+                    Id = playlistDto.Id,
+                    SkipThreshold = playlistDto.SkipThreshold,
+                    IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
+                    AutoCleanupLimit = playlistDto.AutoCleanupLimit,
                 })
                 .First();
 
@@ -126,6 +132,61 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDbContext.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Never);
             MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
             result.Should().BeEquivalentTo(databaseRequest);
+        }
+
+        [Test]
+        public async Task DatabaseService_UpdatePlaylist_Returns_Data()
+        {
+            //Arrange
+            var updateRequest = Fixture.Build<DatabasePlaylistUpdateRequest>()
+                .Create();
+
+            var dbPlaylists = Fixture.Build<Playlist>()
+                .CreateMany()
+                .AsQueryable();
+
+            var playlistId = dbPlaylists.First().Id;
+
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
+
+            var expectedResult = new DatabasePlaylistModel
+            {
+                Id = playlistId,
+                SkipThreshold = updateRequest.SkipThreshold,
+                IgnoreInitialSkips = updateRequest.IgnoreInitialSkips,
+                AutoCleanupLimit = updateRequest.AutoCleanupLimit,
+            };
+
+            //Act
+            var result = await _databaseService.UpdatePlaylist(playlistId, updateRequest);
+
+            // Assert
+            MockDbContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().BeOfType<DatabasePlaylistModel>();
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
+        public async Task DatabaseService_UpdatePlaylist_Returns_Null_For_Invalid_Id()
+        {
+            //Arrange
+            var updateRequest = Fixture.Build<DatabasePlaylistUpdateRequest>()
+                .Create();
+
+            var dbPlaylists = Fixture.Build<Playlist>()
+                .CreateMany()
+                .AsQueryable();
+
+            var playlistId = "RANDOM_ID";
+
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
+
+            //Act
+            var result = await _databaseService.UpdatePlaylist(playlistId, updateRequest);
+
+            // Assert
+            MockDbContext.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+            result.Should().BeNull();
         }
 
         [Test]

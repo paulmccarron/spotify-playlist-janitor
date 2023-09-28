@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Quartz;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
+using SpotifyPlaylistJanitorAPI.Jobs;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
@@ -117,7 +118,6 @@ namespace SpotifyPlaylistJanitorAPIs
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, DatabaseUserService>();
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
-            services.AddHostedService<SpotifyPollingService>();
 
             services.AddHttpContextAccessor();
 
@@ -128,6 +128,26 @@ namespace SpotifyPlaylistJanitorAPIs
                     .AddConfiguration(_configuration.GetSection("Logging"))
                     .SetMinimumLevel(LogLevel.Information)
             );
+
+            //Add Quartz jobs to perform background tasks
+            services.AddQuartz(q =>
+            {
+                q.ScheduleJob<SpotifyPollingJob>(trigger => trigger
+                    .WithIdentity("SpotifyPollingJob")
+                    .StartNow()
+                    .WithSimpleSchedule(scheduleBuilder => scheduleBuilder.WithInterval(TimeSpan.FromMilliseconds(500)).RepeatForever())
+                    .WithDescription("Schedueld job to check Spotify playing activity for tracks being skipped.")
+                );
+
+                q.ScheduleJob<SkippedTrackRemoveJob>(trigger => trigger
+                    .WithIdentity("SkippedTrackRemoveJob")
+                    .StartNow()
+                    .WithSimpleSchedule(scheduleBuilder => scheduleBuilder.WithInterval(TimeSpan.FromHours(1)).RepeatForever())
+                    .WithDescription("Schedueld job to check for skipped tracks to auto-remove from playlists.")
+                );
+            });
+
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
 
         /// <summary>

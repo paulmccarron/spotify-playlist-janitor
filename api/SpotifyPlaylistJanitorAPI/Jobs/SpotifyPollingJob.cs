@@ -1,87 +1,66 @@
-﻿using SpotifyPlaylistJanitorAPI.DataAccess.Context;
+﻿using Quartz;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
-namespace SpotifyPlaylistJanitorAPI.Services
+namespace SpotifyPlaylistJanitorAPI.Jobs
 {
     /// <summary>
-    /// Hosted Service that polls users Spotify playback activity to monitor when skips occur.
+    /// Job that polls users Spotify playback activity to monitor when skips occur.
     /// </summary>
-    public class SpotifyPollingService : IHostedService, IDisposable, ISpotifyPollingService
+    [DisallowConcurrentExecution]
+    public class SpotifyPollingJob : IJob
     {
         private int executionCount = 0;
         private readonly ISpotifyService _spotifyService;
         private readonly IPlayingStateService _playingStateService;
-        private readonly ILogger<SpotifyPollingService> _logger;
-        private readonly IServiceScopeFactory _scopeFactory;
-        private Timer? _timer = null;
+        private readonly IDatabaseService _databaseService;
+        private readonly ILogger<SpotifyPollingJob> _logger;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="SpotifyPollingJob"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service.</param>
         /// <param name="playingStateService">The Playing State Service.</param>
-        /// <param name="scopeFactory">Injected ASP.NET Service Scope Factory</param>
+        /// <param name="databaseService">The Database Service.</param>
         /// <param name="logger">The Application Logger.</param>
-        [ExcludeFromCodeCoverage]
-        public SpotifyPollingService(ISpotifyService spotifyService, 
+        public SpotifyPollingJob(ISpotifyService spotifyService,
             IPlayingStateService playingStateService,
-            IServiceScopeFactory scopeFactory,
-            ILogger<SpotifyPollingService> logger)
+            IDatabaseService databaseService,
+            ILogger<SpotifyPollingJob> logger)
         {
             _spotifyService = spotifyService;
             _playingStateService = playingStateService;
+            _databaseService = databaseService;
             _logger = logger;
-            _scopeFactory = scopeFactory;
-        }
-
-        /// <summary>
-        /// Hosted Service start method. Calls PollSpotifyPlayback on a Timer.
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        [ExcludeFromCodeCoverage]
-        public Task StartAsync(CancellationToken stoppingToken)
-        {
-            _logger.LogInformation("Polling Service running.");
-
-            _timer = new Timer(PollSpotifyPlayback, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(500));
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
         /// Poll users current Spotify playback activity.
         /// </summary>
-        /// <param name="state">Optional state paramter</param>
-        public void PollSpotifyPlayback(object? state)
+        /// <param name="context">Quartz Job Execution Context</param>
+        public async Task Execute(IJobExecutionContext context)
         {
             if (_spotifyService.IsLoggedIn)
             {
-                var currentlyPlaying = _spotifyService.GetCurrentPlayback().Result;
+                var currentlyPlaying = await _spotifyService.GetCurrentPlayback();
 
                 if (currentlyPlaying.IsPlaying && currentlyPlaying.Track is not null)
                 {
-                    using var scope = _scopeFactory.CreateScope();
-                    var dbContext = scope.ServiceProvider
-                        .GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
-                    var databaseService = new DatabaseService(dbContext);
-
                     _logger.LogDebug($"Currently listening to playlist: {currentlyPlaying.Track.PlaylistId}");
                     _logger.LogDebug($"Currently playing: {currentlyPlaying.Track.Name}");
-                    
-                    var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying);
-                    _playingStateService.PlayingState = currentlyPlaying;
-                    if (skip)
-                    {
-                        var databasePlaylist = databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId).Result;
 
-                        if (databasePlaylist is not null)
+                    var databasePlaylist = await _databaseService.GetPlaylist(currentlyPlaying.Track.PlaylistId);
+
+                    if (databasePlaylist is not null)
+                    {
+                        var skip = _playingStateService.CheckSkipHasHappened(currentlyPlaying, databasePlaylist);
+                        _playingStateService.UpdatePlayingState(currentlyPlaying);
+
+                        if (skip)
                         {
-                            if(!currentlyPlaying.Track.IsLocal)
+                            if (!currentlyPlaying.Track.IsLocal)
                             {
-                                foreach(var artist in currentlyPlaying.Track.Artists)
+                                foreach (var artist in currentlyPlaying.Track.Artists)
                                 {
                                     var artistRequest = new DatabaseArtistModel
                                     {
@@ -89,7 +68,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                         Name = artist.Name,
                                         Href = artist.Href,
                                     };
-                                    databaseService.AddArtist(artistRequest).Wait();
+                                    await _databaseService.AddArtist(artistRequest);
                                 }
 
                                 var albumRequest = new DatabaseAlbumRequest
@@ -98,7 +77,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                     Name = currentlyPlaying.Track.Album.Name,
                                     Href = currentlyPlaying.Track.Album.Href,
                                 };
-                                databaseService.AddAlbum(albumRequest).Wait();
+                                await _databaseService.AddAlbum(albumRequest);
 
                                 var trackRequest = new DatabaseTrackModel
                                 {
@@ -107,32 +86,32 @@ namespace SpotifyPlaylistJanitorAPI.Services
                                     AlbumId = currentlyPlaying.Track.Album.Id,
                                     Length = currentlyPlaying.Track.Duration,
                                 };
-                                databaseService.AddTrack(trackRequest).Wait();
+                                await _databaseService.AddTrack(trackRequest);
 
                                 //add artists to track
                                 //add artists to album
                                 foreach (var artist in currentlyPlaying.Track.Artists)
                                 {
-                                    databaseService.AddArtistToTrack(artist.Id, currentlyPlaying.Track.Id).Wait();
-                                    databaseService.AddArtistToAlbum(artist.Id, currentlyPlaying.Track.Album.Id).Wait();
+                                    await _databaseService.AddArtistToTrack(artist.Id, currentlyPlaying.Track.Id);
+                                    await _databaseService.AddArtistToAlbum(artist.Id, currentlyPlaying.Track.Album.Id);
                                 }
 
                                 //add images and add images to album
                                 foreach (var image in currentlyPlaying.Track.Album.Images)
                                 {
-                                    var imageResult = databaseService.AddImage(image.Height, image.Width, image.Url).Result;
-                                    databaseService.AddImageToAlbum(imageResult.Id, currentlyPlaying.Track.Album.Id).Wait();
+                                    var imageResult = await _databaseService.AddImage(image.Height, image.Width, image.Url);
+                                    await _databaseService.AddImageToAlbum(imageResult.Id, currentlyPlaying.Track.Album.Id);
                                 }
 
                                 _logger.LogInformation($"Skipped track: {currentlyPlaying.Track?.Name} was playing from monitored playlist: {currentlyPlaying.Track?.PlaylistId}");
-                                
+
                                 var skippedTrack = new DatabaseSkippedTrackRequest
                                 {
                                     PlaylistId = currentlyPlaying.Track.PlaylistId,
                                     TrackId = currentlyPlaying.Track.Id,
                                     SkippedDate = DateTime.Now
                                 };
-                                databaseService.AddSkippedTrack(skippedTrack).Wait();
+                                await _databaseService.AddSkippedTrack(skippedTrack);
                             }
                             else
                             {
@@ -141,9 +120,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         }
                     }
                 }
-                else if (executionCount % 10 == 0)
+                else
                 {
-                    _logger.LogInformation("Not currently listening to a monitored playlist");
+                    if (executionCount % 10 == 0)
+                    {
+                        _logger.LogInformation("Not currently listening to a monitored playlist");
+                    }
+                    _playingStateService.UpdatePlayingState(currentlyPlaying);
                 }
             }
             else
@@ -155,30 +138,6 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
 
             Interlocked.Increment(ref executionCount);
-        }
-
-        /// <summary>
-        /// Hosted Service stop method. 
-        /// </summary>
-        /// <param name="stoppingToken"></param>
-        /// <returns></returns>
-        [ExcludeFromCodeCoverage]
-        public Task StopAsync(CancellationToken stoppingToken)
-        {
-            _logger.LogInformation("Polling Service is stopping.");
-
-            _timer?.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Disposes any resources that implement IDisposable.
-        /// </summary>
-        [ExcludeFromCodeCoverage]
-        public void Dispose()
-        {
-            _timer?.Dispose();
         }
     }
 }
