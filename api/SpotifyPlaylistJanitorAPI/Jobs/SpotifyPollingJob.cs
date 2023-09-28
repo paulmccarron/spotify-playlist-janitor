@@ -1,14 +1,11 @@
 ﻿using Quartz;
-using SpotifyAPI.Web;
-using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace SpotifyPlaylistJanitorAPI.Jobs
 {
     /// <summary>
-    /// Hosted Service that polls users Spotify playback activity to monitor when skips occur.
+    /// Job that polls users Spotify playback activity to monitor when skips occur.
     /// </summary>
     [DisallowConcurrentExecution]
     public class SpotifyPollingJob : IJob
@@ -20,7 +17,7 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
         private readonly ILogger<SpotifyPollingJob> _logger;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="SpotifyPollingJob"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service.</param>
         /// <param name="playingStateService">The Playing State Service.</param>

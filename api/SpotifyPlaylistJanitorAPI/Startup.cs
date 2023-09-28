@@ -129,24 +129,24 @@ namespace SpotifyPlaylistJanitorAPIs
                     .SetMinimumLevel(LogLevel.Information)
             );
 
+            //Add Quartz jobs to perform background tasks
             services.AddQuartz(q =>
             {
                 q.ScheduleJob<SpotifyPollingJob>(trigger => trigger
                     .WithIdentity("SpotifyPollingJob")
                     .StartNow()
-                    .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMilliseconds(500)).RepeatForever())
+                    .WithSimpleSchedule(scheduleBuilder => scheduleBuilder.WithInterval(TimeSpan.FromMilliseconds(500)).RepeatForever())
                     .WithDescription("Schedueld job to check Spotify playing activity for tracks being skipped.")
                 );
 
                 q.ScheduleJob<SkippedTrackRemoveJob>(trigger => trigger
                     .WithIdentity("SkippedTrackRemoveJob")
                     .StartNow()
-                    .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromHours(1)).RepeatForever())
+                    .WithSimpleSchedule(scheduleBuilder => scheduleBuilder.WithInterval(TimeSpan.FromHours(1)).RepeatForever())
                     .WithDescription("Schedueld job to check for skipped tracks to auto-remove from playlists.")
                 );
             });
 
-            // ASP.NET Core hosting
             services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
 
