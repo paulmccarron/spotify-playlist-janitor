@@ -83,7 +83,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            VerifyLog(_loggerMock, LogLevel.Information, "Not currently logged into Spotify");
+            VerifyLog(_loggerMock, LogLevel.Trace, "Not currently logged into Spotify");
             MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Never);
         }
 
@@ -106,7 +106,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             //Assert
             MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Once);
             MockDatabaseService.Verify(mock => mock.GetPlaylist(It.IsAny<string>()), Times.Never);
-            VerifyLog(_loggerMock, LogLevel.Information, "Not currently listening to a monitored playlist");
+            VerifyLog(_loggerMock, LogLevel.Trace, "Not currently listening to a monitored playlist");
         }
 
         [Test]

@@ -65,5 +65,21 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             await _databaseService.UpdateUserRefreshToken(username, null, null);
         }
+
+        /// <summary>
+        /// Store user spotify client token in database.
+        /// </summary>
+        public async Task AddUserSpotifyToken(string username, string? spotifyToken)
+        {
+            await _databaseService.AddUserSpotifyToken(username, spotifyToken);
+        }
+
+        /// <summary>
+        /// Retrieve user spotify client token from database.
+        /// </summary>
+        public async Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username)
+        {
+            return await _databaseService.GetUserSpotifyToken(username);
+        }
     }
 }

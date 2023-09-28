@@ -14,4 +14,6 @@ public partial class User
     public string? RefreshToken { get; set; } = null;
 
     public DateTime? RefreshTokenExpiry { get; set; } = null;
+
+    public virtual UsersSpotifyToken? UsersSpotifyToken { get; set; }
 }

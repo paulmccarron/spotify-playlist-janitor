@@ -46,7 +46,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, true)
                 .Create();
@@ -88,7 +88,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, false)
                 .Create();
@@ -130,7 +130,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, true)
                 .Create();
@@ -208,7 +208,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, false)
                 .Create();
@@ -242,7 +242,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, true)
                 .With(x => x.RefreshToken, refreshToken)
@@ -286,7 +286,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshToken, refreshToken)
@@ -381,7 +381,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
@@ -415,7 +415,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var refreshTokenExpiry = SystemTime.Now().AddHours(-1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .With(x => x.PasswordHash, HashString(password))
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshToken, refreshToken)
@@ -440,7 +440,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var username = "username";
            
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.UserName, username)
+                .With(x => x.Username, username)
                 .Create();
 
             MockUserService

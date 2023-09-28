@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistJanitorAPI.Models.Auth;
+﻿using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
+using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 
 namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
@@ -105,5 +106,15 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Updates user refresh token in database.
         /// </summary>
         Task UpdateUserRefreshToken(string username, string? refreshToken, DateTime? refreshTokenExpiry);
+
+        /// <summary>
+        /// Store user spotify client token in database.
+        /// </summary>
+        Task AddUserSpotifyToken(string username, string? spotifyToken);
+
+        /// <summary>
+        /// Retrieve user spotify client token from database.
+        /// </summary>
+        Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username);
     }
 }

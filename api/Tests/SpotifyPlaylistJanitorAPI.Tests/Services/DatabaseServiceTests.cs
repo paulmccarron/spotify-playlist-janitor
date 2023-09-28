@@ -653,7 +653,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Select(x => new UserDataModel
                 {
                     Id = x.Id,
-                    UserName = x.Username,
+                    Username = x.Username,
                     PasswordHash = x.PasswordHash,
                     IsAdmin = x.IsAdmin,
                     RefreshToken = x.RefreshToken,

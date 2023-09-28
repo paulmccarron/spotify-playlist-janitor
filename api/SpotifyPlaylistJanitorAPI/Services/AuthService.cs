@@ -54,7 +54,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 {
                     user = new UserModel 
                     { 
-                        Username = storedUser.UserName, 
+                        Username = storedUser.Username, 
                         Role = storedUser.IsAdmin ? "Admin" : "User",
                     };
                 }
@@ -129,7 +129,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var user = new UserModel
             {
-                Username = storedUser.UserName,
+                Username = storedUser.Username,
                 Role = storedUser.IsAdmin ? "Admin" : "User",
             };
 

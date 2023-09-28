@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
@@ -14,6 +15,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
     public class SpotifyService : ISpotifyService
     {
         private readonly SpotifyOption _spotifyOptions;
+        private readonly IUserService _userService;
+        private readonly ILogger<SpotifyService> _logger;
         private ISpotifyClient? _spotifyClient { get; set; }
 
         /// <summary>
@@ -40,9 +43,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions)
+        /// <param name="userService">Service that impliments the <see cref="IUserService"/> interface.</param>
+        /// <param name="logger">The Application Logger.</param>
+        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, IUserService userService, ILogger<SpotifyService> logger)
         {
             _spotifyOptions = spotifyOptions.Value;
+            _userService = userService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -62,11 +69,26 @@ namespace SpotifyPlaylistJanitorAPI.Services
               new AuthorizationCodeTokenRequest(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, code, new Uri(callbackUrl))
             );
 
+            var authenticator = new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response);
+
+            authenticator.TokenRefreshed += Authenticator_TokenRefreshed;
+
             var config = SpotifyClientConfig
               .CreateDefault()
-              .WithAuthenticator(new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response));
+              .WithAuthenticator(authenticator);
 
             return new SpotifyClient(config);
+        }
+
+        private async void Authenticator_TokenRefreshed(object? sender, AuthorizationCodeTokenResponse e)
+        {
+            _logger.LogDebug("Token Refreshed", e);
+            var user = GetUserDetails().Result;
+            var tokenString = JsonConvert.SerializeObject(e);
+            if (!string.IsNullOrWhiteSpace(user.Email))
+            {
+                await _userService.AddUserSpotifyToken(user.Email, tokenString);
+            }
         }
 
         /// <summary>

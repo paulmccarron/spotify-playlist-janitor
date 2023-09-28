@@ -404,7 +404,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var userModel = userDto is null ? null : new UserDataModel
             {
                 Id = userDto.Id,
-                UserName = userDto.Username,
+                Username = userDto.Username,
                 PasswordHash = userDto.PasswordHash,
                 IsAdmin = userDto.IsAdmin,
                 RefreshToken = userDto.RefreshToken,
@@ -454,6 +454,51 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 await _context.SaveChangesAsync();
             }
+        }
+
+        /// <summary>
+        /// Store user spotify client token in database.
+        /// </summary>
+        public async Task AddUserSpotifyToken(string username, string spotifyToken)
+        {
+            var userSpotifyTokenDto = await _context.UsersSpotifyTokens
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
+
+            if (userSpotifyTokenDto is not null)
+            {
+                userSpotifyTokenDto.SpotifyToken = spotifyToken;
+            }
+            else
+            {
+                userSpotifyTokenDto = new UsersSpotifyToken
+                {
+                    Username = username,
+                    SpotifyToken = spotifyToken,
+                };
+
+                await _context.AddAsync(userSpotifyTokenDto);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Retrieve user spotify client token from database.
+        /// </summary>
+        public async Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username)
+        {
+            var userSpotifyTokenDto = await _context.UsersSpotifyTokens
+                .ToAsyncEnumerable()
+                .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
+
+            var userSpotifyTokenModel = userSpotifyTokenDto is null ? null : new UserSpotifyTokenModel
+            {
+                Username = userSpotifyTokenDto.Username,
+                SpotifyToken = userSpotifyTokenDto.SpotifyToken,
+            };
+
+            return userSpotifyTokenModel;
         }
     }
 }

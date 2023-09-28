@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using SpotifyAPI.Web;
@@ -14,11 +15,13 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class SpotifyServiceTests : TestBase
     {
         private SpotifyService _spotifyService;
+        private Mock<ILogger<SpotifyService>> _loggerMock;
 
         [SetUp]
         public void Setup()
         {
-            _spotifyService = new SpotifyService(SpotifyOptions);
+            _loggerMock = new Mock<ILogger<SpotifyService>>();
+            _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
             _spotifyService.SetClient(MockSpotifyClient.Object);
         }
 
@@ -554,7 +557,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 ClientSecret = "",
             });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
@@ -573,7 +576,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 ClientSecret = "mockClientSecret",
             });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
@@ -592,7 +595,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 ClientSecret = "",
             });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+            _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
             //Act
             var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);

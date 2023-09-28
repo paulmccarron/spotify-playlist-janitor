@@ -32,6 +32,8 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UsersSpotifyToken> UsersSpotifyTokens { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql("name=DefaultConnection");
 
@@ -188,19 +190,36 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
 
             entity.ToTable("users");
 
+            entity.HasIndex(e => e.Username, "users_username_key").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IsAdmin).HasColumnName("is_admin");
             entity.Property(e => e.PasswordHash)
                 .IsRequired()
                 .HasColumnName("password_hash");
-            entity.Property(e => e.Username)
-                .IsRequired()
-                .HasColumnName("username");
-            entity.Property(e => e.RefreshToken)
-                .HasColumnName("refresh_token");
+            entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
             entity.Property(e => e.RefreshTokenExpiry)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("refresh_token_expiry");
+            entity.Property(e => e.Username)
+                .IsRequired()
+                .HasColumnName("username");
+        });
+
+        modelBuilder.Entity<UsersSpotifyToken>(entity =>
+        {
+            entity.HasKey(e => e.Username).HasName("users_spotify_token_pkey");
+
+            entity.ToTable("users_spotify_token");
+
+            entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.SpotifyToken).HasColumnName("spotify_token");
+
+            entity.HasOne(d => d.UsernameNavigation).WithOne(p => p.UsersSpotifyToken)
+                .HasPrincipalKey<User>(p => p.Username)
+                .HasForeignKey<UsersSpotifyToken>(d => d.Username)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("users_spotify_token_username_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

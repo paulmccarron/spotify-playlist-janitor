@@ -10,7 +10,6 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
     [DisallowConcurrentExecution]
     public class SpotifyPollingJob : IJob
     {
-        private int executionCount = 0;
         private readonly ISpotifyService _spotifyService;
         private readonly IPlayingStateService _playingStateService;
         private readonly IDatabaseService _databaseService;
@@ -122,22 +121,14 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
                 }
                 else
                 {
-                    if (executionCount % 10 == 0)
-                    {
-                        _logger.LogInformation("Not currently listening to a monitored playlist");
-                    }
+                    _logger.LogTrace("Not currently listening to a monitored playlist");
                     _playingStateService.UpdatePlayingState(currentlyPlaying);
                 }
             }
             else
             {
-                if (executionCount % 200 == 0)
-                {
-                    _logger.LogInformation("Not currently logged into Spotify");
-                }
+                _logger.LogTrace("Not currently logged into Spotify");
             }
-
-            Interlocked.Increment(ref executionCount);
         }
     }
 }
