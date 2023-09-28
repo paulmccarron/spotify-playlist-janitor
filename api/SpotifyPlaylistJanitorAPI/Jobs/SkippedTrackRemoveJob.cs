@@ -31,7 +31,7 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
         /// will iterate through each user playlist and check if any of the Skippped Tracks
         /// meet the criteria for automatic removal.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Quartz Job Execution Context</param>
         /// <returns></returns>
         public async Task Execute(IJobExecutionContext context)
         {
@@ -49,11 +49,16 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
                             .Where(grp => grp.Count() > playlist.AutoCleanupLimit)
                             .Select(grp => grp.Key);
 
-                        await _spotifyService.DeletePlaylistTracks(playlist.Id, autoDeleteTrackIds);
-                        await _databaseService.DeleteSkippedTracks(playlist.Id, autoDeleteTrackIds);
+                        if(autoDeleteTrackIds.Count() > 0)
+                        {
+                            await _spotifyService.DeletePlaylistTracks(playlist.Id, autoDeleteTrackIds);
+                            await _databaseService.DeleteSkippedTracks(playlist.Id, autoDeleteTrackIds);
+
+                        }
                     }
                 }
             }
+
             return;
         }
     }

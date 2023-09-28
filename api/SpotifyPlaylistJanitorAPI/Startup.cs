@@ -118,7 +118,6 @@ namespace SpotifyPlaylistJanitorAPIs
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, DatabaseUserService>();
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
-            services.AddHostedService<SpotifyPollingService>();
 
             services.AddHttpContextAccessor();
 
@@ -132,6 +131,13 @@ namespace SpotifyPlaylistJanitorAPIs
 
             services.AddQuartz(q =>
             {
+                q.ScheduleJob<SpotifyPollingJob>(trigger => trigger
+                    .WithIdentity("SpotifyPollingJob")
+                    .StartNow()
+                    .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMilliseconds(500)).RepeatForever())
+                    .WithDescription("Schedueld job to check Spotify playing activity for tracks being skipped.")
+                );
+
                 q.ScheduleJob<SkippedTrackRemoveJob>(trigger => trigger
                     .WithIdentity("SkippedTrackRemoveJob")
                     .StartNow()
