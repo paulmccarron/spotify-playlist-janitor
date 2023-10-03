@@ -16,7 +16,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void Init()
         {
 
-            _databaseUserService = new DatabaseUserService(MockDatabaseService.Object);
+            _databaseUserService = new DatabaseUserService(MockDatabaseService.Object, SpotifyOptions);
         }
 
         [Test]

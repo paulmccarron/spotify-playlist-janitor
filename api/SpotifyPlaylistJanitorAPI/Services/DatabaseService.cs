@@ -13,14 +13,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
     public class DatabaseService : IDatabaseService
     {
         private readonly SpotifyPlaylistJanitorDatabaseContext _context;
+        private readonly IServiceScopeFactory _scopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseService"/> class.
         /// </summary>
         /// <param name="context">Database context.</param>
-        public DatabaseService(SpotifyPlaylistJanitorDatabaseContext context)
+        public DatabaseService(IServiceScopeFactory scopeFactory)
         {
-            _context = context;
+            //_context = context;
+            _scopeFactory = scopeFactory;
         }
 
         /// <summary>
@@ -29,7 +31,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists()
         {
-            var playlists = await _context.Playlists
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+            var playlists = await dbContext.Playlists
                 .Select(playlistDto => new DatabasePlaylistModel
                 {
                     Id = playlistDto.Id,
@@ -49,7 +53,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
         {
-            var playlistDto = await _context.Playlists
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+            var playlistDto = await dbContext.Playlists
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Id == id);
 
@@ -70,6 +76,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel> AddPlaylist(DatabasePlaylistRequest playlistRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var playlistDto = new Playlist
             {
                 Id = playlistRequest.Id,
@@ -78,14 +87,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 AutoCleanupLimit = playlistRequest.AutoCleanupLimit,
             };
 
-            var alreadyExists = await _context.Playlists
+            var alreadyExists = await dbContext.Playlists
                 .ToAsyncEnumerable()
                 .AnyAsync(playlist => playlist.Id.Equals(playlistRequest.Id));
 
             if (!alreadyExists)
             {
-                await _context.AddAsync(playlistDto);
-                await _context.SaveChangesAsync();
+                await dbContext.AddAsync(playlistDto);
+                await dbContext.SaveChangesAsync();
             }
 
             var playlistModel = new DatabasePlaylistModel
@@ -105,8 +114,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
         public async Task<DatabasePlaylistModel?> UpdatePlaylist(string id, DatabasePlaylistUpdateRequest playlistUpdateRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             DatabasePlaylistModel? playlistModel = null;
-            var playlistDto = await _context.Playlists
+            var playlistDto = await dbContext.Playlists
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Id == id);
 
@@ -116,7 +128,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 playlistDto.IgnoreInitialSkips = playlistUpdateRequest.IgnoreInitialSkips;
                 playlistDto.AutoCleanupLimit = playlistUpdateRequest.AutoCleanupLimit;
 
-                await _context.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
                 playlistModel = new DatabasePlaylistModel
                 {
@@ -135,9 +147,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task DeletePlaylist(string id)
         {
-            _context.SkippedTracks.RemoveRange(_context.SkippedTracks.Where(track => track.PlaylistId == id));
-            _context.Playlists.RemoveRange(_context.Playlists.Where(playlist => playlist.Id == id));
-            await _context.SaveChangesAsync();
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            dbContext.SkippedTracks.RemoveRange(dbContext.SkippedTracks.Where(track => track.PlaylistId == id));
+            dbContext.Playlists.RemoveRange(dbContext.Playlists.Where(playlist => playlist.Id == id));
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -145,6 +160,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddArtist(DatabaseArtistModel artistRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var artistDto = new Artist
             {
                 Id = artistRequest.Id,
@@ -152,14 +170,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = artistRequest.Href,
             };
 
-            var alreadyExists = await _context.Artists
+            var alreadyExists = await dbContext.Artists
                 .ToAsyncEnumerable()
                 .AnyAsync(artist => artist.Id.Equals(artistRequest.Id));
 
             if (!alreadyExists)
             {
-                await _context.AddAsync(artistDto);
-                await _context.SaveChangesAsync();
+                await dbContext.AddAsync(artistDto);
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -168,6 +186,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddAlbum(DatabaseAlbumRequest albumRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var albumDto = new Album
             {
                 Id = albumRequest.Id,
@@ -175,14 +196,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Href = albumRequest.Href,
             };
 
-            var alreadyExists = await _context.Albums
+            var alreadyExists = await dbContext.Albums
                 .ToAsyncEnumerable()
                 .AnyAsync(album => album.Id.Equals(albumDto.Id));
 
             if (!alreadyExists)
             {
-                await _context.AddAsync(albumDto);
-                await _context.SaveChangesAsync();
+                await dbContext.AddAsync(albumDto);
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -191,6 +212,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task<DatabaseImageModel> AddImage(int height, int width, string url)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var imageRequest = new Image
             {
                 Height = height,
@@ -198,16 +222,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Url = url
             };
 
-            var imageDto = await _context.Images
+            var imageDto = await dbContext.Images
                 .ToAsyncEnumerable()
                 .FirstOrDefaultAsync(image => image.Height == height && image.Width == width && image.Url == url);
 
             if (imageDto is null)
             {
-                await _context.AddAsync(imageRequest);
-                await _context.SaveChangesAsync();
+                await dbContext.AddAsync(imageRequest);
+                await dbContext.SaveChangesAsync();
 
-                imageDto = await _context.Images
+                imageDto = await dbContext.Images
                 .ToAsyncEnumerable()
                 .FirstOrDefaultAsync(image => image.Height == height && image.Width == width && image.Url == url);
             }
@@ -226,6 +250,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddTrack(DatabaseTrackModel trackRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var trackDto = new Track
             {
                 Id = trackRequest.Id,
@@ -234,14 +261,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 AlbumId = trackRequest.AlbumId,
             };
 
-            var alreadyExists = await _context.Tracks
+            var alreadyExists = await dbContext.Tracks
                 .ToAsyncEnumerable()
                 .AnyAsync(track => track.Id.Equals(trackRequest.Id));
 
             if (!alreadyExists)
             {
-                await _context.AddAsync(trackDto);
-                await _context.SaveChangesAsync();
+                await dbContext.AddAsync(trackDto);
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -250,7 +277,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddArtistToTrack(string artistId, string trackId)
         {
-            var trackDto = await _context.Tracks
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var trackDto = await dbContext.Tracks
                 .Include(track => track.Artists)
                 .ToAsyncEnumerable()
                 .FirstAsync(track => track.Id.Equals(trackId));
@@ -259,13 +289,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             if (!trackHasArtist)
             {
-                var artistDto = await _context.Artists
+                var artistDto = await dbContext.Artists
                 .ToAsyncEnumerable()
                 .FirstAsync(artist => artist.Id.Equals(artistId));
 
                 trackDto.Artists.Add(artistDto);
 
-                await _context.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -274,7 +304,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddArtistToAlbum(string artistId, string albumId)
         {
-            var albumDto = await _context.Albums
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var albumDto = await dbContext.Albums
                 .Include(album => album.Artists)
                 .ToAsyncEnumerable()
                 .FirstAsync(album => album.Id.Equals(albumId));
@@ -283,13 +316,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             if (!albumHasArtist)
             {
-                var artistDto = await _context.Artists
+                var artistDto = await dbContext.Artists
                 .ToAsyncEnumerable()
                 .FirstAsync(artist => artist.Id.Equals(artistId));
 
                 albumDto.Artists.Add(artistDto);
 
-                await _context.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -298,7 +331,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddImageToAlbum(int imageId, string albumId)
         {
-            var albumDto = await _context.Albums
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var albumDto = await dbContext.Albums
                 .Include(album => album.Images)
                 .ToAsyncEnumerable()
                 .FirstAsync(album => album.Id.Equals(albumId));
@@ -307,13 +343,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             if (!albumHasArtist)
             {
-                var imageDto = await _context.Images
+                var imageDto = await dbContext.Images
                 .ToAsyncEnumerable()
                 .FirstAsync(image => image.Id.Equals(imageId));
 
                 albumDto.Images.Add(imageDto);
 
-                await _context.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -322,6 +358,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddSkippedTrack(DatabaseSkippedTrackRequest skippedTrackRequest)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
             var skippedTrackDto = new SkippedTrack
             {
                 PlaylistId = skippedTrackRequest.PlaylistId,
@@ -329,8 +368,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 SkippedDate = skippedTrackRequest.SkippedDate,
             };
 
-            await _context.AddAsync(skippedTrackDto);
-            await _context.SaveChangesAsync();
+            await dbContext.AddAsync(skippedTrackDto);
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -338,11 +377,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task DeleteSkippedTracks(string playlistId, IEnumerable<string> trackIds)
         {
-            _context.SkippedTracks.RemoveRange(
-                _context.SkippedTracks
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            dbContext.SkippedTracks.RemoveRange(
+                dbContext.SkippedTracks
                     .Where(track => track.PlaylistId == playlistId && trackIds.Contains(track.TrackId))
             );
-            await _context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -351,7 +393,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabaseSkippedTrackResponse" />.</returns>
         public async Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId)
         {
-            var skippedTracks = await _context.SkippedTracks
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var skippedTracks = await dbContext.SkippedTracks
                 .Where(skipped => skipped.PlaylistId == playlistId)
                 .Include(skipped => skipped.Track)
                 .ThenInclude(track => track.Artists)
@@ -392,12 +437,40 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
+        /// Returns users from database.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "UserDataModel" />.</returns>
+        public async Task<IEnumerable<UserDataModel>> GetUsers()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userModels = await dbContext.Users
+                .Select(userDto => new UserDataModel
+                {
+                    Id = userDto.Id,
+                    Username = userDto.Username,
+                    PasswordHash = userDto.PasswordHash,
+                    IsAdmin = userDto.IsAdmin,
+                    RefreshToken = userDto.RefreshToken,
+                    RefreshTokenExpiry = userDto.RefreshTokenExpiry,
+                })
+                .ToAsyncEnumerable()
+                .ToListAsync();
+
+            return userModels;
+        }
+
+        /// <summary>
         /// Returns user from database.
         /// </summary>
         ///<returns>Returns a <see cref = "UserDataModel" />.</returns>
         public async Task<UserDataModel?> GetUser(string username)
         {
-            var userDto = await _context.Users
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userDto = await dbContext.Users
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
 
@@ -419,7 +492,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddUser(string username, string passwordHash)
         {
-            var userDtos = await _context.Users
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userDtos = await dbContext.Users
                 .ToAsyncEnumerable()
                 .ToListAsync();
 
@@ -430,8 +506,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 IsAdmin = userDtos.Count() == 0,
             };
 
-            await _context.AddAsync(userDto);
-            await _context.SaveChangesAsync();
+            await dbContext.AddAsync(userDto);
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -443,7 +519,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <returns></returns>
         public async Task UpdateUserRefreshToken(string username, string? refreshToken, DateTime? refreshTokenExpiry)
         {
-            var userDto = await _context.Users
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userDto = await dbContext.Users
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
 
@@ -452,50 +531,59 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 userDto.RefreshToken = refreshToken;
                 userDto.RefreshTokenExpiry = refreshTokenExpiry;
 
-                await _context.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
         }
 
         /// <summary>
         /// Store user spotify client token in database.
         /// </summary>
-        public async Task AddUserSpotifyToken(string username, string spotifyToken)
+        /// <param name="username"></param>
+        /// <param name="encodedSpotifyToken"></param>
+        public async Task AddUserEncodedSpotifyToken(string username, string encodedSpotifyToken)
         {
-            var userSpotifyTokenDto = await _context.UsersSpotifyTokens
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userSpotifyTokenDto = await dbContext.UsersSpotifyTokens
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
 
             if (userSpotifyTokenDto is not null)
             {
-                userSpotifyTokenDto.SpotifyToken = spotifyToken;
+                userSpotifyTokenDto.EncodedSpotifyToken = encodedSpotifyToken;
             }
             else
             {
                 userSpotifyTokenDto = new UsersSpotifyToken
                 {
                     Username = username,
-                    SpotifyToken = spotifyToken,
+                    EncodedSpotifyToken = encodedSpotifyToken,
                 };
 
-                await _context.AddAsync(userSpotifyTokenDto);
+                await dbContext.AddAsync(userSpotifyTokenDto);
             }
 
-            await _context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
         /// Retrieve user spotify client token from database.
         /// </summary>
-        public async Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username)
+        /// <param name="username"></param>
+        public async Task<UserEncodedSpotifyTokenModel?> GetUserEncodedSpotifyToken(string username)
         {
-            var userSpotifyTokenDto = await _context.UsersSpotifyTokens
+            using var scope = _scopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
+
+            var userSpotifyTokenDto = await dbContext.UsersSpotifyTokens
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
 
-            var userSpotifyTokenModel = userSpotifyTokenDto is null ? null : new UserSpotifyTokenModel
+            var userSpotifyTokenModel = userSpotifyTokenDto is null ? null : new UserEncodedSpotifyTokenModel
             {
                 Username = userSpotifyTokenDto.Username,
-                SpotifyToken = userSpotifyTokenDto.SpotifyToken,
+                EncodedSpotifyToken = userSpotifyTokenDto.EncodedSpotifyToken,
             };
 
             return userSpotifyTokenModel;

@@ -81,7 +81,7 @@ CREATE TABLE users (
 
 CREATE TABLE users_spotify_token (
     username text PRIMARY KEY not null,
-    spotify_token text,
+    encoded_spotify_token text,
 
     FOREIGN KEY (username) REFERENCES users(username)
 );

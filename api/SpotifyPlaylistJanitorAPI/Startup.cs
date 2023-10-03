@@ -113,10 +113,10 @@ namespace SpotifyPlaylistJanitorAPIs
                 options.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"))
             );
 
+            services.AddSingleton<IDatabaseService, DatabaseService>();
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IUserService, DatabaseUserService>();
             services.AddSingleton<ISpotifyService, SpotifyService>();
-            services.AddScoped<IDatabaseService, DatabaseService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserService, DatabaseUserService>();
             services.AddSingleton<IPlayingStateService, PlayingStateService>();
 
             services.AddHttpContextAccessor();

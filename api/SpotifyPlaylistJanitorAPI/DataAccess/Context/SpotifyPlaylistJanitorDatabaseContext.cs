@@ -213,7 +213,7 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
             entity.ToTable("users_spotify_token");
 
             entity.Property(e => e.Username).HasColumnName("username");
-            entity.Property(e => e.SpotifyToken).HasColumnName("spotify_token");
+            entity.Property(e => e.EncodedSpotifyToken).HasColumnName("encoded_spotify_token");
 
             entity.HasOne(d => d.UsernameNavigation).WithOne(p => p.UsersSpotifyToken)
                 .HasPrincipalKey<User>(p => p.Username)

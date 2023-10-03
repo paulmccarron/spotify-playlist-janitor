@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
@@ -13,11 +15,28 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class DatabaseServiceTests : TestBase
     {
         private DatabaseService _databaseService;
+        private Mock<IServiceScopeFactory> _scopeFactoryMock;
 
         [SetUp]
         public void Init()
         {
-            _databaseService = new DatabaseService(MockDbContext.Object);
+            _scopeFactoryMock = new Mock<IServiceScopeFactory>();
+
+            Mock<IServiceProvider> mockServiceProvider = new Mock<IServiceProvider>();
+            mockServiceProvider
+                .Setup(x => x.GetService(typeof(SpotifyPlaylistJanitorDatabaseContext)))
+                .Returns(MockDbContext.Object);
+
+            Mock<IServiceScope> mockServiceScope = new Mock<IServiceScope>();
+            mockServiceScope
+                .Setup(mock => mock.ServiceProvider)
+                .Returns(mockServiceProvider.Object);
+
+            _scopeFactoryMock
+                .Setup(mock => mock.CreateScope())
+                .Returns(mockServiceScope.Object);
+
+            _databaseService = new DatabaseService(_scopeFactoryMock.Object);
         }
 
         [Test]

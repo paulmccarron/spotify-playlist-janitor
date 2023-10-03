@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Http;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
@@ -50,6 +52,44 @@ namespace SpotifyPlaylistJanitorAPI.Services
             _spotifyOptions = spotifyOptions.Value;
             _userService = userService;
             _logger = logger;
+
+            var users = _userService.GetUsers().Result;
+            foreach(var user in users)
+            {
+                var spotifyToken = GetTokenFromStore(user.Username).Result;
+
+                if(spotifyToken is not null)
+                {
+                    try
+                    {
+                        var authenticator = new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, spotifyToken);
+
+                        authenticator.TokenRefreshed += Authenticator_TokenRefreshed;
+
+                        var config = SpotifyClientConfig
+                          .CreateDefault()
+                          .WithAuthenticator(authenticator);
+
+                        var client = new SpotifyClient(config);
+                        var clientUser = client.UserProfile.Current().Result;
+
+                        if (user.Username == clientUser.Email)
+                        {
+                            _spotifyClient = client;
+                            break;
+                        }
+                    }
+                    catch (Exception ex) 
+                    {
+                        _logger.LogError(
+                            exception: ex, 
+                            message: "Failed to create Spotify Client on start-up for stored user token", 
+                            args: new[] { 
+                                new { prop = "Username", value = user.Username } 
+                            });
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -77,17 +117,22 @@ namespace SpotifyPlaylistJanitorAPI.Services
               .CreateDefault()
               .WithAuthenticator(authenticator);
 
-            return new SpotifyClient(config);
+            var client = new SpotifyClient(config);
+
+            var currentUser = await client.UserProfile.Current();
+
+            await SetTokenInStore(currentUser.Email, response);
+
+            return client;
         }
 
         private async void Authenticator_TokenRefreshed(object? sender, AuthorizationCodeTokenResponse e)
         {
             _logger.LogDebug("Token Refreshed", e);
             var user = GetUserDetails().Result;
-            var tokenString = JsonConvert.SerializeObject(e);
             if (!string.IsNullOrWhiteSpace(user.Email))
             {
-                await _userService.AddUserSpotifyToken(user.Email, tokenString);
+                await SetTokenInStore(user.Email, e);
             }
         }
 
@@ -347,6 +392,18 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 throw new SpotifyArgumentException("No Spotify ClientSecret configured");
             }
+        }
+
+        private async Task SetTokenInStore(string user, AuthorizationCodeTokenResponse tokenResponse)
+        {
+            var tokenString = JsonConvert.SerializeObject(tokenResponse);
+            await _userService.AddUserSpotifyToken(user, tokenString);
+        }
+
+        private async Task<AuthorizationCodeTokenResponse?> GetTokenFromStore(string user)
+        {
+            var tokenString = await _userService.GetUserSpotifyToken(user);
+            return tokenString is null ? null : JsonConvert.DeserializeObject<AuthorizationCodeTokenResponse>(tokenString.SpotifyToken);
         }
     }
 }

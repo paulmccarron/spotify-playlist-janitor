@@ -96,10 +96,6 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
             var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
 
             var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
-            
-            ////check attempted login against database users
-            //var userProfile = await spotifyClient.UserProfile.Current();
-            //var userEmail = userProfile.Email;
 
             _spotifyService.SetClient(spotifyClient);
 

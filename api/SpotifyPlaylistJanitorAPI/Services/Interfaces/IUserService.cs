@@ -9,6 +9,12 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
     public interface IUserService
     {
         /// <summary>
+        /// Returns users from store.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "UserDataModel" />.</returns>
+        Task<IEnumerable<UserDataModel>> GetUsers();
+
+        /// <summary>
         /// Returns user from store.
         /// </summary>
         ///<returns>Returns a <see cref = "UserDataModel" />.</returns>

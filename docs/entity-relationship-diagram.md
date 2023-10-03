@@ -85,6 +85,6 @@ erDiagram
     
     USERS_SPOTIFY_TOKEN {
         VARCHAR username FK
-        VARCHAR spotify_token
+        VARCHAR encoded_spotify_token
     }
 ```
