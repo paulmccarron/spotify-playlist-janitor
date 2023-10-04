@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
@@ -16,23 +13,25 @@ namespace SpotifyPlaylistJanitorAPI.Services
     public class DatabaseUserService : IUserService
     {
         private readonly IDatabaseService _databaseService;
+        private readonly ISecurityService _securityService;
         private readonly SpotifyOption _spotifyOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseUserService"/> class.
         /// </summary>
         /// <param name="databaseService">The Database Service.</param>
+        /// <param name="securityService">The Security Service.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
-        public DatabaseUserService(IDatabaseService databaseService, IOptions<SpotifyOption> spotifyOptions)
+        public DatabaseUserService(IDatabaseService databaseService, ISecurityService securityService, IOptions<SpotifyOption> spotifyOptions)
         {
             _databaseService = databaseService;
+            _securityService = securityService;
             _spotifyOptions = spotifyOptions.Value;
         }
 
         /// <summary>
         /// Returns user from database.
         /// </summary>
-        /// <param name="username"></param>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "UserDataModel" />.</returns>
         public async Task<IEnumerable<UserDataModel>> GetUsers()
         {
@@ -87,33 +86,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddUserSpotifyToken(string username, string? spotifyToken)
         {
-            byte[] iv = new byte[16];
-            byte[] array;
+            var dataString = spotifyToken is null ? null : _securityService.EncryptString(_spotifyOptions.ClientSecret, spotifyToken);
 
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = Encoding.UTF8.GetBytes(_spotifyOptions.ClientSecret);
-                aes.IV = iv;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
-                        {
-                            streamWriter.Write(spotifyToken);
-                        }
-
-                        array = memoryStream.ToArray();
-                    }
-                }
-            }
-
-            var encrpytedString = Convert.ToBase64String(array);
-
-            await _databaseService.AddUserEncodedSpotifyToken(username, encrpytedString);
+            await _databaseService.AddUserEncodedSpotifyToken(username, dataString);
         }
 
         /// <summary>
@@ -122,35 +97,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         public async Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username)
         {
             var userEncodedTokenModel = await _databaseService.GetUserEncodedSpotifyToken(username);
-            UserSpotifyTokenModel? decodedModel = null;
-
-            if (userEncodedTokenModel is not null)
+            var decodedModel = userEncodedTokenModel is null ? null : new UserSpotifyTokenModel
             {
-                byte[] iv = new byte[16];
-                byte[] buffer = Convert.FromBase64String(userEncodedTokenModel.EncodedSpotifyToken);
-
-                using (Aes aes = Aes.Create())
-                {
-                    aes.Key = Encoding.UTF8.GetBytes(_spotifyOptions.ClientSecret);
-                    aes.IV = iv;
-                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                    using (MemoryStream memoryStream = new MemoryStream(buffer))
-                    {
-                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (StreamReader streamReader = new StreamReader(cryptoStream))
-                            {
-                                decodedModel = new UserSpotifyTokenModel
-                                {
-                                    Username = userEncodedTokenModel.Username,
-                                    SpotifyToken = streamReader.ReadToEnd(),
-                                };
-                            }
-                        }
-                    }
-                }
-            }
+                Username = userEncodedTokenModel.Username,
+                SpotifyToken = _securityService.DecryptString(_spotifyOptions.ClientSecret, userEncodedTokenModel.EncodedSpotifyToken)
+            };
 
             return decodedModel;
         }

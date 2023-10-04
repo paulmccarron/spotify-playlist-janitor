@@ -1,10 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SpotifyAPI.Web;
-using SpotifyAPI.Web.Http;
 using SpotifyPlaylistJanitorAPI.Exceptions;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
@@ -16,19 +12,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
     /// </summary>
     public class SpotifyService : ISpotifyService
     {
-        private readonly SpotifyOption _spotifyOptions;
+        private readonly ISpotifyClientService _spotifyClientService;
         private readonly IUserService _userService;
-        private readonly ILogger<SpotifyService> _logger;
         private ISpotifyClient? _spotifyClient { get; set; }
-
-        /// <summary>
-        /// Sets the internal Spotify Client for the service.
-        /// </summary>
-        /// <param name="spotifyClient">The Spotify access credentials read from environment vars.</param>
-        public void SetClient(ISpotifyClient? spotifyClient)
-        {
-            _spotifyClient = spotifyClient;
-        }
 
         /// <summary>
         /// Returns true if service has a Spotify Client configured.
@@ -44,14 +30,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
-        /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
+        /// <param name="spotifyClientService">Service that impliments the <see cref="ISpotifyClientService"/> interface.</param>
         /// <param name="userService">Service that impliments the <see cref="IUserService"/> interface.</param>
-        /// <param name="logger">The Application Logger.</param>
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions, IUserService userService, ILogger<SpotifyService> logger)
+        public SpotifyService(ISpotifyClientService spotifyClientService, IUserService userService)
         {
-            _spotifyOptions = spotifyOptions.Value;
+            _spotifyClientService = spotifyClientService;
             _userService = userService;
-            _logger = logger;
 
             var users = _userService.GetUsers().Result;
             foreach(var user in users)
@@ -60,80 +44,24 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 if(spotifyToken is not null)
                 {
-                    try
-                    {
-                        var authenticator = new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, spotifyToken);
-
-                        authenticator.TokenRefreshed += Authenticator_TokenRefreshed;
-
-                        var config = SpotifyClientConfig
-                          .CreateDefault()
-                          .WithAuthenticator(authenticator);
-
-                        var client = new SpotifyClient(config);
-                        var clientUser = client.UserProfile.Current().Result;
-
-                        if (user.Username == clientUser.Email)
-                        {
-                            _spotifyClient = client;
-                            break;
-                        }
-                    }
-                    catch (Exception ex) 
-                    {
-                        _logger.LogError(
-                            exception: ex, 
-                            message: "Failed to create Spotify Client on start-up for stored user token", 
-                            args: new[] { 
-                                new { prop = "Username", value = user.Username } 
-                            });
-                    }
+                    _spotifyClient = _spotifyClientService.CreateClient(spotifyToken, user.Username).Result;
                 }
             }
         }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class and sets it to internal field.
         /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
         /// response code, and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
         /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
-        [ExcludeFromCodeCoverage]
-        public async Task<ISpotifyClient> CreateClient(string code, string callbackUrl)
+        public async Task CreateClient(string code, string callbackUrl)
         {
-            CheckSpotifyCredentials();
+            _spotifyClientService.CheckSpotifyCredentials();
 
-            var response = await new OAuthClient().RequestToken(
-              new AuthorizationCodeTokenRequest(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, code, new Uri(callbackUrl))
-            );
-
-            var authenticator = new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response);
-
-            authenticator.TokenRefreshed += Authenticator_TokenRefreshed;
-
-            var config = SpotifyClientConfig
-              .CreateDefault()
-              .WithAuthenticator(authenticator);
-
-            var client = new SpotifyClient(config);
-
-            var currentUser = await client.UserProfile.Current();
-
-            await SetTokenInStore(currentUser.Email, response);
-
-            return client;
-        }
-
-        private async void Authenticator_TokenRefreshed(object? sender, AuthorizationCodeTokenResponse e)
-        {
-            _logger.LogDebug("Token Refreshed", e);
-            var user = GetUserDetails().Result;
-            if (!string.IsNullOrWhiteSpace(user.Email))
-            {
-                await SetTokenInStore(user.Email, e);
-            }
+            _spotifyClient = _spotifyClientService.CreateClient(code, callbackUrl).Result;
         }
 
         /// <summary>
@@ -373,33 +301,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             return playingState;
         }
 
-        /// <summary>
-        /// Throws exception if there are any missing Spotify credentials from environment config.
-        /// </summary>
-        /// <exception cref="SpotifyArgumentException"></exception>
-        public void CheckSpotifyCredentials()
-        {
-            var clientIdEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientId);
-            var clientSecretEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientSecret);
-            if (clientIdEmpty && clientSecretEmpty){
-                throw new SpotifyArgumentException("No Spotify ClientId or ClientSecret configured");
-            }
-            if (clientIdEmpty)
-            {
-                throw new SpotifyArgumentException("No Spotify ClientId configured");
-            }
-            if (clientSecretEmpty)
-            {
-                throw new SpotifyArgumentException("No Spotify ClientSecret configured");
-            }
-        }
-
-        private async Task SetTokenInStore(string user, AuthorizationCodeTokenResponse tokenResponse)
-        {
-            var tokenString = JsonConvert.SerializeObject(tokenResponse);
-            await _userService.AddUserSpotifyToken(user, tokenString);
-        }
-
+        [ExcludeFromCodeCoverage]
         private async Task<AuthorizationCodeTokenResponse?> GetTokenFromStore(string user)
         {
             var tokenString = await _userService.GetUserSpotifyToken(user);

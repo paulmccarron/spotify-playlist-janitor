@@ -12,13 +12,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
     /// </summary>
     public class DatabaseService : IDatabaseService
     {
-        private readonly SpotifyPlaylistJanitorDatabaseContext _context;
         private readonly IServiceScopeFactory _scopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseService"/> class.
         /// </summary>
-        /// <param name="context">Database context.</param>
+        /// <param name="scopeFactory">Database context.</param>
         public DatabaseService(IServiceScopeFactory scopeFactory)
         {
             //_context = context;
@@ -540,7 +539,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <param name="username"></param>
         /// <param name="encodedSpotifyToken"></param>
-        public async Task AddUserEncodedSpotifyToken(string username, string encodedSpotifyToken)
+        public async Task AddUserEncodedSpotifyToken(string username, string? encodedSpotifyToken)
         {
             using var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();

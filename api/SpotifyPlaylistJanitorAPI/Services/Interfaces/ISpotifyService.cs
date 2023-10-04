@@ -10,24 +10,17 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
     public interface ISpotifyService
     {
         /// <summary>
-        /// Sets the internal Spotify Client fro the service.
-        /// </summary>
-        /// <param name="spotifyClient"></param>
-        void SetClient(ISpotifyClient? spotifyClient);
-
-        /// <summary>
         /// Returns true if service has a Spotify Client configured.
         /// </summary>
         bool IsLoggedIn { get; }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class and sets it to internal field.
         /// using provided code and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
-        /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
-        Task<ISpotifyClient> CreateClient(string code, string callbackUrl);
+        Task CreateClient(string code, string callbackUrl);
 
         /// <summary>
         /// Returns current users details.
@@ -66,10 +59,5 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <param name="trackIds">Collection if track Ids to remove.</param>
         /// <returns></returns>
         Task<SnapshotResponse> DeletePlaylistTracks(string playlistId, IEnumerable<string> trackIds);
-
-        /// <summary>
-        /// Check for Spotify credentials
-        /// </summary>
-        void CheckSpotifyCredentials();
     }
 }

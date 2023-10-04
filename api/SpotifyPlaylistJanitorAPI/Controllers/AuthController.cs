@@ -21,6 +21,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
     public class AuthController : BaseController
     {
         private readonly ISpotifyService _spotifyService;
+        private readonly ISpotifyClientService _spotifyClientService;
         private readonly IAuthService _authService;
         private readonly SpotifyOption _spotifyOptions;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -30,12 +31,14 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// Initializes a new instance of the <see cref="AuthController"/> class.
         /// </summary>
         /// <param name="spotifyService">The Spotify Service.</param>
+        /// <param name="spotifyClientService">The Spotify Client Service.</param>
         /// <param name="authService">The Authentication Service.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         /// <param name="httpContextAccessor">Http Context Accessor.</param>
-        public AuthController(ISpotifyService spotifyService, IAuthService authService, IOptions<SpotifyOption> spotifyOptions, IHttpContextAccessor httpContextAccessor)
+        public AuthController(ISpotifyService spotifyService, ISpotifyClientService spotifyClientService, IAuthService authService, IOptions<SpotifyOption> spotifyOptions, IHttpContextAccessor httpContextAccessor)
         {
             _spotifyService = spotifyService;
+            _spotifyClientService = spotifyClientService;
             _authService = authService;
             _spotifyOptions = spotifyOptions.Value;
             _httpContextAccessor = httpContextAccessor;
@@ -59,7 +62,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [HttpGet()]
         public IActionResult Auth()
         {
-            _spotifyService.CheckSpotifyCredentials();
+            _spotifyClientService.CheckSpotifyCredentials();
             var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
             var loginRequest = new LoginRequest(new Uri($"{baseUrl.TrimEnd('/')}/auth/callback"), _spotifyOptions.ClientId, LoginRequest.ResponseType.Code)
             {
@@ -95,9 +98,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
 
             var baseUrl = Request?.GetTypedHeaders()?.Referer?.ToString() ?? "";
 
-            var spotifyClient = await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
-
-            _spotifyService.SetClient(spotifyClient);
+            await _spotifyService.CreateClient(code, $"{baseUrl.TrimEnd('/')}/auth/callback");
 
             return Redirect("~/");
         }

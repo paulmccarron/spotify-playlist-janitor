@@ -16,7 +16,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void Init()
         {
 
-            _databaseUserService = new DatabaseUserService(MockDatabaseService.Object, SpotifyOptions);
+            _databaseUserService = new DatabaseUserService(MockDatabaseService.Object, MockSecurityService.Object, SpotifyOptions);
         }
 
         [Test]
@@ -97,6 +97,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             // Assert
             MockDatabaseService.Verify(mock => mock.UpdateUserRefreshToken(userName, null, null), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseUserService_AddUserSpotifyToken_Adds_Encoded_String_To_Database_Returns_Task()
+        {
+            // Arrange
+            var userName = "username";
+            var tokenString = "tokenString";
+
+            //Act
+            await _databaseUserService.AddUserSpotifyToken(userName, tokenString);
+
+            // Assert
+            MockDatabaseService.Verify(mock => mock.AddUserEncodedSpotifyToken(userName, null), Times.Once);
         }
     }
 }
