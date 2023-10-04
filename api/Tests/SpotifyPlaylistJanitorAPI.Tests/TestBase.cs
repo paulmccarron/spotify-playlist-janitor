@@ -36,6 +36,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests
         protected Mock<DbSet<DataAccess.Entities.Image>> MockDbSetImage { get; set; }
         protected Mock<DbSet<SkippedTrack>> MockDbSetSkipped { get; set; }
         protected Mock<DbSet<User>> MockDbSetUser { get; set; }
+        protected Mock<DbSet<UsersSpotifyToken>> MockDbSetUserSpotifyToken { get; set; }
 
         //Services mocks
         protected Mock<ISecurityService> MockSecurityService { get; set; }
@@ -105,6 +106,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests
             MockDbSetImage = new Mock<DbSet<DataAccess.Entities.Image>>();
             MockDbSetSkipped = new Mock<DbSet<SkippedTrack>>();
             MockDbSetUser = new Mock<DbSet<User>>();
+            MockDbSetUserSpotifyToken = new Mock<DbSet<UsersSpotifyToken>>();
             MockDbContext = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
 
             MockDbSetPlaylist.AddIQueryables(new List<Playlist>().AsQueryable());
@@ -141,6 +143,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests
             MockDbContext
                 .Setup(mock => mock.Users)
                 .Returns(MockDbSetUser.Object);
+
+            MockDbSetUserSpotifyToken.AddIQueryables(new List<UsersSpotifyToken>().AsQueryable());
+            MockDbContext
+                .Setup(mock => mock.UsersSpotifyTokens)
+                .Returns(MockDbSetUserSpotifyToken.Object);
 
 
             //Services mocks setup
