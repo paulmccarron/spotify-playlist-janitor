@@ -18,7 +18,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             _securityService = new SecurityService();
 
-            SystemTime.SetDateTime(new DateTime(2023, 10, 4, 0, 0, 0));
+            SystemTime.SetDateTime(new DateTime(2022, 12, 4, 0, 0, 0));
         }
 
         [TearDown]
@@ -38,7 +38,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             var now = SystemTime.Now();
 
-            var expectedResult = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcm5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY5NjM3NzYwMCwiaXNzIjoibW9ja0NsaWVudElkIiwiYXVkIjoibW9ja0NsaWVudElkIn0.WVVI7t_AWEmDQ7I8sAtfwHRMAghRjYq4XGfI-O8zro4";
+            var expectedResult = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcm5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY3MDExNTYwMCwiaXNzIjoibW9ja0NsaWVudElkIiwiYXVkIjoibW9ja0NsaWVudElkIn0.jOfrscbtoBjC_Z6TMqerSBrQWSI6deFXOlazdlXHCCY";
 
             //Act
             var result = _securityService.GenerateJSONWebToken(userModel, now, CLIENT_ID, CLIENT_ID, CLIENT_SECRET);
@@ -104,7 +104,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SecurityService_GetPrincipalFromToken_Returns_Data()
         {
             //Arrange
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcm5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY5NjM3NzYwMCwiaXNzIjoibW9ja0NsaWVudElkIiwiYXVkIjoibW9ja0NsaWVudElkIn0.WVVI7t_AWEmDQ7I8sAtfwHRMAghRjYq4XGfI-O8zro4";
+            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcm5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY3MDExNTYwMCwiaXNzIjoibW9ja0NsaWVudElkIiwiYXVkIjoibW9ja0NsaWVudElkIn0.jOfrscbtoBjC_Z6TMqerSBrQWSI6deFXOlazdlXHCCY";
 
             var name = new Claim(ClaimTypes.Name, "username");
             var role = new Claim(ClaimTypes.Role, "Admin");
