@@ -16,9 +16,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public void Init()
         {
             _authController = new AuthController(
-                MockSpotifyService.Object, 
+                MockSpotifyService.Object,
                 MockSpotifyClientService.Object,
-                MockAuthService.Object, 
+                MockAuthService.Object,
                 SpotifyOptions,
                 MockHttpContextAccessor.Object);
         }

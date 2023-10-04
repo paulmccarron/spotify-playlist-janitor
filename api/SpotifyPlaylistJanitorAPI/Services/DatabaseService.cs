@@ -525,7 +525,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 .ToAsyncEnumerable()
                 .SingleOrDefaultAsync(x => x.Username.ToLowerInvariant() == username.ToLowerInvariant());
 
-            if(userDto is not null)
+            if (userDto is not null)
             {
                 userDto.RefreshToken = refreshToken;
                 userDto.RefreshTokenExpiry = refreshTokenExpiry;

@@ -20,6 +20,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Initializes a new instance of the <see cref="AuthService"/> class.
         /// </summary>
         /// <param name="userService">Service that impliments the <see cref="IUserService"/> interface.</param>
+        /// <param name="securityService">Service that impliments the <see cref="ISecurityService"/> interface.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         public AuthService(IUserService userService, ISecurityService securityService, IOptions<SpotifyOption> spotifyOptions)
         {
@@ -39,15 +40,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
             UserModel? user = null;
             var storedUser = await _userService.GetUser(login.Email);
 
-            if(storedUser is not null)
+            if (storedUser is not null)
             {
                 var passwordValid = _securityService.VerifyPassword(login.Password, storedUser.PasswordHash, _spotifyOptions.ClientSecret);
 
                 if (passwordValid)
                 {
-                    user = new UserModel 
-                    { 
-                        Username = storedUser.Username, 
+                    user = new UserModel
+                    {
+                        Username = storedUser.Username,
                         Role = storedUser.IsAdmin ? "Admin" : "User",
                     };
                 }
@@ -106,7 +107,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             JWTModel? jwt = null;
             var principal = _securityService.GetPrincipalFromToken(accessToken, _spotifyOptions.ClientSecret);
 
-            if(principal is null || principal.Identity is null || string.IsNullOrWhiteSpace(principal.Identity.Name))
+            if (principal is null || principal.Identity is null || string.IsNullOrWhiteSpace(principal.Identity.Name))
             {
                 return jwt;
             }

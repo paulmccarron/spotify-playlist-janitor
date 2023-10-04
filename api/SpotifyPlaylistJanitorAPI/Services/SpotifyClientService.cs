@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace SpotifyPlaylistJanitorAPI.Services
 {
     /// <summary>
-    /// Service to interact with Spotify API.
+    /// Service to create ISpotifyClient.
     /// </summary>
     public class SpotifyClientService : ISpotifyClientService
     {
@@ -31,9 +31,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
-        /// response code, and callbackUrl.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
+        /// using provided code and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
@@ -53,9 +52,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
         }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
-        /// response code, and callbackUrl.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
+        /// using token response and optional username check.
         /// </summary>
         /// <param name="tokenResponse">Token response from valid authorization request.</param>
         /// <param name="username">Username for issued token.</param>
@@ -70,6 +68,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
             return client;
         }
 
+        /// <summary>
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
+        /// using client Id, client secret, token response, and optional username check.
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="tokenResponse"></param>
+        /// <param name="username"></param>
+        /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
         [ExcludeFromCodeCoverage]
         private async Task<ISpotifyClient?> CreateSpotifyClient(string clientId, string clientSecret, AuthorizationCodeTokenResponse tokenResponse, string? username)
         {
@@ -94,22 +101,28 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
             catch (Exception ex)
             {
-                if(username is not null)
+                if (username is not null)
                 {
                     SetTokenInStore(username, null).Wait();
 
                     _logger.LogError(
                         exception: ex,
                         message: "Failed to create Spotify Client on start-up for stored user token",
-                    args: new[] {
-                                new { prop = "Username", value = username }
-                        });
+                        args: new[] {
+                                    new { prop = "Username", value = username }
+                            });
                 }
             }
 
             return null;
         }
 
+        /// <summary>
+        /// Event listener that fires on the TokenRefreshed event.
+        /// Adds new SPotify token to the databse for the logged in user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         [ExcludeFromCodeCoverage]
         private async void Authenticator_TokenRefreshed(object? sender, AuthorizationCodeTokenResponse e)
         {
@@ -138,7 +151,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             var clientIdEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientId);
             var clientSecretEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientSecret);
-            if (clientIdEmpty && clientSecretEmpty){
+            if (clientIdEmpty && clientSecretEmpty)
+            {
                 throw new SpotifyArgumentException("No Spotify ClientId or ClientSecret configured");
             }
             if (clientIdEmpty)

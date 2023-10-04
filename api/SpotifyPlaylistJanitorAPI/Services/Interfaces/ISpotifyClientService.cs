@@ -10,7 +10,7 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
     public interface ISpotifyClientService
     {
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
         /// using provided code and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
@@ -19,8 +19,8 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<ISpotifyClient?> CreateClient(string code, string callbackUrl);
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
-        /// using provided code and callbackUrl.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class
+        /// using token response code and optional username check.
         /// </summary>
         /// <param name="tokenResponse">Token response from valid authorization request.</param>
         /// <param name="username">Username for issued token.</param>

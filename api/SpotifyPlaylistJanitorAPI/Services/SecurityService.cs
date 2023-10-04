@@ -96,10 +96,10 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             var salt = Encoding.ASCII.GetBytes(key);
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(
-                password, 
-                salt, 
-                iterations, 
-                hashAlgorithm, 
+                password,
+                salt,
+                iterations,
+                hashAlgorithm,
                 keySize);
             return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hashedPassword));
         }
@@ -117,7 +117,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false, 
+                ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = securityKey,

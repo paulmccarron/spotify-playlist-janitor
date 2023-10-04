@@ -19,8 +19,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseUserService"/> class.
         /// </summary>
-        /// <param name="databaseService">The Database Service.</param>
-        /// <param name="securityService">The Security Service.</param>
+        /// <param name="databaseService">Service that impliments the <see cref="IDatabaseService"/> interface.</param>
+        /// <param name="securityService">Service that impliments the <see cref="ISecurityService"/> interface.</param>
         /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
         public DatabaseUserService(IDatabaseService databaseService, ISecurityService securityService, IOptions<SpotifyOption> spotifyOptions)
         {

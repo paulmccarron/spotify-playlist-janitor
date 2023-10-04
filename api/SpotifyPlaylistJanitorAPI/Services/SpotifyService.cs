@@ -38,11 +38,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
             _userService = userService;
 
             var users = _userService.GetUsers().Result;
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 var spotifyToken = GetTokenFromStore(user.Username).Result;
 
-                if(spotifyToken is not null)
+                if (spotifyToken is not null)
                 {
                     _spotifyClient = _spotifyClientService.CreateClient(spotifyToken, user.Username).Result;
                 }
@@ -61,7 +61,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             _spotifyClientService.CheckSpotifyCredentials();
 
-            _spotifyClient = _spotifyClientService.CreateClient(code, callbackUrl).Result;
+            _spotifyClient = await _spotifyClientService.CreateClient(code, callbackUrl);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
-            
+
             var currentUser = await _spotifyClient.UserProfile.Current();
 
             return new SpotifyUserModel
@@ -83,7 +83,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Id = currentUser.Id,
                 DisplayName = currentUser.DisplayName,
                 Email = currentUser.Email,
-                Href    = currentUser.Href,
+                Href = currentUser.Href,
             };
         }
 
@@ -107,7 +107,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     Id = playlist.Id,
                     Name = playlist.Name,
                     Href = playlist.ExternalUrls["spotify"],
-                    Images = playlist.Images.Select(image => new SpotifyImageModel {
+                    Images = playlist.Images.Select(image => new SpotifyImageModel
+                    {
                         Height = image.Height,
                         Width = image.Width,
                         Url = image.Url,
@@ -150,7 +151,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 return playlistModel;
             }
-            catch(APIException)
+            catch (APIException)
             {
                 return null;
             }
@@ -177,13 +178,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var tracks = allPages
                 .Where(item => item.Track is FullTrack)
                 .Select(item => (FullTrack)item.Track)
-                .Select(track => {
+                .Select(track =>
+                {
                     track.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     return new SpotifyTrackModel
                     {
                         Id = track.Id,
                         Name = track.Name,
-                        Artists = track.Artists.Select(artist => {
+                        Artists = track.Artists.Select(artist =>
+                        {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -270,7 +273,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         PlaylistId = currently.Context.Uri.Split(":").Last(),
                         ListeningOn = currently.Device.Name,
                         Name = track.Name,
-                        Artists = track.Artists.Select(artist => {
+                        Artists = track.Artists.Select(artist =>
+                        {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
