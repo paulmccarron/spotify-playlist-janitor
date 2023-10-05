@@ -94,8 +94,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 var currentUser = await client.UserProfile.Current();
 
-                if (username is not null && username == currentUser.Email)
+                if (username is null || username == currentUser.Email)
                 {
+                    await SetTokenInStore(currentUser.Email, tokenResponse);
                     return client;
                 }
             }
@@ -103,7 +104,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 if (username is not null)
                 {
-                    SetTokenInStore(username, null).Wait();
+                    await SetTokenInStore(username, null);
 
                     _logger.LogError(
                         exception: ex,

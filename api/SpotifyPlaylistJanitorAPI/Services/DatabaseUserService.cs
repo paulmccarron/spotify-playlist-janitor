@@ -86,7 +86,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         public async Task AddUserSpotifyToken(string username, string? spotifyToken)
         {
-            var dataString = spotifyToken is null ? null : _securityService.EncryptString(_spotifyOptions.ClientSecret, spotifyToken);
+            var dataString = spotifyToken is null ? null : _securityService.EncryptString(spotifyToken, _spotifyOptions.ClientSecret);
 
             await _databaseService.AddUserEncodedSpotifyToken(username, dataString);
         }
@@ -100,7 +100,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var decodedModel = userEncodedTokenModel is null ? null : new UserSpotifyTokenModel
             {
                 Username = userEncodedTokenModel.Username,
-                SpotifyToken = _securityService.DecryptString(_spotifyOptions.ClientSecret, userEncodedTokenModel.EncodedSpotifyToken)
+                SpotifyToken = _securityService.DecryptString(userEncodedTokenModel.EncodedSpotifyToken, _spotifyOptions.ClientSecret)
             };
 
             return decodedModel;
