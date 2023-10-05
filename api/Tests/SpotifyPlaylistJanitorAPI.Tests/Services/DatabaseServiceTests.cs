@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using SpotifyPlaylistJanitorAPI.DataAccess.Context;
 using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
@@ -13,11 +15,28 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
     public class DatabaseServiceTests : TestBase
     {
         private DatabaseService _databaseService;
+        private Mock<IServiceScopeFactory> _scopeFactoryMock;
 
         [SetUp]
         public void Init()
         {
-            _databaseService = new DatabaseService(MockDbContext.Object);
+            _scopeFactoryMock = new Mock<IServiceScopeFactory>();
+
+            Mock<IServiceProvider> mockServiceProvider = new Mock<IServiceProvider>();
+            mockServiceProvider
+                .Setup(x => x.GetService(typeof(SpotifyPlaylistJanitorDatabaseContext)))
+                .Returns(MockDbContext.Object);
+
+            Mock<IServiceScope> mockServiceScope = new Mock<IServiceScope>();
+            mockServiceScope
+                .Setup(mock => mock.ServiceProvider)
+                .Returns(mockServiceProvider.Object);
+
+            _scopeFactoryMock
+                .Setup(mock => mock.CreateScope())
+                .Returns(mockServiceScope.Object);
+
+            _databaseService = new DatabaseService(_scopeFactoryMock.Object);
         }
 
         [Test]
@@ -638,6 +657,35 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         }
 
         [Test]
+        public async Task DatabaseService_GetUsers_Returns_Data()
+        {
+            //Arrange
+            var dbUsers = Fixture.Build<User>()
+                .CreateMany()
+                .AsQueryable();
+
+            MockDbSetUser.AddIQueryables(dbUsers);
+
+            var expectedResult = dbUsers
+                .Select(x => new UserDataModel
+                {
+                    Id = x.Id,
+                    Username = x.Username,
+                    PasswordHash = x.PasswordHash,
+                    IsAdmin = x.IsAdmin,
+                    RefreshToken = x.RefreshToken,
+                    RefreshTokenExpiry = x.RefreshTokenExpiry,
+                });
+
+            //Act
+            var result = await _databaseService.GetUsers();
+
+            // Assert
+            result.Should().BeOfType<List<UserDataModel>>();
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Test]
         public async Task DatabaseService_GetUser_Returns_Data()
         {
             //Arrange
@@ -653,7 +701,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Select(x => new UserDataModel
                 {
                     Id = x.Id,
-                    UserName = x.Username,
+                    Username = x.Username,
                     PasswordHash = x.PasswordHash,
                     IsAdmin = x.IsAdmin,
                     RefreshToken = x.RefreshToken,
@@ -745,6 +793,44 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
 
             // Assert
             MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddUserEncodedSpotifyToken_Saves_Existing_User_Token_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+            var spotifyToken = "spotifyToken";
+            var tokenExpiry = SystemTime.Now();
+
+            var dbUsers = Fixture.Build<UsersSpotifyToken>()
+                .With(x => x.Username, username)
+                .CreateMany(1)
+                .AsQueryable();
+
+            MockDbSetUserSpotifyToken.AddIQueryables(dbUsers);
+
+            //Act
+            await _databaseService.AddUserEncodedSpotifyToken(username, spotifyToken);
+
+            // Assert
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<UsersSpotifyToken>(), It.IsAny<CancellationToken>()), Times.Never);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public async Task DatabaseService_AddUserEncodedSpotifyToken_Adds_New_User_Token_And_Returns_Task()
+        {
+            //Arrange
+            var username = "username";
+            var spotifyToken = "spotifyToken";
+
+            //Act
+            await _databaseService.AddUserEncodedSpotifyToken(username, spotifyToken);
+
+            // Assert
+            MockDbContext.Verify(context => context.AddAsync(It.IsAny<UsersSpotifyToken>(), It.IsAny<CancellationToken>()), Times.Once);
+            MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Exceptions;
-using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using System.Diagnostics.CodeAnalysis;
@@ -13,17 +12,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
     /// </summary>
     public class SpotifyService : ISpotifyService
     {
-        private readonly SpotifyOption _spotifyOptions;
+        private readonly ISpotifyClientService _spotifyClientService;
+        private readonly IUserService _userService;
         private ISpotifyClient? _spotifyClient { get; set; }
-
-        /// <summary>
-        /// Sets the internal Spotify Client for the service.
-        /// </summary>
-        /// <param name="spotifyClient">The Spotify access credentials read from environment vars.</param>
-        public void SetClient(ISpotifyClient? spotifyClient)
-        {
-            _spotifyClient = spotifyClient;
-        }
 
         /// <summary>
         /// Returns true if service has a Spotify Client configured.
@@ -39,34 +30,38 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="SpotifyService"/> class.
         /// </summary>
-        /// <param name="spotifyOptions">The Spotify access credentials read from environment vars.</param>
-        public SpotifyService(IOptions<SpotifyOption> spotifyOptions)
+        /// <param name="spotifyClientService">Service that impliments the <see cref="ISpotifyClientService"/> interface.</param>
+        /// <param name="userService">Service that impliments the <see cref="IUserService"/> interface.</param>
+        public SpotifyService(ISpotifyClientService spotifyClientService, IUserService userService)
         {
-            _spotifyOptions = spotifyOptions.Value;
+            _spotifyClientService = spotifyClientService;
+            _userService = userService;
+
+            var users = _userService.GetUsers().Result;
+            foreach (var user in users)
+            {
+                var spotifyToken = GetTokenFromStore(user.Username).Result;
+
+                if (spotifyToken is not null)
+                {
+                    _spotifyClient = _spotifyClientService.CreateClient(spotifyToken, user.Username).Result;
+                }
+            }
         }
 
         /// <summary>
-        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class.
+        /// Create an instance a new instance of the <see cref="SpotifyClient"/> class and sets it to internal field.
         /// Makes an Oauth request to Spotify API using ClientId, ClientSecret,
         /// response code, and callbackUrl.
         /// </summary>
         /// <param name="code">Callback code provide by first part of the Authorization flow.</param>
         /// <param name="callbackUrl">Callback URL provide by first part of the Authorization flow.</param>
         /// <returns><see cref = "SpotifyClient" /> that is authenticated for users Spotify account.</returns>
-        [ExcludeFromCodeCoverage]
-        public async Task<ISpotifyClient> CreateClient(string code, string callbackUrl)
+        public async Task CreateClient(string code, string callbackUrl)
         {
-            CheckSpotifyCredentials();
+            _spotifyClientService.CheckSpotifyCredentials();
 
-            var response = await new OAuthClient().RequestToken(
-              new AuthorizationCodeTokenRequest(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, code, new Uri(callbackUrl))
-            );
-
-            var config = SpotifyClientConfig
-              .CreateDefault()
-              .WithAuthenticator(new AuthorizationCodeAuthenticator(_spotifyOptions.ClientId, _spotifyOptions.ClientSecret, response));
-
-            return new SpotifyClient(config);
+            _spotifyClient = await _spotifyClientService.CreateClient(code, callbackUrl);
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 throw new SpotifyArgumentException("No Spotify Client configured");
             }
-            
+
             var currentUser = await _spotifyClient.UserProfile.Current();
 
             return new SpotifyUserModel
@@ -88,7 +83,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 Id = currentUser.Id,
                 DisplayName = currentUser.DisplayName,
                 Email = currentUser.Email,
-                Href    = currentUser.Href,
+                Href = currentUser.Href,
             };
         }
 
@@ -112,7 +107,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     Id = playlist.Id,
                     Name = playlist.Name,
                     Href = playlist.ExternalUrls["spotify"],
-                    Images = playlist.Images.Select(image => new SpotifyImageModel {
+                    Images = playlist.Images.Select(image => new SpotifyImageModel
+                    {
                         Height = image.Height,
                         Width = image.Width,
                         Url = image.Url,
@@ -155,7 +151,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 return playlistModel;
             }
-            catch(APIException)
+            catch (APIException)
             {
                 return null;
             }
@@ -182,13 +178,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var tracks = allPages
                 .Where(item => item.Track is FullTrack)
                 .Select(item => (FullTrack)item.Track)
-                .Select(track => {
+                .Select(track =>
+                {
                     track.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     return new SpotifyTrackModel
                     {
                         Id = track.Id,
                         Name = track.Name,
-                        Artists = track.Artists.Select(artist => {
+                        Artists = track.Artists.Select(artist =>
+                        {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -275,7 +273,8 @@ namespace SpotifyPlaylistJanitorAPI.Services
                         PlaylistId = currently.Context.Uri.Split(":").Last(),
                         ListeningOn = currently.Device.Name,
                         Name = track.Name,
-                        Artists = track.Artists.Select(artist => {
+                        Artists = track.Artists.Select(artist =>
+                        {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -306,25 +305,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
             return playingState;
         }
 
-        /// <summary>
-        /// Throws exception if there are any missing Spotify credentials from environment config.
-        /// </summary>
-        /// <exception cref="SpotifyArgumentException"></exception>
-        public void CheckSpotifyCredentials()
+        [ExcludeFromCodeCoverage]
+        private async Task<AuthorizationCodeTokenResponse?> GetTokenFromStore(string user)
         {
-            var clientIdEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientId);
-            var clientSecretEmpty = string.IsNullOrWhiteSpace(_spotifyOptions.ClientSecret);
-            if (clientIdEmpty && clientSecretEmpty){
-                throw new SpotifyArgumentException("No Spotify ClientId or ClientSecret configured");
-            }
-            if (clientIdEmpty)
-            {
-                throw new SpotifyArgumentException("No Spotify ClientId configured");
-            }
-            if (clientSecretEmpty)
-            {
-                throw new SpotifyArgumentException("No Spotify ClientSecret configured");
-            }
+            var tokenString = await _userService.GetUserSpotifyToken(user);
+            return tokenString is null ? null : JsonConvert.DeserializeObject<AuthorizationCodeTokenResponse>(tokenString.SpotifyToken);
         }
     }
 }

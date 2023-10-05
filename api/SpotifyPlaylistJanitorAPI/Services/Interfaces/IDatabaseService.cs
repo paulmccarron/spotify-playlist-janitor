@@ -1,4 +1,5 @@
-﻿using SpotifyPlaylistJanitorAPI.Models.Auth;
+﻿using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
+using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 
 namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
@@ -91,6 +92,12 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         Task<IEnumerable<DatabaseSkippedTrackResponse>> GetPlaylistSkippedTracks(string playlistId);
 
         /// <summary>
+        /// Returns users from database.
+        /// </summary>
+        ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "UserDataModel" />.</returns>
+        Task<IEnumerable<UserDataModel>> GetUsers();
+
+        /// <summary>
         /// Returns user from database.
         /// </summary>
         ///<returns>Returns a <see cref = "UserDataModel" />.</returns>
@@ -105,5 +112,15 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Updates user refresh token in database.
         /// </summary>
         Task UpdateUserRefreshToken(string username, string? refreshToken, DateTime? refreshTokenExpiry);
+
+        /// <summary>
+        /// Store user spotify client token in database.
+        /// </summary>
+        Task AddUserEncodedSpotifyToken(string username, string? spotifyToken);
+
+        /// <summary>
+        /// Retrieve user spotify client token from database.
+        /// </summary>
+        Task<UserEncodedSpotifyTokenModel?> GetUserEncodedSpotifyToken(string username);
     }
 }

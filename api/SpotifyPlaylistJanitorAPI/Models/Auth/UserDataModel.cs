@@ -13,7 +13,7 @@
         /// <summary>
         /// User name.
         /// </summary>
-        public required string UserName { get; set; }
+        public required string Username { get; set; }
 
         /// <summary>
         /// Hash of user password.

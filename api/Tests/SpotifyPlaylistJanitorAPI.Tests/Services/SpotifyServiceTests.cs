@@ -1,10 +1,13 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Exceptions;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
+using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services;
 
@@ -18,20 +21,128 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         [SetUp]
         public void Setup()
         {
-            _spotifyService = new SpotifyService(SpotifyOptions);
-            _spotifyService.SetClient(MockSpotifyClient.Object);
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(MockSpotifyClient.Object);
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<AuthorizationCodeTokenResponse>(), It.IsAny<string>()))
+                .ReturnsAsync(MockSpotifyClient.Object);
+            _spotifyService.CreateClient("", "").Wait();
         }
 
         [Test]
-        public void SpotifyService_IsLoggedIn_Defaults_to_False()
+        public void SpotifyService_Constructor_Checks_For_User_Spotify_Token_No_Token_IsLoggedIn_False()
         {
-            _spotifyService.SetClient(null);
+            //Arrange
+            var username = "username";
+            var users = Fixture
+                .Build<UserDataModel>()
+                .With(x => x.Username, username)
+                .CreateMany(1);
+
+            MockUserService
+                .Setup(mock => mock.GetUsers())
+                .ReturnsAsync(users);
+
+            //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             // Assert
             _spotifyService.IsLoggedIn.Should().BeFalse();
         }
 
         [Test]
-        public void SpotifyService_SetClient_Sets_IsLoggedIn_True()
+        public void SpotifyService_Constructor_Checks_For_User_Spotify_Token_Has_Token_Spotify_Client_Service_Returns_Null()
+        {
+            //Arrange
+            var username = "username";
+            var users = Fixture
+                .Build<UserDataModel>()
+                .With(x => x.Username, username)
+                .CreateMany(1);
+
+            MockUserService
+                .Setup(mock => mock.GetUsers())
+                .ReturnsAsync(users);
+
+            var tokenResponse = Fixture
+                .Build<AuthorizationCodeTokenResponse>()
+                .Create();
+            var userStoredToken = Fixture
+                .Build<UserSpotifyTokenModel>()
+                .With (x => x.Username, username)
+                .With (x => x.SpotifyToken, JsonConvert.SerializeObject(tokenResponse))
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUserSpotifyToken(It.IsAny<string>()))
+                .ReturnsAsync(userStoredToken);
+
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<AuthorizationCodeTokenResponse>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
+
+            //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
+            // Assert
+            _spotifyService.IsLoggedIn.Should().BeFalse();
+        }
+
+        [Test]
+        public void SpotifyService_Constructor_Checks_For_User_Spotify_Token_Has_Token_Spotify_Client_Service_Returns_Client()
+        {
+            //Arrange
+            var username = "username";
+            var users = Fixture
+                .Build<UserDataModel>()
+                .With(x => x.Username, username)
+                .CreateMany(1);
+
+            MockUserService
+                .Setup(mock => mock.GetUsers())
+                .ReturnsAsync(users);
+
+            var tokenResponse = Fixture
+                .Build<AuthorizationCodeTokenResponse>()
+                .Create();
+            var userStoredToken = Fixture
+                .Build<UserSpotifyTokenModel>()
+                .With(x => x.Username, username)
+                .With(x => x.SpotifyToken, JsonConvert.SerializeObject(tokenResponse))
+                .Create();
+
+            MockUserService
+                .Setup(mock => mock.GetUserSpotifyToken(It.IsAny<string>()))
+                .ReturnsAsync(userStoredToken);
+
+            //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
+            // Assert
+            _spotifyService.IsLoggedIn.Should().BeTrue();
+        }
+
+        [Test]
+        public void SpotifyService_IsLoggedIn_Defaults_to_False()
+        {
+            //Arrange
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
+
+            //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
+            // Assert
+            _spotifyService.IsLoggedIn.Should().BeFalse();
+        }
+
+        [Test]
+        public void SpotifyService_CreateClient_Sets_IsLoggedIn_True()
         {
             // Assert
             _spotifyService.IsLoggedIn.Should().BeTrue();
@@ -76,9 +187,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_GetUserDetails_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+            
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetUserDetails);
 
             // Assert
@@ -133,9 +249,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_GetUserPlaylists_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetUserPlaylists);
 
             // Assert
@@ -161,17 +282,17 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Returns(mockPlaylists.Object);
 
             var expectedPlaylist = new SpotifyPlaylistModel
+            {
+                Id = spotifyPlaylist.Id,
+                Name = spotifyPlaylist.Name,
+                Href = spotifyPlaylist.ExternalUrls["spotify"],
+                Images = spotifyPlaylist.Images.Select(image => new SpotifyImageModel
                 {
-                    Id = spotifyPlaylist.Id,
-                    Name = spotifyPlaylist.Name,
-                    Href = spotifyPlaylist.ExternalUrls["spotify"],
-                    Images = spotifyPlaylist.Images.Select(image => new SpotifyImageModel
-                    {
-                        Height = image.Height,
-                        Width = image.Width,
-                        Url = image.Url,
-                    })
-                };
+                    Height = image.Height,
+                    Width = image.Width,
+                    Url = image.Url,
+                })
+            };
 
             //Act
             var result = await _spotifyService.GetUserPlaylist("id");
@@ -184,7 +305,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task SpotifyService_GetUserPlaylist_Returns_Null()
         {
             //Arrange
-           var mockPlaylists = new Mock<IPlaylistsClient>();
+            var mockPlaylists = new Mock<IPlaylistsClient>();
             mockPlaylists
                 .Setup(mock => mock.Get(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new APIException());
@@ -193,7 +314,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.Playlists)
                 .Returns(mockPlaylists.Object);
 
-           //Act
+            //Act
             var result = await _spotifyService.GetUserPlaylist("id");
 
             // Assert
@@ -204,9 +325,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_GetUserPlaylist_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.GetUserPlaylist("id"));
 
             // Assert
@@ -277,9 +403,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_DeletePlaylistTracks_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.DeletePlaylistTracks("id", new List<string>()));
 
             // Assert
@@ -311,14 +442,16 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .ReturnsAsync(mockTracks);
 
             var expectedTracks = mockTracks
-                .Select(track => {
+                .Select(track =>
+                {
                     var item = (FullTrack)track.Track;
                     item.Album.ExternalUrls.TryGetValue("spotify", out string? albumHref);
                     return new SpotifyTrackModel
                     {
                         Id = item.Id,
                         Name = item.Name,
-                        Artists = item.Artists.Select(artist => {
+                        Artists = item.Artists.Select(artist =>
+                        {
                             artist.ExternalUrls.TryGetValue("spotify", out string? artistHref);
                             return new SpotifyArtistModel
                             {
@@ -355,9 +488,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_GetUserPlaylistTracks_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(async () => await _spotifyService.GetUserPlaylistTracks("id"));
 
             // Assert
@@ -373,7 +511,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var context = Fixture.Build<Context>()
                 .With(x => x.Type, "playlist")
                 .Create();
-            
+
             var album = Fixture.Build<SimpleAlbum>()
                 .With(x => x.ExternalUrls, new Dictionary<string, string>() { { "spotify", albumHref } })
                 .Create();
@@ -528,77 +666,82 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public void SpotifyService_GetCurrentPlayback_Throws_Exception_If_No_Spotify_Client_Configured()
         {
             //Arrange
-            _spotifyService.SetClient(null);
+            SpotifyClient? client = null;
+            MockSpotifyClientService
+                .Setup(mock => mock.CreateClient(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(client);
 
             //Act
+            _spotifyService = new SpotifyService(MockSpotifyClientService.Object, MockUserService.Object);
+
             var ex = Assert.ThrowsAsync<SpotifyArgumentException>(_spotifyService.GetCurrentPlayback);
 
             // Assert
             Assert.That(ex.Message, Is.EqualTo("No Spotify Client configured"));
         }
 
-        [Test]
-        public void SpotifyService_CheckSpotifyCredentials_Doesnt_Throw_Exception()
-        {
-            //Assert
-            Assert.DoesNotThrow(_spotifyService.CheckSpotifyCredentials);
-        }
+        //[Test]
+        //public void SpotifyService_CheckSpotifyCredentials_Doesnt_Throw_Exception()
+        //{
+        //    //Assert
+        //    Assert.DoesNotThrow(_spotifyService.CheckSpotifyCredentials);
+        //}
 
-        [Test]
-        public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_And_Secret_Configured()
-        {
-            //Arrange
-            SpotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "",
-                ClientSecret = "",
-            });
+        //[Test]
+        //public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_And_Secret_Configured()
+        //{
+        //    //Arrange
+        //    SpotifyOptions = Options.Create(new SpotifyOption
+        //    {
+        //        ClientId = "",
+        //        ClientSecret = "",
+        //    });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+        //    _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
-            //Act
-            var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
+        //    //Act
+        //    var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
 
-            // Assert
-            Assert.That(ex.Message, Is.EqualTo("No Spotify ClientId or ClientSecret configured"));
-        }
+        //    // Assert
+        //    Assert.That(ex.Message, Is.EqualTo("No Spotify ClientId or ClientSecret configured"));
+        //}
 
-        [Test]
-        public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_Configured()
-        {
-            //Arrange
-            SpotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "",
-                ClientSecret = "mockClientSecret",
-            });
+        //[Test]
+        //public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Id_Configured()
+        //{
+        //    //Arrange
+        //    SpotifyOptions = Options.Create(new SpotifyOption
+        //    {
+        //        ClientId = "",
+        //        ClientSecret = "mockClientSecret",
+        //    });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+        //    _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
-            //Act
-            var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
+        //    //Act
+        //    var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
 
-            // Assert
-            Assert.That(ex.Message, Is.EqualTo("No Spotify ClientId configured"));
-        }
+        //    // Assert
+        //    Assert.That(ex.Message, Is.EqualTo("No Spotify ClientId configured"));
+        //}
 
-        [Test]
-        public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Secret_Configured()
-        {
-            //Arrange
-            SpotifyOptions = Options.Create(new SpotifyOption
-            {
-                ClientId = "mockClientId",
-                ClientSecret = "",
-            });
+        //[Test]
+        //public void SpotifyService_CheckSpotifyCredentials_Throws_Exception_If_No_Spotify_Client_Secret_Configured()
+        //{
+        //    //Arrange
+        //    SpotifyOptions = Options.Create(new SpotifyOption
+        //    {
+        //        ClientId = "mockClientId",
+        //        ClientSecret = "",
+        //    });
 
-            _spotifyService = new SpotifyService(SpotifyOptions);
+        //    _spotifyService = new SpotifyService(SpotifyOptions, MockUserService.Object, _loggerMock.Object);
 
-            //Act
-            var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
+        //    //Act
+        //    var ex = Assert.Throws<SpotifyArgumentException>(_spotifyService.CheckSpotifyCredentials);
 
-            // Assert
-            Assert.That(ex.Message, Is.EqualTo("No Spotify ClientSecret configured"));
-        }
+        //    // Assert
+        //    Assert.That(ex.Message, Is.EqualTo("No Spotify ClientSecret configured"));
+        //}
     }
 }

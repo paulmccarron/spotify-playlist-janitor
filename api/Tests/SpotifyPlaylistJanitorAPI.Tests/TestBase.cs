@@ -36,13 +36,16 @@ namespace SpotifyPlaylistJanitorAPI.Tests
         protected Mock<DbSet<DataAccess.Entities.Image>> MockDbSetImage { get; set; }
         protected Mock<DbSet<SkippedTrack>> MockDbSetSkipped { get; set; }
         protected Mock<DbSet<User>> MockDbSetUser { get; set; }
+        protected Mock<DbSet<UsersSpotifyToken>> MockDbSetUserSpotifyToken { get; set; }
 
         //Services mocks
+        protected Mock<ISecurityService> MockSecurityService { get; set; }
         protected Mock<ISpotifyService> MockSpotifyService { get; set; }
         protected Mock<IAuthService> MockAuthService { get; set; }
         protected Mock<IDatabaseService> MockDatabaseService { get; set; }
         protected Mock<IPlayingStateService> MockPlayingStateService { get; set; }
         protected Mock<IUserService> MockUserService { get; set; }
+        protected Mock<ISpotifyClientService> MockSpotifyClientService { get; set; }
 
         //Client mocks
         protected Mock<ISpotifyClient> MockSpotifyClient;
@@ -50,6 +53,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests
         //Configuration mocks
         protected const string CLIENT_ID = "mockClientId";
         protected const string CLIENT_SECRET = "mockClientSecret-mockClientSecret";
+        protected const string ACCESS_TOKEN = "ACCESS_TOKEN";
+        protected const string REFRESH_TOKEN = "REFRESH_TOKEN";
+        protected const string PASSWORD_HASH = "PASSWORD_HASH";
+        
         protected IOptions<SpotifyOption> SpotifyOptions { get; set; }
         
 
@@ -99,6 +106,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests
             MockDbSetImage = new Mock<DbSet<DataAccess.Entities.Image>>();
             MockDbSetSkipped = new Mock<DbSet<SkippedTrack>>();
             MockDbSetUser = new Mock<DbSet<User>>();
+            MockDbSetUserSpotifyToken = new Mock<DbSet<UsersSpotifyToken>>();
             MockDbContext = new Mock<SpotifyPlaylistJanitorDatabaseContext>();
 
             MockDbSetPlaylist.AddIQueryables(new List<Playlist>().AsQueryable());
@@ -136,13 +144,40 @@ namespace SpotifyPlaylistJanitorAPI.Tests
                 .Setup(mock => mock.Users)
                 .Returns(MockDbSetUser.Object);
 
+            MockDbSetUserSpotifyToken.AddIQueryables(new List<UsersSpotifyToken>().AsQueryable());
+            MockDbContext
+                .Setup(mock => mock.UsersSpotifyTokens)
+                .Returns(MockDbSetUserSpotifyToken.Object);
+
 
             //Services mocks setup
+            MockSecurityService = new Mock<ISecurityService>();
             MockSpotifyService = new Mock<ISpotifyService>();
             MockAuthService = new Mock<IAuthService>();
             MockDatabaseService = new Mock<IDatabaseService>();
             MockPlayingStateService = new Mock<IPlayingStateService>();
             MockUserService = new Mock<IUserService>();
+            MockSpotifyClientService = new Mock<ISpotifyClientService>();
+
+            MockSecurityService
+                .Setup(mock => mock.VerifyPassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(true);
+
+            MockSecurityService
+                .Setup(mock => mock.GenerateJSONWebToken(It.IsAny<UserModel>(), It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(ACCESS_TOKEN);
+
+            MockSecurityService
+                .Setup(mock => mock.GenerateRefreshToken())
+                .Returns(REFRESH_TOKEN);
+
+            MockSecurityService
+                .Setup(mock => mock.HashPasword(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(PASSWORD_HASH);
+
+            MockSecurityService
+                .Setup(mock => mock.GetPrincipalFromToken(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(principal);
 
             //Client mocks
             MockSpotifyClient = new Mock<ISpotifyClient>();
@@ -165,38 +200,38 @@ namespace SpotifyPlaylistJanitorAPI.Tests
                 It.IsAny<Func<It.IsAnyType, Exception, string>>()),
             Times.Once);
         }
-        protected string HashString(string stringToHash)
-        {
-            var salt = Encoding.ASCII.GetBytes(CLIENT_SECRET);
-            var hash = Rfc2898DeriveBytes.Pbkdf2(
-                Encoding.UTF8.GetBytes(stringToHash),
-                salt,
-                350000,
-                HashAlgorithmName.SHA512,
-                64);
+        //protected string HashString(string stringToHash)
+        //{
+        //    var salt = Encoding.ASCII.GetBytes(CLIENT_SECRET);
+        //    var hash = Rfc2898DeriveBytes.Pbkdf2(
+        //        Encoding.UTF8.GetBytes(stringToHash),
+        //        salt,
+        //        350000,
+        //        HashAlgorithmName.SHA512,
+        //        64);
 
-            return Convert.ToHexString(hash);
-        }
+        //    return Convert.ToHexString(hash);
+        //}
 
-        protected string GenerateJSONWebToken(UserModel userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(CLIENT_SECRET));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        //protected string GenerateJSONWebToken(UserModel userInfo)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(CLIENT_SECRET));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.Name, userInfo.Username),
-                new Claim(ClaimTypes.Role, userInfo.Role)
-            };
+        //    var claims = new[]
+        //    {
+        //        new Claim(ClaimTypes.Name, userInfo.Username),
+        //        new Claim(ClaimTypes.Role, userInfo.Role)
+        //    };
 
-            var token = new JwtSecurityToken(
-                CLIENT_ID,
-                CLIENT_ID,
-                claims,
-                expires: SystemTime.Now().AddHours(1),
-                signingCredentials: credentials);
+        //    var token = new JwtSecurityToken(
+        //        CLIENT_ID,
+        //        CLIENT_ID,
+        //        claims,
+        //        expires: SystemTime.Now().AddHours(1),
+        //        signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
     }
 }

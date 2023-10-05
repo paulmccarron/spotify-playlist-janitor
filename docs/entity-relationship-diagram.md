@@ -14,6 +14,7 @@ erDiagram
     TRACKS ||--o{ ALBUMS : ""
     ALBUMS }o--o{ ALBUMS_IMAGES : ""
     ALBUMS_IMAGES }o--|| IMAGES : ""
+    USERS ||--|| USERS_SPOTIFY_TOKEN : ""
 
     PLAYLISTS {
         VARCHAR id PK
@@ -80,5 +81,10 @@ erDiagram
         BOOL is_admin
         VARCHAR refresh_token
         TIMESTAMP refresh_token_expiry
+    }
+    
+    USERS_SPOTIFY_TOKEN {
+        VARCHAR username FK
+        VARCHAR encoded_spotify_token
     }
 ```
