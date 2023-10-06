@@ -1,0 +1,10 @@
+node_modules
+build
+.dockerignore
+Dockerfile
+Dockerfile.prod
+npm-debug.log
+*.md
+.gitignore
+LICENSE
+README.md
