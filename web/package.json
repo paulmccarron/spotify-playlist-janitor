@@ -42,7 +42,7 @@
     "testMatch": [
       "**/*.test.{ts,tsx}"
     ],
-    "coverageReporters": ["cobertura"]
+    "coverageReporters": ["cobertura", "text-summary"]
   },
   "dependencies": {
     "react": "^18.2.0",
