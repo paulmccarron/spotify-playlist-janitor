@@ -69,7 +69,9 @@ jobs:
         SUMMARY="$(npm run coverage-badge | tail -2 | head -1) || true"
         TOKENS=($SUMMARY)
         echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+    - name: ECHO Summary
       run: echo "$SUMMARY"
+    - name: ECHO Coverage
       run: echo "$COVERAGE"
     - name: Create Awesome Badge
       uses: schneegans/dynamic-badges-action@v1.6.0
