@@ -39,3 +39,29 @@ jobs:
         gist-filename: api-code-coverage.json
         gist-id: ${{ vars.API_GIST_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
+
+  generate-web-code-coverage-badge:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
+    - name: Test
+      run: npm run coverage
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: Web Test Coverage
+        color: brightgreen
+        path: web/coverage/cobertura-coverage.xml
+        gist-filename: web-code-coverage.json
+        gist-id: ${{ vars.WEB_GIST_ID }}
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
