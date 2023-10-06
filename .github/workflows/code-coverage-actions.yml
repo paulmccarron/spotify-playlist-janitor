@@ -53,8 +53,9 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: web
+        working-directory: ./web
     steps:
+    - uses: actions/checkout@v3
     - name: Setup Node
       uses: actions/setup-node@v3
       with:
