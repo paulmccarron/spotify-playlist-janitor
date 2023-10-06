@@ -25,7 +25,7 @@ jobs:
       with:
         node-version: 18.x
     - name: Install dependencies
-      run: npm install --save-dev --force    
+      run: npm ci    
     - name: Test
       run: npm run coverage
     - name: Build
