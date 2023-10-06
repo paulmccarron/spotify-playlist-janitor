@@ -66,10 +66,8 @@ jobs:
     #   run: npm run coverage
     - name: Get Coverage for badge
       run: |
-        # SUMMARY="$(npm test --coverage --coverageReporters='text-summary' | tail -2 | head -1)"
         SUMMARY="$(npm run coverage | tail -2 | head -1)"
         TOKENS=($SUMMARY)
-        # process.env.COVERAGE = '31.93%';
         echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
     - name: Create Awesome Badge
       uses: schneegans/dynamic-badges-action@v1.6.0
@@ -78,7 +76,7 @@ jobs:
         gistID: ${{ vars.WEB_GIST_ID }}
         filename: web-code-coverage.json
         label: Web Test Coverage
-        # message: World
+        message: ${{ env.COVERAGE }}
         color: brightgreen
     # - name: Create Test Coverage Badge
     #   uses: simon-k/dotnet-code-coverage-badge@v1.0.0
