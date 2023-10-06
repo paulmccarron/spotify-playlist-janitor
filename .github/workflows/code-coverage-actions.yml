@@ -62,9 +62,7 @@ jobs:
         node-version: 18.x
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
-    # - name: Test
-    #   run: npm run coverage
-    name: Get Coverage for badge
+    - name: Get Coverage for badge
       run: |
       SUMMARY="$(npm test -- --coverageReporters='text-summary' | tail -2 | head -1)"
       TOKENS=($SUMMARY)
