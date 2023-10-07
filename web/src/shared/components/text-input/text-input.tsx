@@ -16,7 +16,6 @@ export const TextInput = ({ type = 'text', placeholder = '' }: TextInputProps) =
 
 const Container = styled.div`
 background-color: white;
-width: 30%;
 padding: 0.4rem 1rem;
 border-radius: 2rem;
 display: flex;
