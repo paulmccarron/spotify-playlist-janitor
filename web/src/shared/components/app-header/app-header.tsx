@@ -12,6 +12,6 @@ export const AppHeader = () => {
 const Header = styled.div`
   width: 100%;
   height: 24px;
-  background-color: #1fdf64;
+  background-color: #1ed760;
   color: black;
 `;

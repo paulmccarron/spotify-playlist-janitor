@@ -1,13 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TextInput } from '../../shared/components/text-input/text-input';
 
 export const Catalogue = () => {
   return (
     <Content>
-      <div>wooooooooo</div>
-      <div>wooooooooo</div>
-      <div>wooooooooo</div>
-      <div>wooooooooo</div>
+      <div>
+        <div><>Text Box</><TextInput {...{ placeholder: 'Example placeholder...' }} /></div>
+        <div>Button Primary</div>
+        <div>Button Secondary</div>
+        <div>Number Input</div>
+        <div>Toggle</div>
+        <div>Tabs</div>
+        <div>List</div>
+        <div>Modal</div>
+      </div>
     </Content>
   );
 }
