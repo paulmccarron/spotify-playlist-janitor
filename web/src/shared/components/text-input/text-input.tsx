@@ -4,12 +4,14 @@ import styled from 'styled-components';
 type TextInputProps = {
     type?: string;
     placeholder?: string;
+    value?: string | number;
+    onChange(e: any): void;
 }
 
-export const TextInput = ({ type = 'text', placeholder = '' }: TextInputProps) => {
+export const TextInput = ({ type = 'text', placeholder = '', value = '', onChange }: TextInputProps) => {
     return (
         <Container>
-            <input {...{type, placeholder}} />
+            <input {...{type, placeholder, value, onChange}} />
         </Container>
     );
 }
@@ -22,6 +24,7 @@ display: flex;
 align-items: center;
 gap: 0.5rem;
 input {
+  font-size: 1rem;
   border: none;
   height: 2rem;
   width: 100%;
