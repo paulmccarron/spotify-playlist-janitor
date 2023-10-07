@@ -1,2 +1,2 @@
-export const HOME = '';
+export const HOME = '/';
 export const CATALOGUE = 'catalogue'
