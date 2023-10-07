@@ -14,7 +14,7 @@ export const Catalogue = () => {
   const onNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value)
     setNumberInputValue(newValue);
-  }, [setTextInputValue])
+  }, [setNumberInputValue])
 
   return (
     <Content>
