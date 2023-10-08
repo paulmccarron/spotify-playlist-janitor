@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { TextInput } from '../../shared/components/text-input';
 import { Button } from '../../shared/components/button';
 import { Select } from '../../shared/components/select';
+import { Toggle } from '../../shared/components/toggle';
 
 const options = [
   {label: 'Option 1', value: 'option1'},
@@ -14,6 +15,7 @@ export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState('');
   const [numberValue, setNumberInputValue] = useState<number | undefined>();
   const [selectValue, setSelectValue] = useState('');
+  const [toggleValue, setToggleValue] = useState(false);
 
   const onTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTextInputValue(e.target.value);
@@ -28,16 +30,20 @@ export const Catalogue = () => {
     setSelectValue(e.target.value);
   }, [setSelectValue])
 
+  const onToggleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setToggleValue(e.target.checked);
+  }, [setToggleValue])
+
   return (
     <Content>
       <div>
         <div>
           <>Text Box</>
-          <TextInput {...{ placeholder: 'Example placeholder...', value: textValue, onChange: onTextChange }} />
+          <TextInput {...{ label: 'Email', placeholder: 'Example placeholder...', value: textValue, onChange: onTextChange }} />
         </div>
         <div>
           <>Password Box</>
-          <TextInput {...{ type: 'password', placeholder: 'Enter password...', value: textValue, onChange: onTextChange }} />
+          <TextInput {...{ label: 'Password', type: 'password', placeholder: 'Enter password...', value: textValue, onChange: onTextChange }} />
         </div>
         <div>
           <>Number Box</>
@@ -46,6 +52,7 @@ export const Catalogue = () => {
         <div>
           <>Select</>
           <Select {...{ value: selectValue, placeholder: 'Select option...', options, onChange: onSelectChange }} />
+          <>Value: {selectValue}</>
         </div>
         <div>
           <>Button Primary</>
@@ -55,10 +62,15 @@ export const Catalogue = () => {
           <>Button Primary</>
           <Button {...{ text: 'Secondary', type: 'secondary', onClick: () => { alert('Secondary Button Clicked!') } }} />
         </div>
-        <div>Toggle</div>
+        <div>
+          <>Toggle</>
+          <Toggle {...{ label: 'Toggle Example', onChange: onToggleChange, checked: toggleValue}} /></div>
         <div>Tabs</div>
-        <div>List</div>
+        <div>Table</div>
         <div>Modal</div>
+        <div>Title</div>
+        <div>Subtitle</div>
+        <div>Text</div>
       </div>
     </Content>
   );

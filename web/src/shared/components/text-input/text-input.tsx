@@ -25,6 +25,7 @@ align-items: center;
 gap: 0.5rem;
 input {
   font-size: 1rem;
+  font-weight: 600;
   border: none;
   height: 2rem;
   width: 100%;

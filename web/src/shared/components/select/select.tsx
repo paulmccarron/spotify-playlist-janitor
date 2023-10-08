@@ -29,6 +29,7 @@ gap: 0.5rem;
 select {
   background-color: white;
   font-size: 1rem;
+  font-weight: 600;
   border: none;
   height: 2rem;
   width: 100%;
