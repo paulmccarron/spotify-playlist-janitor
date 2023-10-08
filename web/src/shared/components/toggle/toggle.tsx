@@ -47,22 +47,21 @@ cursor: pointer;
 
 const Switch = styled.div`
 position: relative;
-width: 60px;
-height: 28px;
+width: 42px;
+height: 24px;
 background: #b3b3b3;
-border-radius: 32px;
-padding: 4px;
+border-radius: 24px;
 transition: 300ms all;
 
 &:before {
   transition: 300ms all;
   content: "";
   position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 35px;
+  width: 20px;
+  height: 20px;
+  border-radius: 24px;
   top: 50%;
-  left: 4px;
+  left: 2px;
   background: white;
   transform: translate(0, -50%);
 }
@@ -76,7 +75,7 @@ position: absolute;
   background: #1ed760;
 
   &:before {
-    transform: translate(32px, -50%);
+    transform: translate(18px, -50%);
   }
 }
 `;
