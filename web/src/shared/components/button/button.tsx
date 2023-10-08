@@ -1,19 +1,15 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import styled from 'styled-components';
 
-type ButtonProps = {
-    text: string;
-    type?: 'primary' | 'secondary' | 'none';
-    onClick(): void;
-}
+type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
-export const Button = ({ text, type = 'primary', onClick }: ButtonProps) => {
+export const Button = ({ children, ...rest }: ButtonProps) => {
     return (
         <Container>
-            <button className={type} onClick={onClick}>{text}</button>
+            <button {...rest}>{children}</button>
         </Container>
     );
-}
+};
 
 const Container = styled.div`
 display : flex;

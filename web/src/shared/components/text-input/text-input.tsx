@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-type TextInputProps = {
-    type?: string;
-    placeholder?: string;
-    value?: string | number;
-    onChange(e: any): void;
-}
+type TextInputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
-export const TextInput = ({ type = 'text', placeholder = '', value = '', onChange }: TextInputProps) => {
-    return (
-        <Container>
-            <input {...{type, placeholder, value, onChange}} />
-        </Container>
-    );
-}
+export const TextInput = ({ ...props }: TextInputProps) => {
+  return (
+      <Container>
+          <input {...props} />
+      </Container>
+  );
+};
 
 const Container = styled.div`
 background-color: white;

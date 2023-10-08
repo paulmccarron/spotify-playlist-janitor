@@ -6,9 +6,9 @@ import { Select } from '../../shared/components/select';
 import { Toggle } from '../../shared/components/toggle';
 
 const options = [
-  {label: 'Option 1', value: 'option1'},
-  {label: 'Option 2', value: 'option2'},
-  {label: 'Option 3', value: 'option3'},
+  { label: 'Option 1', value: 'option1' },
+  { label: 'Option 2', value: 'option2' },
+  { label: 'Option 3', value: 'option3' },
 ]
 
 export const Catalogue = () => {
@@ -40,14 +40,17 @@ export const Catalogue = () => {
         <div>
           <>Text Box</>
           <TextInput {...{ label: 'Email', placeholder: 'Example placeholder...', value: textValue, onChange: onTextChange }} />
+          <>Value: {textValue}</>
         </div>
         <div>
           <>Password Box</>
           <TextInput {...{ label: 'Password', type: 'password', placeholder: 'Enter password...', value: textValue, onChange: onTextChange }} />
+          <>Value: {textValue}</>
         </div>
         <div>
           <>Number Box</>
           <TextInput {...{ type: 'number', placeholder: 'Enter number...', value: numberValue, onChange: onNumberChange }} />
+          <>Value: {numberValue}</>
         </div>
         <div>
           <>Select</>
@@ -56,15 +59,31 @@ export const Catalogue = () => {
         </div>
         <div>
           <>Button Primary</>
-          <Button {...{ text: 'Primary', onClick: () => { alert('Primary Button Clicked!') } }} />
+          <Button {...{
+            className: 'primary',
+            id: 'primary-example',
+            'data-testid': 'primary-example',
+            onClick: () => { alert('Primary Button Clicked!') }
+          }}
+          >
+            Primary
+          </Button>
         </div>
         <div>
-          <>Button Primary</>
-          <Button {...{ text: 'Secondary', type: 'secondary', onClick: () => { alert('Secondary Button Clicked!') } }} />
+          <>Button Secondary</>
+          <Button {...{
+            className: 'secondary',
+            id: 'secondary-example',
+            'data-testid': 'secondary-example',
+            onClick: () => { alert('Secondary Button Clicked!') }
+          }}
+          >
+            Secondary
+          </Button>
         </div>
         <div>
           <>Toggle</>
-          <Toggle {...{ label: 'Toggle Example', onChange: onToggleChange, checked: toggleValue}} /></div>
+          <Toggle {...{ label: 'Toggle Example', onChange: onToggleChange, checked: toggleValue }} /></div>
         <div>Tabs</div>
         <div>Table</div>
         <div>Modal</div>
