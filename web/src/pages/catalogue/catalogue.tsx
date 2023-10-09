@@ -5,11 +5,39 @@ import { Button } from "../../shared/components/button";
 import { Select } from "../../shared/components/select";
 import { Toggle } from "../../shared/components/toggle";
 import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
+import { AppTable } from "../../shared/components/table";
 
 const options = [
   { label: "Option 1", value: "option1" },
   { label: "Option 2", value: "option2" },
   { label: "Option 3", value: "option3" },
+];
+
+const tableData = [
+  {
+    "id": 1,
+    "full_name": "Wendall Gripton",
+    "email": "wg@creative.org",
+    "gender": "Male",
+    "age": 100,
+    "start_date": "2022-01-26"
+  },
+  {
+    "id": 2,
+    "full_name": "John Smith",
+    "email": "js@creative.org",
+    "gender": "Male",
+    "age": 50,
+    "start_date": "2022-03-26"
+  }
+]
+
+const tableColumns = [
+  { label: "Full Name", accessor: "full_name", sortable: true },
+  { label: "Email", accessor: "email", sortable: false },
+  { label: "Gender", accessor: "gender", sortable: true, sortbyOrder: "desc" },
+  { label: "Age", accessor: "age", sortable: true },
+  { label: "Start date", accessor: "start_date", sortable: true },
 ];
 
 export const Catalogue = () => {
@@ -186,7 +214,13 @@ export const Catalogue = () => {
         </tr>
         <tr>
           <td>Table</td>
-          <td></td>
+          <td>
+            <AppTable
+              caption="Developers currently enrolled in this course. The table below is ordered (descending) by the Gender column."
+              data={tableData}
+              columns={tableColumns}
+            />
+          </td>
         </tr>
         <tr>
           <td>Modal</td>
