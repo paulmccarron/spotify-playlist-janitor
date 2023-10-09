@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Tabs as ReactTabs, TabsProps } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
+import React from 'react';
+import styled from 'styled-components';
+import { Tabs as ReactTabs, TabsProps } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 export const Tabs = ({ children, ...props }: TabsProps) => {
   return <StyledTabs {...props}>{children}</StyledTabs>;
@@ -42,4 +42,4 @@ const StyledTabs = styled(ReactTabs)`
   }
 `;
 
-export { Tab, TabList, TabPanel } from "react-tabs";
+export { Tab, TabList, TabPanel } from 'react-tabs';

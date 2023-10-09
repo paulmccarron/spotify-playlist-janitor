@@ -15,7 +15,9 @@ const options = [
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
   const [numberValue, setNumberInputValue] = useState<number | undefined>();
-  const [selectValue, setSelectValue] = useState<{ label: string; value: string } | undefined>(undefined);
+  const [selectValue, setSelectValue] = useState<
+    { label: string; value: string } | undefined
+  >(undefined);
   const [toggleValue, setToggleValue] = useState(false);
 
   const onTextChange = useCallback(
@@ -60,7 +62,8 @@ export const Catalogue = () => {
             <TextInput
               {...{
                 label: "Email",
-                placeholder: "Example placeholder...",
+                placeholder: "Enter email...",
+                id: "example",
                 value: textValue,
                 onChange: onTextChange,
               }}
@@ -73,8 +76,8 @@ export const Catalogue = () => {
           <td>
             <TextInput
               {...{
-                label: "Password",
                 type: "password",
+                label: "Password",
                 placeholder: "Enter password...",
                 value: textValue,
                 onChange: onTextChange,
@@ -89,7 +92,8 @@ export const Catalogue = () => {
             <TextInput
               {...{
                 type: "number",
-                placeholder: "Enter number...",
+                label: "Minutes",
+                placeholder: "Enter number of minutes...",
                 value: numberValue,
                 onChange: onNumberChange,
               }}
@@ -103,6 +107,7 @@ export const Catalogue = () => {
             <Select
               {...{
                 value: selectValue,
+                label: 'Select Label',
                 placeholder: "Select option...",
                 options,
                 onChange: onSelectChange,

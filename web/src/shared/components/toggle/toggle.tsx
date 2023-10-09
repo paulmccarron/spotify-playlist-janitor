@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 type ToggleProps = {
   label?: string;
@@ -8,14 +8,14 @@ type ToggleProps = {
 };
 
 export const Toggle = ({
-  label = "",
+  label = '',
   checked = false,
   onChange,
 }: ToggleProps) => {
   return (
     <Label>
       <span>{label}</span>
-      <Input type="checkbox" checked={checked} onChange={onChange} />
+      <Input type='checkbox' checked={checked} onChange={onChange} />
       <Switch />
     </Label>
   );
@@ -40,7 +40,7 @@ const Switch = styled.div`
 
   &:before {
     transition: 150ms all;
-    content: "";
+    content: '';
     position: absolute;
     width: 20px;
     height: 20px;
