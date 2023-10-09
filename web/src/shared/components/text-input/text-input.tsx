@@ -1,5 +1,5 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
-import styled from 'styled-components';
+import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import styled from "styled-components";
 
 type TextInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -11,10 +11,10 @@ type TextInputProps = DetailedHTMLProps<
 export const TextInput = ({ label, ...props }: TextInputProps) => {
   return (
     <Container>
-      <div className='input-container'>
+      <div className="input-container">
         <input {...props} />
         {label && (
-          <label className={!!props.value ? 'filled' : ''} htmlFor={props.id}>
+          <label className={!!props.value ? "filled" : ""} htmlFor={props.id}>
             {label}
           </label>
         )}
