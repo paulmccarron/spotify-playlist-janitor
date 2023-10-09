@@ -4,6 +4,7 @@ import { TextInput } from "../../shared/components/text-input";
 import { Button } from "../../shared/components/button";
 import { Select } from "../../shared/components/select";
 import { Toggle } from "../../shared/components/toggle";
+import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
 
 const options = [
   { label: "Option 1", value: "option1" },
@@ -158,7 +159,25 @@ export const Catalogue = () => {
         </tr>
         <tr>
           <td>Tabs</td>
-          <td></td>
+          <td>
+            <Tabs>
+              <TabList>
+                <Tab>Tab 1</Tab>
+                <Tab>Tab 2</Tab>
+                <Tab>Longer Tab Title 3</Tab>
+              </TabList>
+
+              <TabPanel>
+                <h2>Tab 1 content</h2>
+              </TabPanel>
+              <TabPanel>
+                <h2>Tab 3 content</h2>
+              </TabPanel>
+              <TabPanel>
+                <h2>Tab 3 content</h2>
+              </TabPanel>
+            </Tabs>
+          </td>
         </tr>
         <tr>
           <td>Table</td>
