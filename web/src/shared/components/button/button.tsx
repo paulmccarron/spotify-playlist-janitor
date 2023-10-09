@@ -1,25 +1,28 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
-import styled from 'styled-components';
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import styled from "styled-components";
 
-type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+type ButtonProps = DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
 export const Button = ({ children, ...rest }: ButtonProps) => {
-    return (
-        <Container>
-            <button {...rest}>{children}</button>
-        </Container>
-    );
+  return (
+    <Container>
+      <button {...rest}>{children}</button>
+    </Container>
+  );
 };
 
 const Container = styled.div`
-display : flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-img{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img {
     height: 50vh;
-}
-button{
+  }
+  button {
     border-radius: 5rem;
     height: 50px;
     width: 112px;
@@ -27,15 +30,15 @@ button{
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    border:none;
+    border: none;
     &:hover {
-        transform: scale(1.04);
+      transform: scale(1.04);
     }
-}
-button.primary{
+  }
+  button.primary {
     background-color: #1ed760;
-}
-button.secondary{
+  }
+  button.secondary {
     background-color: white;
-}
+  }
 `;
