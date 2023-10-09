@@ -15,7 +15,7 @@ const options = [
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
   const [numberValue, setNumberInputValue] = useState<number | undefined>();
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState<{ label: string; value: string } | undefined>(undefined);
   const [toggleValue, setToggleValue] = useState(false);
 
   const onTextChange = useCallback(
@@ -34,8 +34,8 @@ export const Catalogue = () => {
   );
 
   const onSelectChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectValue(e.target.value);
+    (newValue: { label: string; value: string }) => {
+      setSelectValue(newValue);
     },
     [setSelectValue]
   );
@@ -108,7 +108,7 @@ export const Catalogue = () => {
                 onChange: onSelectChange,
               }}
             />
-            <>Value: {selectValue}</>
+            <>Value: {JSON.stringify(selectValue)}</>
           </td>
         </tr>
         <tr>
@@ -168,13 +168,13 @@ export const Catalogue = () => {
               </TabList>
 
               <TabPanel>
-                <h2>Tab 1 content</h2>
+                <>Tab 1 content</>
               </TabPanel>
               <TabPanel>
-                <h2>Tab 3 content</h2>
+                <>Tab 2 content</>
               </TabPanel>
               <TabPanel>
-                <h2>Tab 3 content</h2>
+                <>Tab 3 content</>
               </TabPanel>
             </Tabs>
           </td>
