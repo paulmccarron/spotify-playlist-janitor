@@ -48,164 +48,168 @@ export const Catalogue = () => {
   return (
     <Content>
       <CatalogueTable>
-        <tr>
-          <th>Component</th>
-          <th>Example</th>
-        </tr>
-        <tr>
-          <td>Text Box</td>
-          <td>
-            <TextInput
-              {...{
-                label: "Email",
-                placeholder: "Enter email...",
-                id: "example",
-                value: textValue,
-                onChange: onTextChange,
-              }}
-            />
-            <>Value: {textValue}</>
-          </td>
-        </tr>
-        <tr>
-          <td>Password Box</td>
-          <td>
-            <TextInput
-              {...{
-                type: "password",
-                label: "Password",
-                placeholder: "Enter password...",
-                value: textValue,
-                onChange: onTextChange,
-              }}
-            />
-            <>Value: {textValue}</>
-          </td>
-        </tr>
-        <tr>
-          <td>Number Box</td>
-          <td>
-            <TextInput
-              {...{
-                type: "number",
-                label: "Minutes",
-                placeholder: "Enter number of minutes...",
-                value: numberValue,
-                onChange: onNumberChange,
-              }}
-            />
-            <>Value: {numberValue}</>
-          </td>
-        </tr>
-        <tr>
-          <td>Select</td>
-          <td>
-            <Select
-              {...{
-                value: selectValue,
-                label: "Select Label",
-                placeholder: "Select option...",
-                options: selectOptions,
-                onChange: onSelectChange,
-              }}
-            />
-            <>Value: {JSON.stringify(selectValue)}</>
-          </td>
-        </tr>
-        <tr>
-          <td>Button Primary</td>
-          <td>
-            <Button
-              {...{
-                className: "primary",
-                id: "primary-example",
-                "data-testid": "primary-example",
-                onClick: () => {
-                  alert("Primary Button Clicked!");
-                },
-              }}
-            >
-              Primary
-            </Button>
-          </td>
-        </tr>
-        <tr>
-          <td>Button Secondary</td>
-          <td>
-            <Button
-              {...{
-                className: "secondary",
-                id: "secondary-example",
-                "data-testid": "secondary-example",
-                onClick: () => {
-                  alert("Secondary Button Clicked!");
-                },
-              }}
-            >
-              Secondary
-            </Button>
-          </td>
-        </tr>
-        <tr>
-          <td>Toggle</td>
-          <td>
-            <Toggle
-              {...{
-                label: "Toggle Example",
-                onChange: onToggleChange,
-                checked: toggleValue,
-              }}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Tabs</td>
-          <td>
-            <Tabs>
-              <TabList>
-                <Tab>Tab 1</Tab>
-                <Tab>Tab 2</Tab>
-                <Tab>Longer Tab Title 3</Tab>
-              </TabList>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Text Box</td>
+            <td>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                }}
+              />
+              <>Value: {textValue}</>
+            </td>
+          </tr>
+          <tr>
+            <td>Password Box</td>
+            <td>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: textValue,
+                  onChange: onTextChange,
+                }}
+              />
+              <>Value: {textValue}</>
+            </td>
+          </tr>
+          <tr>
+            <td>Number Box</td>
+            <td>
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
+                }}
+              />
+              <>Value: {numberValue}</>
+            </td>
+          </tr>
+          <tr>
+            <td>Select</td>
+            <td>
+              <Select
+                {...{
+                  value: selectValue,
+                  label: "Select Label",
+                  placeholder: "Select option...",
+                  options: selectOptions,
+                  onChange: onSelectChange,
+                }}
+              />
+              <>Value: {JSON.stringify(selectValue)}</>
+            </td>
+          </tr>
+          <tr>
+            <td>Button Primary</td>
+            <td>
+              <Button
+                {...{
+                  className: "primary",
+                  id: "primary-example",
+                  "data-testid": "primary-example",
+                  onClick: () => {
+                    alert("Primary Button Clicked!");
+                  },
+                }}
+              >
+                Primary
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Button Secondary</td>
+            <td>
+              <Button
+                {...{
+                  className: "secondary",
+                  id: "secondary-example",
+                  "data-testid": "secondary-example",
+                  onClick: () => {
+                    alert("Secondary Button Clicked!");
+                  },
+                }}
+              >
+                Secondary
+              </Button>
+            </td>
+          </tr>
+          <tr>
+            <td>Toggle</td>
+            <td>
+              <Toggle
+                {...{
+                  label: "Toggle Example",
+                  onChange: onToggleChange,
+                  checked: toggleValue,
+                }}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Tabs</td>
+            <td>
+              <Tabs>
+                <TabList>
+                  <Tab>Tab 1</Tab>
+                  <Tab>Tab 2</Tab>
+                  <Tab>Longer Tab Title 3</Tab>
+                </TabList>
 
-              <TabPanel>
-                <>Tab 1 content</>
-              </TabPanel>
-              <TabPanel>
-                <>Tab 2 content</>
-              </TabPanel>
-              <TabPanel>
-                <>Tab 3 content</>
-              </TabPanel>
-            </Tabs>
-          </td>
-        </tr>
-        <tr>
-          <td>Table</td>
-          <td>
-            <Table
-              caption="Table caption."
-              data={tableData}
-              columns={tableColumns}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>Modal</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Title</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Subtitle</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>Text</td>
-          <td></td>
-        </tr>
+                <TabPanel>
+                  <>Tab 1 content</>
+                </TabPanel>
+                <TabPanel>
+                  <>Tab 2 content</>
+                </TabPanel>
+                <TabPanel>
+                  <>Tab 3 content</>
+                </TabPanel>
+              </Tabs>
+            </td>
+          </tr>
+          <tr>
+            <td>Table</td>
+            <td>
+              <Table
+                caption="Table caption."
+                data={tableData}
+                columns={tableColumns}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>Modal</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Title</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Subtitle</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td></td>
+          </tr>
+        </tbody>
       </CatalogueTable>
     </Content>
   );
