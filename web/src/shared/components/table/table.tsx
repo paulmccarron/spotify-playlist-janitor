@@ -1,20 +1,21 @@
-import {TableBody} from "./table-body";
-import {TableHead} from "./table-head";
+import { TableBody } from "./table-body";
+import { TableHead } from "./table-head";
 import { useSortableTable } from "./hooks/use-sortable-table";
+import { Column } from "./table-types";
 
-type AppTableProps = {
-    caption: string;
-    data: any[];
-    columns: any[];
-}
+type TableProps = {
+  caption: string;
+  data: any[];
+  columns: Column[];
+};
 
-export const AppTable = ({ caption, data, columns }: AppTableProps) => {
+export const Table = ({ caption, data, columns }: TableProps) => {
   const [tableData, handleSorting] = useSortableTable(data, columns);
 
   return (
     <>
       <table className="table">
-        <caption>{caption}</caption>
+        {caption && <caption>{caption}</caption>}
         <TableHead {...{ columns, handleSorting }} />
         <TableBody {...{ columns, tableData }} />
       </table>
