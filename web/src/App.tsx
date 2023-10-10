@@ -26,6 +26,7 @@ const Container = styled.div`
   background: linear-gradient(transparent, rgba(0, 0, 0, 1));
   background-color: #121212;
   display: block;
+  overflow-x: hidden;
 `;
 
 export default App;

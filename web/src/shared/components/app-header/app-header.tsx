@@ -10,4 +10,6 @@ const Header = styled.div`
   height: 24px;
   background-color: #1ed760;
   color: black;
+  position: sticky;
+  top: 0;
 `;
