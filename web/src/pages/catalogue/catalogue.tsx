@@ -7,6 +7,12 @@ import { Toggle } from "../../shared/components/toggle";
 import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
 import { Table } from "../../shared/components/table";
 import { selectOptions, tableColumns, tableData } from "./data";
+import {
+  Title,
+  SubTitle,
+  Text,
+  SecondaryText,
+} from "../../shared/components/typography";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -55,6 +61,58 @@ export const Catalogue = () => {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>Title</td>
+            <td>
+              <Title
+                {...{
+                  id: "title-test",
+                  "data-testid": "title-test-data-testid",
+                }}
+              >
+                Title Text
+              </Title>
+            </td>
+          </tr>
+          <tr>
+            <td>Subtitle</td>
+            <td>
+              <SubTitle
+                {...{
+                  id: "subtitle-test",
+                  "data-testid": "subtitle-test-data-testid",
+                }}
+              >
+                Subtitle Text
+              </SubTitle>
+            </td>
+          </tr>
+          <tr>
+            <td>Text</td>
+            <td>
+              <Text
+                {...{
+                  id: "text-test",
+                  "data-testid": "text-test-data-testid",
+                }}
+              >
+                Normal Text
+              </Text>
+            </td>
+          </tr>
+          <tr>
+            <td>Secondary Text</td>
+            <td>
+              <SecondaryText
+                {...{
+                  id: "secondary-text-test",
+                  "data-testid": "secondary-text-test-data-testid",
+                }}
+              >
+                Secondary Text
+              </SecondaryText>
+            </td>
+          </tr>
           <tr>
             <td>Text Box</td>
             <td>
@@ -198,15 +256,7 @@ export const Catalogue = () => {
             <td></td>
           </tr>
           <tr>
-            <td>Title</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Subtitle</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Text</td>
+            <td>Popover</td>
             <td></td>
           </tr>
         </tbody>
