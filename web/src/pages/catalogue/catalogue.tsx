@@ -7,6 +7,7 @@ import { Toggle } from "../../shared/components/toggle";
 import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
 import { Column, Table } from "../../shared/components/table";
 import { VscTrash } from "react-icons/vsc";
+import { PiClock } from "react-icons/pi";
 
 const options = [
   { label: "Option 1", value: "option1" },
@@ -48,7 +49,7 @@ const tableColumns: Column[] = [
   { label: "Artist", accessor: "artist", sortable: true },
   { label: "Album", accessor: "album", sortable: true },
   {
-    label: "Length",
+    label: <PiClock />,
     accessor: "length",
     sortable: true,
     render: (millis: number) => {
