@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Column, SortOrder } from "./table-types";
+import { VscArrowUp, VscArrowDown } from "react-icons/vsc";
 
 type TableHeadProps = {
   columns: Column[];
@@ -29,6 +30,12 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
               ? "down"
               : "default"
             : "";
+
+          let symbol = undefined;
+
+          if(accessor === sortField){
+            symbol = order === "asc" ? <VscArrowUp/> : <VscArrowDown/>
+          }
           return (
             <th
               key={accessor}
@@ -37,7 +44,7 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
               }
               className={cl}
             >
-              {label}
+              {label} {symbol}
             </th>
           );
         })}

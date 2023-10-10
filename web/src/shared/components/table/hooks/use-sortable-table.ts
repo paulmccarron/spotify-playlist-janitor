@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Column, SortOrder } from "../table-types";
 
-function getDefaultSorting(defaultTableData: any, columns: Column[]) {
+function getDefaultSorting(defaultTableData: any[], columns: Column[]) {
   const sorted = [...defaultTableData].sort((a, b) => {
-    const filterColumn = columns.filter((column: any) => column.sortbyOrder);
+    const filterColumn = columns.filter((column) => column.sortbyOrder);
 
     // Merge all array objects into single object and extract accessor and sortbyOrder keys
     let { accessor = "id", sortbyOrder = "asc" } = Object.assign(
@@ -23,6 +23,7 @@ function getDefaultSorting(defaultTableData: any, columns: Column[]) {
 
     return sortbyOrder === "asc" ? ascending : -ascending;
   });
+
   return sorted;
 }
 
@@ -45,12 +46,10 @@ export const useSortableTable = (
           return 0;
         }
 
-        if (a[sortField] instanceof Date && b[sortField] instanceof Date){
+        if (a[sortField] instanceof Date && b[sortField] instanceof Date) {
           var aDate: Date = a[sortField];
           var bDate: Date = b[sortField];
-          return (
-            (aDate > bDate ? 1 : -1) * (sortOrder === "asc" ? 1 : -1)
-          );
+          return (aDate > bDate ? 1 : -1) * (sortOrder === "asc" ? 1 : -1);
         }
 
         return (

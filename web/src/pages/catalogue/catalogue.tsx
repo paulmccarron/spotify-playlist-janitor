@@ -70,7 +70,7 @@ const tableColumns: Column[] = [
     accessor: "delete",
     sortable: false,
     render: (id: string) => (
-      <VscTrash onClick={() => alert(`Delete track id: ${id}`)} />
+      <VscTrash onClick={() => alert(`Deleted track id: ${id}`)} />
     ),
   },
 ];
