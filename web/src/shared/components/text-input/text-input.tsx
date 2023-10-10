@@ -25,6 +25,7 @@ export const TextInput = ({ label, ...props }: TextInputProps) => {
 
 const Container = styled.div`
   background-color: white;
+  // padding: 0.5rem 1rem 0.3rem 1rem;
   padding: 0.5rem 1rem 0.3rem 1rem;
   border-radius: 2rem;
   display: flex;

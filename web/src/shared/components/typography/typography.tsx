@@ -47,3 +47,14 @@ export const SecondaryText = ({
 const SecondaryTextDiv = styled.div`
   font-size: 1rem;
 `;
+
+export const SubText = ({
+  children,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) => {
+  return <SubTextDiv {...props}>{children}</SubTextDiv>;
+};
+
+const SubTextDiv = styled.div`
+  font-size: 0.75rem;
+`;

@@ -25,7 +25,7 @@ export const Select = ({
           id="aria-label"
           htmlFor="aria-example-input"
         >
-          Select a color
+          {label}
         </label>
       )}
       <ReactSelect

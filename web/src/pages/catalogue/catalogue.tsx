@@ -12,10 +12,12 @@ import {
   SubTitle,
   Text,
   SecondaryText,
+  SubText,
 } from "../../shared/components/typography";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
+  const [passwordValue, setPasswordInputValue] = useState("");
   const [numberValue, setNumberInputValue] = useState<number | undefined>();
   const [selectValue, setSelectValue] = useState<
     { label: string; value: string } | undefined
@@ -27,6 +29,13 @@ export const Catalogue = () => {
       setTextInputValue(e.target.value);
     },
     [setTextInputValue]
+  );
+
+  const onPasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswordInputValue(e.target.value);
+    },
+    [setPasswordInputValue]
   );
 
   const onNumberChange = useCallback(
@@ -98,6 +107,15 @@ export const Catalogue = () => {
               >
                 Normal Text
               </Text>
+              <Text
+                {...{
+                  id: "text-test",
+                  "data-testid": "text-test-data-testid",
+                  style: { color: "#1ed760" },
+                }}
+              >
+                Normal Text
+              </Text>
             </td>
           </tr>
           <tr>
@@ -111,6 +129,19 @@ export const Catalogue = () => {
               >
                 Secondary Text
               </SecondaryText>
+            </td>
+          </tr>
+          <tr>
+            <td>Sub Text</td>
+            <td>
+              <SubText
+                {...{
+                  id: "sub-text-test",
+                  "data-testid": "sub-text-test-data-testid",
+                }}
+              >
+                Sub Text
+              </SubText>
             </td>
           </tr>
           <tr>
@@ -136,11 +167,11 @@ export const Catalogue = () => {
                   type: "password",
                   label: "Password",
                   placeholder: "Enter password...",
-                  value: textValue,
-                  onChange: onTextChange,
+                  value: passwordValue,
+                  onChange: onPasswordChange,
                 }}
               />
-              <>Value: {textValue}</>
+              <>Value: {passwordValue}</>
             </td>
           </tr>
           <tr>
