@@ -13,9 +13,16 @@ export const tableColumns: Column[] = [
     label: "",
     accessor: "image",
     sortable: false,
+    primary: true,
     render: (url: string) => <img alt="" width={40} height={40} src={url} />,
   },
-  { label: "Title", accessor: "title", sortable: true, sortbyOrder: "desc" },
+  {
+    label: "Title",
+    accessor: "title",
+    sortable: true,
+    sortbyOrder: "desc",
+    primary: true,
+  },
   { label: "Artist", accessor: "artist", sortable: true },
   { label: "Album", accessor: "album", sortable: true },
   {
@@ -41,7 +48,10 @@ export const tableColumns: Column[] = [
     accessor: "delete",
     sortable: false,
     render: (id: string) => (
-      <VscTrash onClick={() => alert(`Deleted track id: ${id}`)} />
+      <VscTrash
+        style={{ cursor: "pointer" }}
+        onClick={() => alert(`Deleted track id: ${id}`)}
+      />
     ),
   },
 ];
@@ -64,7 +74,27 @@ export const tableData = [
     artist: "Red Hot Chili Peppers",
     album: "The Getaway",
     length: 302000,
-    date_skipped: new Date(2023, 9, 15, 15, 30, 45, 25),
+    date_skipped: new Date(2023, 9, 15, 15, 30, 46, 25),
+    delete: undefined,
+  },
+  {
+    id: 3,
+    image: "https://i.scdn.co/image/ab67616d00004851d86a1e021e7acc7c07c7d668",
+    title: "Live Forever",
+    artist: "Oasis",
+    album: "Definitely Maybe",
+    length: 302000,
+    date_skipped: new Date(2023, 9, 15, 15, 30, 47, 30),
+    delete: undefined,
+  },
+  {
+    id: 4,
+    image: "https://i.scdn.co/image/ab67616d00004851176ca6e2a6efb0e3aaf4e37a",
+    title: "Touch It / Technologic",
+    artist: "Daft Punk",
+    album: "Alive 2007",
+    length: 276666,
+    date_skipped: new Date(2023, 9, 15, 15, 30, 47, 40),
     delete: undefined,
   },
 ];

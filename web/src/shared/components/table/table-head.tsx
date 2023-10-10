@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Column, SortOrder } from "./table-types";
 import { VscArrowUp, VscArrowDown } from "react-icons/vsc";
+import { Text } from "../typography";
+import styled from "styled-components";
 
 type TableHeadProps = {
   columns: Column[];
@@ -21,20 +23,12 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
 
   return (
     <thead>
-      <tr>
+      <Tr>
         {columns.map(({ label, accessor, sortable }: any) => {
-          const cl = sortable
-            ? sortField === accessor && order === "asc"
-              ? "up"
-              : sortField === accessor && order === "desc"
-              ? "down"
-              : "default"
-            : "";
+          let icon = undefined;
 
-          let symbol = undefined;
-
-          if(accessor === sortField){
-            symbol = order === "asc" ? <VscArrowUp/> : <VscArrowDown/>
+          if (accessor === sortField) {
+            icon = order === "asc" ? <VscArrowUp /> : <VscArrowDown />;
           }
           return (
             <th
@@ -42,13 +36,33 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
               onClick={
                 sortable ? () => handleSortingChange(accessor) : () => {}
               }
-              className={cl}
+              className={sortable ? "sortable" : ""}
             >
-              {label} {symbol}
+              <div className="content">
+                <Text>{label}</Text>
+                {icon}
+              </div>
             </th>
           );
         })}
-      </tr>
+      </Tr>
     </thead>
   );
 };
+
+const Tr = styled.tr`
+  .sortable {
+    cursor: pointer !important;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  svg {
+    padding-top: 3px;
+    margin-bottom: -3px;
+  }
+`;

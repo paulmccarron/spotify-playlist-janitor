@@ -7,5 +7,6 @@ export type Column = {
   accessor: string, 
   sortable?: boolean, 
   sortbyOrder?: SortOrder,
+  primary?: boolean;
   render?(arg: any): string | ReactNode,
 }
