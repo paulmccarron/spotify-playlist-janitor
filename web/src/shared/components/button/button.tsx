@@ -25,7 +25,7 @@ const Container = styled.div`
   button {
     border-radius: 5rem;
     height: 50px;
-    width: 112px;
+    min-width: 112px;
     color: black;
     font-size: 1rem;
     font-weight: 600;

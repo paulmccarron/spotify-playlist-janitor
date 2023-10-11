@@ -5,6 +5,9 @@ import { Home } from "./pages/home";
 import { Catalogue } from "./pages/catalogue";
 import styled from "styled-components";
 import { AppHeader } from "./shared/components/app-header";
+import Modal from "react-modal";
+
+Modal.setAppElement('#root');
 
 function App() {
   return (

@@ -14,6 +14,7 @@ import {
   SecondaryText,
   SubText,
 } from "../../shared/components/typography";
+import { useModal, Modal } from "../../shared/components/modal";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -23,6 +24,9 @@ export const Catalogue = () => {
     { label: string; value: string } | undefined
   >(undefined);
   const [toggleValue, setToggleValue] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useModal();
+  const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useModal();
 
   const onTextChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -284,10 +288,117 @@ export const Catalogue = () => {
           </tr>
           <tr>
             <td>Modal</td>
-            <td></td>
+            <td style={{ display: "flex", justifyContent: "space-evenly" }}>
+              <>
+                <Button
+                  {...{
+                    className: "primary",
+                    id: "modal-button-example",
+                    "data-testid": "modal-button-example",
+                    onClick: onOpen,
+                  }}
+                >
+                  Open Modal
+                </Button>
+                <Modal {...{ isOpen, onClose, label: "Test Label" }}>
+                  <>
+                    <Title style={{ marginBottom: 8 }}>Sample Modal</Title>
+                    <Text style={{ marginBottom: 8 }}>Modal Content</Text>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Button
+                        {...{
+                          className: "secondary",
+                          style: { margin: "0px 4px" },
+                          id: "cancel-modal-button-example",
+                          "data-testid": "cancel-modal-button-example",
+                          onClick: onClose,
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        {...{
+                          className: "primary",
+                          style: { margin: "0px 4px" },
+                          id: "confirm-modal-button-example",
+                          "data-testid": "confirm-modal-button-example",
+                          onClick: onClose,
+                        }}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                  </>
+                </Modal>
+              </>
+              <>
+                <Button
+                  {...{
+                    className: "primary",
+                    id: "modal-button-example-2",
+                    "data-testid": "modal-button-example-2",
+                    onClick: onOpen2,
+                  }}
+                >
+                  Open Modal 2
+                </Button>
+                <Modal
+                  {...{
+                    isOpen: isOpen2,
+                    onClose: onClose2,
+                    label: "Test Label",
+                  }}
+                >
+                  <>
+                    <Title style={{ marginBottom: 8 }}>Sample Modal 2</Title>
+                    <Text style={{ marginBottom: 8 }}>Modal Content 2</Text>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <Button
+                        {...{
+                          className: "secondary",
+                          style: { margin: "0px 4px" },
+                          id: "cancel-modal-button-example",
+                          "data-testid": "cancel-modal-button-example",
+                          onClick: onClose2,
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        {...{
+                          className: "primary",
+                          style: { margin: "0px 4px" },
+                          id: "confirm-modal-button-example",
+                          "data-testid": "confirm-modal-button-example",
+                          onClick: onClose2,
+                        }}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                  </>
+                </Modal>
+              </>
+            </td>
           </tr>
           <tr>
             <td>Popover</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Tooltip</td>
             <td></td>
           </tr>
         </tbody>
