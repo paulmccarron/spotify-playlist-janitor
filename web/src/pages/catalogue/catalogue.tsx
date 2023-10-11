@@ -15,9 +15,16 @@ import {
   SubText,
 } from "../../shared/components/typography";
 import { useModal, Modal } from "../../shared/components/modal";
-import { VscGithub, VscQuestion, VscSmiley } from "react-icons/vsc";
-// import { Tooltip } from "react-tooltip";
+import {
+  VscEdit,
+  VscEllipsis,
+  VscGithub,
+  VscQuestion,
+  VscSmiley,
+  VscTrash,
+} from "react-icons/vsc";
 import { Tooltip } from "../../shared/components/tooltip";
+import { Menu, MenuItem } from "../../shared/components/menu";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -280,6 +287,52 @@ export const Catalogue = () => {
             </td>
           </tr>
           <tr>
+            <td>Tooltip</td>
+            <td>
+              <Tooltip content={"Tooltip Content"}>
+                <VscQuestion />
+              </Tooltip>
+              <Tooltip
+                content={
+                  <>
+                    <Text>Happy Tooltip Content</Text>
+                    <SecondaryText>Helpful Explanation</SecondaryText>
+                  </>
+                }
+              >
+                <VscSmiley />
+              </Tooltip>
+              <Tooltip
+                content={<SecondaryText>Github Tooltip Content</SecondaryText>}
+              >
+                <VscGithub
+                  style={{ cursor: "pointer" }}
+                  onClick={() => alert("You did a GitHub &#127881;!!!")}
+                />
+              </Tooltip>
+            </td>
+          </tr>
+          <tr>
+            <td>Popout Menu</td>
+            <td>
+              <Menu
+                menuButton={
+                  <div>
+                    <VscEllipsis style={{ cursor: "pointer" }} />
+                  </div>
+                }
+              >
+                <MenuItem>
+                  <VscEdit style={{ cursor: "pointer" }} /> Edit
+                </MenuItem>
+                <MenuItem>
+                  <VscTrash style={{ cursor: "pointer" }} />
+                  Delete
+                </MenuItem>
+              </Menu>
+            </td>
+          </tr>
+          <tr>
             <td>Table</td>
             <td>
               <Table
@@ -395,36 +448,6 @@ export const Catalogue = () => {
                 </Modal>
               </>
             </td>
-          </tr>
-          <tr>
-            <td>Tooltip</td>
-            <td>
-              <Tooltip content={"Tooltip Content"}>
-                <VscQuestion />
-              </Tooltip>
-              <Tooltip
-                content={
-                  <>
-                    <Text>Happy Tooltip Content</Text>
-                    <SecondaryText>Helpful Explanation</SecondaryText>
-                  </>
-                }
-              >
-                <VscSmiley />
-              </Tooltip>
-              <Tooltip
-                content={<SecondaryText>Github Tooltip Content</SecondaryText>}
-              >
-                <VscGithub
-                  style={{ cursor: "pointer" }}
-                  onClick={() => alert("You did a GitHub &#127881;!!!")}
-                />
-              </Tooltip>
-            </td>
-          </tr>
-          <tr>
-            <td>Popover</td>
-            <td></td>
           </tr>
         </tbody>
       </CatalogueTable>
