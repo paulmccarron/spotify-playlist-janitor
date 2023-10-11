@@ -10,18 +10,6 @@ type TableProps = {
   columns: Column[];
 };
 
-export const Table = ({ caption, data, columns }: TableProps) => {
-  const [tableData, handleSorting] = useSortableTable(data, columns);
-
-  return (
-    <TableComponent>
-      {caption && <caption>{caption}</caption>}
-      <TableHead {...{ columns, handleSorting }} />
-      <TableBody {...{ columns, tableData }} />
-    </TableComponent>
-  );
-};
-
 const TableComponent = styled.table`
   border-collapse: collapse;
   width: 100%;
@@ -47,3 +35,17 @@ const TableComponent = styled.table`
     padding: 8px;
   }
 `;
+
+export const Table = ({ caption, data, columns }: TableProps) => {
+  const [tableData, handleSorting] = useSortableTable(data, columns);
+
+  return (
+    <TableComponent>
+      {caption && <caption>{caption}</caption>}
+      <TableHead {...{ columns, handleSorting }} />
+      <TableBody {...{ columns, tableData }} />
+    </TableComponent>
+  );
+};
+
+Table.displayName = "Table";

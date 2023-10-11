@@ -17,3 +17,5 @@ export const Tooltip = ({ content, children }: TooltipProps) => {
     </>
   );
 };
+
+Tooltip.displayName = "Tooltip";

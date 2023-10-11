@@ -32,3 +32,5 @@ export const TableBody = ({
     </tbody>
   );
 };
+
+TableBody.displayName = "TableBody";

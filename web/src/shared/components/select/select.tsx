@@ -130,3 +130,5 @@ const Container = styled.div`
     font-weight: 600;
   }
 `;
+
+Select.displayName = "Select";

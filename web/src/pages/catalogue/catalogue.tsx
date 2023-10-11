@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { TextInput } from "../../shared/components/text-input";
-import { Button } from "../../shared/components/button";
+import { PrimaryButton, SecondaryButton } from "../../shared/components/button";
 import { Select } from "../../shared/components/select";
 import { Toggle } from "../../shared/components/toggle";
 import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
@@ -221,9 +221,8 @@ export const Catalogue = () => {
           <tr>
             <td>Button Primary</td>
             <td>
-              <Button
+              <PrimaryButton
                 {...{
-                  className: "primary",
                   id: "primary-example",
                   "data-testid": "primary-example",
                   onClick: () => {
@@ -232,15 +231,14 @@ export const Catalogue = () => {
                 }}
               >
                 Primary
-              </Button>
+              </PrimaryButton>
             </td>
           </tr>
           <tr>
             <td>Button Secondary</td>
             <td>
-              <Button
+              <SecondaryButton
                 {...{
-                  className: "secondary",
                   id: "secondary-example",
                   "data-testid": "secondary-example",
                   onClick: () => {
@@ -249,7 +247,7 @@ export const Catalogue = () => {
                 }}
               >
                 Secondary
-              </Button>
+              </SecondaryButton>
             </td>
           </tr>
           <tr>
@@ -323,10 +321,11 @@ export const Catalogue = () => {
                 }
               >
                 <MenuItem>
-                  <VscEdit style={{ cursor: "pointer" }} /> Edit
+                  <VscEdit style={{ cursor: "pointer", marginRight: 8 }} />
+                  Edit
                 </MenuItem>
                 <MenuItem>
-                  <VscTrash style={{ cursor: "pointer" }} />
+                  <VscTrash style={{ cursor: "pointer", marginRight: 8 }} />
                   Delete
                 </MenuItem>
               </Menu>
@@ -346,7 +345,7 @@ export const Catalogue = () => {
             <td>Modal</td>
             <td style={{ display: "flex", justifyContent: "space-evenly" }}>
               <>
-                <Button
+                <PrimaryButton
                   {...{
                     className: "primary",
                     id: "modal-button-example",
@@ -355,7 +354,7 @@ export const Catalogue = () => {
                   }}
                 >
                   Open Modal
-                </Button>
+                </PrimaryButton>
                 <Modal {...{ isOpen, onClose, label: "Test Label" }}>
                   <>
                     <Title style={{ marginBottom: 8 }}>Sample Modal</Title>
@@ -367,7 +366,7 @@ export const Catalogue = () => {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <Button
+                      <SecondaryButton
                         {...{
                           className: "secondary",
                           style: { margin: "0px 4px" },
@@ -377,8 +376,8 @@ export const Catalogue = () => {
                         }}
                       >
                         Cancel
-                      </Button>
-                      <Button
+                      </SecondaryButton>
+                      <PrimaryButton
                         {...{
                           className: "primary",
                           style: { margin: "0px 4px" },
@@ -388,13 +387,13 @@ export const Catalogue = () => {
                         }}
                       >
                         Confirm
-                      </Button>
+                      </PrimaryButton>
                     </div>
                   </>
                 </Modal>
               </>
               <>
-                <Button
+                <PrimaryButton
                   {...{
                     className: "primary",
                     id: "modal-button-example-2",
@@ -403,7 +402,7 @@ export const Catalogue = () => {
                   }}
                 >
                   Open Modal 2
-                </Button>
+                </PrimaryButton>
                 <Modal
                   {...{
                     isOpen: isOpen2,
@@ -421,7 +420,7 @@ export const Catalogue = () => {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <Button
+                      <SecondaryButton
                         {...{
                           className: "secondary",
                           style: { margin: "0px 4px" },
@@ -431,8 +430,8 @@ export const Catalogue = () => {
                         }}
                       >
                         Cancel
-                      </Button>
-                      <Button
+                      </SecondaryButton>
+                      <PrimaryButton
                         {...{
                           className: "primary",
                           style: { margin: "0px 4px" },
@@ -442,7 +441,7 @@ export const Catalogue = () => {
                         }}
                       >
                         Confirm
-                      </Button>
+                      </PrimaryButton>
                     </div>
                   </>
                 </Modal>

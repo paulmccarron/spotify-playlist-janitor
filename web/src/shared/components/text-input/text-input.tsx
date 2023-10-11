@@ -10,7 +10,7 @@ type TextInputProps = DetailedHTMLProps<
 
 export const TextInput = ({ label, ...props }: TextInputProps) => {
   return (
-    <Container>
+    <StyledTextInput>
       <div className="input-container">
         <input {...props} />
         {label && (
@@ -19,18 +19,16 @@ export const TextInput = ({ label, ...props }: TextInputProps) => {
           </label>
         )}
       </div>
-    </Container>
+    </StyledTextInput>
   );
 };
 
-const Container = styled.div`
+TextInput.displayName = "TextInput";
+
+const StyledTextInput = styled.div`
   background-color: white;
-  // padding: 0.5rem 1rem 0.3rem 1rem;
   padding: 0.5rem 1rem 0.3rem 1rem;
   border-radius: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 
   .input-container {
     position: relative;

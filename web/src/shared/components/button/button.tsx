@@ -6,39 +6,37 @@ type ButtonProps = DetailedHTMLProps<
   HTMLButtonElement
 >;
 
-export const Button = ({ children, ...rest }: ButtonProps) => {
-  return (
-    <Container>
-      <button {...rest}>{children}</button>
-    </Container>
-  );
-};
+const StyledButton = styled.button`
+  border-radius: 5rem;
+  height: 50px;
+  min-width: 112px;
+  color: black;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  img {
-    height: 50vh;
-  }
-  button {
-    border-radius: 5rem;
-    height: 50px;
-    min-width: 112px;
-    color: black;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    &:hover {
-      transform: scale(1.04);
-    }
-  }
-  button.primary {
-    background-color: #1ed760;
-  }
-  button.secondary {
-    background-color: white;
+  &:hover {
+    transform: scale(1.04);
   }
 `;
+
+const StyledPrimaryButton = styled(StyledButton)`
+  background-color: #1ed760;
+`;
+
+const StyledSecondaryButton = styled(StyledButton)`
+  background-color: white;
+`;
+
+export const PrimaryButton = ({ children, ...rest }: ButtonProps) => {
+  return <StyledPrimaryButton {...rest}>{children}</StyledPrimaryButton>;
+};
+
+PrimaryButton.displayName = "PrimaryButton";
+
+export const SecondaryButton = ({ children, ...rest }: ButtonProps) => {
+  return <StyledSecondaryButton {...rest}>{children}</StyledSecondaryButton>;
+};
+
+SecondaryButton.displayName = "SecondaryButton";

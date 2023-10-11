@@ -2,9 +2,7 @@ import { Menu as ReactMenu, MenuProps } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 import styled from "styled-components";
 
-export const Menu = ({ children, ...props }: MenuProps) => {
-  return <StyledMenu {...props}>{children}</StyledMenu>;
-};
+export { MenuItem } from "@szhsin/react-menu";
 
 const StyledMenu = styled(ReactMenu)`
   ul {
@@ -17,4 +15,8 @@ const StyledMenu = styled(ReactMenu)`
   }
 `;
 
-export { MenuItem } from "@szhsin/react-menu";
+export const Menu = ({ children, ...props }: MenuProps) => {
+  return <StyledMenu {...props}>{children}</StyledMenu>;
+};
+
+Menu.displayName = "Menu";

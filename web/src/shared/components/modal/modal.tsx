@@ -38,3 +38,5 @@ export const Modal = ({ label, isOpen, onClose, children }: ModalProps) => {
     </ReactModal>
   );
 };
+
+Modal.displayName = "Modal";

@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { Tabs as ReactTabs, TabsProps } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
-export const Tabs = ({ children, ...props }: TabsProps) => {
-  return <StyledTabs {...props}>{children}</StyledTabs>;
-};
+export { Tab, TabList, TabPanel } from "react-tabs";
 
 const StyledTabs = styled(ReactTabs)`
   .react-tabs__tab-list {
@@ -44,4 +42,8 @@ const StyledTabs = styled(ReactTabs)`
   }
 `;
 
-export { Tab, TabList, TabPanel } from "react-tabs";
+export const Tabs = ({ children, ...props }: TabsProps) => {
+  return <StyledTabs {...props}>{children}</StyledTabs>;
+};
+
+Tabs.displayName = "Tabs";

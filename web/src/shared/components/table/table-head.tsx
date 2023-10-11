@@ -9,6 +9,27 @@ type TableHeadProps = {
   handleSorting(accessor: string, sortOrder: SortOrder): void;
 };
 
+const Tr = styled.tr`
+  .sortable {
+    cursor: pointer !important;
+  }
+
+  .sortable:hover {
+    background-color: #232323;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  svg {
+    padding-top: 3px;
+    margin-bottom: -3px;
+  }
+`;
+
 export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
   const [sortField, setSortField] = useState("");
   const [order, setOrder] = useState<SortOrder>("asc");
@@ -50,19 +71,4 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
   );
 };
 
-const Tr = styled.tr`
-  .sortable {
-    cursor: pointer !important;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  svg {
-    padding-top: 3px;
-    margin-bottom: -3px;
-  }
-`;
+TableHead.displayName = "TableHead";

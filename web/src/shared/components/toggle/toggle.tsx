@@ -7,20 +7,6 @@ type ToggleProps = {
   onChange(e: any): void;
 };
 
-export const Toggle = ({
-  label = "",
-  checked = false,
-  onChange,
-}: ToggleProps) => {
-  return (
-    <Label>
-      <span>{label}</span>
-      <Input type="checkbox" checked={checked} onChange={onChange} />
-      <Switch />
-    </Label>
-  );
-};
-
 const Label = styled.label`
   display: flex;
   align-items: center;
@@ -64,3 +50,19 @@ const Input = styled.input`
     }
   }
 `;
+
+export const Toggle = ({
+  label = "",
+  checked = false,
+  onChange,
+}: ToggleProps) => {
+  return (
+    <Label>
+      <span>{label}</span>
+      <Input type="checkbox" checked={checked} onChange={onChange} />
+      <Switch />
+    </Label>
+  );
+};
+
+Toggle.displayName = "Toggle";

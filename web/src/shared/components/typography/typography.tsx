@@ -1,27 +1,36 @@
 import React, { HTMLAttributes } from "react";
 import styled from "styled-components";
 
+const StyledTitle = styled.div`
+  font-size: 2rem;
+  font-weight: 700;
+`;
+
 export const Title = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
-  return <TitleDiv {...props}>{children}</TitleDiv>;
+  return <StyledTitle {...props}>{children}</StyledTitle>;
 };
 
-const TitleDiv = styled.div`
-  font-size: 2rem;
-  font-weight: 700;
+Title.displayName = "Title";
+
+const StyledSubTitle = styled.div`
+  font-size: 1.5rem;
+  font-weight: 600;
 `;
 
 export const SubTitle = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
-  return <SubTitleDiv {...props}>{children}</SubTitleDiv>;
+  return <StyledSubTitle {...props}>{children}</StyledSubTitle>;
 };
 
-const SubTitleDiv = styled.div`
-  font-size: 1.5rem;
+SubTitle.displayName = "SubTitle";
+
+const StyledText = styled.div`
+  font-size: 1rem;
   font-weight: 600;
 `;
 
@@ -29,32 +38,33 @@ export const Text = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
-  return <TextDiv {...props}>{children}</TextDiv>;
+  return <StyledText {...props}>{children}</StyledText>;
 };
 
-const TextDiv = styled.div`
+Text.displayName = "Text";
+
+const StyledSecondaryText = styled.div`
   font-size: 1rem;
-  font-weight: 600;
 `;
 
 export const SecondaryText = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
-  return <SecondaryTextDiv {...props}>{children}</SecondaryTextDiv>;
+  return <StyledSecondaryText {...props}>{children}</StyledSecondaryText>;
 };
 
-const SecondaryTextDiv = styled.div`
-  font-size: 1rem;
+SecondaryText.displayName = "SecondaryText";
+
+const StyledSubText = styled.div`
+  font-size: 0.75rem;
 `;
 
 export const SubText = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
-  return <SubTextDiv {...props}>{children}</SubTextDiv>;
+  return <StyledSubText {...props}>{children}</StyledSubText>;
 };
 
-const SubTextDiv = styled.div`
-  font-size: 0.75rem;
-`;
+StyledSubText.displayName = "SubTextDiv";
