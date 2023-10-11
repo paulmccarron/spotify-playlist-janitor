@@ -15,6 +15,9 @@ import {
   SubText,
 } from "../../shared/components/typography";
 import { useModal, Modal } from "../../shared/components/modal";
+import { VscGithub, VscQuestion, VscSmiley } from "react-icons/vsc";
+// import { Tooltip } from "react-tooltip";
+import { Tooltip } from "../../shared/components/tooltip";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -394,11 +397,33 @@ export const Catalogue = () => {
             </td>
           </tr>
           <tr>
-            <td>Popover</td>
-            <td></td>
+            <td>Tooltip</td>
+            <td>
+              <Tooltip content={"Tooltip Content"}>
+                <VscQuestion />
+              </Tooltip>
+              <Tooltip
+                content={
+                  <>
+                    <Text>Happy Tooltip Content</Text>
+                    <SecondaryText>Helpful Explanation</SecondaryText>
+                  </>
+                }
+              >
+                <VscSmiley />
+              </Tooltip>
+              <Tooltip
+                content={<SecondaryText>Github Tooltip Content</SecondaryText>}
+              >
+                <VscGithub
+                  style={{ cursor: "pointer" }}
+                  onClick={() => alert("You did a GitHub &#127881;!!!")}
+                />
+              </Tooltip>
+            </td>
           </tr>
           <tr>
-            <td>Tooltip</td>
+            <td>Popover</td>
             <td></td>
           </tr>
         </tbody>
