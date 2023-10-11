@@ -47,28 +47,24 @@ export const Select = ({
 };
 
 const Container = styled.div`
+  position: relative;
   background-color: white;
   padding: 0.2rem 1rem;
   border-radius: 2rem;
-  align-items: center;
-  gap: 0.5rem;
 
   label {
     position: absolute;
     pointer-events: none;
-    transform: translate(0, 8px) scale(1);
     transform-origin: top left;
+    transform: translate(0, 0.5px) scale(0.65);
     font-size: 1rem;
     font-weight: 600;
     line-height: 1;
-    z-index: 10;
+    z-index: 1;
     color: transparent;
   }
 
   .filled {
-    transform: translate(0, 0.5px) scale(0.65);
-    font-size: 1rem;
-    font-weight: 600;
     color: #757575;
   }
 
