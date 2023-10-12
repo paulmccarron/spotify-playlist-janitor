@@ -1,7 +1,8 @@
-import React from "react";
 import styled from "styled-components";
 import { Tabs as ReactTabs, TabsProps } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+
+import { GREEN } from "shared/constants";
 
 export { Tab, TabList, TabPanel } from "react-tabs";
 
@@ -19,7 +20,7 @@ const StyledTabs = styled(ReactTabs)`
     list-style: none;
     padding: 6px 12px;
     cursor: pointer;
-    color: #1ed760;
+    color: ${GREEN};
     font-size: 1rem;
     font-weight: 600;
     min-width: 87px;
@@ -27,8 +28,8 @@ const StyledTabs = styled(ReactTabs)`
   }
 
   .react-tabs__tab--selected {
-    background: #1ed760;
-    border-color: #1ed760;
+    background: ${GREEN};
+    border-color: ${GREEN};
     color: black;
     border-radius: 15px 15px 0px 0px;
     font-size: 1rem;

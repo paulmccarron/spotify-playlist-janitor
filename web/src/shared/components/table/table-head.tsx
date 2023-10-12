@@ -1,7 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Column, SortOrder } from "./table-types";
 import { VscArrowUp, VscArrowDown } from "react-icons/vsc";
+
+import { TABLE_HOVER } from "shared/constants";
+
+import { Column, SortOrder } from "./table-types";
 import { Text } from "../typography";
 
 type TableHeadProps = {
@@ -15,7 +18,7 @@ const Tr = styled.tr`
   }
 
   .sortable:hover {
-    background-color: #232323;
+    background-color: ${TABLE_HOVER};
   }
 
   .content {

@@ -1,13 +1,14 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { HOME, CATALOGUE } from "./shared/constants";
-import { Home } from "./pages/home";
-import { Catalogue } from "./pages/catalogue";
-import styled from "styled-components";
-import { AppHeader } from "./shared/components/app-header";
 import Modal from "react-modal";
+import styled from "styled-components";
 
-Modal.setAppElement('#root');
+import { HOME, CATALOGUE, BACKGROUND } from "shared/constants";
+import { AppHeader } from "shared/components/app-header";
+
+import { Home } from "pages/home";
+import { Catalogue } from "pages/catalogue";
+
+Modal.setAppElement("#root");
 
 function App() {
   return (
@@ -27,7 +28,7 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: linear-gradient(transparent, rgba(0, 0, 0, 1));
-  background-color: #121212;
+  background-color: ${BACKGROUND};
   display: block;
   overflow-x: hidden;
 `;

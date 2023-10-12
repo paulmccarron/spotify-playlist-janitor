@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import { default as ReactModal } from "react-modal";
 
 type ModalProps = {

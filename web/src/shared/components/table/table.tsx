@@ -1,7 +1,10 @@
 import styled from "styled-components";
+
+import { BACKGROUND, TABLE_HOVER } from "shared/constants";
+
 import { TableBody } from "./table-body";
 import { TableHead } from "./table-head";
-import { useSortableTable } from "./hooks/use-sortable-table";
+import { useTableSorting } from "./hooks/use-table-sorting";
 import { Column } from "./table-types";
 
 type TableProps = {
@@ -23,11 +26,11 @@ const TableComponent = styled.table`
   }
 
   tbody tr:nth-child(even) {
-    background-color: #121212;
+    background-color: ${BACKGROUND};
   }
 
   tbody tr:hover {
-    background-color: #232323;
+    background-color: ${TABLE_HOVER};
   }
 
   td {
@@ -37,7 +40,7 @@ const TableComponent = styled.table`
 `;
 
 export const Table = ({ caption, data, columns }: TableProps) => {
-  const [tableData, handleSorting] = useSortableTable(data, columns);
+  const [tableData, handleSorting] = useTableSorting(data, columns);
 
   return (
     <TableComponent>

@@ -1,6 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import { default as ReactSelect } from "react-select";
+
+import { INPUT_LABEL } from "shared/constants";
 
 type SelectProps = {
   value?: { label: string; value: string };
@@ -65,7 +66,7 @@ const Container = styled.div`
   }
 
   .filled {
-    color: #757575;
+    color: ${INPUT_LABEL};
   }
 
   select {

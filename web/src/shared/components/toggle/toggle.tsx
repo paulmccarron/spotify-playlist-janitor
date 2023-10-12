@@ -1,5 +1,6 @@
-import React from "react";
 import styled from "styled-components";
+
+import { GREEN } from "shared/constants";
 
 type ToggleProps = {
   label?: string;
@@ -43,7 +44,7 @@ const Input = styled.input`
   position: absolute;
 
   &:checked + ${Switch} {
-    background: #1ed760;
+    background: ${GREEN};
 
     &:before {
       transform: translate(18px, -50%);

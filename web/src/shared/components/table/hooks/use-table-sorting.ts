@@ -27,7 +27,7 @@ function getDefaultSorting(defaultTableData: any[], columns: Column[]) {
   return sorted;
 }
 
-export const useSortableTable = (
+export const useTableSorting = (
   data: any,
   columns: Column[]
 ): [any[], (sortField: string, sortOrder: SortOrder) => void] => {

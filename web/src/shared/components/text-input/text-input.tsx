@@ -1,5 +1,7 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import styled from "styled-components";
+
+import { INPUT_LABEL } from "shared/constants";
 
 type TextInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -53,7 +55,7 @@ const StyledTextInput = styled.div`
     transform: translate(0, -3px) scale(0.65);
     font-size: 1rem;
     font-weight: 600;
-    color: #757575;
+    color: ${INPUT_LABEL};
   }
 
   .input-container input {

@@ -1,5 +1,7 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styled from "styled-components";
+
+import { GREEN } from "shared/constants";
 
 type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -22,7 +24,7 @@ const StyledButton = styled.button`
 `;
 
 const StyledPrimaryButton = styled(StyledButton)`
-  background-color: #1ed760;
+  background-color: ${GREEN};
 `;
 
 const StyledSecondaryButton = styled(StyledButton)`
