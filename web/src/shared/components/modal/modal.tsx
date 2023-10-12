@@ -1,14 +1,18 @@
-import React, { ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import { default as ReactModal } from "react-modal";
 
 type ModalProps = {
   label: string;
   isOpen: boolean;
   onClose(): void;
-  children?: string | ReactNode | ReactNode[];
 };
 
-export const Modal = ({ label, isOpen, onClose, children }: ModalProps) => {
+export const Modal = ({
+  label,
+  isOpen,
+  onClose,
+  children,
+}: PropsWithChildren<ModalProps>) => {
   return (
     <ReactModal
       contentLabel={label}
