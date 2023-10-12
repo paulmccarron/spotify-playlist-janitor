@@ -1,8 +1,8 @@
 import { useState } from "react";
+import styled from "styled-components";
 import { Column, SortOrder } from "./table-types";
 import { VscArrowUp, VscArrowDown } from "react-icons/vsc";
 import { Text } from "../typography";
-import styled from "styled-components";
 
 type TableHeadProps = {
   columns: Column[];

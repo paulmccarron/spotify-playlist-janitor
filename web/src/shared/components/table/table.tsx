@@ -1,8 +1,8 @@
+import styled from "styled-components";
 import { TableBody } from "./table-body";
 import { TableHead } from "./table-head";
 import { useSortableTable } from "./hooks/use-sortable-table";
 import { Column } from "./table-types";
-import styled from "styled-components";
 
 type TableProps = {
   caption: string;

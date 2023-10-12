@@ -2,34 +2,22 @@
 
 exports[`<App /> should render the App 1`] = `
 <div
-  class="App"
+  class="sc-ifysJV hIobMm"
 >
-  <header
-    class="App-header"
+  <div
+    class="sc-blmCWO BlOGE"
   >
-    <img
-      alt="logo"
-      class="App-logo"
-      src="logo.svg"
-    />
-    <p>
-      Edit 
-      <code>
-        src/App.tsx
-      </code>
-       and save to reload.
-    </p>
-    <a
-      class="App-link"
-      href="https://reactjs.org"
-      rel="noopener noreferrer"
-      target="_blank"
+    <div
+      class="sc-kFCrIq emnCRV"
     >
-      Learn React
-    </a>
-    <p>
-      API URL: 
-    </p>
-  </header>
+      Spotify Playlist Janitor
+    </div>
+  </div>
+  <div
+    class="sc-beyTiQ elccEX"
+  >
+    API URL: 
+    https://localhost:5001
+  </div>
 </div>
 `;

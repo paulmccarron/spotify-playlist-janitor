@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { TextInput } from "../../shared/components/text-input";
-import { PrimaryButton, SecondaryButton } from "../../shared/components/button";
-import { Select } from "../../shared/components/select";
-import { Toggle } from "../../shared/components/toggle";
-import { Tabs, Tab, TabPanel, TabList } from "../../shared/components/tabs";
-import { Table } from "../../shared/components/table";
+import { TextInput } from "shared/components/text-input";
+import { PrimaryButton, SecondaryButton } from "shared/components/button";
+import { Select } from "shared/components/select";
+import { Toggle } from "shared/components/toggle";
+import { Tabs, Tab, TabPanel, TabList } from "shared/components/tabs";
+import { Table } from "shared/components/table";
 import { selectOptions, tableColumns, tableData } from "./data";
 import {
   Title,
@@ -13,8 +13,8 @@ import {
   Text,
   SecondaryText,
   SubText,
-} from "../../shared/components/typography";
-import { useModal, Modal } from "../../shared/components/modal";
+} from "shared/components/typography";
+import { useModal, Modal } from "shared/components/modal";
 import {
   VscEdit,
   VscEllipsis,
@@ -23,8 +23,8 @@ import {
   VscSmiley,
   VscTrash,
 } from "react-icons/vsc";
-import { Tooltip } from "../../shared/components/tooltip";
-import { Menu, MenuItem } from "../../shared/components/menu";
+import { Tooltip } from "shared/components/tooltip";
+import { Menu, MenuItem } from "shared/components/menu";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
