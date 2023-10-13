@@ -268,16 +268,16 @@ export const Catalogue = () => {
             <td>
               <Tabs>
                 <TabList>
-                  <Tab>Tab 1</Tab>
-                  <Tab>Tab 2</Tab>
-                  <Tab>Longer Tab Title 3</Tab>
+                  <Tab data-testid="tab-1">Tab 1</Tab>
+                  <Tab data-testid="tab-2">Tab 2</Tab>
+                  <Tab data-testid="tab-3">Longer Tab Title 3</Tab>
                 </TabList>
 
                 <TabPanel>
-                  <>Tab 1 content</>
+                  <Text data-testid="tab-1-content">Tab 1 content</Text>
                 </TabPanel>
                 <TabPanel>
-                  <>Tab 2 content</>
+                  <SubTitle data-testid="tab-2-content">Tab 2 content</SubTitle>
                 </TabPanel>
                 <TabPanel>
                   <>Tab 3 content</>
