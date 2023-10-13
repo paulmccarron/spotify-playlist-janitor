@@ -2,19 +2,19 @@
 
 exports[`<App /> should render the App 1`] = `
 <div
-  class="sc-ifysJV hIobMm"
+  class="sc-ifysJV bPCQIS"
 >
   <div
-    class="sc-blmCWO BlOGE"
+    class="sc-jTQDJr buqzbX"
   >
     <div
-      class="sc-kFCrIq emnCRV"
+      class="sc-guDMob jLqGJD"
     >
       Spotify Playlist Janitor
     </div>
   </div>
   <div
-    class="sc-beyTiQ elccEX"
+    class="sc-gLLuHO bfsVlI"
   >
     API URL: 
     https://localhost:5001

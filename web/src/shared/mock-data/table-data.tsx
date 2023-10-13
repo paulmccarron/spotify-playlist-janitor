@@ -1,12 +1,6 @@
-import { Column } from "../../shared/components/table";
+import { Column } from "../components/table";
 import { PiClock } from "react-icons/pi";
 import { VscTrash } from "react-icons/vsc";
-
-export const selectOptions = [
-  { label: "Option 1", value: "option1" },
-  { label: "Option 2", value: "option2" },
-  { label: "Option 3", value: "option3" },
-];
 
 export const tableColumns: Column[] = [
   {

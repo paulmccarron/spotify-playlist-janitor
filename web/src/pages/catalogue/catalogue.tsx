@@ -6,7 +6,8 @@ import { Select } from "shared/components/select";
 import { Toggle } from "shared/components/toggle";
 import { Tabs, Tab, TabPanel, TabList } from "shared/components/tabs";
 import { Table } from "shared/components/table";
-import { selectOptions, tableColumns, tableData } from "./data";
+import { tableColumns, tableData } from "shared/mock-data/table-data";
+import { selectOptions } from "shared/mock-data/select-options";
 import {
   Title,
   SubTitle,
