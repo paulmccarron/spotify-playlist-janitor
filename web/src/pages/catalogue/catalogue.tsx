@@ -290,7 +290,10 @@ export const Catalogue = () => {
           <tr>
             <td>Tooltip</td>
             <td>
-              <Tooltip content={"Tooltip Content"}>
+              <Tooltip
+                content={"Tooltip Content"}
+                dataTooltipId="tooltip-vsc-question"
+              >
                 <VscQuestion />
               </Tooltip>
               <Tooltip
@@ -300,11 +303,13 @@ export const Catalogue = () => {
                     <SecondaryText>Helpful Explanation</SecondaryText>
                   </>
                 }
+                dataTooltipId="tooltip-vsc-smiley"
               >
                 <VscSmiley />
               </Tooltip>
               <Tooltip
                 content={<SecondaryText>Github Tooltip Content</SecondaryText>}
+                dataTooltipId="tooltip-vsc-github"
               >
                 <VscGithub
                   style={{ cursor: "pointer" }}

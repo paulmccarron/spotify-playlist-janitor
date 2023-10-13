@@ -1,4 +1,4 @@
-import React, { RefObject } from "react";
+import { RefObject } from "react";
 import { act, renderHook } from "@testing-library/react";
 
 import { useModal } from "../use-modal";

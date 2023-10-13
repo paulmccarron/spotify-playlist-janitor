@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { tableData, tableColumns } from "shared/mock-data/table-data";
 
-import { Table } from "../table";
+import { Table } from "..";
 
 describe("<Table />", () => {
   let container: HTMLElement;

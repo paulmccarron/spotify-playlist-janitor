@@ -1,11 +1,4 @@
-import React, { useState } from "react";
-import {
-  act,
-  fireEvent,
-  getByTestId,
-  render,
-  waitFor,
-} from "@testing-library/react";
+import { fireEvent, getByTestId, render } from "@testing-library/react";
 
 import { Toggle } from "..";
 

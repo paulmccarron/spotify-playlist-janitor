@@ -1,7 +1,6 @@
-import React from "react";
 import { fireEvent, getByTestId, render } from "@testing-library/react";
 
-import { PrimaryButton, SecondaryButton } from "../button";
+import { PrimaryButton, SecondaryButton } from "..";
 
 describe("<PrimaryButton />", () => {
   let container: HTMLElement;

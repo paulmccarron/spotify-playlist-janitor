@@ -1,7 +1,6 @@
-import React from "react";
-import { fireEvent, getByText, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
-import { Modal } from "../modal";
+import { Modal } from "..";
 
 describe("<Modal />", () => {
   let baseElement: HTMLElement;

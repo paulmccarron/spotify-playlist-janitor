@@ -1,7 +1,6 @@
-import React from "react";
 import { render } from "@testing-library/react";
 
-import { AppHeader } from "../app-header";
+import { AppHeader } from "..";
 
 describe("<AppHeader />", () => {
   let container: HTMLElement;

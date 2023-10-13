@@ -1,12 +1,6 @@
-import React from "react";
-import {
-  fireEvent,
-  getByTestId,
-  getByText,
-  render,
-} from "@testing-library/react";
+import { fireEvent, getByTestId, render } from "@testing-library/react";
 
-import { Tabs, TabList, Tab, TabPanel } from "../tabs";
+import { Tabs, TabList, Tab, TabPanel } from "..";
 
 describe("<Tabs />", () => {
   let container: HTMLElement;

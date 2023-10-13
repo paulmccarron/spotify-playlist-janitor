@@ -1,9 +1,4 @@
-import {
-  fireEvent,
-  getByTestId,
-  getByText,
-  render,
-} from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { tableColumns, tableData } from "shared/mock-data/table-data";
 
 import { TableBody } from "../table-body";

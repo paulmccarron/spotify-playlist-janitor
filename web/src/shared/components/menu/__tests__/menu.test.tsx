@@ -1,7 +1,6 @@
-import React from "react";
 import { fireEvent, getByText, render } from "@testing-library/react";
 
-import { Menu, MenuItem } from "../menu";
+import { Menu, MenuItem } from "..";
 
 describe("<Menu />", () => {
   let container: HTMLElement;

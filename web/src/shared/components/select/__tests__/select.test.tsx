@@ -1,7 +1,4 @@
-import React from "react";
 import {
-  act,
-  findByText,
   fireEvent,
   getByLabelText,
   getByText,
@@ -10,7 +7,7 @@ import {
 } from "@testing-library/react";
 import { selectOptions } from "shared/mock-data/select-options";
 
-import { Select } from "../select";
+import { Select } from "..";
 
 describe("<Select />", () => {
   let container: HTMLElement;

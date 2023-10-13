@@ -1,17 +1,26 @@
-import React, { ReactElement } from "react";
+import React, { PropsWithChildren, ReactElement } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 type TooltipProps = {
   content: string | ReactElement;
-  children: ReactElement;
+  dataTooltipId: string;
 };
 
-export const Tooltip = ({ content, children }: TooltipProps) => {
-  const id = "tooltip-id-" + (Math.random() + 1).toString(36).substring(7);
+export const Tooltip = ({
+  content,
+  dataTooltipId,
+  children,
+}: PropsWithChildren<TooltipProps>) => {
   return (
     <>
-      {React.cloneElement(children, { "data-tooltip-id": id })}
-      <ReactTooltip id={id} style={{ backgroundColor: "black" }}>
+      {React.cloneElement(children as React.ReactElement<any>, {
+        "data-tooltip-id": dataTooltipId,
+      })}
+      <ReactTooltip
+        id={dataTooltipId}
+        data-testid="tooltip-data-testid"
+        style={{ backgroundColor: "black" }}
+      >
         {content}
       </ReactTooltip>
     </>
