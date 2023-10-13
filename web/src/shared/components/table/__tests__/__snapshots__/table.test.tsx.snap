@@ -13,6 +13,8 @@ exports[`<Table /> should render Table component 1`] = `
     >
       <th
         class=""
+        data-testid="table-column-head-image"
+        id="table-column-head-image"
       >
         <div
           class="content"
@@ -24,6 +26,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
+        data-testid="table-column-head-title"
+        id="table-column-head-title"
       >
         <div
           class="content"
@@ -33,10 +37,27 @@ exports[`<Table /> should render Table component 1`] = `
           >
             Title
           </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
         class="sortable"
+        data-testid="table-column-head-artist"
+        id="table-column-head-artist"
       >
         <div
           class="content"
@@ -50,6 +71,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
+        data-testid="table-column-head-album"
+        id="table-column-head-album"
       >
         <div
           class="content"
@@ -63,6 +86,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
+        data-testid="table-column-head-length"
+        id="table-column-head-length"
       >
         <div
           class="content"
@@ -88,6 +113,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
+        data-testid="table-column-head-date_skipped"
+        id="table-column-head-date_skipped"
       >
         <div
           class="content"
@@ -101,6 +128,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class=""
+        data-testid="table-column-head-delete"
+        id="table-column-head-delete"
       >
         <div
           class="content"

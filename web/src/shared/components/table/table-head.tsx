@@ -34,8 +34,11 @@ const Tr = styled.tr`
 `;
 
 export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
-  const [sortField, setSortField] = useState("");
-  const [order, setOrder] = useState<SortOrder>("asc");
+  const defaultSortField = columns.find((column) => column.sortbyOrder);
+  const [sortField, setSortField] = useState(defaultSortField?.accessor ?? "");
+  const [order, setOrder] = useState<SortOrder>(
+    defaultSortField?.sortbyOrder ?? "asc"
+  );
 
   const handleSortingChange = (accessor: any) => {
     const sortOrder =
@@ -56,6 +59,8 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
           }
           return (
             <th
+              id={`table-column-head-${accessor}`}
+              data-testid={`table-column-head-${accessor}`}
               key={accessor}
               onClick={
                 sortable ? () => handleSortingChange(accessor) : () => {}

@@ -2,7 +2,7 @@
 
 exports[`<PrimaryButton /> should render PrimaryButton component 1`] = `
 <button
-  class="sc-beyTiQ sc-guDMob giYbrd bBWKQf"
+  class="sc-beyTiQ sc-guDMob giYbrd bbYoIf"
   data-testid="test-primary-button-id"
   id="primary-button-id"
 >

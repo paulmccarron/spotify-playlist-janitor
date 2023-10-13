@@ -20,6 +20,10 @@ describe("<PrimaryButton />", () => {
     ));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should render PrimaryButton component", () => {
     expect(container.firstChild).toMatchSnapshot();
   });

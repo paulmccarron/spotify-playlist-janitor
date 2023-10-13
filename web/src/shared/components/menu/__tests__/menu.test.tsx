@@ -21,6 +21,10 @@ describe("<Menu />", () => {
     ));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should render Menu component", () => {
     expect(container.firstChild).toMatchSnapshot();
   });
