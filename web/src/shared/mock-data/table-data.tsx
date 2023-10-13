@@ -1,6 +1,7 @@
-import { Column } from "../components/table";
 import { PiClock } from "react-icons/pi";
 import { VscTrash } from "react-icons/vsc";
+import format from "date-fns/format";
+import { Column } from "../components/table";
 
 export const tableColumns: Column[] = [
   {
@@ -35,7 +36,8 @@ export const tableColumns: Column[] = [
     label: "Date Skipped",
     accessor: "date_skipped",
     sortable: true,
-    render: (date: Date) => date.toISOString(),
+    render: (date: Date) =>
+      format(date, "MMM dd yyyy") + " at " + format(date, "HH:mm:ss"),
   },
   {
     label: "",

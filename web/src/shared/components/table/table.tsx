@@ -40,7 +40,7 @@ const TableComponent = styled.table`
 `;
 
 export const Table = ({ caption, data, columns }: TableProps) => {
-  const [tableData, handleSorting] = useTableSorting(data, columns);
+  const [tableData, handleSorting] = useTableSorting({data, columns});
 
   return (
     <TableComponent>

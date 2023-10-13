@@ -3,7 +3,7 @@ import { act, renderHook } from "@testing-library/react";
 
 import { useModal } from "../use-modal";
 
-describe("<Modal />", () => {
+describe("<useModal />", () => {
   let result: RefObject<ReturnType<typeof useModal>>;
 
   beforeEach(() => {
