@@ -1,11 +1,4 @@
-import {
-  act,
-  fireEvent,
-  getByTestId,
-  getByText,
-  render,
-  waitFor,
-} from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { Tooltip } from "..";
 
