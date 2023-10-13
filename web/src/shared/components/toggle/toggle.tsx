@@ -1,11 +1,19 @@
 import styled from "styled-components";
 
 import { GREEN } from "shared/constants";
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
-type ToggleProps = {
+// type ToggleProps = {
+//   label?: string;
+//   checked: boolean;
+//   onChange(e: any): void;
+// };
+
+type ToggleProps = DetailedHTMLProps<
+  InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & {
   label?: string;
-  checked: boolean;
-  onChange(e: any): void;
 };
 
 const Label = styled.label`
@@ -52,15 +60,11 @@ const Input = styled.input`
   }
 `;
 
-export const Toggle = ({
-  label = "",
-  checked = false,
-  onChange,
-}: ToggleProps) => {
+export const Toggle = ({ label = "", ...props }: ToggleProps) => {
   return (
     <Label>
       <span>{label}</span>
-      <Input type="checkbox" checked={checked} onChange={onChange} />
+      <Input type="checkbox" {...props} />
       <Switch />
     </Label>
   );

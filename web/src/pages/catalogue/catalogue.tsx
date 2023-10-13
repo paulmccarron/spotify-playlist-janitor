@@ -259,6 +259,8 @@ export const Catalogue = () => {
                   label: "Toggle Example",
                   onChange: onToggleChange,
                   checked: toggleValue,
+                  id: "test-toggle",
+                  "data-testid": "test-toggle",
                 }}
               />
             </td>

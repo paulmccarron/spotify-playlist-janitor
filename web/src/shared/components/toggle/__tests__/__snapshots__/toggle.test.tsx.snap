@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toggle /> should render Toggle component 1`] = `
+<label
+  class="sc-beyTiQ lbQwve"
+>
+  <span>
+    Toggle Example
+  </span>
+  <input
+    class="sc-dmyDmy dfyiZa"
+    data-testid="test-toggle"
+    id="test-toggle"
+    type="checkbox"
+  />
+  <div
+    class="sc-guDMob kswJfi"
+  />
+</label>
+`;
+
+exports[`<Toggle /> should render Toggle component toggled 1`] = `
+<label
+  class="sc-beyTiQ lbQwve"
+>
+  <span>
+    Toggle Example
+  </span>
+  <input
+    checked=""
+    class="sc-dmyDmy dfyiZa"
+    data-testid="test-toggle"
+    id="test-toggle"
+    type="checkbox"
+  />
+  <div
+    class="sc-guDMob kswJfi"
+  />
+</label>
+`;
