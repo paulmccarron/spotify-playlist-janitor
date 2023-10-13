@@ -13,8 +13,8 @@ exports[`<Table /> should render Table component 1`] = `
     >
       <th
         class=""
-        data-testid="table-column-head-image"
-        id="table-column-head-image"
+        data-testid="table-head-cell-image"
+        id="table-head-cell-image"
       >
         <div
           class="content"
@@ -26,8 +26,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
-        data-testid="table-column-head-title"
-        id="table-column-head-title"
+        data-testid="table-head-cell-title"
+        id="table-head-cell-title"
       >
         <div
           class="content"
@@ -56,8 +56,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
-        data-testid="table-column-head-artist"
-        id="table-column-head-artist"
+        data-testid="table-head-cell-artist"
+        id="table-head-cell-artist"
       >
         <div
           class="content"
@@ -71,8 +71,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
-        data-testid="table-column-head-album"
-        id="table-column-head-album"
+        data-testid="table-head-cell-album"
+        id="table-head-cell-album"
       >
         <div
           class="content"
@@ -86,8 +86,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
-        data-testid="table-column-head-length"
-        id="table-column-head-length"
+        data-testid="table-head-cell-length"
+        id="table-head-cell-length"
       >
         <div
           class="content"
@@ -113,8 +113,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class="sortable"
-        data-testid="table-column-head-date_skipped"
-        id="table-column-head-date_skipped"
+        data-testid="table-head-cell-date_skipped"
+        id="table-head-cell-date_skipped"
       >
         <div
           class="content"
@@ -128,8 +128,8 @@ exports[`<Table /> should render Table component 1`] = `
       </th>
       <th
         class=""
-        data-testid="table-column-head-delete"
-        id="table-column-head-delete"
+        data-testid="table-head-cell-delete"
+        id="table-head-cell-delete"
       >
         <div
           class="content"
@@ -143,7 +143,10 @@ exports[`<Table /> should render Table component 1`] = `
   </thead>
   <tbody>
     <tr>
-      <td>
+      <td
+        data-testid="table-body-cell-0-image"
+        id="table-body-cell-0-image"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
@@ -155,42 +158,60 @@ exports[`<Table /> should render Table component 1`] = `
           />
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-title"
+        id="table-body-cell-0-title"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
           Touch It / Technologic
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-artist"
+        id="table-body-cell-0-artist"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Daft Punk
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-album"
+        id="table-body-cell-0-album"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Alive 2007
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-length"
+        id="table-body-cell-0-length"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           4:37
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-date_skipped"
+        id="table-body-cell-0-date_skipped"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Oct 15 2023 at 15:30:47
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-0-delete"
+        id="table-body-cell-0-delete"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
@@ -214,7 +235,10 @@ exports[`<Table /> should render Table component 1`] = `
       </td>
     </tr>
     <tr>
-      <td>
+      <td
+        data-testid="table-body-cell-1-image"
+        id="table-body-cell-1-image"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
@@ -226,42 +250,60 @@ exports[`<Table /> should render Table component 1`] = `
           />
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-title"
+        id="table-body-cell-1-title"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
           Longshot
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-artist"
+        id="table-body-cell-1-artist"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Catfish and the Bottlemen
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-album"
+        id="table-body-cell-1-album"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           The Balance
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-length"
+        id="table-body-cell-1-length"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           3:53
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-date_skipped"
+        id="table-body-cell-1-date_skipped"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Oct 15 2023 at 15:30:45
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-1-delete"
+        id="table-body-cell-1-delete"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
@@ -285,7 +327,10 @@ exports[`<Table /> should render Table component 1`] = `
       </td>
     </tr>
     <tr>
-      <td>
+      <td
+        data-testid="table-body-cell-2-image"
+        id="table-body-cell-2-image"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
@@ -297,42 +342,60 @@ exports[`<Table /> should render Table component 1`] = `
           />
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-title"
+        id="table-body-cell-2-title"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
           Live Forever
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-artist"
+        id="table-body-cell-2-artist"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Oasis
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-album"
+        id="table-body-cell-2-album"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Definitely Maybe
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-length"
+        id="table-body-cell-2-length"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           5:02
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-date_skipped"
+        id="table-body-cell-2-date_skipped"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Oct 15 2023 at 15:30:47
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-2-delete"
+        id="table-body-cell-2-delete"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
@@ -356,7 +419,10 @@ exports[`<Table /> should render Table component 1`] = `
       </td>
     </tr>
     <tr>
-      <td>
+      <td
+        data-testid="table-body-cell-3-image"
+        id="table-body-cell-3-image"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
@@ -368,42 +434,60 @@ exports[`<Table /> should render Table component 1`] = `
           />
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-title"
+        id="table-body-cell-3-title"
+      >
         <div
           class="sc-dmyDmy dcXriK"
         >
           Dark Necessities
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-artist"
+        id="table-body-cell-3-artist"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Red Hot Chili Peppers
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-album"
+        id="table-body-cell-3-album"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           The Getaway
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-length"
+        id="table-body-cell-3-length"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           5:02
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-date_skipped"
+        id="table-body-cell-3-date_skipped"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >
           Oct 15 2023 at 15:30:46
         </div>
       </td>
-      <td>
+      <td
+        data-testid="table-body-cell-3-delete"
+        id="table-body-cell-3-delete"
+      >
         <div
           class="sc-hLQTFJ gjIzVE"
         >

@@ -31,14 +31,14 @@ describe("<TableHead />", () => {
   });
 
   it("should execute handleSort when sortable header clicked", () => {
-    const colunHead = getByTestId(container, "table-column-head-title");
+    const colunHead = getByTestId(container, "table-head-cell-title");
     fireEvent.click(colunHead);
 
     expect(mockHandleSort).toHaveBeenCalledWith("title", "asc");
   });
 
   it("should execute handleSort when sortable header clicked with opposite sort order", () => {
-    const colunHead = getByTestId(container, "table-column-head-title");
+    const colunHead = getByTestId(container, "table-head-cell-title");
     fireEvent.click(colunHead);
     fireEvent.click(colunHead);
 
@@ -47,7 +47,7 @@ describe("<TableHead />", () => {
   });
 
   it("should not execute handleSort when non-sortable header clicked", () => {
-    const colunHead = getByTestId(container, "table-column-head-image");
+    const colunHead = getByTestId(container, "table-head-cell-image");
     fireEvent.click(colunHead);
 
     expect(mockHandleSort).not.toHaveBeenCalled();

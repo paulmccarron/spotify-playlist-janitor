@@ -7,8 +7,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
   >
     <th
       class=""
-      data-testid="table-column-head-image"
-      id="table-column-head-image"
+      data-testid="table-head-cell-image"
+      id="table-head-cell-image"
     >
       <div
         class="content"
@@ -20,8 +20,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class="sortable"
-      data-testid="table-column-head-title"
-      id="table-column-head-title"
+      data-testid="table-head-cell-title"
+      id="table-head-cell-title"
     >
       <div
         class="content"
@@ -50,8 +50,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class="sortable"
-      data-testid="table-column-head-artist"
-      id="table-column-head-artist"
+      data-testid="table-head-cell-artist"
+      id="table-head-cell-artist"
     >
       <div
         class="content"
@@ -65,8 +65,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class="sortable"
-      data-testid="table-column-head-album"
-      id="table-column-head-album"
+      data-testid="table-head-cell-album"
+      id="table-head-cell-album"
     >
       <div
         class="content"
@@ -80,8 +80,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class="sortable"
-      data-testid="table-column-head-length"
-      id="table-column-head-length"
+      data-testid="table-head-cell-length"
+      id="table-head-cell-length"
     >
       <div
         class="content"
@@ -107,8 +107,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class="sortable"
-      data-testid="table-column-head-date_skipped"
-      id="table-column-head-date_skipped"
+      data-testid="table-head-cell-date_skipped"
+      id="table-head-cell-date_skipped"
     >
       <div
         class="content"
@@ -122,8 +122,8 @@ exports[`<TableHead /> should render TableHead component 1`] = `
     </th>
     <th
       class=""
-      data-testid="table-column-head-delete"
-      id="table-column-head-delete"
+      data-testid="table-head-cell-delete"
+      id="table-head-cell-delete"
     >
       <div
         class="content"

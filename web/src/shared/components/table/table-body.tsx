@@ -10,14 +10,18 @@ export const TableBody = ({
 }) => {
   return (
     <tbody>
-      {tableData.map((data: any) => {
+      {tableData.map((data: any, index: number) => {
         return (
           <tr key={data.id}>
             {columns.map(({ accessor, primary, render }: Column) => {
               const tData = data[accessor] ? data[accessor] : "";
               const tRender = render ? render(tData) : tData;
               return (
-                <td key={accessor}>
+                <td
+                  key={accessor}
+                  id={`table-body-cell-${index}-${accessor}`}
+                  data-testid={`table-body-cell-${index}-${accessor}`}
+                >
                   {primary ? (
                     <Text>{tRender}</Text>
                   ) : (

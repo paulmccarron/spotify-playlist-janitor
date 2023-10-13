@@ -59,8 +59,8 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
           }
           return (
             <th
-              id={`table-column-head-${accessor}`}
-              data-testid={`table-column-head-${accessor}`}
+              id={`table-head-cell-${accessor}`}
+              data-testid={`table-head-cell-${accessor}`}
               key={accessor}
               onClick={
                 sortable ? () => handleSortingChange(accessor) : () => {}
