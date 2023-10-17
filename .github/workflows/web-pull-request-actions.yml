@@ -35,9 +35,7 @@ jobs:
     - name: Test Coverage JSON
       run: npm run coverage-json
     - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ github.workspace }}
-        run: echo "$GITHUB_CONTEXT"
+        run: echo "${{ github.workspace }}"
     - name: Jest Coverage Comment
       uses: MishaKav/jest-coverage-comment@main
       with:
