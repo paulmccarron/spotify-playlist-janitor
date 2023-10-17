@@ -8,6 +8,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test . --coverage --ci --watchAll=false --reporters=default --reporters=jest-junit",
+    "coverage-json": "react-scripts test . --coverage --ci --watchAll=false --coverageReporters=json-summary",
     "coverage-badge": "react-scripts test --coverage --ci --watchAll=false --reporters=default --reporters=jest-junit"
   },
   "eslintConfig": {
@@ -42,11 +43,6 @@
     ],
     "testMatch": [
       "**/*.test.{ts,tsx}"
-    ],
-    "coverageReporters": [
-      "cobertura",
-      "text-summary",
-      "json-summary"
     ]
   },
   "dependencies": {
