@@ -1,5 +1,5 @@
-![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/paulmccarron/88cdf39c2ae22584d203f08f25864f79/raw/api-code-coverage.json)
-![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/paulmccarron/4fdd25e76b71d02def291b9812c901bf/raw/web-code-coverage.json)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/paulmccarron/88cdf39c2ae22584d203f08f25864f79/raw/api-code-coverage.json&logo=dotnet)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/paulmccarron/4fdd25e76b71d02def291b9812c901bf/raw/web-code-coverage.json&logo=react)
 # spotify-playlist-janitor
 
 ## What is the application?
@@ -41,3 +41,6 @@ API specifications can be found [here](./docs/api-specifications.md).
 
 ## Spotify Configuration
 Instructions for setting up Spotify connectivity can be found [here](./docs/spotify-configuration.md).
+
+## Wireframes
+Wireframes for the website can be found [here](./docs/wireframes.md).
