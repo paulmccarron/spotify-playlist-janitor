@@ -44,7 +44,20 @@ jobs:
         thresholds: '60 80'
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
       with:
         recreate: true
         path: code-coverage-results.md
+    - name: Jest Coverage Comment
+      uses: MishaKav/jest-coverage-comment@main
+      with:
+        coverage-summary-path: ./coverage/coverage-summary.json
+        title: My Jest Coverage Comment
+        summary-title: My Summary Title
+        badge-title: Coverage
+        hide-comment: false
+        create-new-comment: false
+        hide-summary: false
+        junitxml-title: My JUnit Title
+        junitxml-path: .junit.xml
+        coverage-title: My Coverage Title
+        coverage-path: ./coverage.txt
