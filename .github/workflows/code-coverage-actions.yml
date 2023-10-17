@@ -55,11 +55,19 @@ jobs:
         node-version: 18.x
     - name: Install dependencies
       run: npm ci --legacy-peer-deps
-    - name: Get Coverage for badge
-      run: |
-        SUMMARY="$(npm run coverage-badge | tail -2 | head -1) || true"
-        TOKENS=($SUMMARY)
-        echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+    # - name: Get Coverage for badge
+    #   run: |
+    #     SUMMARY="$(npm run coverage-badge | tail -2 | head -1) || true"
+    #     TOKENS=($SUMMARY)
+    #     echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+    - name: Test Coverage JSON
+      run: npm run coverage-json
+    - name: Jest Coverage Comment
+      id: coverageComment
+      uses: MishaKav/jest-coverage-comment@main
+      with:
+        hide-comment: true
+        coverage-summary-path: web/coverage/coverage-summary.json
     - name: Create Awesome Badge
       uses: schneegans/dynamic-badges-action@v1.6.0
       with:
@@ -67,5 +75,5 @@ jobs:
         gistID: ${{ vars.WEB_GIST_ID }}
         filename: web-code-coverage.json
         label: Web Test Coverage
-        message: ${{ env.COVERAGE }}
-        color: brightgreen
+        message: ${{ steps.coverageComment.outputs.coverage }}%
+        color: ${{ steps.coverageComment.outputs.color }}
