@@ -19,7 +19,11 @@ describe("<TableHead />", () => {
       handleSorting: mockHandleSort,
     };
 
-    ({ container } = render(<TableHead {...props} />));
+    ({ container } = render(
+      <table>
+        <TableHead {...props} />
+      </table>
+    ));
   });
 
   afterEach(() => {

@@ -13,7 +13,11 @@ describe("<TableBody />", () => {
       tableData,
     };
 
-    ({ container } = render(<TableBody {...props} />));
+    ({ container } = render(
+      <table>
+        <TableBody {...props} />
+      </table>
+    ));
   });
 
   afterEach(() => {
