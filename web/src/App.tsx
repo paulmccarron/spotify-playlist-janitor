@@ -8,9 +8,8 @@ import { AppHeader } from "shared/components/app-header";
 import { Home } from "pages/home";
 import { Catalogue } from "pages/catalogue";
 
-Modal.setAppElement("#root");
-
 function App() {
+  Modal.setAppElement("#root");
   return (
     <Container>
       <AppHeader />
