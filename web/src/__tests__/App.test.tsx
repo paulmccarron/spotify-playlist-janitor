@@ -7,7 +7,7 @@ jest.mock("react-modal");
 describe("<App />", () => {
 
   beforeAll(() => {
-    process.env.LOCAL_ENVIRONMENT = 'https://localhost:5001';
+    process.env.REACT_APP_API_URL = 'https://localhost:5001';
   });
   
   it("should render the App", async () => {
