@@ -49,7 +49,7 @@ jobs:
     - name: Replace string in file
       uses: MathieuSoysal/replace-string-in-file@v1.0.0
       with:
-        file: web/coverage.txt
+        file: coverage.txt
         old-string: "${{ github.event.after }}"
         new-string: "${{ github.head_ref }}/web"
     - name: Jest Coverage Comment
