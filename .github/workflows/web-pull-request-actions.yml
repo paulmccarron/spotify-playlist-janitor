@@ -35,9 +35,7 @@ jobs:
     - name: Test Coverage JSON
       run: npm run coverage-json
     - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
+      run: echo "${{ toJson(github) }}"
     - name: Dump GitHub Event
       run: echo "${{ github.event.after }}"
     - name: Dump GitHub PR Branch
