@@ -38,6 +38,10 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
+    - name: Dump GitHub Event
+      run: echo "${{ github.event.after }}"
+    - name: Dump GitHub PR Branch
+      run: echo "${{ github.head.ref }}"
     - name: Jest Coverage Comment
       uses: MishaKav/jest-coverage-comment@main
       with:
