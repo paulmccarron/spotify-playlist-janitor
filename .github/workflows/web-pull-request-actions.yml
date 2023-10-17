@@ -45,7 +45,7 @@ jobs:
       with:
         find: "${{ github.event.after }}"
         replace: "${{ github.head_ref }}\\web"
-        include: "**coverage.txt"
+        # include: "**coverage.txt"
     # - name: Replace string in file
     #   uses: MathieuSoysal/replace-string-in-file@v1.0.0
     #   with:
