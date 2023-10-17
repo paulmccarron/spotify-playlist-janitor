@@ -1,138 +1,140 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TableHead /> should render TableHead component 1`] = `
-<thead>
-  <tr
-    class="sc-jTQDJr hyFECk"
-  >
-    <th
-      class=""
-      data-testid="table-head-cell-image"
-      id="table-head-cell-image"
+<table>
+  <thead>
+    <tr
+      class="sc-jTQDJr hyFECk"
     >
-      <div
-        class="content"
+      <th
+        class=""
+        data-testid="table-head-cell-image"
+        id="table-head-cell-image"
       >
         <div
-          class="sc-dmyDmy dcXriK"
-        />
-      </div>
-    </th>
-    <th
-      class="sortable"
-      data-testid="table-head-cell-title"
-      id="table-head-cell-title"
-    >
-      <div
-        class="content"
-      >
-        <div
-          class="sc-dmyDmy dcXriK"
+          class="content"
         >
-          Title
-        </div>
-        <svg
-          fill="currentColor"
-          height="1em"
-          stroke="currentColor"
-          stroke-width="0"
-          viewBox="0 0 16 16"
-          width="1em"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            clip-rule="evenodd"
-            d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
-            fill-rule="evenodd"
+          <div
+            class="sc-dmyDmy dcXriK"
           />
-        </svg>
-      </div>
-    </th>
-    <th
-      class="sortable"
-      data-testid="table-head-cell-artist"
-      id="table-head-cell-artist"
-    >
-      <div
-        class="content"
-      >
-        <div
-          class="sc-dmyDmy dcXriK"
-        >
-          Artist
         </div>
-      </div>
-    </th>
-    <th
-      class="sortable"
-      data-testid="table-head-cell-album"
-      id="table-head-cell-album"
-    >
-      <div
-        class="content"
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-title"
+        id="table-head-cell-title"
       >
         <div
-          class="sc-dmyDmy dcXriK"
+          class="content"
         >
-          Album
-        </div>
-      </div>
-    </th>
-    <th
-      class="sortable"
-      data-testid="table-head-cell-length"
-      id="table-head-cell-length"
-    >
-      <div
-        class="content"
-      >
-        <div
-          class="sc-dmyDmy dcXriK"
-        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Title
+          </div>
           <svg
             fill="currentColor"
             height="1em"
             stroke="currentColor"
             stroke-width="0"
-            viewBox="0 0 256 256"
+            viewBox="0 0 16 16"
             width="1em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+              clip-rule="evenodd"
+              d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+              fill-rule="evenodd"
             />
           </svg>
         </div>
-      </div>
-    </th>
-    <th
-      class="sortable"
-      data-testid="table-head-cell-date_skipped"
-      id="table-head-cell-date_skipped"
-    >
-      <div
-        class="content"
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-artist"
+        id="table-head-cell-artist"
       >
         <div
-          class="sc-dmyDmy dcXriK"
+          class="content"
         >
-          Date Skipped
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Artist
+          </div>
         </div>
-      </div>
-    </th>
-    <th
-      class=""
-      data-testid="table-head-cell-delete"
-      id="table-head-cell-delete"
-    >
-      <div
-        class="content"
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-album"
+        id="table-head-cell-album"
       >
         <div
-          class="sc-dmyDmy dcXriK"
-        />
-      </div>
-    </th>
-  </tr>
-</thead>
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Album
+          </div>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-length"
+        id="table-head-cell-length"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 256 256"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+              />
+            </svg>
+          </div>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-date_skipped"
+        id="table-head-cell-date_skipped"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Date Skipped
+          </div>
+        </div>
+      </th>
+      <th
+        class=""
+        data-testid="table-head-cell-delete"
+        id="table-head-cell-delete"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          />
+        </div>
+      </th>
+    </tr>
+  </thead>
+</table>
 `;
