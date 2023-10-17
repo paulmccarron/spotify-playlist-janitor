@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> should render Menu component 1`] = `
+<div>
+  Menu Button
+</div>
+`;

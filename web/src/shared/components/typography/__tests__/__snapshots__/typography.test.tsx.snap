@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SecondaryText /> should render SecondaryText component 1`] = `
+<div
+  class="sc-hLQTFJ gjIzVE"
+  data-testid="secondary-text-test-data-testid"
+  id="secondary-text-test"
+>
+  Secondary Text
+</div>
+`;
+
+exports[`<SubText /> should render SubText component 1`] = `
+<div
+  class="sc-eDLKEg ebFBpI"
+  data-testid="sub-text-test-data-testid"
+  id="sub-text-test"
+>
+  Sub Text
+</div>
+`;
+
+exports[`<SubTitle /> should render SubTitle component 1`] = `
+<div
+  class="sc-guDMob jLqGJD"
+  data-testid="subtitle-test-data-testid"
+  id="subtitle-test"
+>
+  Subtitle Text
+</div>
+`;
+
+exports[`<Text /> should render Text component 1`] = `
+<div
+  class="sc-dmyDmy dcXriK"
+  data-testid="text-test-data-testid"
+  id="text-test"
+>
+  Text
+</div>
+`;
+
+exports[`<Title /> should render Title component 1`] = `
+<div
+  class="sc-beyTiQ gCCLUC"
+  data-testid="title-test-data-testid"
+  id="title-test"
+>
+  Title Text
+</div>
+`;

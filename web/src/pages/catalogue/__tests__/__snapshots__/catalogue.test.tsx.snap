@@ -1,0 +1,1028 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Catalogue /> should render a Catalogue component 1`] = `
+<div
+  class="sc-hABBGs hJPcRD"
+>
+  <table
+    class="sc-fmKFmJ hLIvYz"
+  >
+    <thead>
+      <tr>
+        <th>
+          Component
+        </th>
+        <th>
+          Example
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          Title
+        </td>
+        <td>
+          <div
+            class="sc-qZruQ eDRcdp"
+            data-testid="title-test-data-testid"
+            id="title-test"
+          >
+            Title Text
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Subtitle
+        </td>
+        <td>
+          <div
+            class="sc-jsEeA-d gZVibk"
+            data-testid="subtitle-test-data-testid"
+            id="subtitle-test"
+          >
+            Subtitle Text
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Text
+        </td>
+        <td>
+          <div
+            class="sc-kFCrIq lasdEO"
+            data-testid="text-test-data-testid"
+            id="text-test"
+          >
+            Normal Text
+          </div>
+          <div
+            class="sc-kFCrIq lasdEO"
+            data-testid="text-test-data-testid"
+            id="text-test"
+            style="color: rgb(30, 215, 96);"
+          >
+            Normal Text
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Secondary Text
+        </td>
+        <td>
+          <div
+            class="sc-irLvoH ueHCX"
+            data-testid="secondary-text-test-data-testid"
+            id="secondary-text-test"
+          >
+            Secondary Text
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Sub Text
+        </td>
+        <td>
+          <div
+            class="sc-csKJRI gNAMvS"
+            data-testid="sub-text-test-data-testid"
+            id="sub-text-test"
+          >
+            Sub Text
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Text Box
+        </td>
+        <td>
+          <div
+            class="sc-beyTiQ iQVXfo"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          Value: 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Password Box
+        </td>
+        <td>
+          <div
+            class="sc-beyTiQ iQVXfo"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          Value: 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Number Box
+        </td>
+        <td>
+          <div
+            class="sc-beyTiQ iQVXfo"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          Value: 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Select
+        </td>
+        <td>
+          <div
+            class="sc-eDLKEg eVKhyY"
+          >
+            <label
+              class=""
+              for="aria-example-input"
+              id="aria-label"
+            >
+              Select Label
+            </label>
+            <div
+              class="basic-select css-b62m3t-container"
+            >
+              <span
+                class="css-1f43avz-a11yText-A11yText"
+                id="react-select-2-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                class="css-1f43avz-a11yText-A11yText"
+              />
+              <div
+                class="select__control css-13cymwt-control"
+              >
+                <div
+                  class="select__value-container css-1fdsijx-ValueContainer"
+                >
+                  <div
+                    class="select__placeholder css-1jqq78o-placeholder"
+                    id="react-select-2-placeholder"
+                  >
+                    Select option...
+                  </div>
+                  <div
+                    class="select__input-container css-qbdosj-Input"
+                    data-value=""
+                  >
+                    <input
+                      aria-autocomplete="list"
+                      aria-describedby="react-select-2-placeholder"
+                      aria-expanded="false"
+                      aria-haspopup="true"
+                      aria-labelledby="aria-label"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      autocorrect="off"
+                      class="select__input"
+                      id="aria-example-input"
+                      role="combobox"
+                      spellcheck="false"
+                      style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                      tabindex="0"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+                <div
+                  class="select__indicators css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    class="select__indicator-separator css-1u9des2-indicatorSeparator"
+                  />
+                  <div
+                    aria-hidden="true"
+                    class="select__indicator select__dropdown-indicator css-1xc3v61-indicatorContainer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="css-tj5bde-Svg"
+                      focusable="false"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      width="20"
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <input
+                name="select"
+                type="hidden"
+                value=""
+              />
+            </div>
+          </div>
+          Value: 
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Button Primary
+        </td>
+        <td>
+          <button
+            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV"
+            data-testid="primary-example"
+            id="primary-example"
+          >
+            Primary
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Button Secondary
+        </td>
+        <td>
+          <button
+            class="sc-guDMob sc-hLQTFJ esOdmJ goNbUR"
+            data-testid="secondary-example"
+            id="secondary-example"
+          >
+            Secondary
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Toggle
+        </td>
+        <td>
+          <label
+            class="sc-jTQDJr hDvAQH"
+          >
+            <span>
+              Toggle Example
+            </span>
+            <input
+              class="sc-iBdoyZ jEPPlW"
+              data-testid="test-toggle"
+              id="test-toggle"
+              type="checkbox"
+            />
+            <div
+              class="sc-gLLuHO kmjgpZ"
+            />
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Tabs
+        </td>
+        <td>
+          <div
+            class="sc-fsYfxw eROgDJ"
+            data-rttabs="true"
+          >
+            <ul
+              class="react-tabs__tab-list"
+              role="tablist"
+            >
+              <li
+                aria-controls="panel:r0:0"
+                aria-disabled="false"
+                aria-selected="true"
+                class="react-tabs__tab react-tabs__tab--selected"
+                data-rttab="true"
+                data-testid="tab-1"
+                id="tab:r0:0"
+                role="tab"
+                tabindex="0"
+              >
+                Tab 1
+              </li>
+              <li
+                aria-controls="panel:r0:1"
+                aria-disabled="false"
+                aria-selected="false"
+                class="react-tabs__tab"
+                data-rttab="true"
+                data-testid="tab-2"
+                id="tab:r0:1"
+                role="tab"
+              >
+                Tab 2
+              </li>
+              <li
+                aria-controls="panel:r0:2"
+                aria-disabled="false"
+                aria-selected="false"
+                class="react-tabs__tab"
+                data-rttab="true"
+                data-testid="tab-3"
+                id="tab:r0:2"
+                role="tab"
+              >
+                Longer Tab Title 3
+              </li>
+            </ul>
+            <div
+              aria-labelledby="tab:r0:0"
+              class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+              id="panel:r0:0"
+              role="tabpanel"
+            >
+              <div
+                class="sc-kFCrIq lasdEO"
+                data-testid="tab-1-content"
+              >
+                Tab 1 content
+              </div>
+            </div>
+            <div
+              aria-labelledby="tab:r0:1"
+              class="react-tabs__tab-panel"
+              id="panel:r0:1"
+              role="tabpanel"
+            />
+            <div
+              aria-labelledby="tab:r0:2"
+              class="react-tabs__tab-panel"
+              id="panel:r0:2"
+              role="tabpanel"
+            />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Tooltip
+        </td>
+        <td>
+          <svg
+            data-tooltip-id="tooltip-vsc-question"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M7.5 1a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 12a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm1.55-8.42a1.84 1.84 0 0 0-.61-.42A2.25 2.25 0 0 0 7.53 4a2.16 2.16 0 0 0-.88.17c-.239.1-.45.254-.62.45a1.89 1.89 0 0 0-.38.62 3 3 0 0 0-.15.72h1.23a.84.84 0 0 1 .506-.741.72.72 0 0 1 .304-.049.86.86 0 0 1 .27 0 .64.64 0 0 1 .22.14.6.6 0 0 1 .16.22.73.73 0 0 1 .06.3c0 .173-.037.343-.11.5a2.4 2.4 0 0 1-.27.46l-.35.42c-.12.13-.24.27-.35.41a2.33 2.33 0 0 0-.27.45 1.18 1.18 0 0 0-.1.5v.66H8v-.49a.94.94 0 0 1 .11-.42 3.09 3.09 0 0 1 .28-.41l.36-.44a4.29 4.29 0 0 0 .36-.48 2.59 2.59 0 0 0 .28-.55 1.91 1.91 0 0 0 .11-.64 2.18 2.18 0 0 0-.1-.67 1.52 1.52 0 0 0-.35-.55zM6.8 9.83h1.17V11H6.8V9.83z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <svg
+            data-tooltip-id="tooltip-vsc-smiley"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M4.111 2.18a7 7 0 1 1 7.778 11.64A7 7 0 0 1 4.11 2.18zm.556 10.809a6 6 0 1 0 6.666-9.978 6 6 0 0 0-6.666 9.978zM6.5 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM8 11a3 3 0 0 1-2.65-1.58l-.87.48a4 4 0 0 0 7.12-.16l-.9-.43A3 3 0 0 1 8 11z"
+              fill-rule="evenodd"
+            />
+          </svg>
+          <svg
+            data-tooltip-id="tooltip-vsc-github"
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="cursor: pointer;"
+            viewBox="0 0 24 24"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm3.163 21.783h-.093a.513.513 0 0 1-.382-.14.513.513 0 0 1-.14-.372v-1.406c.006-.467.01-.94.01-1.416a3.693 3.693 0 0 0-.151-1.028 1.832 1.832 0 0 0-.542-.875 8.014 8.014 0 0 0 2.038-.471 4.051 4.051 0 0 0 1.466-.964c.407-.427.71-.943.885-1.506a6.77 6.77 0 0 0 .3-2.13 4.138 4.138 0 0 0-.26-1.476 3.892 3.892 0 0 0-.795-1.284 2.81 2.81 0 0 0 .162-.582c.033-.2.05-.402.05-.604 0-.26-.03-.52-.09-.773a5.309 5.309 0 0 0-.221-.763.293.293 0 0 0-.111-.02h-.11c-.23.002-.456.04-.674.111a5.34 5.34 0 0 0-.703.26 6.503 6.503 0 0 0-.661.343c-.215.127-.405.249-.573.362a9.578 9.578 0 0 0-5.143 0 13.507 13.507 0 0 0-.572-.362 6.022 6.022 0 0 0-.672-.342 4.516 4.516 0 0 0-.705-.261 2.203 2.203 0 0 0-.662-.111h-.11a.29.29 0 0 0-.11.02 5.844 5.844 0 0 0-.23.763c-.054.254-.08.513-.081.773 0 .202.017.404.051.604.033.199.086.394.16.582A3.888 3.888 0 0 0 5.702 10a4.142 4.142 0 0 0-.263 1.476 6.871 6.871 0 0 0 .292 2.12c.181.563.483 1.08.884 1.516.415.422.915.75 1.466.964.653.25 1.337.41 2.033.476a1.828 1.828 0 0 0-.452.633 2.99 2.99 0 0 0-.2.744 2.754 2.754 0 0 1-1.175.27 1.788 1.788 0 0 1-1.065-.3 2.904 2.904 0 0 1-.752-.824 3.1 3.1 0 0 0-.292-.382 2.693 2.693 0 0 0-.372-.343 1.841 1.841 0 0 0-.432-.24 1.2 1.2 0 0 0-.481-.101c-.04.001-.08.005-.12.01a.649.649 0 0 0-.162.02.408.408 0 0 0-.13.06.116.116 0 0 0-.06.1.33.33 0 0 0 .14.242c.093.074.17.131.232.171l.03.021c.133.103.261.214.382.333.112.098.213.209.3.33.09.119.168.246.231.381.073.134.15.288.231.463.188.474.522.875.954 1.145.453.243.961.364 1.476.351.174 0 .349-.01.522-.03.172-.028.343-.057.515-.091v1.743a.5.5 0 0 1-.533.521h-.062a10.286 10.286 0 1 1 6.324 0v.005z"
+            />
+          </svg>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Popout Menu
+        </td>
+        <td>
+          <div>
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              style="cursor: pointer;"
+              viewBox="0 0 16 16"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+              />
+            </svg>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Table
+        </td>
+        <td>
+          <table
+            class="sc-brSaGm enekOM"
+          >
+            <caption>
+              Table caption.
+            </caption>
+            <thead>
+              <tr
+                class="sc-eTNxZ bJRgxO"
+              >
+                <th
+                  class=""
+                  data-testid="table-head-cell-image"
+                  id="table-head-cell-image"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    />
+                  </div>
+                </th>
+                <th
+                  class="sortable"
+                  data-testid="table-head-cell-title"
+                  id="table-head-cell-title"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Title
+                    </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </th>
+                <th
+                  class="sortable"
+                  data-testid="table-head-cell-artist"
+                  id="table-head-cell-artist"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Artist
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="sortable"
+                  data-testid="table-head-cell-album"
+                  id="table-head-cell-album"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Album
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="sortable"
+                  data-testid="table-head-cell-length"
+                  id="table-head-cell-length"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      <svg
+                        fill="currentColor"
+                        height="1em"
+                        stroke="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 256 256"
+                        width="1em"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class="sortable"
+                  data-testid="table-head-cell-date_skipped"
+                  id="table-head-cell-date_skipped"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Date Skipped
+                    </div>
+                  </div>
+                </th>
+                <th
+                  class=""
+                  data-testid="table-head-cell-delete"
+                  id="table-head-cell-delete"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  data-testid="table-body-cell-0-image"
+                  id="table-body-cell-0-image"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    <img
+                      alt=""
+                      height="40"
+                      src="https://i.scdn.co/image/ab67616d00004851176ca6e2a6efb0e3aaf4e37a"
+                      width="40"
+                    />
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-title"
+                  id="table-body-cell-0-title"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    Touch It / Technologic
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-artist"
+                  id="table-body-cell-0-artist"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Daft Punk
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-album"
+                  id="table-body-cell-0-album"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Alive 2007
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-length"
+                  id="table-body-cell-0-length"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    4:37
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-date_skipped"
+                  id="table-body-cell-0-date_skipped"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Oct 15 2023 at 15:30:47
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-delete"
+                  id="table-body-cell-0-delete"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="cursor: pointer;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  data-testid="table-body-cell-1-image"
+                  id="table-body-cell-1-image"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    <img
+                      alt=""
+                      height="40"
+                      src="https://i.scdn.co/image/ab67616d00004851835a9e77dae1c928f871ac73"
+                      width="40"
+                    />
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-title"
+                  id="table-body-cell-1-title"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    Longshot
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-artist"
+                  id="table-body-cell-1-artist"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Catfish and the Bottlemen
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-album"
+                  id="table-body-cell-1-album"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    The Balance
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-length"
+                  id="table-body-cell-1-length"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    3:53
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-date_skipped"
+                  id="table-body-cell-1-date_skipped"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Oct 15 2023 at 15:30:45
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-delete"
+                  id="table-body-cell-1-delete"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="cursor: pointer;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  data-testid="table-body-cell-2-image"
+                  id="table-body-cell-2-image"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    <img
+                      alt=""
+                      height="40"
+                      src="https://i.scdn.co/image/ab67616d00004851d86a1e021e7acc7c07c7d668"
+                      width="40"
+                    />
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-title"
+                  id="table-body-cell-2-title"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    Live Forever
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-artist"
+                  id="table-body-cell-2-artist"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Oasis
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-album"
+                  id="table-body-cell-2-album"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Definitely Maybe
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-length"
+                  id="table-body-cell-2-length"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    5:02
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-date_skipped"
+                  id="table-body-cell-2-date_skipped"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Oct 15 2023 at 15:30:47
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-delete"
+                  id="table-body-cell-2-delete"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="cursor: pointer;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  data-testid="table-body-cell-3-image"
+                  id="table-body-cell-3-image"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    <img
+                      alt=""
+                      height="40"
+                      src="https://i.scdn.co/image/ab67616d0000485158406b3f1ac3ceaff7a64fef"
+                      width="40"
+                    />
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-title"
+                  id="table-body-cell-3-title"
+                >
+                  <div
+                    class="sc-kFCrIq lasdEO"
+                  >
+                    Dark Necessities
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-artist"
+                  id="table-body-cell-3-artist"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Red Hot Chili Peppers
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-album"
+                  id="table-body-cell-3-album"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    The Getaway
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-length"
+                  id="table-body-cell-3-length"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    5:02
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-date_skipped"
+                  id="table-body-cell-3-date_skipped"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    Oct 15 2023 at 15:30:46
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-delete"
+                  id="table-body-cell-3-delete"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="cursor: pointer;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Modal
+        </td>
+        <td
+          style="display: flex; justify-content: space-evenly;"
+        >
+          <button
+            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV primary"
+            data-testid="modal-button-example"
+            id="modal-button-example"
+          >
+            Open Modal
+          </button>
+          <button
+            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV primary"
+            data-testid="modal-button-example-2"
+            id="modal-button-example-2"
+          >
+            Open Modal 2
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

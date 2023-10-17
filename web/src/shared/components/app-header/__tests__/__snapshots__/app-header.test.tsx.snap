@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AppHeader /> should render AppHeader component 1`] = `
+<div
+  class="sc-jTQDJr buqzbX"
+>
+  <div
+    class="sc-guDMob jLqGJD"
+  >
+    Spotify Playlist Janitor
+  </div>
+</div>
+`;

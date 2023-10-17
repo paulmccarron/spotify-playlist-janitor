@@ -1,25 +1,16 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from '../App';
+import React from "react";
+import { render } from "@testing-library/react";
+import App from "../App";
 
-// jest.mock('react-router-dom', () => ({
-//   BrowserRouter: ({ children }: any) => <div>{children}</div>,
-// }));
+jest.mock("react-modal");
 
-// jest.mock('modules/header');
-// jest.mock('modules/footer');
-// jest.mock('modules/routes', () => ({
-//   Routes: () => <div>Routes</div>,
-//   Security: ({ children }: any) => <div>{children}</div>,
-// }));
-// jest.mock('modules/user');
+describe("<App />", () => {
 
-// jest.mock('modules/snackbar', () => ({
-//   Snackbar: ({ children }: any) => <div>{children}</div>,
-// }));
-
-describe('<App />', () => {
-  it('should render the App', async () => {
+  beforeAll(() => {
+    process.env.REACT_APP_API_URL = 'https://localhost:5001';
+  });
+  
+  it("should render the App", async () => {
     const { container } = render(<App />);
     expect(container.firstChild).toMatchSnapshot();
   });
