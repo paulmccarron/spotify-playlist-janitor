@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TextInput /> should render TextInput component 1`] = `
+<div
+  class="sc-beyTiQ iQVXfo"
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      id="text-input-test"
+      placeholder="Enter text..."
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
+exports[`<TextInput /> should render TextInput component as number input 1`] = `
+<div
+  class="sc-beyTiQ iQVXfo"
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      id="text-input-test"
+      placeholder="Enter text..."
+      type="number"
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
+exports[`<TextInput /> should render TextInput component as password input 1`] = `
+<div
+  class="sc-beyTiQ iQVXfo"
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      id="text-input-test"
+      placeholder="Enter text..."
+      type="password"
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
+exports[`<TextInput /> should render TextInput component with value 1`] = `
+<div
+  class="sc-beyTiQ iQVXfo"
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      id="text-input-test"
+      placeholder="Enter text..."
+      value="Text Value"
+    />
+    <label
+      class="filled"
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;

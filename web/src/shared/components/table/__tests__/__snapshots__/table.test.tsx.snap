@@ -1,0 +1,515 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Table /> should render Table component 1`] = `
+<table
+  class="sc-gLLuHO ehSqzN"
+>
+  <caption>
+    Table caption.
+  </caption>
+  <thead>
+    <tr
+      class="sc-jTQDJr hyFECk"
+    >
+      <th
+        class=""
+        data-testid="table-head-cell-image"
+        id="table-head-cell-image"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          />
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-title"
+        id="table-head-cell-title"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Title
+          </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-artist"
+        id="table-head-cell-artist"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Artist
+          </div>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-album"
+        id="table-head-cell-album"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Album
+          </div>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-length"
+        id="table-head-cell-length"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              viewBox="0 0 256 256"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+              />
+            </svg>
+          </div>
+        </div>
+      </th>
+      <th
+        class="sortable"
+        data-testid="table-head-cell-date_skipped"
+        id="table-head-cell-date_skipped"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Date Skipped
+          </div>
+        </div>
+      </th>
+      <th
+        class=""
+        data-testid="table-head-cell-delete"
+        id="table-head-cell-delete"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          />
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td
+        data-testid="table-body-cell-0-image"
+        id="table-body-cell-0-image"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          <img
+            alt=""
+            height="40"
+            src="https://i.scdn.co/image/ab67616d00004851176ca6e2a6efb0e3aaf4e37a"
+            width="40"
+          />
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-title"
+        id="table-body-cell-0-title"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          Touch It / Technologic
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-artist"
+        id="table-body-cell-0-artist"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Daft Punk
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-album"
+        id="table-body-cell-0-album"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Alive 2007
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-length"
+        id="table-body-cell-0-length"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          4:37
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-date_skipped"
+        id="table-body-cell-0-date_skipped"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Oct 15 2023 at 15:30:47
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-delete"
+        id="table-body-cell-0-delete"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="cursor: pointer;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td
+        data-testid="table-body-cell-1-image"
+        id="table-body-cell-1-image"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          <img
+            alt=""
+            height="40"
+            src="https://i.scdn.co/image/ab67616d00004851835a9e77dae1c928f871ac73"
+            width="40"
+          />
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-title"
+        id="table-body-cell-1-title"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          Longshot
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-artist"
+        id="table-body-cell-1-artist"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Catfish and the Bottlemen
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-album"
+        id="table-body-cell-1-album"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          The Balance
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-length"
+        id="table-body-cell-1-length"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          3:53
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-date_skipped"
+        id="table-body-cell-1-date_skipped"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Oct 15 2023 at 15:30:45
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-delete"
+        id="table-body-cell-1-delete"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="cursor: pointer;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td
+        data-testid="table-body-cell-2-image"
+        id="table-body-cell-2-image"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          <img
+            alt=""
+            height="40"
+            src="https://i.scdn.co/image/ab67616d00004851d86a1e021e7acc7c07c7d668"
+            width="40"
+          />
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-title"
+        id="table-body-cell-2-title"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          Live Forever
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-artist"
+        id="table-body-cell-2-artist"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Oasis
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-album"
+        id="table-body-cell-2-album"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Definitely Maybe
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-length"
+        id="table-body-cell-2-length"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          5:02
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-date_skipped"
+        id="table-body-cell-2-date_skipped"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Oct 15 2023 at 15:30:47
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-delete"
+        id="table-body-cell-2-delete"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="cursor: pointer;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td
+        data-testid="table-body-cell-3-image"
+        id="table-body-cell-3-image"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          <img
+            alt=""
+            height="40"
+            src="https://i.scdn.co/image/ab67616d0000485158406b3f1ac3ceaff7a64fef"
+            width="40"
+          />
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-title"
+        id="table-body-cell-3-title"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          Dark Necessities
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-artist"
+        id="table-body-cell-3-artist"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Red Hot Chili Peppers
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-album"
+        id="table-body-cell-3-album"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          The Getaway
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-length"
+        id="table-body-cell-3-length"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          5:02
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-date_skipped"
+        id="table-body-cell-3-date_skipped"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          Oct 15 2023 at 15:30:46
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-delete"
+        id="table-body-cell-3-delete"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="cursor: pointer;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tooltip /> should render Tooltip component 1`] = `
+<div
+  data-testid="tooltip-child-test-id"
+  data-tooltip-id="test-tooltip"
+>
+  Tooltip Child
+</div>
+`;

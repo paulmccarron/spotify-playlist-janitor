@@ -31,3 +31,13 @@ services:
             - 5000:5000
         depends_on:
             - flyway
+    web:
+        build:
+            context: ./web
+            dockerfile: Dockerfile
+        environment:
+            REACT_APP_API_URL: https://localhost:5001/
+        ports:
+            - 3000:3000
+        depends_on:
+            - api

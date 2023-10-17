@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> should render a Home component 1`] = `
+<div
+  class="sc-beyTiQ elccEX"
+>
+  API URL: 
+  https://localhost:5001
+</div>
+`;

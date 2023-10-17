@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PrimaryButton /> should render PrimaryButton component 1`] = `
+<button
+  class="sc-beyTiQ sc-guDMob giYbrd bbYoIf"
+  data-testid="test-primary-button-id"
+  id="primary-button-id"
+>
+  Test Primary Button
+</button>
+`;
+
+exports[`<SecondaryButton /> should render SecondaryButton component 1`] = `
+<button
+  class="sc-beyTiQ sc-dmyDmy giYbrd kBWrio"
+  data-testid="test-secondary-button-id"
+  id="secondary-button-id"
+>
+  Test Secondary Button
+</button>
+`;

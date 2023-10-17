@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - 'api/**'
+      - 'web/**'
 
 jobs:
   generate-api-code-coverage-badge:
@@ -37,5 +38,34 @@ jobs:
         color: brightgreen
         path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.opencover.xml
         gist-filename: api-code-coverage.json
-        gist-id: ${{ vars.GIST_ID }}
+        gist-id: ${{ vars.API_GIST_ID }}
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
+
+  generate-web-code-coverage-badge:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
+    - name: Get Coverage for badge
+      run: |
+        SUMMARY="$(npm run coverage-badge | tail -2 | head -1) || true"
+        TOKENS=($SUMMARY)
+        echo "COVERAGE=$(echo ${TOKENS[2]})" >> $GITHUB_ENV
+    - name: Create Awesome Badge
+      uses: schneegans/dynamic-badges-action@v1.6.0
+      with:
+        auth: ${{ secrets.GIST_AUTH_TOKEN }}
+        gistID: ${{ vars.WEB_GIST_ID }}
+        filename: web-code-coverage.json
+        label: Web Test Coverage
+        message: ${{ env.COVERAGE }}
+        color: brightgreen

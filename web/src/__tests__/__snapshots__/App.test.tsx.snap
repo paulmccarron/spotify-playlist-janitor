@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> should render the App 1`] = `
+<div
+  class="sc-ifysJV bPCQIS"
+>
+  <div
+    class="sc-jTQDJr buqzbX"
+  >
+    <div
+      class="sc-guDMob jLqGJD"
+    >
+      Spotify Playlist Janitor
+    </div>
+  </div>
+  <div
+    class="sc-gLLuHO bfsVlI"
+  >
+    API URL: 
+    https://localhost:5001
+  </div>
+</div>
+`;

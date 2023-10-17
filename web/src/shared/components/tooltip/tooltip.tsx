@@ -1,0 +1,30 @@
+import React, { PropsWithChildren, ReactElement } from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+
+type TooltipProps = {
+  content: string | ReactElement;
+  dataTooltipId: string;
+};
+
+export const Tooltip = ({
+  content,
+  dataTooltipId,
+  children,
+}: PropsWithChildren<TooltipProps>) => {
+  return (
+    <>
+      {React.cloneElement(children as React.ReactElement<any>, {
+        "data-tooltip-id": dataTooltipId,
+      })}
+      <ReactTooltip
+        id={dataTooltipId}
+        data-testid="tooltip-data-testid"
+        style={{ backgroundColor: "black" }}
+      >
+        {content}
+      </ReactTooltip>
+    </>
+  );
+};
+
+Tooltip.displayName = "Tooltip";
