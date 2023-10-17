@@ -28,9 +28,12 @@ jobs:
       run: npm ci --legacy-peer-deps
     # - name: Test
     #   run: npm run coverage
-    - name: Get Coverage Text
+    - name: Test
       run: |
         npm run coverage | tee ./coverage.txt && exit ${PIPESTATUS[0]}
+    - name: List files in the repository
+      run: |
+          ls ${{ github.workspace }}
     - name: Build
       run: npm run build
     - name: Code Coverage Report
