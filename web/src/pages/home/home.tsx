@@ -13,3 +13,5 @@ const Content = styled.div`
   display: flex;
   color: white;
 `;
+
+Home.displayName = "Home";

@@ -480,3 +480,5 @@ const CatalogueTable = styled.table`
     padding: 8px;
   }
 `;
+
+Catalogue.displayName = "Catalogue";
