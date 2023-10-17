@@ -45,7 +45,8 @@
     ],
     "coverageReporters": [
       "cobertura",
-      "text-summary"
+      "text-summary",
+      "json-summary"
     ]
   },
   "dependencies": {
