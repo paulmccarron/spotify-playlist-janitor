@@ -40,12 +40,18 @@ jobs:
       run: echo "${{ github.event.after }}"
     - name: Dump GitHub PR Branch
       run: echo "${{ github.head_ref }}"
-    - name: Find and Replace
-      uses: jacobtomlinson/gha-find-replace@v3
-      with:
-        find: "${{ github.event.after }}"
-        replace: "${{ github.head_ref }}/web"
-        include: "**coverage.txt"
+    # - name: Find and Replace
+    #   uses: jacobtomlinson/gha-find-replace@v3
+    #   with:
+    #     find: "${{ github.event.after }}"
+    #     replace: "${{ github.head_ref }}/web"
+    #     include: "**coverage.txt"
+    - name: Replace string in file
+        uses: MathieuSoysal/replace-string-in-file@v1.0.0
+        with:
+          file: web/coverage.txt
+          old-string: "${{ github.event.after }}"
+          new-string: "${{ github.head_ref }}/web"
     - name: Jest Coverage Comment
       uses: MishaKav/jest-coverage-comment@main
       with:
