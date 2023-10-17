@@ -23,7 +23,6 @@ function App() {
           <Route path={REGISTER} element={<Register />} />
         </Routes>
       </Router>
-      <AppHeader />
     </Container>
   );
 }
