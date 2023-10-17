@@ -47,6 +47,9 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
+    - name: Get Coverage Text
+      run: |
+        npm run coverage | tee ./coverage.txt && exit ${PIPESTATUS[0]}
     - name: Jest Coverage Comment
       uses: MishaKav/jest-coverage-comment@main
       with:
