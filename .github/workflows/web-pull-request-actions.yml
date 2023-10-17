@@ -66,4 +66,4 @@ jobs:
         junitxml-path: web/junit.xml
         coverage-title: File Coverage
         coverage-path: web/coverage.txt
-        coverage-path-prefix: "web"
+        coverage-path-prefix: "web/"
