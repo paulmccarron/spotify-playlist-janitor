@@ -41,7 +41,7 @@ jobs:
     - name: Dump GitHub Event
       run: echo "${{ github.event.after }}"
     - name: Dump GitHub PR Branch
-      run: echo "${{ github.event.head.ref }}"
+      run: echo "${{ github.head_ref }}"
     - name: Jest Coverage Comment
       uses: MishaKav/jest-coverage-comment@main
       with:
