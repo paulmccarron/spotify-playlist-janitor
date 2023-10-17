@@ -33,7 +33,7 @@ jobs:
         npm run coverage | tee ./coverage.txt && exit ${PIPESTATUS[0]}
     - name: List files in the repository
       run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/web
     - name: Build
       run: npm run build
     - name: Code Coverage Report
