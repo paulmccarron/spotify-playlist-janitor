@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-import { GREEN } from "shared/constants";
+import { GREEN, HEADER_PADDING } from "shared/constants";
 import { SubTitle } from "../typography";
 
 const Header = styled.div`
   width: 100%;
-  padding: 2px 0px;
+  padding: ${HEADER_PADDING} 0px;
   background-color: ${GREEN};
   color: black;
   position: sticky;

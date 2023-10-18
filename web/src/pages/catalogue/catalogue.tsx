@@ -474,6 +474,7 @@ const CatalogueTable = styled.table`
   justify-content: center;
   color: white;
   margin-top: 8px;
+  padding-bottom: 16px;
   th,
   td {
     border: 1px solid #ddd;
