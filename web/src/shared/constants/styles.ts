@@ -1,5 +1,7 @@
 export const BACKGROUND = "#121212";
+export const DISABLED = "#ebebe4";
 export const GREEN = "#1ed760";
+export const GREEN_DISABLED = "#107032";
 export const RED = "#ff0033";
 export const TABLE_HOVER = "#232323";
 export const INPUT_LABEL = "#757575";

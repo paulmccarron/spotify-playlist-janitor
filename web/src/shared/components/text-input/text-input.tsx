@@ -1,7 +1,7 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-import { INPUT_LABEL } from "shared/constants";
+import { DISABLED, INPUT_LABEL } from "shared/constants";
 
 type TextInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -12,7 +12,7 @@ type TextInputProps = DetailedHTMLProps<
 
 export const TextInput = ({ label, ...props }: TextInputProps) => {
   return (
-    <StyledTextInput>
+    <StyledTextInput disabled={props.disabled}>
       <div className="input-container">
         <input {...props} />
         {label && (
@@ -27,10 +27,14 @@ export const TextInput = ({ label, ...props }: TextInputProps) => {
 
 TextInput.displayName = "TextInput";
 
-const StyledTextInput = styled.div`
-  background-color: white;
+const StyledTextInput = styled.div<{ disabled?: boolean }>`
+  background-color: ${(props) => (props.disabled ? DISABLED : "white")};
   padding: 0.5rem 1rem 0.3rem 1rem;
   border-radius: 2rem;
+
+  &:disabled {
+    opacity: 1;
+  }
 
   .input-container {
     position: relative;

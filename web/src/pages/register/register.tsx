@@ -1,17 +1,23 @@
-import React from "react";
+import { HEADER_HEIGHT, HEADER_PADDING } from "shared/constants";
 import styled from "styled-components";
+import { Register as RegisterInitialise } from "modules/register";
 
 export const Register = () => {
   return (
-    <Content>
-      Register please
-    </Content>
+    <PageContainer>
+      <RegisterInitialise />
+    </PageContainer>
   );
 };
 
-const Content = styled.div`
+const PageContainer = styled.div`
   display: flex;
-  color: white;
+  justify-content: center;
+  height: calc(
+    100vh - ${HEADER_HEIGHT} - ${HEADER_PADDING} - ${HEADER_PADDING}
+  );
+  width: 400px;
+  margin: auto;
 `;
 
 Register.displayName = "Register";

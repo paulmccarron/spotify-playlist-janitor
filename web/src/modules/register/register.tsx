@@ -1,19 +1,19 @@
-import { PrimaryButton, SecondaryButton } from "shared/components/button";
+import { PrimaryButton } from "shared/components/button";
 import { TextInput } from "shared/components/text-input";
 import { SecondaryText, Text, Title } from "shared/components/typography";
-import { GREEN, RED } from "shared/constants";
+import { RED } from "shared/constants";
 import styled from "styled-components";
-import { useLoginLogic } from "./use-login-logic";
+import { useRegisterLogic } from "./use-register-logic";
 
-export const Login = () => {
-  const { disabled, onSubmit, error, onRegisterClick } = useLoginLogic();
+export const Register = () => {
+  const { disabled, onSubmit, error } = useRegisterLogic();
   return (
     <PageContainer>
       <div className="row">
-        <Title>Login</Title>
+        <Title>Register</Title>
       </div>
       <div className="row">
-        <Text>Log in with email/password:</Text>
+        <Text>Register with email/password:</Text>
       </div>
       <form {...{ onSubmit }} autoComplete="off">
         <div className="row">
@@ -36,7 +36,20 @@ export const Login = () => {
               label: "Password",
               placeholder: "Enter password...",
               id: "password-input",
-              "data-testid": "email-input",
+              "data-testid": "password-input",
+              disabled,
+            }}
+          />
+        </div>
+        <div className="row">
+          <TextInput
+            {...{
+              name: "passwordConfirm",
+              type: "password",
+              label: "Confirm Password",
+              placeholder: "Enter password...",
+              id: "password-confirm-input",
+              "data-testid": "password-confirm-input",
               disabled,
             }}
           />
@@ -54,22 +67,10 @@ export const Login = () => {
               disabled,
             }}
           >
-            Log In
+            Register
           </PrimaryButton>
         </div>
       </form>
-      <div>
-        <SecondaryButton
-          {...{
-            id: "register-button",
-            "data-testid": "register-button",
-            onClick: onRegisterClick,
-            disabled,
-          }}
-        >
-          Register
-        </SecondaryButton>
-      </div>
     </PageContainer>
   );
 };
@@ -82,8 +83,6 @@ const PageContainer = styled.div`
   align-items: center;
 
   form {
-    margin-bottom: 8px;
-    border-bottom: 1px solid ${GREEN};
     width: 400px;
   }
 
@@ -103,4 +102,4 @@ const PageContainer = styled.div`
   }
 `;
 
-Login.displayName = "Login";
+Register.displayName = "Register";

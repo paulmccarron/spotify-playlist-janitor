@@ -1,16 +1,13 @@
 import { useMemo } from "react";
-// import { oktaAuth } from 'shared/services/okta-service';
-// import { useCrmToken } from 'shared/state/user';
+import { useAccessToken } from "shared/state/user";
 
 export const useCommonHeaders = () => {
-  //   const crmToken = useCrmToken();
+  const accessToken = useAccessToken();
 
   return useMemo(
     () => ({
-      //   authorization: `Bearer ${oktaAuth.getAccessToken()}`,
-      //   crm_authorization: crmToken?.access_token ? `Bearer ${crmToken?.access_token}` : '',
+      authorization: accessToken ? `Bearer ${accessToken}` : "",
     }),
-    // [crmToken?.access_token],
-    []
+    [accessToken]
   );
 };
