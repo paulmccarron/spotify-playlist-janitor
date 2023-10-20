@@ -49,12 +49,11 @@ jobs:
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
       with:
+          report_name: Api Test Coverage
           path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
-          skip_covered: false
           minimum_coverage: 75
           show_line: true
           show_branch: true
           show_missing: true
           link_missing_lines: true
           link_missing_lines_source_dir: "api/SpotifyPlaylistJanitorAPI/"
-          report_name: Api Test Coverage
