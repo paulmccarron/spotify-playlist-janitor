@@ -47,10 +47,9 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
-    # - run: chown -R 1001:1001 /lost+found && echo "pwn dat cache"
     - name: Fix permissions
-      # run: sudo chown -R 1001:1001 /lost+found /root /boot/efi
-      run: sudo chown -R 1001:1001 /
+      run: sudo chmod -R 1001:1001 /lost+found /root /boot/efi
+      # run: sudo chown -R 1001:1001 /
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
       with:
