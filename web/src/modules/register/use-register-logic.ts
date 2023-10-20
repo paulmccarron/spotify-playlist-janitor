@@ -46,7 +46,7 @@ export const useRegisterLogic = () => {
         setError(undefined);
         navigate(LOGIN);
       } catch (e: any) {
-        setError(e.response?.data?.message || e.message || "Unknown error.");
+        setError(e.response?.data?.message || "Unknown error");
       } finally {
         setDisabled(false);
       }

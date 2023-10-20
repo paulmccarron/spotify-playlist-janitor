@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthProvider should render a redirect component if auth data is invalid 1`] = `
+<div>
+  Redirect Page
+</div>
+`;
+
+exports[`AuthProvider should render a the children props if auth data is valid 1`] = `
+<div>
+  Child Page
+</div>
+`;

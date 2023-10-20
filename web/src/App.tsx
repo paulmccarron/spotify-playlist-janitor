@@ -45,12 +45,9 @@ function App() {
 }
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
   background: linear-gradient(transparent, rgba(0, 0, 0, 1));
   background-color: ${BACKGROUND};
   display: block;
-  overflow-x: hidden;
 `;
 
 export default App;

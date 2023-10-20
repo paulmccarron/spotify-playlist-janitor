@@ -36,13 +36,19 @@ export const Login = () => {
               label: "Password",
               placeholder: "Enter password...",
               id: "password-input",
-              "data-testid": "email-input",
+              "data-testid": "password-input",
               disabled,
             }}
           />
         </div>
         {error && (
-          <div className="row error">
+          <div
+            {...{
+              className: "row error",
+              id: "submit-error",
+              "data-testid": "submit-error",
+            }}
+          >
             <SecondaryText>{error}</SecondaryText>
           </div>
         )}

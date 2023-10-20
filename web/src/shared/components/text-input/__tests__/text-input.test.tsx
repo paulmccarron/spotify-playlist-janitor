@@ -23,6 +23,21 @@ describe("<TextInput />", () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it("should render TextInput component disabled", () => {
+    ({ container } = render(
+      <TextInput
+        {...{
+          ...props,
+          disabled: true,
+        }}
+      />
+    ));
+    expect(container.firstChild).toMatchSnapshot();
+
+    const input = getByTestId(container, "text-input-test");
+    expect(input).toHaveAttribute("disabled");
+  });
+
   it("should render TextInput component with value", () => {
     ({ container } = render(
       <TextInput
@@ -47,6 +62,22 @@ describe("<TextInput />", () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  it("should render TextInput component as password input disabled", () => {
+    ({ container } = render(
+      <TextInput
+        {...{
+          ...props,
+          type: "password",
+          disabled: true,
+        }}
+      />
+    ));
+    expect(container.firstChild).toMatchSnapshot();
+
+    const input = getByTestId(container, "text-input-test");
+    expect(input).toHaveAttribute("disabled");
+  });
+
   it("should render TextInput component as number input", () => {
     ({ container } = render(
       <TextInput
@@ -57,6 +88,22 @@ describe("<TextInput />", () => {
       />
     ));
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it.only("should render TextInput component as number input disabled", () => {
+    ({ container } = render(
+      <TextInput
+        {...{
+          ...props,
+          type: "number",
+          disabled: true,
+        }}
+      />
+    ));
+    expect(container.firstChild).toMatchSnapshot();
+
+    const input = getByTestId(container, "text-input-test");
+    expect(input).toHaveAttribute("disabled");
   });
 
   it("should execute onChange when text input", async () => {

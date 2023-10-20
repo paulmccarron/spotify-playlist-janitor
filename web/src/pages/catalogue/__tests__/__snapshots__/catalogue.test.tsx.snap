@@ -5,7 +5,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
   class="sc-hABBGs hJPcRD"
 >
   <table
-    class="sc-fmKFmJ hLIvYz"
+    class="sc-fmKFmJ idnOik"
   >
     <thead>
       <tr>
@@ -102,12 +102,34 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ iQVXfo"
+            class="sc-beyTiQ ijBchK"
           >
             <div
               class="input-container"
             >
               <input
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ iJholj"
+            disabled=""
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
                 id="example"
                 placeholder="Enter email..."
                 value=""
@@ -129,12 +151,33 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ iQVXfo"
+            class="sc-beyTiQ ijBchK"
           >
             <div
               class="input-container"
             >
               <input
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ iJholj"
+            disabled=""
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
                 placeholder="Enter password..."
                 type="password"
                 value=""
@@ -155,12 +198,33 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ iQVXfo"
+            class="sc-beyTiQ ijBchK"
           >
             <div
               class="input-container"
             >
               <input
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ iJholj"
+            disabled=""
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
                 placeholder="Enter number of minutes..."
                 type="number"
                 value=""
@@ -278,13 +342,23 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         <td>
           Button Primary
         </td>
-        <td>
+        <td
+          style="display: flex; flex-direction: row; justify-content: space-around;"
+        >
           <button
-            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV"
+            class="sc-guDMob sc-dmyDmy gzXMwu juRygi"
             data-testid="primary-example"
             id="primary-example"
           >
             Primary
+          </button>
+          <button
+            class="sc-guDMob sc-dmyDmy gzXMwu juRygi"
+            data-testid="primary-example"
+            disabled=""
+            id="primary-example"
+          >
+            Primary Disabled
           </button>
         </td>
       </tr>
@@ -292,13 +366,23 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         <td>
           Button Secondary
         </td>
-        <td>
+        <td
+          style="display: flex; flex-direction: row; justify-content: space-around;"
+        >
           <button
-            class="sc-guDMob sc-hLQTFJ esOdmJ goNbUR"
+            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
             data-testid="secondary-example"
             id="secondary-example"
           >
             Secondary
+          </button>
+          <button
+            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
+            data-testid="secondary-example"
+            disabled=""
+            id="secondary-example"
+          >
+            Secondary Disabled
           </button>
         </td>
       </tr>
@@ -1007,14 +1091,14 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           style="display: flex; justify-content: space-evenly;"
         >
           <button
-            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV primary"
+            class="sc-guDMob sc-dmyDmy gzXMwu juRygi primary"
             data-testid="modal-button-example"
             id="modal-button-example"
           >
             Open Modal
           </button>
           <button
-            class="sc-guDMob sc-dmyDmy esOdmJ kgfzBV primary"
+            class="sc-guDMob sc-dmyDmy gzXMwu juRygi primary"
             data-testid="modal-button-example-2"
             id="modal-button-example-2"
           >

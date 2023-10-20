@@ -55,15 +55,21 @@ export const Register = () => {
           />
         </div>
         {error && (
-          <div className="row error">
+          <div
+            {...{
+              className: "row error",
+              id: "submit-error",
+              "data-testid": "submit-error",
+            }}
+          >
             <SecondaryText>{error}</SecondaryText>
           </div>
         )}
         <div className="row">
           <PrimaryButton
             {...{
-              id: "login-button",
-              "data-testid": "login-button",
+              id: "register-button",
+              "data-testid": "register-button",
               disabled,
             }}
           >

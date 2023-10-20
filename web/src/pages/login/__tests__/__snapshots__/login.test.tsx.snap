@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> should render a Login component 1`] = `
+<div
+  class="sc-beyTiQ gLUzuQ"
+>
+  <div>
+    Login Component
+  </div>
+</div>
+`;

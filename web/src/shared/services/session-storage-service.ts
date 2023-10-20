@@ -57,10 +57,10 @@ export function clearAll() {
 }
 
 export function flushSessionStorage() {
-  const savedVersion = window.sessionStorage.getItem('SPOTIFY_PLAYLIST_JANITOR_STORE');
+  const savedVersion = window.sessionStorage.getItem('SPOTIFY_PLAYLIST_JANITOR_VERSION');
 
   if (savedVersion !== VERSION) {
-    window.sessionStorage.setItem('SPOTIFY_PLAYLIST_JANITOR_STORE', VERSION);
+    window.sessionStorage.setItem('SPOTIFY_PLAYLIST_JANITOR_VERSION', VERSION);
     window.sessionStorage.removeItem('SPOTIFY_PLAYLIST_JANITOR_STORE');
     window.sessionStorage.setItem('SPOTIFY_PLAYLIST_JANITOR_STORE', JSON.stringify({}));
   } else if (window.sessionStorage.getItem('SPOTIFY_PLAYLIST_JANITOR_STORE') === null) {

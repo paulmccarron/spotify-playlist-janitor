@@ -6,6 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "coverage": "react-scripts test . --coverage --ci --watchAll=false --reporters=default --reporters=jest-junit",
     "coverage-json": "react-scripts test . --coverage --ci --watchAll=false --coverageReporters=json-summary",
@@ -39,7 +40,9 @@
       "!src/**/*-styles.ts",
       "!src/shared/mock-data/*.{ts,tsx}",
       "!src/shared/constants/*.{ts,tsx}",
-      "!src/**/index.{ts,tsx}"
+      "!src/**/index.{ts,tsx}",
+      "!src/**/catalogue.{ts,tsx}",
+      "!src/**/user-state.{ts,tsx}"
     ],
     "testMatch": [
       "**/*.test.{ts,tsx}"

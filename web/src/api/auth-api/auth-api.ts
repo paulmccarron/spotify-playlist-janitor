@@ -9,4 +9,4 @@ export const refresh = (body: RefreshRequest, config: AxiosRequestConfig) =>
   post<LoginResponse>("/refresh", body, config);
 
 export const register = (body: LoginRequest, config: AxiosRequestConfig) =>
-  post<LoginResponse>("/register", body, config);
+  post("/register", body, config);

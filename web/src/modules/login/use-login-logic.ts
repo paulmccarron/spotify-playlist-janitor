@@ -45,12 +45,11 @@ export const useLoginLogic = () => {
         setUser(userToken);
         navigate(HOME);
       } catch (e: any) {
-        if (e.response.status === 401) {
-          setError("Failed to log in with email/password.");
+        if (e?.response?.status === 401) {
+          setError("Failed to log in with email/password");
         } else {
-          setError(e.response?.data?.message || e.message || "Unknown error.");
+          setError(e.response?.data?.message || "Unknown error");
         }
-      } finally {
         setDisabled(false);
       }
     },

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Register /> should render a Register component 1`] = `
+<div
+  class="sc-beyTiQ gLUzuQ"
+>
+  <div>
+    Register Component
+  </div>
+</div>
+`;

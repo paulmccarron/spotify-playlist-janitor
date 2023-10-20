@@ -171,6 +171,17 @@ export const Catalogue = () => {
                   onChange: onTextChange,
                 }}
               />
+              <br/>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                  disabled: true,
+                }}
+              />
               <>Value: {textValue}</>
             </td>
           </tr>
@@ -186,6 +197,17 @@ export const Catalogue = () => {
                   onChange: onPasswordChange,
                 }}
               />
+              <br/>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: passwordValue,
+                  onChange: onPasswordChange,
+                  disabled: true,
+                }}
+              />
               <>Value: {passwordValue}</>
             </td>
           </tr>
@@ -199,6 +221,17 @@ export const Catalogue = () => {
                   placeholder: "Enter number of minutes...",
                   value: numberValue,
                   onChange: onNumberChange,
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
+                  disabled: true,
                 }}
               />
               <>Value: {numberValue}</>
@@ -221,7 +254,7 @@ export const Catalogue = () => {
           </tr>
           <tr>
             <td>Button Primary</td>
-            <td>
+            <td style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
               <PrimaryButton
                 {...{
                   id: "primary-example",
@@ -233,11 +266,23 @@ export const Catalogue = () => {
               >
                 Primary
               </PrimaryButton>
+              <PrimaryButton
+                {...{
+                  id: "primary-example",
+                  "data-testid": "primary-example",
+                  onClick: () => {
+                    alert("Primary Button Clicked!");
+                  },
+                  disabled: true,
+                }}
+              >
+                Primary Disabled
+              </PrimaryButton>
             </td>
           </tr>
           <tr>
             <td>Button Secondary</td>
-            <td>
+            <td style={{display: "flex", flexDirection: "row", justifyContent: "space-around"}}>
               <SecondaryButton
                 {...{
                   id: "secondary-example",
@@ -248,6 +293,18 @@ export const Catalogue = () => {
                 }}
               >
                 Secondary
+              </SecondaryButton>
+              <SecondaryButton
+                {...{
+                  id: "secondary-example",
+                  "data-testid": "secondary-example",
+                  onClick: () => {
+                    alert("Secondary Button Clicked!");
+                  },
+                  disabled: true,
+                }}
+              >
+                Secondary Disabled
               </SecondaryButton>
             </td>
           </tr>
@@ -470,8 +527,6 @@ const Content = styled.div`
 `;
 
 const CatalogueTable = styled.table`
-  align-items: center;
-  justify-content: center;
   color: white;
   margin-top: 8px;
   padding-bottom: 16px;

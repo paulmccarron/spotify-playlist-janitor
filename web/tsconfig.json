@@ -16,7 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
+    "sourceMap": true
   },
+  "typeAcquisition": { "include": ["jest"] },
   "include": ["src"],
   "exclude": ["**/__mocks__/*"]
 }
