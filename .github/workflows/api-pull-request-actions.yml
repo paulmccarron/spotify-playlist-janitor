@@ -52,6 +52,7 @@ jobs:
       with:
           path: /**/TestResults/coverage.cobertura.xml
           skip_covered: false
+          minimum_coverage: 75
           show_line: true
           show_branch: true
           show_missing: true
