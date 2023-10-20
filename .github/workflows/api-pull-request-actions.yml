@@ -52,7 +52,7 @@ jobs:
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@v13
       with:
-          repo_token: ${{github.token}}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           path: /**/TestResults/coverage.cobertura.xml
           skip_covered: false
           minimum_coverage: 75
