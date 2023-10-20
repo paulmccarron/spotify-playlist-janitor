@@ -46,19 +46,16 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
-    # - name: Fix permissions
-    #   run: sudo chown -R 1001:1001 /lost+found /root /boot/efi
-      # run: sudo chown -R 1001:1001 /
-    - name: Test Code Coverage Comment
-      uses: 5monkeys/cobertura-action@v13
-      with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          path: /**/TestResults/coverage.cobertura.xml
-          skip_covered: false
-          minimum_coverage: 75
-          show_line: true
-          show_branch: true
-          show_missing: true
-          link_missing_lines: true
-          link_missing_lines_source_dir: "api/"
-          report_name: Api Test Coverage
+    # - name: Test Code Coverage Comment
+    #   uses: 5monkeys/cobertura-action@v13 
+    #   with:
+    #       repo_token: ${{github.token}}
+    #       path: /**/TestResults/coverage.cobertura.xml
+    #       skip_covered: false
+    #       minimum_coverage: 75
+    #       show_line: true
+    #       show_branch: true
+    #       show_missing: true
+    #       link_missing_lines: true
+    #       link_missing_lines_source_dir: "api/"
+    #       report_name: Api Test Coverage
