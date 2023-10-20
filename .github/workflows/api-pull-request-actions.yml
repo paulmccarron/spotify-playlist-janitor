@@ -47,7 +47,8 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
-    - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
+    # - run: chown -R 1001:1001 /lost+found && echo "pwn dat cache"
+    - run: chown -R 1001:1001 /lost+found
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
       with:
