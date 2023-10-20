@@ -48,7 +48,8 @@ jobs:
         recreate: true
         path: code-coverage-results.md
     # - run: chown -R 1001:1001 /lost+found && echo "pwn dat cache"
-    - run: sudo chown -R 1001:1001 /lost+found
+    - name: Fix permissions
+      run: sudo chown -R 1001:1001 /lost+found /root
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
       with:
