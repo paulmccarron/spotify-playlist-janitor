@@ -47,7 +47,7 @@ jobs:
         recreate: true
         path: code-coverage-results.md
     - name: Test Code Coverage Comment
-      uses: 5monkeys/cobertura-action@v13 
+      uses: 5monkeys/cobertura-action@master
       with:
           path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
           skip_covered: false
