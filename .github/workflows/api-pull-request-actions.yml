@@ -51,11 +51,11 @@ jobs:
       with:
           # repo_token: ${{ secrets.GIST_AUTH_TOKEN }}
           path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
-          # skip_covered: false
+          skip_covered: false
           minimum_coverage: 75
-          # show_line: true
-          # show_branch: true
-          # show_missing: true
-          # link_missing_lines: true
-          # link_missing_lines_source_dir: "api/"
-          # report_name: Api Test Coverage
+          show_line: true
+          show_branch: true
+          show_missing: true
+          link_missing_lines: true
+          link_missing_lines_source_dir: "api/"
+          report_name: Api Test Coverage
