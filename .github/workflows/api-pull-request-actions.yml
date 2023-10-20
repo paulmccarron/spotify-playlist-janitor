@@ -12,9 +12,8 @@ on:
 
 jobs:
   build-and-test:
-    permissions: write-all
-
     runs-on: ubuntu-latest
+    permissions: write-all
     defaults:
       run:
         working-directory: ./api
@@ -47,8 +46,8 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
-    - name: Fix permissions
-      run: sudo chown -R 1001:1001 /lost+found /root /boot/efi
+    # - name: Fix permissions
+    #   run: sudo chown -R 1001:1001 /lost+found /root /boot/efi
       # run: sudo chown -R 1001:1001 /
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
