@@ -50,7 +50,7 @@ jobs:
       uses: 5monkeys/cobertura-action@v13 
       with:
           # repo_token: ${{ secrets.GIST_AUTH_TOKEN }}
-          path: /Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
+          path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
           # skip_covered: false
           minimum_coverage: 75
           # show_line: true
