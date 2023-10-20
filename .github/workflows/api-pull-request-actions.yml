@@ -49,9 +49,9 @@ jobs:
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@v13 
       with:
-          repo_token: ${{github.token}}
+          repo_token: ${{ secrets.GIST_AUTH_TOKEN }}
           path: /**/TestResults/coverage.cobertura.xml
-          skip_covered: false
+          # skip_covered: false
           minimum_coverage: 75
           # show_line: true
           # show_branch: true
