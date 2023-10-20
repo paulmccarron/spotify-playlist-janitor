@@ -45,9 +45,9 @@ jobs:
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        hide_and_recreate: true
-        hide_classify: "OUTDATED"
+        recreate: true
         path: code-coverage-results.md
+    - run: chown -R 1001:1001 /github/home/.cache && echo "pwn dat cache"
     - name: Test Code Coverage Comment
       uses: 5monkeys/cobertura-action@master
       with:
