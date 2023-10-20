@@ -81,6 +81,7 @@
     "lint-staged": "^13.0.4",
     "popper-max-size-modifier": "^0.2.0",
     "prettier": "^2.8.0",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "ts-jest": "^29.1.1"
   }
 }
