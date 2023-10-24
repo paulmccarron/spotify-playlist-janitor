@@ -7,14 +7,16 @@ type SelectProps = {
   value?: { label: string; value: string };
   label?: string;
   placeholder?: string;
+  name?: string;
   options: { label: string; value: string }[];
-  onChange(e: any): void;
+  onChange?(e: any): void;
 };
 
 export const Select = ({
   value,
   label,
   placeholder = "",
+  name = "select",
   options = [],
   onChange,
 }: SelectProps) => {
@@ -37,7 +39,7 @@ export const Select = ({
         defaultValue={undefined}
         isClearable={true}
         isSearchable={true}
-        name="select"
+        name={name}
         options={options}
         placeholder={placeholder}
         value={value}

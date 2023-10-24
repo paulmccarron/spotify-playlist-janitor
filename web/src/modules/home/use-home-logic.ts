@@ -4,16 +4,16 @@ import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
 
 import { Playlist } from "./home-types";
+import { useModal } from "shared/components/modal";
 
 export const useHomeLogic = () => {
   const { getDatabasePlaylists } = useDataApi();
   const { getSpotifyPlaylists } = useSpotifyApi();
 
   const [loading, setLoading] = useState(false);
-  const [monitoredPlaylists, setMonitoredPlaylists] = useState<Playlist[]>([]);
-  const [unmonitoredPlaylists, setUnmonitoredPlaylists] = useState<Playlist[]>(
-    []
-  );
+  const [monitoredPlaylists, setMonitoredPlaylists] = useState<Playlist[] | undefined>(undefined);
+  const [unmonitoredPlaylists, setUnmonitoredPlaylists] = useState<Playlist[] | undefined>(undefined);
+  const { isOpen: modalOpen, onOpen: onModalOpen, onClose: onModalClose } = useModal();
 
   const getPlaylistData = useCallback(async () => {
     setLoading(true);
@@ -64,5 +64,14 @@ export const useHomeLogic = () => {
     getPlaylistData();
   }, [getPlaylistData]);
 
-  return { monitoredPlaylists, unmonitoredPlaylists, loading } as const;
+  const onSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const playlistId = (event.currentTarget[1] as HTMLInputElement).value;
+      console.log(playlistId)
+    },
+    []
+  );
+
+  return { monitoredPlaylists, unmonitoredPlaylists, loading, modalOpen, onModalOpen, onModalClose, onSubmit } as const;
 };
