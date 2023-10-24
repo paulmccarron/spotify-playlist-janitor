@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 export const axiosInstance = axios.create({
-  // baseURL: process.env.REACT_APP_API_URL,
-  baseURL: 'https://localhost:7096/',
+  baseURL: process.env.REACT_APP_API_URL,
+  // baseURL: 'https://localhost:7096/',
 });
 
 export const get = <Response = any>(
