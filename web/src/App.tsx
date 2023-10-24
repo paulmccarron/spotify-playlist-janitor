@@ -22,7 +22,7 @@ function App() {
             <Route
               path={HOME}
               element={
-                <AuthProvider>
+                <AuthProvider shouldBeAuthorised={true} redirectPath={LOGIN}>
                   <Home />
                 </AuthProvider>
               }
@@ -30,13 +30,27 @@ function App() {
             <Route
               path={CATALOGUE}
               element={
-                <AuthProvider>
+                <AuthProvider shouldBeAuthorised={true} redirectPath={LOGIN}>
                   <Catalogue />
                 </AuthProvider>
               }
             />
-            <Route path={LOGIN} element={<Login />} />
-            <Route path={REGISTER} element={<Register />} />
+            <Route
+              path={LOGIN}
+              element={
+                <AuthProvider shouldBeAuthorised={false} redirectPath={HOME}>
+                  <Login />
+                </AuthProvider>
+              }
+            />
+            <Route
+              path={REGISTER}
+              element={
+                <AuthProvider shouldBeAuthorised={false} redirectPath={HOME}>
+                  <Register />
+                </AuthProvider>
+              }
+            />
           </Routes>
         </Router>
       </Container>

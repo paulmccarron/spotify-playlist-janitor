@@ -60,10 +60,13 @@ namespace SpotifyPlaylistJanitorAPIs
                     };
                 });
 
-            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            if (_hostingEnvironment.IsDevelopment())
             {
-                builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
-            }));
+                services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                }));
+            }
 
             services.AddMvc();
 
@@ -163,7 +166,10 @@ namespace SpotifyPlaylistJanitorAPIs
         /// <param name="app">The ApplicationBuilder.</param>
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCors("ApiCorsPolicy");
+            if (_hostingEnvironment.IsDevelopment())
+            {
+                app.UseCors("ApiCorsPolicy");
+            }
 
             app.UseSwagger();
 
