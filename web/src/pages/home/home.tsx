@@ -1,20 +1,18 @@
-import React from "react";
-import { HEADER_HEIGHT, HEADER_PADDING } from "shared/constants";
 import styled from "styled-components";
+import { HEADER_HEIGHT, HEADER_PADDING } from "shared/constants";
+import { Home as HomeInitialise } from "modules/home";
 
 export const Home = () => {
   return (
     <Content>
-      <>Home Page</>
+      <HomeInitialise />
     </Content>
   );
 };
 
 const Content = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: white;
   height: calc(
     100vh - ${HEADER_HEIGHT} - ${HEADER_PADDING} - ${HEADER_PADDING}
   );
