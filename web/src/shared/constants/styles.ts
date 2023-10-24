@@ -1,5 +1,6 @@
 export const BACKGROUND = "#121212";
 export const DISABLED = "#ebebe4";
+export const BLACK = "#000000";
 export const GREEN = "#1ed760";
 export const GREEN_DISABLED = "#107032";
 export const RED = "#ff0033";

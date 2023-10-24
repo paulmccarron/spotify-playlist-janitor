@@ -31,9 +31,7 @@ export const useHomeLogic = () => {
           id: monitoredPlaylist.id,
           href: monitoredPlaylist.href,
           name: monitoredPlaylist.name,
-          image: monitoredPlaylist.images.filter(
-            (image) => image.height >= 100 && image.height <= 300
-          )[0],
+          image: monitoredPlaylist.images[0],
         }))
     );
 
@@ -49,9 +47,7 @@ export const useHomeLogic = () => {
           id: unmonitoredPlaylist.id,
           href: unmonitoredPlaylist.href,
           name: unmonitoredPlaylist.name,
-          image: unmonitoredPlaylist.images.filter(
-            (image) => image.height <= 100
-          )[0],
+          image: unmonitoredPlaylist.images[0],
         }))
     );
 
