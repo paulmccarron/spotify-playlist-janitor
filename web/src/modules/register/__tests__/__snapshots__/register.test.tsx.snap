@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Register /> should render Register component 1`] = `
+<div
+  class="sc-qZruQ cYFfRd"
+>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-eDLKEg cudEYk"
+    >
+      Register
+    </div>
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-gLLuHO cgMQib"
+    >
+      Register with email/password:
+    </div>
+  </div>
+  <form
+    autocomplete="off"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="email-input"
+            id="email-input"
+            name="email"
+            placeholder="Enter email..."
+          />
+          <label
+            class=""
+            for="email-input"
+          >
+            Email
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-input"
+            id="password-input"
+            name="password"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-input"
+          >
+            Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-confirm-input"
+            id="password-confirm-input"
+            name="passwordConfirm"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-confirm-input"
+          >
+            Confirm Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <button
+        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        data-testid="register-button"
+        id="register-button"
+      >
+        Register
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`<Register /> should render Register component with disabled elements 1`] = `
+<div
+  class="sc-qZruQ cYFfRd"
+>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-eDLKEg cudEYk"
+    >
+      Register
+    </div>
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-gLLuHO cgMQib"
+    >
+      Register with email/password:
+    </div>
+  </div>
+  <form
+    autocomplete="off"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ UdMVo"
+        disabled=""
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="email-input"
+            disabled=""
+            id="email-input"
+            name="email"
+            placeholder="Enter email..."
+          />
+          <label
+            class=""
+            for="email-input"
+          >
+            Email
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ UdMVo"
+        disabled=""
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-input"
+            disabled=""
+            id="password-input"
+            name="password"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-input"
+          >
+            Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ UdMVo"
+        disabled=""
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-confirm-input"
+            disabled=""
+            id="password-confirm-input"
+            name="passwordConfirm"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-confirm-input"
+          >
+            Confirm Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <button
+        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        data-testid="register-button"
+        disabled=""
+        id="register-button"
+      >
+        Register
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`<Register /> should render Register component with error 1`] = `
+<div
+  class="sc-qZruQ cYFfRd"
+>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-eDLKEg cudEYk"
+    >
+      Register
+    </div>
+  </div>
+  <div
+    class="row"
+  >
+    <div
+      class="sc-gLLuHO cgMQib"
+    >
+      Register with email/password:
+    </div>
+  </div>
+  <form
+    autocomplete="off"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="email-input"
+            id="email-input"
+            name="email"
+            placeholder="Enter email..."
+          />
+          <label
+            class=""
+            for="email-input"
+          >
+            Email
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-input"
+            id="password-input"
+            name="password"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-input"
+          >
+            Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="sc-hLQTFJ NJdJ"
+      >
+        <div
+          class="input-container"
+        >
+          <input
+            data-testid="password-confirm-input"
+            id="password-confirm-input"
+            name="passwordConfirm"
+            placeholder="Enter password..."
+            type="password"
+          />
+          <label
+            class=""
+            for="password-confirm-input"
+          >
+            Confirm Password
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row error"
+      data-testid="submit-error"
+      id="submit-error"
+    >
+      <div
+        class="sc-iBdoyZ chkbom"
+      >
+        Test Error
+      </div>
+    </div>
+    <div
+      class="row"
+    >
+      <button
+        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        data-testid="register-button"
+        id="register-button"
+      >
+        Register
+      </button>
+    </div>
+  </form>
+</div>
+`;

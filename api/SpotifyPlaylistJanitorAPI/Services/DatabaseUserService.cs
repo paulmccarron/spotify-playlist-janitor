@@ -97,7 +97,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         public async Task<UserSpotifyTokenModel?> GetUserSpotifyToken(string username)
         {
             var userEncodedTokenModel = await _databaseService.GetUserEncodedSpotifyToken(username);
-            var decodedModel = userEncodedTokenModel is null ? null : new UserSpotifyTokenModel
+            var decodedModel = userEncodedTokenModel is null || userEncodedTokenModel.EncodedSpotifyToken is null ? null : new UserSpotifyTokenModel
             {
                 Username = userEncodedTokenModel.Username,
                 SpotifyToken = _securityService.DecryptString(userEncodedTokenModel.EncodedSpotifyToken, _spotifyOptions.ClientSecret)

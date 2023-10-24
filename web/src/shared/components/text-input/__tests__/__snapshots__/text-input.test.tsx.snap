@@ -2,7 +2,7 @@
 
 exports[`<TextInput /> should render TextInput component 1`] = `
 <div
-  class="sc-beyTiQ iQVXfo"
+  class="sc-beyTiQ ijBchK"
 >
   <div
     class="input-container"
@@ -25,7 +25,7 @@ exports[`<TextInput /> should render TextInput component 1`] = `
 
 exports[`<TextInput /> should render TextInput component as number input 1`] = `
 <div
-  class="sc-beyTiQ iQVXfo"
+  class="sc-beyTiQ ijBchK"
 >
   <div
     class="input-container"
@@ -47,9 +47,35 @@ exports[`<TextInput /> should render TextInput component as number input 1`] = `
 </div>
 `;
 
+exports[`<TextInput /> should render TextInput component as number input disabled 1`] = `
+<div
+  class="sc-beyTiQ iJholj"
+  disabled=""
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      disabled=""
+      id="text-input-test"
+      placeholder="Enter text..."
+      type="number"
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
 exports[`<TextInput /> should render TextInput component as password input 1`] = `
 <div
-  class="sc-beyTiQ iQVXfo"
+  class="sc-beyTiQ ijBchK"
 >
   <div
     class="input-container"
@@ -71,9 +97,60 @@ exports[`<TextInput /> should render TextInput component as password input 1`] =
 </div>
 `;
 
+exports[`<TextInput /> should render TextInput component as password input disabled 1`] = `
+<div
+  class="sc-beyTiQ iJholj"
+  disabled=""
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      disabled=""
+      id="text-input-test"
+      placeholder="Enter text..."
+      type="password"
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
+exports[`<TextInput /> should render TextInput component disabled 1`] = `
+<div
+  class="sc-beyTiQ iJholj"
+  disabled=""
+>
+  <div
+    class="input-container"
+  >
+    <input
+      data-testid="text-input-test"
+      disabled=""
+      id="text-input-test"
+      placeholder="Enter text..."
+      value=""
+    />
+    <label
+      class=""
+      for="text-input-test"
+    >
+      Test Input
+    </label>
+  </div>
+</div>
+`;
+
 exports[`<TextInput /> should render TextInput component with value 1`] = `
 <div
-  class="sc-beyTiQ iQVXfo"
+  class="sc-beyTiQ ijBchK"
 >
   <div
     class="input-container"

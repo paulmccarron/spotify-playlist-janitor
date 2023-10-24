@@ -2,9 +2,8 @@
 
 exports[`<Home /> should render a Home component 1`] = `
 <div
-  class="sc-beyTiQ elccEX"
+  class="sc-beyTiQ iElCIo"
 >
-  API URL: 
-  https://localhost:5001
+  Home Page
 </div>
 `;

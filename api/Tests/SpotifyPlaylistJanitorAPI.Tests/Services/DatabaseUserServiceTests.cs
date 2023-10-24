@@ -149,9 +149,10 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Setup(mock => mock.DecryptString(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(tokenString);
 
-            var expectedModel = new UserSpotifyTokenModel { 
+            var expectedModel = new UserSpotifyTokenModel
+            {
                 Username = username,
-                SpotifyToken = tokenString 
+                SpotifyToken = tokenString
             };
 
             //Act
@@ -167,6 +168,26 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             // Arrange
             var username = "username";
             UserEncodedSpotifyTokenModel? encryptedToken = null;
+
+            MockDatabaseService
+                .Setup(mock => mock.GetUserEncodedSpotifyToken(It.IsAny<string>()))
+                .ReturnsAsync(encryptedToken);
+
+            UserSpotifyTokenModel? expectedModel = null;
+
+            //Act
+            var result = await _databaseUserService.GetUserSpotifyToken(username);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task DatabaseUserService_GetUserSpotifyToken_Returns_Null_When_Inner_Token_Null()
+        {
+            // Arrange
+            var username = "username";
+            var encryptedToken = new UserEncodedSpotifyTokenModel { EncodedSpotifyToken = null, Username = username };
 
             MockDatabaseService
                 .Setup(mock => mock.GetUserEncodedSpotifyToken(It.IsAny<string>()))

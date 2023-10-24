@@ -2,22 +2,124 @@
 
 exports[`<App /> should render the App 1`] = `
 <div
-  class="sc-ifysJV bPCQIS"
+  class="sc-khjLgN hVyvMh"
 >
   <div
-    class="sc-jTQDJr buqzbX"
+    class="sc-jTQDJr dDKoCf"
   >
     <div
-      class="sc-guDMob jLqGJD"
+      class="header-item"
     >
-      Spotify Playlist Janitor
+      <div
+        class="sc-guDMob jLqGJD"
+        data-testid="home"
+        id="home"
+      >
+        Spotify Playlist Janitor
+      </div>
     </div>
+    <div
+      class="header-item sign-out"
+    />
   </div>
   <div
-    class="sc-gLLuHO bfsVlI"
+    class="sc-dJGLgI gsJBuZ"
   >
-    API URL: 
-    https://localhost:5001
+    <div
+      class="sc-ifysJV kBvnXl"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="sc-beyTiQ gCCLUC"
+        >
+          Login
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="sc-dmyDmy dcXriK"
+        >
+          Log in with email/password:
+        </div>
+      </div>
+      <form
+        autocomplete="off"
+      >
+        <div
+          class="row"
+        >
+          <div
+            class="sc-iBdoyZ bBxOEj"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                data-testid="email-input"
+                id="email-input"
+                name="email"
+                placeholder="Enter email..."
+              />
+              <label
+                class=""
+                for="email-input"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="sc-iBdoyZ bBxOEj"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                data-testid="password-input"
+                id="password-input"
+                name="password"
+                placeholder="Enter password..."
+                type="password"
+              />
+              <label
+                class=""
+                for="password-input"
+              >
+                Password
+              </label>
+            </div>
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <button
+            class="sc-fsYfxw sc-qZruQ icqseV bmcJcf"
+            data-testid="login-button"
+            id="login-button"
+          >
+            Log In
+          </button>
+        </div>
+      </form>
+      <div>
+        <button
+          class="sc-fsYfxw sc-jsEeA-d icqseV figgMk"
+          data-testid="register-button"
+          id="register-button"
+        >
+          Register
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 `;

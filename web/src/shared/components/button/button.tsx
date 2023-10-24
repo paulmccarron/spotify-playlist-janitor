@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styled from "styled-components";
 
-import { GREEN } from "shared/constants";
+import { DISABLED, GREEN, GREEN_DISABLED } from "shared/constants";
 
 type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -21,14 +21,24 @@ const StyledButton = styled.button`
   &:hover {
     transform: scale(1.04);
   }
+  &:disabled{
+    transform: scale(1);
+    cursor: default;
+  }
 `;
 
 const StyledPrimaryButton = styled(StyledButton)`
   background-color: ${GREEN};
+  &:disabled{
+    background-color: ${GREEN_DISABLED};
+  }
 `;
 
 const StyledSecondaryButton = styled(StyledButton)`
   background-color: white;
+  &:disabled{
+    background-color: ${DISABLED};
+  }
 `;
 
 export const PrimaryButton = ({ children, ...rest }: ButtonProps) => {

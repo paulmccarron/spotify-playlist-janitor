@@ -1,13 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AppHeader /> should render AppHeader component 1`] = `
+exports[`<AppHeader /> should render AppHeader component when logged in 1`] = `
 <div
-  class="sc-jTQDJr buqzbX"
+  class="sc-jTQDJr dDKoCf"
 >
   <div
-    class="sc-guDMob jLqGJD"
+    class="header-item"
   >
-    Spotify Playlist Janitor
+    <div
+      class="sc-guDMob jLqGJD"
+      data-testid="home"
+      id="home"
+    >
+      Spotify Playlist Janitor
+    </div>
   </div>
+  <div
+    class="header-item sign-out"
+  >
+    <div
+      class="sc-dmyDmy dcXriK"
+      data-testid="sign-out"
+      id="sign-out"
+    >
+      Sign Out
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<AppHeader /> should render AppHeader component when not logged in 1`] = `
+<div
+  class="sc-jTQDJr dDKoCf"
+>
+  <div
+    class="header-item"
+  >
+    <div
+      class="sc-guDMob jLqGJD"
+      data-testid="home"
+      id="home"
+    >
+      Spotify Playlist Janitor
+    </div>
+  </div>
+  <div
+    class="header-item sign-out"
+  />
 </div>
 `;

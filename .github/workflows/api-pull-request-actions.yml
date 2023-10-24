@@ -12,9 +12,8 @@ on:
 
 jobs:
   build-and-test:
-    permissions: write-all
-
     runs-on: ubuntu-latest
+    permissions: write-all
     defaults:
       run:
         working-directory: ./api
@@ -44,7 +43,18 @@ jobs:
         thresholds: '60 80'
     - name: Add Coverage PR Comment
       uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
       with:
         recreate: true
         path: code-coverage-results.md
+    - name: Test Code Coverage Comment
+      uses: 5monkeys/cobertura-action@master
+      with:
+          report_name: Api Test Coverage
+          path: api/Tests/SpotifyPlaylistJanitorAPI.Tests/TestResults/coverage.cobertura.xml
+          minimum_coverage: 75
+          show_line: true
+          show_branch: true
+          show_missing: true
+          link_missing_lines: true
+          link_missing_lines_source_dir: "api/SpotifyPlaylistJanitorAPI/"
+          show_class_names: true
