@@ -12,9 +12,11 @@ export const Modal = ({
   isOpen,
   onClose,
   children,
+  ...props
 }: PropsWithChildren<ModalProps>) => {
   return (
     <ReactModal
+      {...props}
       contentLabel={label}
       isOpen={isOpen}
       onRequestClose={onClose}
@@ -32,7 +34,6 @@ export const Modal = ({
           zIndex: 2,
         },
         overlay: {
-          right: 17,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           zIndex: 2,
         },

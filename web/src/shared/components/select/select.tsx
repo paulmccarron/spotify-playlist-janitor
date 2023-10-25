@@ -19,6 +19,7 @@ export const Select = ({
   name = "select",
   options = [],
   onChange,
+  ...props
 }: SelectProps) => {
   return (
     <Container>
@@ -32,6 +33,7 @@ export const Select = ({
         </label>
       )}
       <ReactSelect
+        {...props}
         aria-labelledby="aria-label"
         inputId="aria-example-input"
         className="basic-select"

@@ -19,7 +19,7 @@ export const Tooltip = ({
       <ReactTooltip
         id={dataTooltipId}
         data-testid="tooltip-data-testid"
-        style={{ backgroundColor: "black" }}
+        style={{ backgroundColor: "black", width: '85%' }}
       >
         {content}
       </ReactTooltip>

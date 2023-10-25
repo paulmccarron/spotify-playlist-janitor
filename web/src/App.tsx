@@ -3,7 +3,7 @@ import { RecoilRoot } from "recoil";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import { HOME, CATALOGUE, LOGIN, BACKGROUND, REGISTER } from "shared/constants";
+import { HOME, CATALOGUE, LOGIN, REGISTER } from "shared/constants";
 import { AppHeader } from "shared/components/app-header";
 import { Home } from "pages/home";
 import { Catalogue } from "pages/catalogue";
@@ -59,8 +59,6 @@ function App() {
 }
 
 const Container = styled.div`
-  background: linear-gradient(transparent, rgba(0, 0, 0, 1));
-  background-color: ${BACKGROUND};
   display: block;
 `;
 

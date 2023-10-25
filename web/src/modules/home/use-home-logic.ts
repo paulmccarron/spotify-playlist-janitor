@@ -11,9 +11,17 @@ export const useHomeLogic = () => {
   const { getSpotifyPlaylists } = useSpotifyApi();
 
   const [loading, setLoading] = useState(false);
-  const [monitoredPlaylists, setMonitoredPlaylists] = useState<Playlist[] | undefined>(undefined);
-  const [unmonitoredPlaylists, setUnmonitoredPlaylists] = useState<Playlist[] | undefined>(undefined);
-  const { isOpen: modalOpen, onOpen: onModalOpen, onClose: onModalClose } = useModal();
+  const [monitoredPlaylists, setMonitoredPlaylists] = useState<
+    Playlist[] | undefined
+  >(undefined);
+  const [unmonitoredPlaylists, setUnmonitoredPlaylists] = useState<
+    Playlist[] | undefined
+  >(undefined);
+  const {
+    isOpen: modalOpen,
+    onOpen: onModalOpen,
+    onClose: onModalClose,
+  } = useModal();
 
   const getPlaylistData = useCallback(async () => {
     setLoading(true);
@@ -68,10 +76,18 @@ export const useHomeLogic = () => {
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       const playlistId = (event.currentTarget[1] as HTMLInputElement).value;
-      console.log(playlistId)
+      console.log(playlistId);
     },
     []
   );
 
-  return { monitoredPlaylists, unmonitoredPlaylists, loading, modalOpen, onModalOpen, onModalClose, onSubmit } as const;
+  return {
+    monitoredPlaylists,
+    unmonitoredPlaylists,
+    loading,
+    modalOpen,
+    onModalOpen,
+    onModalClose,
+    onSubmit,
+  } as const;
 };
