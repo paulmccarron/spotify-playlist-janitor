@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useHomeLogic } from "./use-home-logic";
-import { BLACK, GREEN } from "shared/constants";
-import { SubTitle, Text } from "shared/components/typography";
+import { BLACK, GREEN, RED } from "shared/constants";
+import { SecondaryText, SubTitle, Text } from "shared/components/typography";
 import { Modal } from "shared/components/modal";
 import { PrimaryButton, SecondaryButton } from "shared/components/button";
 import { Select } from "shared/components/select";
@@ -20,6 +20,9 @@ export const Home = () => {
     onModalOpen,
     onModalClose,
     onSubmit,
+    onPlaylistChange,
+    modalError,
+    showSpotifyAuthModal,
   } = useHomeLogic();
 
   return (
@@ -57,14 +60,14 @@ export const Home = () => {
         {...{
           isOpen: modalOpen,
           onClose: onModalClose,
-          label: "Test Label",
+          label: "Select Playlist Modal",
         }}
       >
-        <ModalContainer>
-          <SubTitle style={{ marginBottom: 8 }}>
-            Select a playlist to monitor
-          </SubTitle>
-          <form {...{ onSubmit }} autoComplete="off">
+        <form {...{ onSubmit }} autoComplete="off">
+          <ModalContainer>
+            <SubTitle style={{ marginBottom: 8 }}>
+              Select a playlist to monitor
+            </SubTitle>
             <div className="rows">
               <Select
                 {...{
@@ -76,6 +79,7 @@ export const Home = () => {
                       label: unmonitoredPlaylist.name,
                       value: unmonitoredPlaylist.id,
                     })) || [],
+                  onChange: onPlaylistChange,
                   styles: {
                     menuPortal: (base: any) => ({ ...base, zIndex: 3 }),
                   },
@@ -89,6 +93,8 @@ export const Home = () => {
                     className: "number-input",
                     type: "number",
                     defaultValue: 10,
+                    min: 0,
+                    max: 999,
                   }}
                 />
                 <Tooltip
@@ -104,10 +110,9 @@ export const Home = () => {
                 <div className="toggle-input">
                   <Toggle
                     {...{
-                      className: "toggle-input",
-                      label: "Toggle Example",
-                      id: "test-toggle",
-                      "data-testid": "test-toggle",
+                      label: "Ignore initial skips",
+                      id: "ignore-intial-skips-toggle",
+                      "data-testid": "ignore-intial-skips-toggle",
                     }}
                   />
                 </div>
@@ -122,14 +127,29 @@ export const Home = () => {
               </div>
               <div className="row">
                 <Text>Auto-delete tracks after:</Text>
-                <TextInput
-                  {...{
-                    className: "number-input",
-                    type: "number",
-                  }}
-                />
+                <div className="auto-delete-input">
+                  <TextInput
+                    {...{
+                      className: "number-input",
+                      type: "number",
+                      min: 0,
+                      max: 999,
+                    }}
+                  />
+                </div>
                 <Text>skips</Text>
               </div>
+              {modalError && (
+                <div
+                  {...{
+                    className: "row error",
+                    id: "modal-error",
+                    "data-testid": "modal-error",
+                  }}
+                >
+                  <SecondaryText>{modalError}</SecondaryText>
+                </div>
+              )}
             </div>
             <div
               style={{
@@ -162,7 +182,21 @@ export const Home = () => {
                 Confirm
               </PrimaryButton>
             </div>
-          </form>
+          </ModalContainer>
+        </form>
+      </Modal>
+      <Modal
+        {...{
+          isOpen: showSpotifyAuthModal,
+          onClose: () => { },
+          label: "Spotify Auth Modal",
+        }}
+      >
+        <ModalContainer>
+          <SubTitle style={{ marginBottom: 8 }}>
+            Spotify Authentication Error
+          </SubTitle>
+          <Text>The application has not been authenticated with your Spotify account. Please follow <a href={process.env.REACT_APP_API_URL} target="_blank">this</a> link and sign into Spotify, and <a href=".">reload</a> this page.</Text>
         </ModalContainer>
       </Modal>
     </PageContainer>
@@ -211,22 +245,34 @@ const PageContainer = styled.div`
 `;
 
 const ModalContainer = styled.div`
+
+  width:360px;
+
   .rows {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 
   .row {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 8px;
   }
 
   .number-input {
-    width: 36px !important;
+    width: 55px !important;
   }
 
   .toggle-input {
-    margin-right: 24px;
+    margin-right: 16px;
+  }
+
+  .auto-delete-input {
+    margin-right: -10px;
+  }
+
+  .error {
+    color: ${RED};
   }
 `;
 

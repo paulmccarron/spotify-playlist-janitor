@@ -11,55 +11,70 @@ export const useHomeLogic = () => {
   const { getSpotifyPlaylists } = useSpotifyApi();
 
   const [loading, setLoading] = useState(false);
+  const [showSpotifyAuthModal, setShowSpotifyAuthModal] = useState(false);
   const [monitoredPlaylists, setMonitoredPlaylists] = useState<
     Playlist[] | undefined
   >(undefined);
   const [unmonitoredPlaylists, setUnmonitoredPlaylists] = useState<
     Playlist[] | undefined
   >(undefined);
+  const [modalError, setModalError] = useState<string | undefined>(undefined);
+
+
   const {
     isOpen: modalOpen,
     onOpen: onModalOpen,
-    onClose: onModalClose,
+    onClose,
   } = useModal();
 
+  const onModalClose = useCallback(() => {
+    setModalError(undefined);
+    onClose();
+  },[setModalError, onClose])
+
   const getPlaylistData = useCallback(async () => {
-    setLoading(true);
-    const databasePlaylistsResponse = await getDatabasePlaylists();
-    const spotifyPlaylistsResponse = await getSpotifyPlaylists();
+    try {
+      setLoading(true);
+      const databasePlaylistsResponse = await getDatabasePlaylists();
+      const spotifyPlaylistsResponse = await getSpotifyPlaylists();
 
-    setMonitoredPlaylists(
-      spotifyPlaylistsResponse.data
-        .filter((spotifyPlaylist) =>
-          databasePlaylistsResponse.data.some(
-            (databasePlaylist) => databasePlaylist.id === spotifyPlaylist.id
-          )
-        )
-        .map((monitoredPlaylist) => ({
-          id: monitoredPlaylist.id,
-          href: monitoredPlaylist.href,
-          name: monitoredPlaylist.name,
-          image: monitoredPlaylist.images[0],
-        }))
-    );
-
-    setUnmonitoredPlaylists(
-      spotifyPlaylistsResponse.data
-        .filter(
-          (spotifyPlaylist) =>
-            !databasePlaylistsResponse.data.some(
+      setMonitoredPlaylists(
+        spotifyPlaylistsResponse.data
+          .filter((spotifyPlaylist) =>
+            databasePlaylistsResponse.data.some(
               (databasePlaylist) => databasePlaylist.id === spotifyPlaylist.id
             )
-        )
-        .map((unmonitoredPlaylist) => ({
-          id: unmonitoredPlaylist.id,
-          href: unmonitoredPlaylist.href,
-          name: unmonitoredPlaylist.name,
-          image: unmonitoredPlaylist.images[0],
-        }))
-    );
+          )
+          .map((monitoredPlaylist) => ({
+            id: monitoredPlaylist.id,
+            href: monitoredPlaylist.href,
+            name: monitoredPlaylist.name,
+            image: monitoredPlaylist.images[0],
+          }))
+      );
 
-    setLoading(false);
+      setUnmonitoredPlaylists(
+        spotifyPlaylistsResponse.data
+          .filter(
+            (spotifyPlaylist) =>
+              !databasePlaylistsResponse.data.some(
+                (databasePlaylist) => databasePlaylist.id === spotifyPlaylist.id
+              )
+          )
+          .map((unmonitoredPlaylist) => ({
+            id: unmonitoredPlaylist.id,
+            href: unmonitoredPlaylist.href,
+            name: unmonitoredPlaylist.name,
+            image: unmonitoredPlaylist.images[0],
+          }))
+      );
+
+      setLoading(false);
+    } catch (e: any) {
+      if (e?.response?.status === 500 && e?.response?.data?.message === "Application has not been logged into your Spotify account.") {
+        setShowSpotifyAuthModal(false);
+      } 
+    }
   }, [
     setLoading,
     getDatabasePlaylists,
@@ -75,8 +90,25 @@ export const useHomeLogic = () => {
   const onSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      setModalError(undefined)
       const playlistId = (event.currentTarget[1] as HTMLInputElement).value;
-      console.log(playlistId);
+      const skipThreshold = (event.currentTarget[2] as HTMLInputElement).value;
+      const ignoreInitialSkips = (event.currentTarget[3] as HTMLInputElement).checked;
+      const autoDeleteTracksAfter = (event.currentTarget[4] as HTMLInputElement).value;
+
+      if(!playlistId){
+        setModalError("Please select a playlist");
+        return;
+      }
+    },
+    []
+  );
+
+  const onPlaylistChange = useCallback(
+    async (newValue: { label: string; value: string }) => {
+      if(newValue?.value){
+        setModalError(undefined);
+      }
     },
     []
   );
@@ -89,5 +121,8 @@ export const useHomeLogic = () => {
     onModalOpen,
     onModalClose,
     onSubmit,
+    onPlaylistChange,
+    modalError,
+    showSpotifyAuthModal,
   } as const;
 };
