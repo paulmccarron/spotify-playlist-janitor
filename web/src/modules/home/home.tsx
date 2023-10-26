@@ -1,15 +1,12 @@
 import styled from "styled-components";
-import { useHomeLogic } from "./use-home-logic";
-import { BLACK, GREEN, RED } from "shared/constants";
-import { SecondaryText, SubTitle, Text } from "shared/components/typography";
-import { Modal } from "shared/components/modal";
-import { PrimaryButton, SecondaryButton } from "shared/components/button";
-import { Select } from "shared/components/select";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { TextInput } from "shared/components/text-input";
-import { Tooltip } from "shared/components/tooltip";
-import { VscQuestion } from "react-icons/vsc";
-import { Toggle } from "shared/components/toggle";
+
+import { BLACK, GREEN, RED } from "shared/constants";
+import { SubTitle, Text } from "shared/components/typography";
+import { Modal } from "shared/components/modal";
+
+import { useHomeLogic } from "./use-home-logic";
+import { AddPlaylistModalView } from "./modal/add-playlist-modal";
 
 export const Home = () => {
   const {
@@ -22,6 +19,7 @@ export const Home = () => {
     onSubmit,
     onPlaylistChange,
     modalError,
+    modalSaving,
     showSpotifyAuthModal,
   } = useHomeLogic();
 
@@ -29,7 +27,7 @@ export const Home = () => {
     <PageContainer>
       {monitoredPlaylists && (
         <>
-          {monitoredPlaylists.map((monitoredPlaylist) => (
+          {monitoredPlaylists.map((monitoredPlaylist, index) => (
             <div
               key={monitoredPlaylist.id}
               className="item"
@@ -38,6 +36,8 @@ export const Home = () => {
                   `Naviagte to ${monitoredPlaylist.name} at route ${monitoredPlaylist.id}`
                 )
               }
+              id={`playlist-item-${index}`}
+              data-testid={`playlist-item-${index}`}
             >
               {monitoredPlaylist.image && (
                 <img
@@ -51,7 +51,12 @@ export const Home = () => {
               <SubTitle>{monitoredPlaylist.name}</SubTitle>
             </div>
           ))}
-          <div className="item new" onClick={onModalOpen}>
+          <div
+            className="item new"
+            onClick={onModalOpen}
+            id={`add-playlist-item`}
+            data-testid={`add-playlist-item`}
+          >
             <AiOutlinePlusCircle />
           </div>
         </>
@@ -63,132 +68,21 @@ export const Home = () => {
           label: "Select Playlist Modal",
         }}
       >
-        <form {...{ onSubmit }} autoComplete="off">
-          <ModalContainer>
-            <SubTitle style={{ marginBottom: 8 }}>
-              Select a playlist to monitor
-            </SubTitle>
-            <div className="rows">
-              <Select
-                {...{
-                  label: "Select Playlist",
-                  placeholder: "Select playlist to monitor...",
-                  name: "playlist_select",
-                  options:
-                    unmonitoredPlaylists?.map((unmonitoredPlaylist) => ({
-                      label: unmonitoredPlaylist.name,
-                      value: unmonitoredPlaylist.id,
-                    })) || [],
-                  onChange: onPlaylistChange,
-                  styles: {
-                    menuPortal: (base: any) => ({ ...base, zIndex: 3 }),
-                  },
-                  menuPortalTarget: document.body,
-                }}
-              />
-              <div className="row">
-                <Text>Skip threshold (seconds):</Text>
-                <TextInput
-                  {...{
-                    className: "number-input",
-                    type: "number",
-                    defaultValue: 10,
-                    min: 0,
-                    max: 999,
-                  }}
-                />
-                <Tooltip
-                  content={
-                    "The track progress before which a change will be counted as a skip."
-                  }
-                  dataTooltipId="skip-threshold-tooltip"
-                >
-                  <VscQuestion />
-                </Tooltip>
-              </div>
-              <div className="row">
-                <div className="toggle-input">
-                  <Toggle
-                    {...{
-                      label: "Ignore initial skips",
-                      id: "ignore-intial-skips-toggle",
-                      "data-testid": "ignore-intial-skips-toggle",
-                    }}
-                  />
-                </div>
-                <Tooltip
-                  content={
-                    "Ignore any skips that occur when listening first begins until a song has exceeded the Skip Threshold, any skip after that will be counted."
-                  }
-                  dataTooltipId="initial-skips-tooltip"
-                >
-                  <VscQuestion />
-                </Tooltip>
-              </div>
-              <div className="row">
-                <Text>Auto-delete tracks after:</Text>
-                <div className="auto-delete-input">
-                  <TextInput
-                    {...{
-                      className: "number-input",
-                      type: "number",
-                      min: 0,
-                      max: 999,
-                    }}
-                  />
-                </div>
-                <Text>skips</Text>
-              </div>
-              {modalError && (
-                <div
-                  {...{
-                    className: "row error",
-                    id: "modal-error",
-                    "data-testid": "modal-error",
-                  }}
-                >
-                  <SecondaryText>{modalError}</SecondaryText>
-                </div>
-              )}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              }}
-            >
-              <SecondaryButton
-                {...{
-                  className: "secondary",
-                  style: { margin: "0px 4px" },
-                  type: "button",
-                  id: "cancel-modal-button-example",
-                  "data-testid": "cancel-modal-button-example",
-                  onClick: onModalClose,
-                }}
-              >
-                Cancel
-              </SecondaryButton>
-              <PrimaryButton
-                {...{
-                  className: "primary",
-                  style: { margin: "0px 4px" },
-                  type: "submit",
-                  id: "confirm-modal-button-example",
-                  "data-testid": "confirm-modal-button-example",
-                }}
-              >
-                Confirm
-              </PrimaryButton>
-            </div>
-          </ModalContainer>
-        </form>
+        <AddPlaylistModalView
+          {...{
+            onSubmit,
+            unmonitoredPlaylists,
+            onPlaylistChange,
+            modalSaving,
+            modalError,
+            onModalClose,
+          }}
+        />
       </Modal>
       <Modal
         {...{
           isOpen: showSpotifyAuthModal,
-          onClose: () => { },
+          onClose: () => {},
           label: "Spotify Auth Modal",
         }}
       >
@@ -196,7 +90,18 @@ export const Home = () => {
           <SubTitle style={{ marginBottom: 8 }}>
             Spotify Authentication Error
           </SubTitle>
-          <Text>The application has not been authenticated with your Spotify account. Please follow <a href={process.env.REACT_APP_API_URL} target="_blank">this</a> link and sign into Spotify, and <a href=".">reload</a> this page.</Text>
+          <Text>
+            The application has not been authenticated with your Spotify
+            account. Please follow{" "}
+            <a
+              href={process.env.REACT_APP_API_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              this
+            </a>{" "}
+            link and sign into Spotify, and <a href=".">reload</a> this page.
+          </Text>
         </ModalContainer>
       </Modal>
     </PageContainer>
@@ -245,8 +150,7 @@ const PageContainer = styled.div`
 `;
 
 const ModalContainer = styled.div`
-
-  width:360px;
+  width: 360px;
 
   .rows {
     margin-bottom: 8px;
@@ -269,6 +173,10 @@ const ModalContainer = styled.div`
 
   .auto-delete-input {
     margin-right: -10px;
+  }
+
+  .auto-delete-post-text {
+    margin-right: 10px;
   }
 
   .error {

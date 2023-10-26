@@ -8,6 +8,6 @@ const loginResponse = {
 };
 
 export const useAuthApi = jest.fn(() => ({
-  login: Promise.resolve(loginResponse),
-  register: Promise.resolve(loginResponse),
+  login: jest.fn(() => Promise.resolve({ data: loginResponse })),
+  register: jest.fn(() => Promise.resolve({ data: loginResponse })),
 }));

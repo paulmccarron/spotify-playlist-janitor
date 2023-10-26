@@ -15,7 +15,7 @@ describe("useAuthApi", () => {
     ({ result } = renderHook(() => useAuthApi()));
   });
 
-  it("should call the authPost login function when the login function is called", () => {
+  it("should call the loginRequest function when the login function is called", () => {
     const data: LoginRequest = {
       email: "qwer",
       password: "zxcv",
@@ -36,7 +36,7 @@ describe("useAuthApi", () => {
     );
   });
 
-  it("should call the authPost register function when the register function is called", () => {
+  it("should call the registerRequest function when the register function is called", () => {
     const data: LoginRequest = {
       email: "qwer",
       password: "zxcv",

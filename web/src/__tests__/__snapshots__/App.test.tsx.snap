@@ -2,7 +2,7 @@
 
 exports[`<App /> should render the App 1`] = `
 <div
-  class="sc-khjLgN hVyvMh"
+  class="sc-iuONiq ipLVwP"
 >
   <div
     class="sc-jTQDJr dDKoCf"
@@ -23,10 +23,10 @@ exports[`<App /> should render the App 1`] = `
     />
   </div>
   <div
-    class="sc-dJGLgI gsJBuZ"
+    class="sc-khjLgN bpFBEm"
   >
     <div
-      class="sc-ifysJV kBvnXl"
+      class="sc-dmXVtG lhfRvU"
     >
       <div
         class="row"
@@ -53,7 +53,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <div
-            class="sc-iBdoyZ bBxOEj"
+            class="sc-jsEeA-d bqsCEB"
           >
             <div
               class="input-container"
@@ -77,7 +77,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <div
-            class="sc-iBdoyZ bBxOEj"
+            class="sc-jsEeA-d bqsCEB"
           >
             <div
               class="input-container"
@@ -102,7 +102,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <button
-            class="sc-fsYfxw sc-qZruQ icqseV bmcJcf"
+            class="sc-gLLuHO sc-iBdoyZ bdVZyF hdNnLV"
             data-testid="login-button"
             id="login-button"
           >
@@ -112,7 +112,7 @@ exports[`<App /> should render the App 1`] = `
       </form>
       <div>
         <button
-          class="sc-fsYfxw sc-jsEeA-d icqseV figgMk"
+          class="sc-gLLuHO sc-fsYfxw bdVZyF icvsmM"
           data-testid="register-button"
           id="register-button"
         >

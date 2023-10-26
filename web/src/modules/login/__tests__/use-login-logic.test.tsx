@@ -34,7 +34,7 @@ describe("useLoginLogic", () => {
       currentTarget: [{ value: "emailValue" }, { value: "passwordValue" }],
     };
 
-    (useAuthApi as jest.Mock).mockImplementation(() => mockUseAuthApi);
+    jest.mocked(useAuthApi).mockImplementation(() => mockUseAuthApi);
     ({ result } = renderHook(() => useLoginLogic(), {
       wrapper: ({ children }: { children: ReactNode }) => (
         <RecoilRoot>{children}</RecoilRoot>
@@ -96,7 +96,7 @@ describe("useLoginLogic", () => {
         login: jest.fn(() => Promise.reject({ response: setup.response })),
       };
 
-      (useAuthApi as jest.Mock).mockImplementation(() => mockUseAuthApi);
+      jest.mocked(useAuthApi).mockImplementation(() => mockUseAuthApi);
       ({ result } = renderHook(() => useLoginLogic(), {
         wrapper: ({ children }: { children: ReactNode }) => (
           <RecoilRoot>{children}</RecoilRoot>

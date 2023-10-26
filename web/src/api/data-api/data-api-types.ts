@@ -1,6 +1,10 @@
-export type DatabasePlaylistResponse = {
+type DatabasePlaylist = {
   id: string;
   skipThreshold?: number;
-  ignoreInitialSkips: false;
+  ignoreInitialSkips: boolean;
   autoCleanupLimit?: number;
 };
+
+export type DatabasePlaylistResponse = DatabasePlaylist;
+
+export type AddDatabasePlaylistRequest = DatabasePlaylist;

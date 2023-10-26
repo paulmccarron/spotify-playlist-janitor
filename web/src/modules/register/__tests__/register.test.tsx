@@ -15,7 +15,7 @@ describe("<Register />", () => {
   };
 
   beforeEach(() => {
-    (useRegisterLogic as jest.Mock).mockImplementation(() => mockUseRegisterLogic);
+    jest.mocked(useRegisterLogic).mockImplementation(() => mockUseRegisterLogic);
 
     ({ container } = render(<Register />));
   });
@@ -29,7 +29,7 @@ describe("<Register />", () => {
       ...mockUseRegisterLogic,
       error: "Test Error",
     };
-    (useRegisterLogic as jest.Mock).mockImplementation(() => mockUseRegisterLogic2);
+    jest.mocked(useRegisterLogic).mockImplementation(() => mockUseRegisterLogic2);
 
     ({ container } = render(<Register />));
 
@@ -44,7 +44,7 @@ describe("<Register />", () => {
       ...mockUseRegisterLogic,
       disabled: true,
     };
-    (useRegisterLogic as jest.Mock).mockImplementation(() => mockUseRegisterLogic2);
+    jest.mocked(useRegisterLogic).mockImplementation(() => mockUseRegisterLogic2);
 
     ({ container } = render(<Register />));
 

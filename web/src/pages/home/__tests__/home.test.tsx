@@ -1,7 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 
 import { Home } from '../home';
+
+jest.mock("modules/home");
 
 describe('<Home />', () => {
   let container: HTMLElement;

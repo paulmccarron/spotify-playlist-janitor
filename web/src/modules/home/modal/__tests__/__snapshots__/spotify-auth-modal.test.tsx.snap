@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SpotifyAuthModalView /> should render SpotifyAuthModalView component 1`] = `
+<div
+  class="sc-jTQDJr wuNdd"
+>
+  <div
+    class="sc-guDMob jLqGJD"
+    style="margin-bottom: 8px;"
+  >
+    Spotify Authentication Error
+  </div>
+  <div
+    class="sc-dmyDmy dcXriK"
+  >
+    The application has not been authenticated with your Spotify account. Please follow
+     
+    <a
+      href="https://localhost:7096"
+      rel="noreferrer"
+      target="_blank"
+    >
+      this
+    </a>
+     
+    link and sign into Spotify, and 
+    <a
+      href="."
+    >
+      reload
+    </a>
+     this page.
+  </div>
+</div>
+`;

@@ -16,7 +16,7 @@ describe("<Login />", () => {
   };
 
   beforeEach(() => {
-    (useLoginLogic as jest.Mock).mockImplementation(() => mockUseLoginLogic);
+    jest.mocked(useLoginLogic).mockImplementation(() => mockUseLoginLogic);
 
     ({ container } = render(<Login />));
   });
@@ -30,7 +30,7 @@ describe("<Login />", () => {
       ...mockUseLoginLogic,
       error: "Test Error",
     };
-    (useLoginLogic as jest.Mock).mockImplementation(() => mockUseLoginLogic2);
+    jest.mocked(useLoginLogic).mockImplementation(() => mockUseLoginLogic2);
 
     ({ container } = render(<Login />));
 
@@ -45,7 +45,7 @@ describe("<Login />", () => {
       ...mockUseLoginLogic,
       disabled: true,
     };
-    (useLoginLogic as jest.Mock).mockImplementation(() => mockUseLoginLogic2);
+    jest.mocked(useLoginLogic).mockImplementation(() => mockUseLoginLogic2);
 
     ({ container } = render(<Login />));
 

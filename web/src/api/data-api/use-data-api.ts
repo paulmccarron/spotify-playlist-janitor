@@ -1,6 +1,10 @@
 import { useCallback } from "react";
 import { useCommonHeaders } from "api/use-common-headers";
-import { getDatabasePlaylists as getDatabasePlaylistsRequest } from "./data-api";
+import {
+  getDatabasePlaylists as getDatabasePlaylistsRequest,
+  addDatabasePlaylist as addDatabasePlaylistRequest,
+} from "./data-api";
+import { AddDatabasePlaylistRequest } from "./data-api-types";
 
 export const useDataApi = () => {
   const commonHeaders = useCommonHeaders();
@@ -15,7 +19,18 @@ export const useDataApi = () => {
     [commonHeaders]
   );
 
+  const addDatabasePlaylist = useCallback(
+    (request: AddDatabasePlaylistRequest) =>
+      addDatabasePlaylistRequest(request, {
+        headers: {
+          ...commonHeaders,
+        },
+      }),
+    [commonHeaders]
+  );
+
   return {
     getDatabasePlaylists,
+    addDatabasePlaylist,
   } as const;
 };

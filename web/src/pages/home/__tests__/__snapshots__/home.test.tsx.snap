@@ -2,8 +2,10 @@
 
 exports[`<Home /> should render a Home component 1`] = `
 <div
-  class="sc-beyTiQ iElCIo"
+  class="sc-beyTiQ gGIdvT"
 >
-  Home Page
+  <div>
+    Home Component
+  </div>
 </div>
 `;
