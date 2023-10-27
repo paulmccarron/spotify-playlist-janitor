@@ -5,7 +5,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
   autocomplete="off"
 >
   <div
-    class="sc-csKJRI kkBZKJ"
+    class="sc-csKJRI iyUWNp"
   >
     <div
       class="sc-guDMob jLqGJD"
@@ -116,13 +116,16 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
           Skip threshold (seconds):
         </div>
         <div
-          class="sc-qZruQ csdgtd"
+          class="sc-qZruQ jXLqrm"
+          variation="boxed"
         >
           <div
             class="input-container"
           >
             <input
               class="number-input"
+              data-testid="skip-threshold-input"
+              id="skip-threshold-input"
               max="999"
               min="1"
               type="number"
@@ -196,21 +199,20 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
           Auto-delete tracks after:
         </div>
         <div
-          class="auto-delete-input"
+          class="sc-qZruQ jXLqrm"
+          variation="boxed"
         >
           <div
-            class="sc-qZruQ csdgtd"
+            class="input-container"
           >
-            <div
-              class="input-container"
-            >
-              <input
-                class="number-input"
-                max="999"
-                min="0"
-                type="number"
-              />
-            </div>
+            <input
+              class="number-input"
+              data-testid="auto-delete-input"
+              id="auto-delete-input"
+              max="999"
+              min="0"
+              type="number"
+            />
           </div>
         </div>
         <div
@@ -240,7 +242,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
       style="display: flex; flex-direction: row; justify-content: flex-end;"
     >
       <button
-        class="sc-jTQDJr sc-iBdoyZ gTPDUb kvhSjC secondary"
+        class="sc-jTQDJr sc-iBdoyZ gTPDUb ciKhVj secondary"
         data-testid="cancel-modal-button"
         id="cancel-modal-button"
         style="margin: 0px 4px;"
@@ -267,7 +269,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
   autocomplete="off"
 >
   <div
-    class="sc-csKJRI kkBZKJ"
+    class="sc-csKJRI iyUWNp"
   >
     <div
       class="sc-guDMob jLqGJD"
@@ -378,13 +380,16 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
           Skip threshold (seconds):
         </div>
         <div
-          class="sc-qZruQ csdgtd"
+          class="sc-qZruQ jXLqrm"
+          variation="boxed"
         >
           <div
             class="input-container"
           >
             <input
               class="number-input"
+              data-testid="skip-threshold-input"
+              id="skip-threshold-input"
               max="999"
               min="1"
               type="number"
@@ -458,21 +463,20 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
           Auto-delete tracks after:
         </div>
         <div
-          class="auto-delete-input"
+          class="sc-qZruQ jXLqrm"
+          variation="boxed"
         >
           <div
-            class="sc-qZruQ csdgtd"
+            class="input-container"
           >
-            <div
-              class="input-container"
-            >
-              <input
-                class="number-input"
-                max="999"
-                min="0"
-                type="number"
-              />
-            </div>
+            <input
+              class="number-input"
+              data-testid="auto-delete-input"
+              id="auto-delete-input"
+              max="999"
+              min="0"
+              type="number"
+            />
           </div>
         </div>
         <div
@@ -513,7 +517,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
       style="display: flex; flex-direction: row; justify-content: flex-end;"
     >
       <button
-        class="sc-jTQDJr sc-iBdoyZ gTPDUb kvhSjC secondary"
+        class="sc-jTQDJr sc-iBdoyZ gTPDUb ciKhVj secondary"
         data-testid="cancel-modal-button"
         id="cancel-modal-button"
         style="margin: 0px 4px;"

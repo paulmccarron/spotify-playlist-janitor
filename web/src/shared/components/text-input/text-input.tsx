@@ -3,16 +3,19 @@ import styled from "styled-components";
 
 import { DISABLED, INPUT_LABEL } from "shared/constants";
 
+type TextInputVariation = "normal" | "boxed";
+
 type TextInputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 > & {
   label?: string;
+  variation?: TextInputVariation;
 };
 
-export const TextInput = ({ label, ...props }: TextInputProps) => {
+export const TextInput = ({ label, variation = "normal", ...props }: TextInputProps) => {
   return (
-    <StyledTextInput disabled={props.disabled}>
+    <StyledTextInput disabled={props.disabled} variation={variation}>
       <div className="input-container">
         <input {...props} />
         {label && (
@@ -27,10 +30,10 @@ export const TextInput = ({ label, ...props }: TextInputProps) => {
 
 TextInput.displayName = "TextInput";
 
-const StyledTextInput = styled.div<{ disabled?: boolean }>`
+const StyledTextInput = styled.div<{ disabled?: boolean, variation?: TextInputVariation }>`
   background-color: ${(props) => (props.disabled ? DISABLED : "white")};
-  padding: 0.5rem 1rem 0.3rem 1rem;
-  border-radius: 2rem;
+  padding: ${(props) => (props.variation === "normal" ? "0.5rem 1rem 0.3rem 1rem" : "0.5rem 0.5rem 0.3rem 0.3rem")};
+  border-radius: ${(props) => (props.variation === "normal" ? "2rem" : "0.3rem")};
 
   &:disabled {
     opacity: 1;

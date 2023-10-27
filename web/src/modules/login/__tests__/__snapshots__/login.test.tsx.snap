@@ -29,7 +29,8 @@ exports[`<Login /> should render Login component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -53,7 +54,8 @@ exports[`<Login /> should render Login component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -88,7 +90,7 @@ exports[`<Login /> should render Login component 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bFOxeO fLShA"
       data-testid="register-button"
       id="register-button"
     >
@@ -127,8 +129,9 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        variation="normal"
       >
         <div
           class="input-container"
@@ -153,8 +156,9 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        variation="normal"
       >
         <div
           class="input-container"
@@ -191,7 +195,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bFOxeO fLShA"
       data-testid="register-button"
       disabled=""
       id="register-button"
@@ -231,7 +235,8 @@ exports[`<Login /> should render Login component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -255,7 +260,8 @@ exports[`<Login /> should render Login component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -301,7 +307,7 @@ exports[`<Login /> should render Login component with error 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bFOxeO fLShA"
       data-testid="register-button"
       id="register-button"
     >

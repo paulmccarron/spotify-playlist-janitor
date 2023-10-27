@@ -29,7 +29,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -53,7 +54,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -78,7 +80,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -143,8 +146,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        variation="normal"
       >
         <div
           class="input-container"
@@ -169,8 +173,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        variation="normal"
       >
         <div
           class="input-container"
@@ -196,8 +201,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        variation="normal"
       >
         <div
           class="input-container"
@@ -264,7 +270,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -288,7 +295,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"
@@ -313,7 +321,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gHGKiP"
+        variation="normal"
       >
         <div
           class="input-container"

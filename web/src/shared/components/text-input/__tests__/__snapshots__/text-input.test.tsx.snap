@@ -49,8 +49,9 @@ exports[`<TextInput /> should render TextInput component as number input 1`] = `
 
 exports[`<TextInput /> should render TextInput component as number input disabled 1`] = `
 <div
-  class="sc-beyTiQ iJholj"
+  class="sc-beyTiQ jceqaw"
   disabled=""
+  variation="normal"
 >
   <div
     class="input-container"

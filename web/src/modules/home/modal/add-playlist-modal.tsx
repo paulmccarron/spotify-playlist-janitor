@@ -57,10 +57,13 @@ export const AddPlaylistModalView = ({
             <TextInput
               {...{
                 className: "number-input",
+                id: "skip-threshold-input",
+                "data-testid": "skip-threshold-input",
                 type: "number",
                 defaultValue: 10,
                 min: 1,
                 max: 999,
+                variation: "boxed",
                 disabled: modalSaving,
               }}
             />
@@ -95,17 +98,18 @@ export const AddPlaylistModalView = ({
           </div>
           <div className="row">
             <Text>Auto-delete tracks after:</Text>
-            <div className="auto-delete-input">
               <TextInput
                 {...{
                   className: "number-input",
+                  id: "auto-delete-input",
+                  "data-testid": "auto-delete-input",
                   type: "number",
                   min: 0,
                   max: 999,
+                  variation: "boxed",
                   disabled: modalSaving,
                 }}
               />
-            </div>
             <Text className="auto-delete-post-text">skips</Text>
             <Tooltip
               content={
@@ -185,11 +189,7 @@ const ModalContainer = styled.div`
   }
 
   .toggle-input {
-    margin-right: 16px;
-  }
-
-  .auto-delete-input {
-    margin-right: -10px;
+    margin-right: 10px;
   }
 
   .auto-delete-post-text {

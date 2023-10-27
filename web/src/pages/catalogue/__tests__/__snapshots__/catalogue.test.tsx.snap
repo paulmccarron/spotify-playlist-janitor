@@ -102,7 +102,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ eAmaGw"
+            variation="normal"
           >
             <div
               class="input-container"
@@ -122,8 +123,53 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ ffOoxd"
+            variation="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            variation="normal"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            variation="boxed"
           >
             <div
               class="input-container"
@@ -151,7 +197,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ eAmaGw"
+            variation="normal"
           >
             <div
               class="input-container"
@@ -170,8 +217,51 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ ffOoxd"
+            variation="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            variation="normal"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            variation="boxed"
           >
             <div
               class="input-container"
@@ -198,7 +288,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ eAmaGw"
+            variation="normal"
           >
             <div
               class="input-container"
@@ -217,8 +308,29 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ ffOoxd"
+            variation="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            variation="normal"
           >
             <div
               class="input-container"
@@ -236,6 +348,28 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
               </label>
             </div>
           </div>
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            variation="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          <br />
           Value: 
         </td>
       </tr>
@@ -370,14 +504,14 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           style="display: flex; flex-direction: row; justify-content: space-around;"
         >
           <button
-            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
+            class="sc-guDMob sc-hLQTFJ gzXMwu jwjPst"
             data-testid="secondary-example"
             id="secondary-example"
           >
             Secondary
           </button>
           <button
-            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
+            class="sc-guDMob sc-hLQTFJ gzXMwu jwjPst"
             data-testid="secondary-example"
             disabled=""
             id="secondary-example"

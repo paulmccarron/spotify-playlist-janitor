@@ -170,6 +170,16 @@ export const Catalogue = () => {
                   value: textValue,
                   onChange: onTextChange,
                 }}
+              /><br/>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                  variation: "boxed",
+                }}
               />
               <br/>
               <TextInput
@@ -179,6 +189,18 @@ export const Catalogue = () => {
                   id: "example",
                   value: textValue,
                   onChange: onTextChange,
+                  disabled: true,
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                  variation: "boxed",
                   disabled: true,
                 }}
               />
@@ -205,6 +227,29 @@ export const Catalogue = () => {
                   placeholder: "Enter password...",
                   value: passwordValue,
                   onChange: onPasswordChange,
+                  variation: "boxed",
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: passwordValue,
+                  onChange: onPasswordChange,
+                  disabled: true,
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: passwordValue,
+                  onChange: onPasswordChange,
+                  variation: "boxed",
                   disabled: true,
                 }}
               />
@@ -231,9 +276,32 @@ export const Catalogue = () => {
                   placeholder: "Enter number of minutes...",
                   value: numberValue,
                   onChange: onNumberChange,
+                  variation: "boxed",
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
                   disabled: true,
                 }}
               />
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
+                  variation: "boxed",
+                  disabled: true,
+                }}
+              />
+              <br/>
               <>Value: {numberValue}</>
             </td>
           </tr>
