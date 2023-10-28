@@ -1,18 +1,22 @@
+import { useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import { BLACK, GREEN, RED } from "shared/constants";
+import { BLACK, GREEN, GREEN_DISABLED, RED } from "shared/constants";
 import { SubTitle, Text } from "shared/components/typography";
 import { Modal } from "shared/components/modal";
 
 import { useHomeLogic } from "./use-home-logic";
 import { AddPlaylistModalView } from "./modal/add-playlist-modal";
+import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 
 export const Home = () => {
   const {
     monitoredPlaylists,
     unmonitoredPlaylists,
     loading,
+    loadingSkeletons,
+    onPlaylistClick,
     modalOpen,
     onModalOpen,
     onModalClose,
@@ -23,19 +27,44 @@ export const Home = () => {
     showSpotifyAuthModal,
   } = useHomeLogic();
 
+  const addButton = useCallback(({ disabled }: { disabled: boolean }) =>
+    <div
+      className={`item new ${disabled ? "disabled" : ""}`}
+      onClick={onModalOpen}
+      id={`add-playlist-item`}
+      data-testid={`add-playlist-item`}
+    >
+      <AiOutlinePlusCircle />
+    </div>
+    , [onModalOpen])
+
   return (
     <PageContainer>
-      {monitoredPlaylists && (
+      {loading &&
+        <>
+          {!loadingSkeletons && <div data-testid="empty-loading" />}
+          {loadingSkeletons && loadingSkeletons?.map(loadingSkeleton =>
+            <div
+              key={loadingSkeleton}
+              className="skelton"
+              id={`playlist-item-skeleton-${loadingSkeleton}`}
+              data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
+            >
+              <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={15}>
+                <Skeleton />
+              </SkeletonTheme>
+            </div>
+          )}
+          {addButton({ disabled: true })}
+        </>
+      }
+      {!loading && monitoredPlaylists && (
         <>
           {monitoredPlaylists.map((monitoredPlaylist, index) => (
             <div
               key={monitoredPlaylist.id}
               className="item"
-              onClick={() =>
-                alert(
-                  `Naviagte to ${monitoredPlaylist.name} at route ${monitoredPlaylist.id}`
-                )
-              }
+              onClick={() => onPlaylistClick(monitoredPlaylist.id)}
               id={`playlist-item-${index}`}
               data-testid={`playlist-item-${index}`}
             >
@@ -51,14 +80,7 @@ export const Home = () => {
               <SubTitle>{monitoredPlaylist.name}</SubTitle>
             </div>
           ))}
-          <div
-            className="item new"
-            onClick={onModalOpen}
-            id={`add-playlist-item`}
-            data-testid={`add-playlist-item`}
-          >
-            <AiOutlinePlusCircle />
-          </div>
+          {addButton({ disabled: false })}
         </>
       )}
       <Modal
@@ -82,7 +104,7 @@ export const Home = () => {
       <Modal
         {...{
           isOpen: showSpotifyAuthModal,
-          onClose: () => {},
+          onClose: () => { },
           label: "Spotify Auth Modal",
         }}
       >
@@ -119,6 +141,18 @@ const PageContainer = styled.div`
   max-width: 1825px;
   paddingtop: 18px;
 
+  .skelton {
+    flex: 1 1 30%; /*grow | shrink | basis */
+    // display: flex;
+    // justify-content: space-evenly;
+    // align-items: center;
+    margin: 8px;
+    height: 160px;
+    max-width: 33%;
+    // background-color: ${BLACK};
+    border-radius: 15px;
+  }
+
   .item {
     flex: 1 1 30%; /*grow | shrink | basis */
     display: flex;
@@ -128,7 +162,6 @@ const PageContainer = styled.div`
     height: 160px;
     max-width: 33%;
     background-color: ${BLACK};
-
     border-radius: 15px;
 
     cursor: pointer;
@@ -145,6 +178,17 @@ const PageContainer = styled.div`
     svg {
       height: 6em;
       width: 6em;
+    }
+  }
+
+  .disabled {
+    background-color: ${GREEN_DISABLED};
+    pointer-events: none;
+    cursor: default;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
     }
   }
 `;

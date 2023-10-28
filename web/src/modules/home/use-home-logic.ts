@@ -11,6 +11,7 @@ export const useHomeLogic = () => {
   const { getSpotifyPlaylists } = useSpotifyApi();
 
   const [loading, setLoading] = useState(false);
+  const [loadingSkeletons, setLoadingSkeletons] = useState<number[] | undefined>();
   const [modalSaving, setModalSaving] = useState(false);
   const [showSpotifyAuthModal, setShowSpotifyAuthModal] = useState(false);
   const [monitoredPlaylists, setMonitoredPlaylists] = useState<
@@ -28,10 +29,20 @@ export const useHomeLogic = () => {
     onClose();
   }, [setModalError, onClose]);
 
+  const onPlaylistClick = useCallback((playlistId: string) => {
+    alert(
+      `Naviagte to /${playlistId}`
+    )
+  }, [])
+
   const getPlaylistData = useCallback(async () => {
     try {
       setLoading(true);
       const databasePlaylistsResponse = await getDatabasePlaylists();
+      
+      const monitoredPlaylists = databasePlaylistsResponse.data;
+      setLoadingSkeletons(Array.from(Array(monitoredPlaylists.length).keys()))
+
       const spotifyPlaylistsResponse = await getSpotifyPlaylists();
 
       setMonitoredPlaylists(
@@ -65,6 +76,7 @@ export const useHomeLogic = () => {
           }))
       );
       setLoading(false);
+      setLoadingSkeletons(undefined);
     } catch (e: any) {
       if (
         e?.response?.status === 500 &&
@@ -74,9 +86,11 @@ export const useHomeLogic = () => {
         setShowSpotifyAuthModal(true);
       }
       setLoading(false);
+      setLoadingSkeletons(undefined);
     }
   }, [
     setLoading,
+    setLoadingSkeletons,
     getDatabasePlaylists,
     getSpotifyPlaylists,
     setMonitoredPlaylists,
@@ -144,6 +158,8 @@ export const useHomeLogic = () => {
     monitoredPlaylists,
     unmonitoredPlaylists,
     loading,
+    loadingSkeletons,
+    onPlaylistClick,
     modalOpen,
     onModalOpen,
     onModalClose,

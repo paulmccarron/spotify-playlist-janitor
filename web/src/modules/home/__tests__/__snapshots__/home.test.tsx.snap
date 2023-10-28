@@ -2,7 +2,7 @@
 
 exports[`<Home /> should render Home component 1`] = `
 <div
-  class="sc-eTNxZ dbBikd"
+  class="sc-eTNxZ eCVjgG"
 >
   <div
     class="item"
@@ -73,7 +73,158 @@ exports[`<Home /> should render Home component 1`] = `
     </div>
   </div>
   <div
-    class="item new"
+    class="item new "
+    data-testid="add-playlist-item"
+    id="add-playlist-item"
+  >
+    <svg
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 1024 1024"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
+      />
+      <path
+        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`<Home /> should render Home component with empty page 1`] = `
+<div
+  class="sc-eTNxZ eCVjgG"
+>
+  <div
+    data-testid="empty-loading"
+  />
+  <div
+    class="item new disabled"
+    data-testid="add-playlist-item"
+    id="add-playlist-item"
+  >
+    <svg
+      fill="currentColor"
+      height="1em"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 1024 1024"
+      width="1em"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M696 480H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
+      />
+      <path
+        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+      />
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`<Home /> should render Home component with loading skeletons 1`] = `
+<div
+  class="sc-eTNxZ eCVjgG"
+>
+  <div
+    class="skelton"
+    data-testid="playlist-item-skeleton-0"
+    id="playlist-item-skeleton-0"
+  >
+    <span
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        class="react-loading-skeleton"
+        style="height: 100%; border-radius: 15px; --base-color: #020202; --highlight-color: #444;"
+      >
+        ‌
+      </span>
+      <br />
+    </span>
+  </div>
+  <div
+    class="skelton"
+    data-testid="playlist-item-skeleton-1"
+    id="playlist-item-skeleton-1"
+  >
+    <span
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        class="react-loading-skeleton"
+        style="height: 100%; border-radius: 15px; --base-color: #020202; --highlight-color: #444;"
+      >
+        ‌
+      </span>
+      <br />
+    </span>
+  </div>
+  <div
+    class="skelton"
+    data-testid="playlist-item-skeleton-2"
+    id="playlist-item-skeleton-2"
+  >
+    <span
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        class="react-loading-skeleton"
+        style="height: 100%; border-radius: 15px; --base-color: #020202; --highlight-color: #444;"
+      >
+        ‌
+      </span>
+      <br />
+    </span>
+  </div>
+  <div
+    class="skelton"
+    data-testid="playlist-item-skeleton-3"
+    id="playlist-item-skeleton-3"
+  >
+    <span
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        class="react-loading-skeleton"
+        style="height: 100%; border-radius: 15px; --base-color: #020202; --highlight-color: #444;"
+      >
+        ‌
+      </span>
+      <br />
+    </span>
+  </div>
+  <div
+    class="skelton"
+    data-testid="playlist-item-skeleton-4"
+    id="playlist-item-skeleton-4"
+  >
+    <span
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span
+        class="react-loading-skeleton"
+        style="height: 100%; border-radius: 15px; --base-color: #020202; --highlight-color: #444;"
+      >
+        ‌
+      </span>
+      <br />
+    </span>
+  </div>
+  <div
+    class="item new disabled"
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >
@@ -99,10 +250,10 @@ exports[`<Home /> should render Home component 1`] = `
 
 exports[`<Home /> should render Home component with no monitored playlists 1`] = `
 <div
-  class="sc-eTNxZ dbBikd"
+  class="sc-eTNxZ eCVjgG"
 >
   <div
-    class="item new"
+    class="item new "
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >

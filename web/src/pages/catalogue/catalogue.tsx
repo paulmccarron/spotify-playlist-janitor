@@ -290,6 +290,7 @@ export const Catalogue = () => {
                   disabled: true,
                 }}
               />
+              <br/>
               <TextInput
                 {...{
                   type: "number",

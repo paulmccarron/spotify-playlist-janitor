@@ -348,6 +348,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
               </label>
             </div>
           </div>
+          <br />
           <div
             class="sc-beyTiQ inhyRt"
             disabled=""

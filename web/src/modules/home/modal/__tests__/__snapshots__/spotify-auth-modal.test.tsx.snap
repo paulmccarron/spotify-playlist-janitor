@@ -16,7 +16,7 @@ exports[`<SpotifyAuthModalView /> should render SpotifyAuthModalView component 1
     The application has not been authenticated with your Spotify account. Please follow
      
     <a
-      href="https://localhost:7096"
+      href="https://localhost:7096/"
       rel="noreferrer"
       target="_blank"
     >

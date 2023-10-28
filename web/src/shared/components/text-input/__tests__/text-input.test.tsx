@@ -90,7 +90,7 @@ describe("<TextInput />", () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it.only("should render TextInput component as number input disabled", () => {
+  it("should render TextInput component as number input disabled", () => {
     ({ container } = render(
       <TextInput
         {...{
