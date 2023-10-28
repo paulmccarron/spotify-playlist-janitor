@@ -46,19 +46,22 @@ export const Home = () => {
       {loading &&
         <>
           {!loadingSkeletons && <div data-testid="empty-loading" />}
-          {loadingSkeletons && loadingSkeletons?.map(loadingSkeleton =>
-            <div
-              key={loadingSkeleton}
-              className="item"
-              id={`playlist-item-skeleton-${loadingSkeleton}`}
-              data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
-            >
-              <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={borderRadius}>
-                <Skeleton />
-              </SkeletonTheme>
-            </div>
-          )}
-          {addButton({ disabled: true })}
+          {loadingSkeletons && <>
+            {loadingSkeletons?.map(loadingSkeleton =>
+              <div
+                key={loadingSkeleton}
+                className="item"
+                id={`playlist-item-skeleton-${loadingSkeleton}`}
+                data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
+              >
+                <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={borderRadius}>
+                  <Skeleton />
+                </SkeletonTheme>
+              </div>
+            )}
+            {addButton({ disabled: true })}
+          </>
+          }
         </>
       }
       {!loading && monitoredPlaylists && (
