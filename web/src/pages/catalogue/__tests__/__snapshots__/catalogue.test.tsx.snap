@@ -103,7 +103,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         <td>
           <div
             class="sc-beyTiQ iqkiwA"
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -124,7 +124,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <br />
           <div
             class="sc-beyTiQ jKyZMJ"
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -146,7 +146,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ jceqaw"
             disabled=""
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -169,7 +169,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ inhyRt"
             disabled=""
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -198,7 +198,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         <td>
           <div
             class="sc-beyTiQ iqkiwA"
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -218,7 +218,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <br />
           <div
             class="sc-beyTiQ jKyZMJ"
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -239,7 +239,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ jceqaw"
             disabled=""
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -261,7 +261,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ inhyRt"
             disabled=""
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -289,7 +289,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         <td>
           <div
             class="sc-beyTiQ iqkiwA"
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -309,7 +309,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <br />
           <div
             class="sc-beyTiQ jKyZMJ"
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -330,7 +330,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ jceqaw"
             disabled=""
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -352,7 +352,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           <div
             class="sc-beyTiQ inhyRt"
             disabled=""
-            variation="boxed"
+            varaint="boxed"
           >
             <div
               class="input-container"

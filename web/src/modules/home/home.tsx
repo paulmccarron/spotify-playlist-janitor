@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import { BLACK, GREEN, GREEN_DISABLED, RED, WHITE } from "shared/constants";
-import { SubTitle, Text } from "shared/components/typography";
+import { BLACK, GREEN, GREEN_DISABLED, WHITE } from "shared/constants";
+import { SubTitle } from "shared/components/typography";
 import { Modal } from "shared/components/modal";
 
 import { useHomeLogic } from "./use-home-logic";

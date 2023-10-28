@@ -63,7 +63,7 @@ export const AddPlaylistModalView = ({
                 defaultValue: 10,
                 min: 1,
                 max: 999,
-                variation: "boxed",
+                varaint: "boxed",
                 disabled: modalSaving,
               }}
             />
@@ -106,7 +106,7 @@ export const AddPlaylistModalView = ({
                   type: "number",
                   min: 0,
                   max: 999,
-                  variation: "boxed",
+                  varaint: "boxed",
                   disabled: modalSaving,
                 }}
               />

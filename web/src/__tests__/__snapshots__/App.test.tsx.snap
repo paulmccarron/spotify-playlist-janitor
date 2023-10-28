@@ -54,7 +54,7 @@ exports[`<App /> should render the App 1`] = `
         >
           <div
             class="sc-jsEeA-d dPMWeb"
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -79,7 +79,7 @@ exports[`<App /> should render the App 1`] = `
         >
           <div
             class="sc-jsEeA-d dPMWeb"
-            variation="normal"
+            varaint="normal"
           >
             <div
               class="input-container"

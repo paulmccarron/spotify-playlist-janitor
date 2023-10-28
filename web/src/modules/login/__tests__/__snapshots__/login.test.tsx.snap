@@ -30,7 +30,7 @@ exports[`<Login /> should render Login component 1`] = `
     >
       <div
         class="sc-hLQTFJ gXUmTP"
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -55,7 +55,7 @@ exports[`<Login /> should render Login component 1`] = `
     >
       <div
         class="sc-hLQTFJ gXUmTP"
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -131,7 +131,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       <div
         class="sc-hLQTFJ fhcrtD"
         disabled=""
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -158,7 +158,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       <div
         class="sc-hLQTFJ fhcrtD"
         disabled=""
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -236,7 +236,7 @@ exports[`<Login /> should render Login component with error 1`] = `
     >
       <div
         class="sc-hLQTFJ gXUmTP"
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -261,7 +261,7 @@ exports[`<Login /> should render Login component with error 1`] = `
     >
       <div
         class="sc-hLQTFJ gXUmTP"
-        variation="normal"
+        varaint="normal"
       >
         <div
           class="input-container"

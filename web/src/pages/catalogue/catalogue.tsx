@@ -179,7 +179,7 @@ export const Catalogue = () => {
                   id: "example",
                   value: textValue,
                   onChange: onTextChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                 }}
               />
               <br/>
@@ -201,7 +201,7 @@ export const Catalogue = () => {
                   id: "example",
                   value: textValue,
                   onChange: onTextChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                   disabled: true,
                 }}
               />
@@ -228,7 +228,7 @@ export const Catalogue = () => {
                   placeholder: "Enter password...",
                   value: passwordValue,
                   onChange: onPasswordChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                 }}
               />
               <br/>
@@ -250,7 +250,7 @@ export const Catalogue = () => {
                   placeholder: "Enter password...",
                   value: passwordValue,
                   onChange: onPasswordChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                   disabled: true,
                 }}
               />
@@ -277,7 +277,7 @@ export const Catalogue = () => {
                   placeholder: "Enter number of minutes...",
                   value: numberValue,
                   onChange: onNumberChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                 }}
               />
               <br/>
@@ -299,7 +299,7 @@ export const Catalogue = () => {
                   placeholder: "Enter number of minutes...",
                   value: numberValue,
                   onChange: onNumberChange,
-                  variation: "boxed",
+                  varaint: "boxed",
                   disabled: true,
                 }}
               />

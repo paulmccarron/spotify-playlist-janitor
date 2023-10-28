@@ -117,7 +117,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
         </div>
         <div
           class="sc-qZruQ eKreTG"
-          variation="boxed"
+          varaint="boxed"
         >
           <div
             class="input-container"
@@ -200,7 +200,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
         </div>
         <div
           class="sc-qZruQ eKreTG"
-          variation="boxed"
+          varaint="boxed"
         >
           <div
             class="input-container"
@@ -381,7 +381,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
         </div>
         <div
           class="sc-qZruQ eKreTG"
-          variation="boxed"
+          varaint="boxed"
         >
           <div
             class="input-container"
@@ -464,7 +464,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
         </div>
         <div
           class="sc-qZruQ eKreTG"
-          variation="boxed"
+          varaint="boxed"
         >
           <div
             class="input-container"
