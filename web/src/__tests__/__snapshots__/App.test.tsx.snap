@@ -5,7 +5,7 @@ exports[`<App /> should render the App 1`] = `
   class="sc-iuONiq ipLVwP"
 >
   <div
-    class="sc-jTQDJr dDKoCf"
+    class="sc-jTQDJr jvnSAP"
   >
     <div
       class="header-item"
@@ -26,7 +26,7 @@ exports[`<App /> should render the App 1`] = `
     class="sc-khjLgN bpFBEm"
   >
     <div
-      class="sc-dmXVtG lhfRvU"
+      class="sc-dmXVtG kxtsUU"
     >
       <div
         class="row"
@@ -53,7 +53,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <div
-            class="sc-jsEeA-d fPaUhj"
+            class="sc-jsEeA-d dPMWeb"
             variation="normal"
           >
             <div
@@ -78,7 +78,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <div
-            class="sc-jsEeA-d fPaUhj"
+            class="sc-jsEeA-d dPMWeb"
             variation="normal"
           >
             <div
@@ -104,7 +104,7 @@ exports[`<App /> should render the App 1`] = `
           class="row"
         >
           <button
-            class="sc-gLLuHO sc-iBdoyZ bdVZyF hdNnLV"
+            class="sc-gLLuHO sc-iBdoyZ jAqeWl hdNnLV"
             data-testid="login-button"
             id="login-button"
           >
@@ -114,7 +114,7 @@ exports[`<App /> should render the App 1`] = `
       </form>
       <div>
         <button
-          class="sc-gLLuHO sc-fsYfxw bdVZyF ibjkdh"
+          class="sc-gLLuHO sc-fsYfxw jAqeWl FwkDJ"
           data-testid="register-button"
           id="register-button"
         >

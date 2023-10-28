@@ -2,7 +2,7 @@
 
 exports[`<Table /> should render Table component 1`] = `
 <table
-  class="sc-gLLuHO ehSqzN"
+  class="sc-gLLuHO cpeOrl"
 >
   <caption>
     Table caption.

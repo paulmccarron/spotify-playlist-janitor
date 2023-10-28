@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { GREEN } from "shared/constants";
+import { GREEN, WHITE } from "shared/constants";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
 // type ToggleProps = {
@@ -42,7 +42,7 @@ const Switch = styled.div`
     border-radius: 24px;
     top: 50%;
     left: 2px;
-    background: white;
+    background: ${WHITE};
     transform: translate(0, -50%);
   }
 `;

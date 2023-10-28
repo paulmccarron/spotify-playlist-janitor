@@ -2,7 +2,7 @@
 
 exports[`<TextInput /> should render TextInput component 1`] = `
 <div
-  class="sc-beyTiQ eAmaGw"
+  class="sc-beyTiQ iqkiwA"
   variation="normal"
 >
   <div
@@ -26,7 +26,7 @@ exports[`<TextInput /> should render TextInput component 1`] = `
 
 exports[`<TextInput /> should render TextInput component as number input 1`] = `
 <div
-  class="sc-beyTiQ eAmaGw"
+  class="sc-beyTiQ iqkiwA"
   variation="normal"
 >
   <div
@@ -78,7 +78,7 @@ exports[`<TextInput /> should render TextInput component as number input disable
 
 exports[`<TextInput /> should render TextInput component as password input 1`] = `
 <div
-  class="sc-beyTiQ eAmaGw"
+  class="sc-beyTiQ iqkiwA"
   variation="normal"
 >
   <div
@@ -156,7 +156,7 @@ exports[`<TextInput /> should render TextInput component disabled 1`] = `
 
 exports[`<TextInput /> should render TextInput component with value 1`] = `
 <div
-  class="sc-beyTiQ eAmaGw"
+  class="sc-beyTiQ iqkiwA"
   variation="normal"
 >
   <div

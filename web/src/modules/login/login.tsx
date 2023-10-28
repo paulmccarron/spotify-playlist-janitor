@@ -1,7 +1,7 @@
 import { PrimaryButton, SecondaryButton } from "shared/components/button";
 import { TextInput } from "shared/components/text-input";
 import { SecondaryText, Text, Title } from "shared/components/typography";
-import { GREEN, RED } from "shared/constants";
+import { GREEN, RED, WHITE } from "shared/constants";
 import styled from "styled-components";
 import { useLoginLogic } from "./use-login-logic";
 
@@ -83,7 +83,7 @@ export const Login = () => {
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  color: white;
+  color: ${WHITE};
   justify-content: center;
   align-items: center;
 

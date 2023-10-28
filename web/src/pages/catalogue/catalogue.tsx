@@ -26,6 +26,7 @@ import {
 } from "react-icons/vsc";
 import { Tooltip } from "shared/components/tooltip";
 import { Menu, MenuItem } from "shared/components/menu";
+import { GREEN, WHITE } from "shared/constants";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -126,7 +127,7 @@ export const Catalogue = () => {
                 {...{
                   id: "text-test",
                   "data-testid": "text-test-data-testid",
-                  style: { color: "#1ed760" },
+                  style: { color: GREEN },
                 }}
               >
                 Normal Text
@@ -596,7 +597,7 @@ const Content = styled.div`
 `;
 
 const CatalogueTable = styled.table`
-  color: white;
+  color: ${WHITE};
   margin-top: 8px;
   padding-bottom: 16px;
   th,

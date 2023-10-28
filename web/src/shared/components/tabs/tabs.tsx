@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { Tabs as ReactTabs, TabsProps } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
-import { GREEN } from "shared/constants";
+import { BLACK, GREEN } from "shared/constants";
 
 export { Tab, TabList, TabPanel } from "react-tabs";
 
 const StyledTabs = styled(ReactTabs)`
   .react-tabs__tab-list {
-    border-bottom: 2px solid #1ed760;
+    border-bottom: 2px solid ${GREEN};
   }
 
   .react-tabs__tab {
@@ -30,7 +30,7 @@ const StyledTabs = styled(ReactTabs)`
   .react-tabs__tab--selected {
     background: ${GREEN};
     border-color: ${GREEN};
-    color: black;
+    color: ${BLACK};
     border-radius: 15px 15px 0px 0px;
     font-size: 1rem;
     font-weight: 600;

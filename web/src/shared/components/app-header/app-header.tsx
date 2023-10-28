@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { GREEN, HEADER_PADDING } from "shared/constants";
+import { BLACK, GREEN, HEADER_PADDING } from "shared/constants";
 import { SubTitle, Text } from "../typography";
 import { useAppHeaderLogic } from "./use-app-header-logic";
 
@@ -11,7 +11,7 @@ const Header = styled.div`
   width: 100%;
   padding: ${HEADER_PADDING} 0px;
   background-color: ${GREEN};
-  color: black;
+  color: ${BLACK};
   position: sticky;
   top: 0;
   z-index: 2;

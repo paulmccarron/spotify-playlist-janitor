@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { default as ReactSelect } from "react-select";
 
-import { INPUT_LABEL } from "shared/constants";
+import { BLACK, INPUT_LABEL, SELECT_INDICATOR, SELECT_MENU, WHITE } from "shared/constants";
 
 type SelectProps = {
   value?: { label: string; value: string };
@@ -53,7 +53,7 @@ export const Select = ({
 
 const Container = styled.div`
   position: relative;
-  background-color: white;
+  background-color: ${WHITE};
   padding: 0.2rem 1rem;
   border-radius: 2rem;
 
@@ -74,7 +74,7 @@ const Container = styled.div`
   }
 
   select {
-    background-color: white;
+    background-color: ${WHITE};
     font-size: 1rem;
     font-weight: 600;
     border: none;
@@ -114,16 +114,16 @@ const Container = styled.div`
   }
 
   .select__single-value {
-    color: black;
+    color: ${BLACK};
     font-weight: 600;
   }
 
   .select__indicator {
-    color: #808080;
+    color: ${SELECT_INDICATOR};
   }
 
   .select__indicator:hover {
-    color: #3c3d3e;
+    color: ${SELECT_MENU};
   }
 
   .select__indicator-separator {
@@ -131,7 +131,7 @@ const Container = styled.div`
   }
 
   .select__menu {
-    color: #3c3d3e;
+    color: ${SELECT_MENU};
     font-weight: 600;
   }
 `;

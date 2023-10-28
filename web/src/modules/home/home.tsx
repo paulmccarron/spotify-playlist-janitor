@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import { BLACK, GREEN, GREEN_DISABLED, RED } from "shared/constants";
+import { BLACK, GREEN, GREEN_DISABLED, RED, WHITE } from "shared/constants";
 import { SubTitle, Text } from "shared/components/typography";
 import { Modal } from "shared/components/modal";
 
@@ -10,6 +10,8 @@ import { useHomeLogic } from "./use-home-logic";
 import { AddPlaylistModalView } from "./modal/add-playlist-modal";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 import { SpotifyAuthModalView } from "./modal";
+
+const borderRadius = 15;
 
 export const Home = () => {
   const {
@@ -30,7 +32,7 @@ export const Home = () => {
 
   const addButton = useCallback(({ disabled }: { disabled: boolean }) =>
     <div
-      className={`item new ${disabled ? "disabled" : ""}`}
+      className={`item playlist new ${disabled ? "new-disabled" : ""}`}
       onClick={onModalOpen}
       id={`add-playlist-item`}
       data-testid={`add-playlist-item`}
@@ -47,11 +49,11 @@ export const Home = () => {
           {loadingSkeletons && loadingSkeletons?.map(loadingSkeleton =>
             <div
               key={loadingSkeleton}
-              className="skelton"
+              className="item"
               id={`playlist-item-skeleton-${loadingSkeleton}`}
               data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
             >
-              <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={15}>
+              <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={borderRadius}>
                 <Skeleton />
               </SkeletonTheme>
             </div>
@@ -64,7 +66,7 @@ export const Home = () => {
           {monitoredPlaylists.map((monitoredPlaylist, index) => (
             <div
               key={monitoredPlaylist.id}
-              className="item"
+              className="item playlist"
               onClick={() => onPlaylistClick(monitoredPlaylist.id)}
               id={`playlist-item-${index}`}
               data-testid={`playlist-item-${index}`}
@@ -109,7 +111,7 @@ export const Home = () => {
           label: "Spotify Auth Modal",
         }}
       >
-        <SpotifyAuthModalView/>
+        <SpotifyAuthModalView />
       </Modal>
     </PageContainer>
   );
@@ -121,29 +123,26 @@ const PageContainer = styled.div`
   align-items: center;
   align-content: flex-start;
 
-  color: white;
+  color: ${WHITE};
   width: 100%;
   max-width: 1825px;
   paddingtop: 18px;
 
-  .skelton {
+  .item {
     flex: 1 1 30%; /*grow | shrink | basis */
+
     margin: 8px;
     height: 160px;
     max-width: 33%;
-    border-radius: 15px;
+    border-radius: ${borderRadius}px;
   }
 
-  .item {
-    flex: 1 1 30%; /*grow | shrink | basis */
+  .playlist {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin: 8px;
-    height: 160px;
-    max-width: 33%;
+
     background-color: ${BLACK};
-    border-radius: 15px;
 
     cursor: pointer;
 
@@ -162,7 +161,7 @@ const PageContainer = styled.div`
     }
   }
 
-  .disabled {
+  .new-disabled {
     background-color: ${GREEN_DISABLED};
     pointer-events: none;
     cursor: default;

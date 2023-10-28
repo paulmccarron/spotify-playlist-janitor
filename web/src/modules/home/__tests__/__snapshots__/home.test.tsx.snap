@@ -2,10 +2,10 @@
 
 exports[`<Home /> should render Home component 1`] = `
 <div
-  class="sc-eTNxZ cJcpot"
+  class="sc-eTNxZ ijpnHX"
 >
   <div
-    class="item"
+    class="item playlist"
     data-testid="playlist-item-0"
     id="playlist-item-0"
   >
@@ -22,7 +22,7 @@ exports[`<Home /> should render Home component 1`] = `
     </div>
   </div>
   <div
-    class="item"
+    class="item playlist"
     data-testid="playlist-item-1"
     id="playlist-item-1"
   >
@@ -39,7 +39,7 @@ exports[`<Home /> should render Home component 1`] = `
     </div>
   </div>
   <div
-    class="item"
+    class="item playlist"
     data-testid="playlist-item-2"
     id="playlist-item-2"
   >
@@ -56,7 +56,7 @@ exports[`<Home /> should render Home component 1`] = `
     </div>
   </div>
   <div
-    class="item"
+    class="item playlist"
     data-testid="playlist-item-3"
     id="playlist-item-3"
   >
@@ -73,7 +73,7 @@ exports[`<Home /> should render Home component 1`] = `
     </div>
   </div>
   <div
-    class="item new "
+    class="item playlist new "
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >
@@ -99,13 +99,13 @@ exports[`<Home /> should render Home component 1`] = `
 
 exports[`<Home /> should render Home component with empty page 1`] = `
 <div
-  class="sc-eTNxZ cJcpot"
+  class="sc-eTNxZ ijpnHX"
 >
   <div
     data-testid="empty-loading"
   />
   <div
-    class="item new disabled"
+    class="item playlist new new-disabled"
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >
@@ -131,10 +131,10 @@ exports[`<Home /> should render Home component with empty page 1`] = `
 
 exports[`<Home /> should render Home component with loading skeletons 1`] = `
 <div
-  class="sc-eTNxZ cJcpot"
+  class="sc-eTNxZ ijpnHX"
 >
   <div
-    class="skelton"
+    class="item"
     data-testid="playlist-item-skeleton-0"
     id="playlist-item-skeleton-0"
   >
@@ -152,7 +152,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
     </span>
   </div>
   <div
-    class="skelton"
+    class="item"
     data-testid="playlist-item-skeleton-1"
     id="playlist-item-skeleton-1"
   >
@@ -170,7 +170,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
     </span>
   </div>
   <div
-    class="skelton"
+    class="item"
     data-testid="playlist-item-skeleton-2"
     id="playlist-item-skeleton-2"
   >
@@ -188,7 +188,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
     </span>
   </div>
   <div
-    class="skelton"
+    class="item"
     data-testid="playlist-item-skeleton-3"
     id="playlist-item-skeleton-3"
   >
@@ -206,7 +206,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
     </span>
   </div>
   <div
-    class="skelton"
+    class="item"
     data-testid="playlist-item-skeleton-4"
     id="playlist-item-skeleton-4"
   >
@@ -224,7 +224,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
     </span>
   </div>
   <div
-    class="item new disabled"
+    class="item playlist new new-disabled"
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >
@@ -250,10 +250,10 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
 
 exports[`<Home /> should render Home component with no monitored playlists 1`] = `
 <div
-  class="sc-eTNxZ cJcpot"
+  class="sc-eTNxZ ijpnHX"
 >
   <div
-    class="item new "
+    class="item playlist new "
     data-testid="add-playlist-item"
     id="add-playlist-item"
   >

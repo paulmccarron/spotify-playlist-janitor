@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import { default as ReactModal } from "react-modal";
+import { BLACK } from "shared/constants";
 
 type ModalProps = {
   label: string;
@@ -34,7 +35,7 @@ export const Modal = ({
           zIndex: 2,
         },
         overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          backgroundColor: BLACK + "80", //hex code appended with alpha value 
           zIndex: 2,
         },
       }}

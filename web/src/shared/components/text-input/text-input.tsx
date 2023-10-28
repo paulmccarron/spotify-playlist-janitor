@@ -1,7 +1,7 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import styled from "styled-components";
 
-import { DISABLED, INPUT_LABEL } from "shared/constants";
+import { DISABLED, INPUT_LABEL, WHITE } from "shared/constants";
 
 type TextInputVariation = "normal" | "boxed";
 
@@ -31,7 +31,7 @@ export const TextInput = ({ label, variation = "normal", ...props }: TextInputPr
 TextInput.displayName = "TextInput";
 
 const StyledTextInput = styled.div<{ disabled?: boolean, variation?: TextInputVariation }>`
-  background-color: ${(props) => (props.disabled ? DISABLED : "white")};
+  background-color: ${(props) => (props.disabled ? DISABLED : WHITE)};
   padding: ${(props) => (props.variation === "normal" ? "0.5rem 1rem 0.3rem 1rem" : "0.5rem 0.5rem 0.3rem 0.3rem")};
   border-radius: ${(props) => (props.variation === "normal" ? "2rem" : "0.3rem")};
 

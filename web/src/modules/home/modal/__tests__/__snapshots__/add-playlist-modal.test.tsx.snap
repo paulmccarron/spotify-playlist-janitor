@@ -17,7 +17,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
       class="rows"
     >
       <div
-        class="sc-fsYfxw elOcQB"
+        class="sc-fsYfxw husJzd"
       >
         <label
           class=""
@@ -116,7 +116,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
           Skip threshold (seconds):
         </div>
         <div
-          class="sc-qZruQ jXLqrm"
+          class="sc-qZruQ eKreTG"
           variation="boxed"
         >
           <div
@@ -169,7 +169,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
               type="checkbox"
             />
             <div
-              class="sc-kFCrIq hklQpc"
+              class="sc-kFCrIq jlgvLw"
             />
           </label>
         </div>
@@ -199,7 +199,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
           Auto-delete tracks after:
         </div>
         <div
-          class="sc-qZruQ jXLqrm"
+          class="sc-qZruQ eKreTG"
           variation="boxed"
         >
           <div
@@ -242,7 +242,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
       style="display: flex; flex-direction: row; justify-content: flex-end;"
     >
       <button
-        class="sc-jTQDJr sc-iBdoyZ gTPDUb ciKhVj secondary"
+        class="sc-jTQDJr sc-iBdoyZ gmttQv bbczBv secondary"
         data-testid="cancel-modal-button"
         id="cancel-modal-button"
         style="margin: 0px 4px;"
@@ -251,7 +251,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
         Cancel
       </button>
       <button
-        class="sc-jTQDJr sc-gLLuHO gTPDUb lckOnr primary"
+        class="sc-jTQDJr sc-gLLuHO gmttQv lckOnr primary"
         data-testid="confirm-modal-button"
         id="confirm-modal-button"
         style="margin: 0px 4px;"
@@ -281,7 +281,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
       class="rows"
     >
       <div
-        class="sc-fsYfxw elOcQB"
+        class="sc-fsYfxw husJzd"
       >
         <label
           class=""
@@ -380,7 +380,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
           Skip threshold (seconds):
         </div>
         <div
-          class="sc-qZruQ jXLqrm"
+          class="sc-qZruQ eKreTG"
           variation="boxed"
         >
           <div
@@ -433,7 +433,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
               type="checkbox"
             />
             <div
-              class="sc-kFCrIq hklQpc"
+              class="sc-kFCrIq jlgvLw"
             />
           </label>
         </div>
@@ -463,7 +463,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
           Auto-delete tracks after:
         </div>
         <div
-          class="sc-qZruQ jXLqrm"
+          class="sc-qZruQ eKreTG"
           variation="boxed"
         >
           <div
@@ -517,7 +517,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
       style="display: flex; flex-direction: row; justify-content: flex-end;"
     >
       <button
-        class="sc-jTQDJr sc-iBdoyZ gTPDUb ciKhVj secondary"
+        class="sc-jTQDJr sc-iBdoyZ gmttQv bbczBv secondary"
         data-testid="cancel-modal-button"
         id="cancel-modal-button"
         style="margin: 0px 4px;"
@@ -526,7 +526,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
         Cancel
       </button>
       <button
-        class="sc-jTQDJr sc-gLLuHO gTPDUb lckOnr primary"
+        class="sc-jTQDJr sc-gLLuHO gmttQv lckOnr primary"
         data-testid="confirm-modal-button"
         id="confirm-modal-button"
         style="margin: 0px 4px;"
