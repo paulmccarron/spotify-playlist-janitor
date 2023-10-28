@@ -539,7 +539,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
               type="checkbox"
             />
             <div
-              class="sc-gLLuHO erFMoJ"
+              class="sc-gLLuHO fOWYEd"
             />
           </label>
         </td>

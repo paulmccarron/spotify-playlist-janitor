@@ -14,7 +14,7 @@ exports[`<Toggle /> should render Toggle component 1`] = `
     type="checkbox"
   />
   <div
-    class="sc-guDMob jhvENS"
+    class="sc-guDMob jngekq"
   />
 </label>
 `;
@@ -34,7 +34,7 @@ exports[`<Toggle /> should render Toggle component toggled 1`] = `
     type="checkbox"
   />
   <div
-    class="sc-guDMob jhvENS"
+    class="sc-guDMob jngekq"
   />
 </label>
 `;

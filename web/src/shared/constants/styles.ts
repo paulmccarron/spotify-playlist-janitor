@@ -9,6 +9,7 @@ export const TABLE_HOVER = "#232323";
 export const INPUT_LABEL = "#757575";
 export const SELECT_INDICATOR = "#808080";
 export const SELECT_MENU = "#3c3d3e";
+export const TOGGLE_BACKGROUND = "#b3b3b3";
 
 
 export const HEADER_HEIGHT = "32px";
