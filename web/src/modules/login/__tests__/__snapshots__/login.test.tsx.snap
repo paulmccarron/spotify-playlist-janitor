@@ -2,7 +2,7 @@
 
 exports[`<Login /> should render Login component 1`] = `
 <div
-  class="sc-qZruQ bUEUBV"
+  class="sc-qZruQ ekdInl"
 >
   <div
     class="row"
@@ -29,7 +29,8 @@ exports[`<Login /> should render Login component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -53,7 +54,8 @@ exports[`<Login /> should render Login component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -78,7 +80,7 @@ exports[`<Login /> should render Login component 1`] = `
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="login-button"
         id="login-button"
       >
@@ -88,7 +90,7 @@ exports[`<Login /> should render Login component 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bbjLuS gglck"
       data-testid="register-button"
       id="register-button"
     >
@@ -100,7 +102,7 @@ exports[`<Login /> should render Login component 1`] = `
 
 exports[`<Login /> should render Login component with disabled elements 1`] = `
 <div
-  class="sc-qZruQ bUEUBV"
+  class="sc-qZruQ ekdInl"
 >
   <div
     class="row"
@@ -127,8 +129,9 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -153,8 +156,9 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -180,7 +184,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="login-button"
         disabled=""
         id="login-button"
@@ -191,7 +195,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bbjLuS gglck"
       data-testid="register-button"
       disabled=""
       id="register-button"
@@ -204,7 +208,7 @@ exports[`<Login /> should render Login component with disabled elements 1`] = `
 
 exports[`<Login /> should render Login component with error 1`] = `
 <div
-  class="sc-qZruQ bUEUBV"
+  class="sc-qZruQ ekdInl"
 >
   <div
     class="row"
@@ -231,7 +235,8 @@ exports[`<Login /> should render Login component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -255,7 +260,8 @@ exports[`<Login /> should render Login component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -291,7 +297,7 @@ exports[`<Login /> should render Login component with error 1`] = `
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="login-button"
         id="login-button"
       >
@@ -301,7 +307,7 @@ exports[`<Login /> should render Login component with error 1`] = `
   </form>
   <div>
     <button
-      class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+      class="sc-beyTiQ sc-dmyDmy bbjLuS gglck"
       data-testid="register-button"
       id="register-button"
     >

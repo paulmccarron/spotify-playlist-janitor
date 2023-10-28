@@ -38,7 +38,7 @@ export const useLoginLogic = () => {
         const now = new Date().getTime();
         const userToken: UserToken = {
           ...token,
-          expires_on: token.expires_in * 1000 + now,
+          expires_on: token.expires_in + now,
         };
 
         setError(undefined);

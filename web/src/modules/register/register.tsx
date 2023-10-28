@@ -1,7 +1,7 @@
 import { PrimaryButton } from "shared/components/button";
 import { TextInput } from "shared/components/text-input";
 import { SecondaryText, Text, Title } from "shared/components/typography";
-import { RED } from "shared/constants";
+import { RED, WHITE } from "shared/constants";
 import styled from "styled-components";
 import { useRegisterLogic } from "./use-register-logic";
 
@@ -84,7 +84,7 @@ export const Register = () => {
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  color: white;
+  color: ${WHITE};
   justify-content: center;
   align-items: center;
 

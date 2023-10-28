@@ -2,7 +2,7 @@
 
 exports[`<Register /> should render Register component 1`] = `
 <div
-  class="sc-qZruQ cYFfRd"
+  class="sc-qZruQ bjnGwt"
 >
   <div
     class="row"
@@ -29,7 +29,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -53,7 +54,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -78,7 +80,8 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -103,7 +106,7 @@ exports[`<Register /> should render Register component 1`] = `
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="register-button"
         id="register-button"
       >
@@ -116,7 +119,7 @@ exports[`<Register /> should render Register component 1`] = `
 
 exports[`<Register /> should render Register component with disabled elements 1`] = `
 <div
-  class="sc-qZruQ cYFfRd"
+  class="sc-qZruQ bjnGwt"
 >
   <div
     class="row"
@@ -143,8 +146,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -169,8 +173,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -196,8 +201,9 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <div
-        class="sc-hLQTFJ UdMVo"
+        class="sc-hLQTFJ fhcrtD"
         disabled=""
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -223,7 +229,7 @@ exports[`<Register /> should render Register component with disabled elements 1`
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="register-button"
         disabled=""
         id="register-button"
@@ -237,7 +243,7 @@ exports[`<Register /> should render Register component with disabled elements 1`
 
 exports[`<Register /> should render Register component with error 1`] = `
 <div
-  class="sc-qZruQ cYFfRd"
+  class="sc-qZruQ bjnGwt"
 >
   <div
     class="row"
@@ -264,7 +270,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -288,7 +295,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -313,7 +321,8 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <div
-        class="sc-hLQTFJ NJdJ"
+        class="sc-hLQTFJ gXUmTP"
+        varaint="normal"
       >
         <div
           class="input-container"
@@ -349,7 +358,7 @@ exports[`<Register /> should render Register component with error 1`] = `
       class="row"
     >
       <button
-        class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+        class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
         data-testid="register-button"
         id="register-button"
       >

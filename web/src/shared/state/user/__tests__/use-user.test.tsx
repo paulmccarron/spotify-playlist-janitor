@@ -13,7 +13,7 @@ jest.mock("api/auth-api");
 
 describe("useUser", () => {
   let result: RefObject<ReturnType<typeof useUser>>;
-  (getItem as jest.Mock).mockImplementation(() => undefined);
+  jest.mocked(getItem).mockImplementation(() => undefined);
 
   beforeEach(() => {
     const initializeState = ({ set }: MutableSnapshot) => {

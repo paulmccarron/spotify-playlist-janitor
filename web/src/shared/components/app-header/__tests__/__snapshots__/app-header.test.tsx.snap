@@ -2,7 +2,7 @@
 
 exports[`<AppHeader /> should render AppHeader component when logged in 1`] = `
 <div
-  class="sc-jTQDJr dDKoCf"
+  class="sc-jTQDJr jvnSAP"
 >
   <div
     class="header-item"
@@ -31,7 +31,7 @@ exports[`<AppHeader /> should render AppHeader component when logged in 1`] = `
 
 exports[`<AppHeader /> should render AppHeader component when not logged in 1`] = `
 <div
-  class="sc-jTQDJr dDKoCf"
+  class="sc-jTQDJr jvnSAP"
 >
   <div
     class="header-item"

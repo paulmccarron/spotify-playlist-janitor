@@ -15,9 +15,7 @@ describe("<AppHeader />", () => {
   };
 
   beforeEach(() => {
-    (useAppHeaderLogic as jest.Mock).mockImplementation(
-      () => mockUseAppHeaderLogic
-    );
+    jest.mocked(useAppHeaderLogic).mockImplementation(() => mockUseAppHeaderLogic);
     ({ container } = render(<AppHeader />));
   });
 
@@ -30,9 +28,7 @@ describe("<AppHeader />", () => {
       ...mockUseAppHeaderLogic,
       loggedIn: false,
     };
-    (useAppHeaderLogic as jest.Mock).mockImplementation(
-      () => mockUseAppHeaderLogic2
-    );
+    jest.mocked(useAppHeaderLogic).mockImplementation(() => mockUseAppHeaderLogic2);
     ({ container } = render(<AppHeader />));
     expect(container.firstChild).toMatchSnapshot();
   });

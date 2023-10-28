@@ -5,7 +5,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
   class="sc-hABBGs hJPcRD"
 >
   <table
-    class="sc-fmKFmJ idnOik"
+    class="sc-fmKFmJ kwIBMg"
   >
     <thead>
       <tr>
@@ -102,7 +102,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ iqkiwA"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -122,8 +123,53 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ jKyZMJ"
+            varaint="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            varaint="normal"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                id="example"
+                placeholder="Enter email..."
+                value=""
+              />
+              <label
+                class=""
+                for="example"
+              >
+                Email
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -151,7 +197,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ iqkiwA"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -170,8 +217,51 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ jKyZMJ"
+            varaint="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            varaint="normal"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                placeholder="Enter password..."
+                type="password"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Password
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            varaint="boxed"
           >
             <div
               class="input-container"
@@ -198,7 +288,8 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-beyTiQ ijBchK"
+            class="sc-beyTiQ iqkiwA"
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -217,8 +308,29 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           </div>
           <br />
           <div
-            class="sc-beyTiQ iJholj"
+            class="sc-beyTiQ jKyZMJ"
+            varaint="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          <br />
+          <div
+            class="sc-beyTiQ jceqaw"
             disabled=""
+            varaint="normal"
           >
             <div
               class="input-container"
@@ -236,6 +348,29 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
               </label>
             </div>
           </div>
+          <br />
+          <div
+            class="sc-beyTiQ inhyRt"
+            disabled=""
+            varaint="boxed"
+          >
+            <div
+              class="input-container"
+            >
+              <input
+                disabled=""
+                placeholder="Enter number of minutes..."
+                type="number"
+                value=""
+              />
+              <label
+                class=""
+              >
+                Minutes
+              </label>
+            </div>
+          </div>
+          <br />
           Value: 
         </td>
       </tr>
@@ -245,7 +380,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-eDLKEg eVKhyY"
+            class="sc-eDLKEg fXhFQo"
           >
             <label
               class=""
@@ -346,14 +481,14 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           style="display: flex; flex-direction: row; justify-content: space-around;"
         >
           <button
-            class="sc-guDMob sc-dmyDmy gzXMwu juRygi"
+            class="sc-guDMob sc-dmyDmy ecxjga juRygi"
             data-testid="primary-example"
             id="primary-example"
           >
             Primary
           </button>
           <button
-            class="sc-guDMob sc-dmyDmy gzXMwu juRygi"
+            class="sc-guDMob sc-dmyDmy ecxjga juRygi"
             data-testid="primary-example"
             disabled=""
             id="primary-example"
@@ -370,14 +505,14 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           style="display: flex; flex-direction: row; justify-content: space-around;"
         >
           <button
-            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
+            class="sc-guDMob sc-hLQTFJ ecxjga iQDkMx"
             data-testid="secondary-example"
             id="secondary-example"
           >
             Secondary
           </button>
           <button
-            class="sc-guDMob sc-hLQTFJ gzXMwu jxvXBY"
+            class="sc-guDMob sc-hLQTFJ ecxjga iQDkMx"
             data-testid="secondary-example"
             disabled=""
             id="secondary-example"
@@ -404,7 +539,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
               type="checkbox"
             />
             <div
-              class="sc-gLLuHO kmjgpZ"
+              class="sc-gLLuHO fOWYEd"
             />
           </label>
         </td>
@@ -415,7 +550,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <div
-            class="sc-fsYfxw eROgDJ"
+            class="sc-fsYfxw BoQYB"
             data-rttabs="true"
           >
             <ul
@@ -571,7 +706,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <table
-            class="sc-brSaGm enekOM"
+            class="sc-brSaGm jcGgKY"
           >
             <caption>
               Table caption.
@@ -1091,14 +1226,14 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
           style="display: flex; justify-content: space-evenly;"
         >
           <button
-            class="sc-guDMob sc-dmyDmy gzXMwu juRygi primary"
+            class="sc-guDMob sc-dmyDmy ecxjga juRygi primary"
             data-testid="modal-button-example"
             id="modal-button-example"
           >
             Open Modal
           </button>
           <button
-            class="sc-guDMob sc-dmyDmy gzXMwu juRygi primary"
+            class="sc-guDMob sc-dmyDmy ecxjga juRygi primary"
             data-testid="modal-button-example-2"
             id="modal-button-example-2"
           >

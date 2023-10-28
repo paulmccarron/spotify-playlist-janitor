@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, ReactElement } from "react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { BLACK } from "shared/constants";
 
 type TooltipProps = {
   content: string | ReactElement;
@@ -19,7 +20,7 @@ export const Tooltip = ({
       <ReactTooltip
         id={dataTooltipId}
         data-testid="tooltip-data-testid"
-        style={{ backgroundColor: "black" }}
+        style={{ backgroundColor: BLACK, width: '85%' }}
       >
         {content}
       </ReactTooltip>

@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import styled from "styled-components";
 
-import { DISABLED, GREEN, GREEN_DISABLED } from "shared/constants";
+import { BLACK, DISABLED, GREEN, GREEN_DISABLED, WHITE } from "shared/constants";
 
 type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   border-radius: 5rem;
   height: 50px;
   min-width: 112px;
-  color: black;
+  color: ${BLACK};
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -35,7 +35,7 @@ const StyledPrimaryButton = styled(StyledButton)`
 `;
 
 const StyledSecondaryButton = styled(StyledButton)`
-  background-color: white;
+  background-color: ${WHITE};
   &:disabled{
     background-color: ${DISABLED};
   }

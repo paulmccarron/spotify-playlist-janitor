@@ -35,7 +35,7 @@ describe("useRegisterLogic", () => {
       ],
     };
 
-    (useAuthApi as jest.Mock).mockImplementation(() => mockUseAuthApi);
+    jest.mocked(useAuthApi).mockImplementation(() => mockUseAuthApi);
     ({ result } = renderHook(() => useRegisterLogic()));
   });
 
@@ -138,7 +138,7 @@ describe("useRegisterLogic", () => {
         register: jest.fn(() => Promise.reject({ response: setup.response })),
       };
 
-      (useAuthApi as jest.Mock).mockImplementation(() => mockUseAuthApi);
+      jest.mocked(useAuthApi).mockImplementation(() => mockUseAuthApi);
       ({ result } = renderHook(() => useRegisterLogic()));
 
       act(() => {

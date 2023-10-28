@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { BACKGROUND, TABLE_HOVER } from "shared/constants";
+import { BACKGROUND, TABLE_HOVER, WHITE } from "shared/constants";
 
 import { TableBody } from "./table-body";
 import { TableHead } from "./table-head";
@@ -22,7 +22,7 @@ const TableComponent = styled.table`
     border-bottom: 1px solid #121212 !important;
     min-width: 34px;
     text-align: left;
-    color: white;
+    color: ${WHITE};
   }
 
   tbody tr:nth-child(even) {

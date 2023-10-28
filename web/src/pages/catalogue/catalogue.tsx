@@ -26,6 +26,7 @@ import {
 } from "react-icons/vsc";
 import { Tooltip } from "shared/components/tooltip";
 import { Menu, MenuItem } from "shared/components/menu";
+import { GREEN, WHITE } from "shared/constants";
 
 export const Catalogue = () => {
   const [textValue, setTextInputValue] = useState("");
@@ -126,7 +127,7 @@ export const Catalogue = () => {
                 {...{
                   id: "text-test",
                   "data-testid": "text-test-data-testid",
-                  style: { color: "#1ed760" },
+                  style: { color: GREEN },
                 }}
               >
                 Normal Text
@@ -170,6 +171,16 @@ export const Catalogue = () => {
                   value: textValue,
                   onChange: onTextChange,
                 }}
+              /><br/>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                  varaint: "boxed",
+                }}
               />
               <br/>
               <TextInput
@@ -179,6 +190,18 @@ export const Catalogue = () => {
                   id: "example",
                   value: textValue,
                   onChange: onTextChange,
+                  disabled: true,
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  label: "Email",
+                  placeholder: "Enter email...",
+                  id: "example",
+                  value: textValue,
+                  onChange: onTextChange,
+                  varaint: "boxed",
                   disabled: true,
                 }}
               />
@@ -205,6 +228,29 @@ export const Catalogue = () => {
                   placeholder: "Enter password...",
                   value: passwordValue,
                   onChange: onPasswordChange,
+                  varaint: "boxed",
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: passwordValue,
+                  onChange: onPasswordChange,
+                  disabled: true,
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "password",
+                  label: "Password",
+                  placeholder: "Enter password...",
+                  value: passwordValue,
+                  onChange: onPasswordChange,
+                  varaint: "boxed",
                   disabled: true,
                 }}
               />
@@ -231,9 +277,33 @@ export const Catalogue = () => {
                   placeholder: "Enter number of minutes...",
                   value: numberValue,
                   onChange: onNumberChange,
+                  varaint: "boxed",
+                }}
+              />
+              <br/>
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
                   disabled: true,
                 }}
               />
+              <br/>
+              <TextInput
+                {...{
+                  type: "number",
+                  label: "Minutes",
+                  placeholder: "Enter number of minutes...",
+                  value: numberValue,
+                  onChange: onNumberChange,
+                  varaint: "boxed",
+                  disabled: true,
+                }}
+              />
+              <br/>
               <>Value: {numberValue}</>
             </td>
           </tr>
@@ -527,7 +597,7 @@ const Content = styled.div`
 `;
 
 const CatalogueTable = styled.table`
-  color: white;
+  color: ${WHITE};
   margin-top: 8px;
   padding-bottom: 16px;
   th,

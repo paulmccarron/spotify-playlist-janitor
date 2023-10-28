@@ -2,7 +2,7 @@
 
 exports[`<PrimaryButton /> should render PrimaryButton component 1`] = `
 <button
-  class="sc-beyTiQ sc-guDMob bFOxeO bDhOyw"
+  class="sc-beyTiQ sc-guDMob bbjLuS bDhOyw"
   data-testid="test-primary-button-id"
   id="primary-button-id"
 >
@@ -12,7 +12,7 @@ exports[`<PrimaryButton /> should render PrimaryButton component 1`] = `
 
 exports[`<SecondaryButton /> should render SecondaryButton component 1`] = `
 <button
-  class="sc-beyTiQ sc-dmyDmy bFOxeO kBSTbV"
+  class="sc-beyTiQ sc-dmyDmy bbjLuS gglck"
   data-testid="test-secondary-button-id"
   id="secondary-button-id"
 >
