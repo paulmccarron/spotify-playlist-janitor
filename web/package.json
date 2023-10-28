@@ -43,7 +43,8 @@
       "!src/**/index.{ts,tsx}",
       "!src/**/catalogue.{ts,tsx}",
       "!src/**/user-state.{ts,tsx}",
-      "!src/**/skeleton/*.{ts,tsx}"
+      "!src/**/skeleton/*.{ts,tsx}",
+      "!src/**/spotify-auth-modal.{ts,tsx}"
     ],
     "testMatch": [
       "**/*.test.{ts,tsx}"

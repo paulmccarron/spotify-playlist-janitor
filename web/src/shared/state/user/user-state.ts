@@ -39,13 +39,10 @@ const isAuthenticationDataValid = (userToken: UserToken | undefined) => {
 };
 
 const getTimeout = (userToken: UserToken) => {
-  // What time is it?
-  const now = new Date().getTime();
-
-  // What time will the current CRM Token expire. Get the milliseconds
-  // until token expiration minus 5 min safety barrier.
+  // What time will the current User Token expire.
+  //Check 5 minutes before the expiry time
   // prettier-ignore
-  return ((userToken.expires_on * 1000) - now) - 300_000;
+  return userToken.expires_on - 300000;
 };
 
 export const userState = atom<UserToken | undefined>({
@@ -92,7 +89,7 @@ export const userState = atom<UserToken | undefined>({
             const now = new Date().getTime();
             const newUserToken: UserToken = {
               ...newTokenData,
-              expires_on: newTokenData.expires_in * 1000 + now,
+              expires_on: newTokenData.expires_in + now,
             };
 
             setSelf({
@@ -112,7 +109,7 @@ export const userState = atom<UserToken | undefined>({
             // Retry re-authentication if the token refresh request fails
             timer = setAccurateTimeout(
               onTimeout(token),
-              new Date().getTime() + 1000
+              new Date().getTime()
             );
           }
         };
