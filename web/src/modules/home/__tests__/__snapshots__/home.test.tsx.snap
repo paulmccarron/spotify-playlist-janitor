@@ -2,7 +2,7 @@
 
 exports[`<Home /> should render Home component 1`] = `
 <div
-  class="sc-eTNxZ eCVjgG"
+  class="sc-eTNxZ cJcpot"
 >
   <div
     class="item"
@@ -99,7 +99,7 @@ exports[`<Home /> should render Home component 1`] = `
 
 exports[`<Home /> should render Home component with empty page 1`] = `
 <div
-  class="sc-eTNxZ eCVjgG"
+  class="sc-eTNxZ cJcpot"
 >
   <div
     data-testid="empty-loading"
@@ -131,7 +131,7 @@ exports[`<Home /> should render Home component with empty page 1`] = `
 
 exports[`<Home /> should render Home component with loading skeletons 1`] = `
 <div
-  class="sc-eTNxZ eCVjgG"
+  class="sc-eTNxZ cJcpot"
 >
   <div
     class="skelton"
@@ -250,7 +250,7 @@ exports[`<Home /> should render Home component with loading skeletons 1`] = `
 
 exports[`<Home /> should render Home component with no monitored playlists 1`] = `
 <div
-  class="sc-eTNxZ eCVjgG"
+  class="sc-eTNxZ cJcpot"
 >
   <div
     class="item new "

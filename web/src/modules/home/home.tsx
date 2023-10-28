@@ -9,6 +9,7 @@ import { Modal } from "shared/components/modal";
 import { useHomeLogic } from "./use-home-logic";
 import { AddPlaylistModalView } from "./modal/add-playlist-modal";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
+import { SpotifyAuthModalView } from "./modal";
 
 export const Home = () => {
   const {
@@ -108,23 +109,7 @@ export const Home = () => {
           label: "Spotify Auth Modal",
         }}
       >
-        <ModalContainer>
-          <SubTitle style={{ marginBottom: 8 }}>
-            Spotify Authentication Error
-          </SubTitle>
-          <Text>
-            The application has not been authenticated with your Spotify
-            account. Please follow{" "}
-            <a
-              href={process.env.REACT_APP_API_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              this
-            </a>{" "}
-            link and sign into Spotify, and <a href=".">reload</a> this page.
-          </Text>
-        </ModalContainer>
+        <SpotifyAuthModalView/>
       </Modal>
     </PageContainer>
   );
@@ -143,13 +128,9 @@ const PageContainer = styled.div`
 
   .skelton {
     flex: 1 1 30%; /*grow | shrink | basis */
-    // display: flex;
-    // justify-content: space-evenly;
-    // align-items: center;
     margin: 8px;
     height: 160px;
     max-width: 33%;
-    // background-color: ${BLACK};
     border-radius: 15px;
   }
 
@@ -190,41 +171,6 @@ const PageContainer = styled.div`
       transform: none;
       box-shadow: none;
     }
-  }
-`;
-
-const ModalContainer = styled.div`
-  width: 360px;
-
-  .rows {
-    margin-bottom: 8px;
-  }
-
-  .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .number-input {
-    width: 55px !important;
-  }
-
-  .toggle-input {
-    margin-right: 16px;
-  }
-
-  .auto-delete-input {
-    margin-right: -10px;
-  }
-
-  .auto-delete-post-text {
-    margin-right: 10px;
-  }
-
-  .error {
-    color: ${RED};
   }
 `;
 
