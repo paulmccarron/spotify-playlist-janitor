@@ -7,8 +7,13 @@ import { useSpotifyApi } from "api/spotify-api";
 import { databasePlaylists, spotifyPlaylists } from "shared/mock-data/api";
 import { unmonitoredPlaylists } from "shared/mock-data/home";
 
+const mockNavigate = jest.fn();
+
 jest.mock("api/data-api");
 jest.mock("api/spotify-api");
+jest.mock("react-router-dom", () => ({
+  useNavigate: jest.fn(() => mockNavigate),
+}));
 
 describe("useHomeLogic", () => {
   let result: RefObject<ReturnType<typeof useHomeLogic>>;
@@ -297,5 +302,10 @@ describe("useHomeLogic", () => {
     });
 
     expect(result.current?.modalError).toBe(undefined);
+  });
+
+  it("should call naviagte when onPlaylistClick called", () => {
+    result.current?.onPlaylistClick("testId");
+    expect(mockNavigate).toHaveBeenCalledWith("/playlist/testId");
   });
 });

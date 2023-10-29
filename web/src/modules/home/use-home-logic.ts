@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
 
 import { Playlist } from "./home-types";
 import { useModal } from "shared/components/modal";
+import { PLAYLIST } from "shared/constants";
 
 export const useHomeLogic = () => {
   const { getDatabasePlaylists, addDatabasePlaylist } = useDataApi();
   const { getSpotifyPlaylists } = useSpotifyApi();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [loadingSkeletons, setLoadingSkeletons] = useState<number[] | undefined>();
@@ -30,10 +33,8 @@ export const useHomeLogic = () => {
   }, [setModalError, onClose]);
 
   const onPlaylistClick = useCallback((playlistId: string) => {
-    alert(
-      `Naviagte to /${playlistId}`
-    )
-  }, [])
+    navigate(`${PLAYLIST}/${playlistId}`);
+  }, [navigate])
 
   const getPlaylistData = useCallback(async () => {
     try {

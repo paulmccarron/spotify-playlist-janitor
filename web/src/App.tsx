@@ -3,9 +3,10 @@ import { RecoilRoot } from "recoil";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import { HOME, CATALOGUE, LOGIN, REGISTER } from "shared/constants";
+import { HOME, CATALOGUE, LOGIN, PLAYLIST, REGISTER, ID } from "shared/constants";
 import { AppHeader } from "shared/components/app-header";
 import { Home } from "pages/home";
+import { Playlist } from "pages/playlist";
 import { Catalogue } from "pages/catalogue";
 import { Login } from "pages/login";
 import { Register } from "pages/register";
@@ -24,6 +25,14 @@ function App() {
               element={
                 <AuthProvider shouldBeAuthorised={true} redirectPath={LOGIN}>
                   <Home />
+                </AuthProvider>
+              }
+            />
+            <Route
+              path={`${PLAYLIST}${ID}`}
+              element={
+                <AuthProvider shouldBeAuthorised={true} redirectPath={LOGIN}>
+                  <Playlist />
                 </AuthProvider>
               }
             />
