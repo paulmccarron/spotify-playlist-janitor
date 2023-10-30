@@ -2,12 +2,10 @@ import styled from "styled-components";
 import { RED } from "shared/constants";
 import { SecondaryText, SubTitle, Text } from "shared/components/typography";
 import { PrimaryButton, SecondaryButton } from "shared/components/button";
-import { Select } from "shared/components/select";
 import { TextInput } from "shared/components/text-input";
 import { Tooltip } from "shared/components/tooltip";
 import { VscQuestion } from "react-icons/vsc";
 import { Toggle } from "shared/components/toggle";
-import { Playlist } from "shared/types";
 import { DetailedPlaylist } from "../playlist-types";
 
 type EditPlaylistModalViewProps = {
