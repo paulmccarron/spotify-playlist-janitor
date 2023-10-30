@@ -1,34 +1,33 @@
 import { fireEvent, getByTestId, render } from "@testing-library/react";
 
-import { AddPlaylistModalView } from "../edit-playlist-modal";
-import { unmonitoredPlaylists } from "shared/mock-data/home";
+import { EditPlaylistModalView } from "../edit-playlist-modal";
+import { playlist } from "shared/mock-data/playlist";
 
-describe("<AddPlaylistModalView />", () => {
+describe("<EditPlaylistModalView />", () => {
   let container: HTMLElement;
   let props: any = {
     onSubmit: jest.fn(),
-    unmonitoredPlaylists,
-    onPlaylistChange: jest.fn(),
+    playlist,
     modalSaving: false,
     modalError: undefined,
     onModalClose: jest.fn(),
   };
 
   beforeEach(async () => {
-    ({ container } = render(<AddPlaylistModalView {...props} />));
+    ({ container } = render(<EditPlaylistModalView {...props} />));
   });
 
-  it("should render AddPlaylistModalView component", () => {
+  it("should render EditPlaylistModalView component", () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it("should render AddPlaylistModalView component with an error", () => {
+  it("should render EditPlaylistModalView component with an error", () => {
     props = {
       ...props,
       modalError: "MODAL_ERROR",
     };
 
-    ({ container } = render(<AddPlaylistModalView {...props} />));
+    ({ container } = render(<EditPlaylistModalView {...props} />));
 
     expect(container.firstChild).toMatchSnapshot();
   });

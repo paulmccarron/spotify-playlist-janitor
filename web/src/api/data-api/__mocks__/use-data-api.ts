@@ -6,5 +6,12 @@ export const useDataApi = jest.fn(() => ({
       data: databasePlaylists,
     })
   ),
+  getDatabasePlaylist: jest.fn((id: string) =>
+    Promise.resolve({
+      data: databasePlaylists.find(x => x.id === id),
+    })
+  ),
   addDatabasePlaylist: jest.fn(() => Promise.resolve()),
+  updateDatabasePlaylist: jest.fn(() => Promise.resolve()),
+  deleteDatabasePlaylist: jest.fn(() => Promise.resolve()),
 }));

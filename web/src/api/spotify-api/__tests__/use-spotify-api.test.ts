@@ -23,4 +23,14 @@ describe("useSpotifyApi", () => {
       },
     });
   });
+
+  it("should call the getSpotifyPlaylistRequest function when the getSpotifyPlaylist function is called", () => {
+    result.current?.getSpotifyPlaylist("testId");
+
+    expect(get).toHaveBeenCalledWith("/spotify/playlists/testId", {
+      headers: {
+        authorization: expect.any(String),
+      },
+    });
+  });
 });
