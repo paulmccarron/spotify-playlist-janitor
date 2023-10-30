@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
 
-import { Playlist } from "./home-types";
+import { Playlist } from "shared/types";
 import { useModal } from "shared/components/modal";
-import { PLAYLIST } from "shared/constants";
+import { PLAYLIST, DEFAULT_IMAGE } from "shared/constants";
 
 export const useHomeLogic = () => {
   const { getDatabasePlaylists, addDatabasePlaylist } = useDataApi();
@@ -57,7 +57,7 @@ export const useHomeLogic = () => {
             id: monitoredPlaylist.id,
             href: monitoredPlaylist.href,
             name: monitoredPlaylist.name,
-            image: monitoredPlaylist.images[0],
+            image: monitoredPlaylist.images[0] ?? DEFAULT_IMAGE,
           }))
       );
 

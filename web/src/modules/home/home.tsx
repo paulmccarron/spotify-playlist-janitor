@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import styled from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import { BLACK, GREEN, GREEN_DISABLED, WHITE } from "shared/constants";
+import { BLACK, GREEN, GREEN_DISABLED, SKELETON_HOME_BASE, SKELETON_HIGHLIGHT, WHITE } from "shared/constants";
 import { SubTitle } from "shared/components/typography";
 import { Modal } from "shared/components/modal";
 
@@ -30,40 +30,49 @@ export const Home = () => {
     showSpotifyAuthModal,
   } = useHomeLogic();
 
-  const addButton = useCallback(({ disabled }: { disabled: boolean }) =>
-    <div
-      className={`item playlist new ${disabled ? "new-disabled" : ""}`}
-      onClick={onModalOpen}
-      id={`add-playlist-item`}
-      data-testid={`add-playlist-item`}
-    >
-      <AiOutlinePlusCircle />
-    </div>
-    , [onModalOpen])
+  const addButton = useCallback(
+    ({ disabled }: { disabled: boolean }) => (
+      <div
+        className={`item playlist new ${disabled ? "new-disabled" : ""}`}
+        onClick={onModalOpen}
+        id={`add-playlist-item`}
+        data-testid={`add-playlist-item`}
+      >
+        <AiOutlinePlusCircle />
+      </div>
+    ),
+    [onModalOpen]
+  );
 
   return (
     <PageContainer>
-      {loading &&
+      {loading && (
         <>
           {!loadingSkeletons && <div data-testid="empty-loading" />}
-          {loadingSkeletons && <>
-            {loadingSkeletons?.map(loadingSkeleton =>
-              <div
-                key={loadingSkeleton}
-                className="item"
-                id={`playlist-item-skeleton-${loadingSkeleton}`}
-                data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
-              >
-                <SkeletonTheme baseColor="#020202" highlightColor="#444" height="100%" borderRadius={borderRadius}>
-                  <Skeleton />
-                </SkeletonTheme>
-              </div>
-            )}
-            {addButton({ disabled: true })}
-          </>
-          }
+          {loadingSkeletons && (
+            <>
+              {loadingSkeletons?.map((loadingSkeleton) => (
+                <div
+                  key={loadingSkeleton}
+                  className="item"
+                  id={`playlist-item-skeleton-${loadingSkeleton}`}
+                  data-testid={`playlist-item-skeleton-${loadingSkeleton}`}
+                >
+                  <SkeletonTheme
+                    baseColor={SKELETON_HOME_BASE}
+                    highlightColor={SKELETON_HIGHLIGHT}
+                    height="100%"
+                    borderRadius={borderRadius}
+                  >
+                    <Skeleton />
+                  </SkeletonTheme>
+                </div>
+              ))}
+              {addButton({ disabled: true })}
+            </>
+          )}
         </>
-      }
+      )}
       {!loading && monitoredPlaylists && (
         <>
           {monitoredPlaylists.map((monitoredPlaylist, index) => (
@@ -76,10 +85,10 @@ export const Home = () => {
             >
               {monitoredPlaylist.image && (
                 <img
-                  alt={monitoredPlaylist.name}
                   width={130}
                   height={130}
                   src={monitoredPlaylist.image.url}
+                  alt={monitoredPlaylist.name}
                 />
               )}
 
@@ -110,7 +119,7 @@ export const Home = () => {
       <Modal
         {...{
           isOpen: showSpotifyAuthModal,
-          onClose: () => { },
+          onClose: () => {},
           label: "Spotify Auth Modal",
         }}
       >
@@ -129,7 +138,7 @@ const PageContainer = styled.div`
   color: ${WHITE};
   width: 100%;
   max-width: 1825px;
-  paddingtop: 18px;
+  padding-top: 14px;
 
   .item {
     flex: 1 1 30%; /*grow | shrink | basis */

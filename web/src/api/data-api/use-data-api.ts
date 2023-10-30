@@ -2,9 +2,15 @@ import { useCallback } from "react";
 import { useCommonHeaders } from "api/use-common-headers";
 import {
   getDatabasePlaylists as getDatabasePlaylistsRequest,
+  getDatabasePlaylist as getDatabasePlaylistRequest,
   addDatabasePlaylist as addDatabasePlaylistRequest,
+  updateDatabasePlaylist as updateDatabasePlaylistRequest,
+  deleteDatabasePlaylist as deleteDatabasePlaylistRequest,
 } from "./data-api";
-import { AddDatabasePlaylistRequest } from "./data-api-types";
+import {
+  AddDatabasePlaylistRequest,
+  UpdateDatabasePlaylistRequest,
+} from "./data-api-types";
 
 export const useDataApi = () => {
   const commonHeaders = useCommonHeaders();
@@ -19,6 +25,17 @@ export const useDataApi = () => {
     [commonHeaders]
   );
 
+  const getDatabasePlaylist = useCallback(
+    (id: string) =>
+      getDatabasePlaylistRequest(id, {
+        headers: {
+          ...commonHeaders,
+        },
+      }),
+
+    [commonHeaders]
+  );
+
   const addDatabasePlaylist = useCallback(
     (request: AddDatabasePlaylistRequest) =>
       addDatabasePlaylistRequest(request, {
@@ -29,8 +46,32 @@ export const useDataApi = () => {
     [commonHeaders]
   );
 
+  const updateDatabasePlaylist = useCallback(
+    (id: string, request: UpdateDatabasePlaylistRequest) =>
+      updateDatabasePlaylistRequest(id, request, {
+        headers: {
+          ...commonHeaders,
+        },
+      }),
+    [commonHeaders]
+  );
+
+  const deleteDatabasePlaylist = useCallback(
+    (id: string) =>
+      deleteDatabasePlaylistRequest(id, {
+        headers: {
+          ...commonHeaders,
+        },
+      }),
+
+    [commonHeaders]
+  );
+
   return {
     getDatabasePlaylists,
+    getDatabasePlaylist,
     addDatabasePlaylist,
+    updateDatabasePlaylist,
+    deleteDatabasePlaylist,
   } as const;
 };
