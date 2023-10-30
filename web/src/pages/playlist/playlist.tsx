@@ -5,11 +5,7 @@ import { HEADER_HEIGHT, HEADER_PADDING } from "shared/constants";
 
 export const Playlist = () => {
   let { id } = useParams();
-  return (
-    <Content>
-      <PlaylistInitialise {...{ id }} />
-    </Content>
-  );
+  return <Content>{id && <PlaylistInitialise {...{ id }} />}</Content>;
 };
 
 const Content = styled.div`

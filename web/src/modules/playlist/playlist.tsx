@@ -1,23 +1,38 @@
 import styled from "styled-components";
-import { SKELETON_PLAYLIST_BASE, SKELETON_HIGHLIGHT, WHITE } from "shared/constants";
+import {
+  SKELETON_PLAYLIST_BASE,
+  SKELETON_HIGHLIGHT,
+  WHITE,
+} from "shared/constants";
 import { usePlaylistLogic } from "./use-playlist-logic";
 import { Menu, MenuItem } from "shared/components/menu";
 import { VscEdit, VscEllipsis, VscTrash } from "react-icons/vsc";
 import { SecondaryText, Text, Title } from "shared/components/typography";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
+import { Modal } from "shared/components/modal";
+import { EditPlaylistModalView } from "./modal";
 
 type PlaylistProps = {
-  id?: string;
+  id: string;
 };
 
 export const Playlist = ({ id }: PlaylistProps) => {
-  const { loading, notFound, playlist } = usePlaylistLogic({ id });
+  const {
+    loading,
+    notFound,
+    playlist,
+    editOpen,
+    onEditOpen,
+    onEditClose,
+    onEditSubmit,
+    editError,
+    editSaving,
+  } = usePlaylistLogic({ id });
 
   if (notFound) {
     return <PageContainer>Not Found</PageContainer>;
   }
 
-  console.log(playlist?.name);
   return (
     <PageContainer>
       <div className="header">
@@ -93,11 +108,17 @@ export const Playlist = ({ id }: PlaylistProps) => {
             <div
               className={`playlist-details-item${loading ? "-loading" : ""}`}
             >
-              {playlist?.skipThreshold ? (
+              {playlist ? (
                 <>
                   <SecondaryText>Auto-delete after:&nbsp;</SecondaryText>
-                  <Text>{playlist?.autoCleanupLimit}&nbsp;</Text>
-                  <SecondaryText>skips</SecondaryText>
+                  {playlist?.autoCleanupLimit ? (
+                    <>
+                      <Text>{playlist?.autoCleanupLimit}&nbsp;</Text>
+                      <SecondaryText>skips</SecondaryText>
+                    </>
+                  ) : (
+                    <Text>No auto-delete</Text>
+                  )}
                 </>
               ) : (
                 <SkeletonTheme
@@ -119,7 +140,7 @@ export const Playlist = ({ id }: PlaylistProps) => {
               </div>
             }
           >
-            <MenuItem {...{ onClick: () => alert("Editing") }}>
+            <MenuItem {...{ onClick: onEditOpen }}>
               <VscEdit style={{ cursor: "pointer", marginRight: 8 }} />
               Edit
             </MenuItem>
@@ -130,6 +151,23 @@ export const Playlist = ({ id }: PlaylistProps) => {
           </Menu>
         </div>
       </div>
+      <Modal
+        {...{
+          isOpen: editOpen,
+          onClose: onEditClose,
+          label: "Select Playlist Modal",
+        }}
+      >
+        <EditPlaylistModalView
+          {...{
+            onSubmit: onEditSubmit,
+            playlist,
+            modalSaving: editSaving,
+            modalError: editError,
+            onModalClose: onEditClose,
+          }}
+        />
+      </Modal>
     </PageContainer>
   );
 };
