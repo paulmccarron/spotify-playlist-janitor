@@ -6,4 +6,12 @@ export const getDatabasePlaylists = jest.fn(() =>
   })
 );
 
+export const getDatabasePlaylist = jest.fn((id: string) =>
+  Promise.resolve({
+    data: databasePlaylists.find(x => x.id === id),
+  })
+);
+
 export const addDatabasePlaylist = jest.fn(() => Promise.resolve());
+export const updateDatabasePlaylist = jest.fn(() => Promise.resolve());
+export const deleteDatabasePlaylist = jest.fn(() => Promise.resolve());

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Playlist /> should render a Playlist component 1`] = `
+<div
+  class="sc-beyTiQ gGIdvT"
+>
+  <div>
+    Playlist: 
+    testPlaylistId
+     Component
+  </div>
+</div>
+`;

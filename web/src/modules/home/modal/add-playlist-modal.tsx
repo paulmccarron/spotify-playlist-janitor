@@ -7,7 +7,7 @@ import { TextInput } from "shared/components/text-input";
 import { Tooltip } from "shared/components/tooltip";
 import { VscQuestion } from "react-icons/vsc";
 import { Toggle } from "shared/components/toggle";
-import { Playlist } from "../home-types";
+import { Playlist } from "shared/types";
 
 type AddPlaylistModalViewProps = {
   onSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void>;

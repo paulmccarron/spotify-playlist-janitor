@@ -1,4 +1,4 @@
-import { Playlist } from "modules/home/home-types";
+import { Playlist } from "shared/types";
 import { databasePlaylists, spotifyPlaylists } from "shared/mock-data/api";
 
 export const monitoredPlaylists: Playlist[] = spotifyPlaylists

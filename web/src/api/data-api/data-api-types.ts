@@ -8,3 +8,5 @@ type DatabasePlaylist = {
 export type DatabasePlaylistResponse = DatabasePlaylist;
 
 export type AddDatabasePlaylistRequest = DatabasePlaylist;
+
+export type UpdateDatabasePlaylistRequest = Omit<DatabasePlaylist, "id">;
