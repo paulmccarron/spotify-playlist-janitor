@@ -92,4 +92,14 @@ describe("useDataApi", () => {
       },
     });
   });
+
+  it("should call the getDatabasePlaylistSkippedTracksRequest function when the getDatabasePlaylistSkippedTracks function is called", () => {
+    result.current?.getDatabasePlaylistSkippedTracks("testId");
+
+    expect(get).toHaveBeenCalledWith("/data/playlists/testId/skipped", {
+      headers: {
+        authorization: expect.any(String),
+      },
+    });
+  });
 });

@@ -12,6 +12,7 @@ import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 import { Modal } from "shared/components/modal";
 import { EditPlaylistModalView } from "./modal";
 import { DeletePlaylistModalView } from "./modal/delete-playlist-modal";
+import { PlaylistTabs } from "./tabs/playlist-tabs";
 
 type PlaylistProps = {
     id: string;
@@ -59,7 +60,7 @@ export const Playlist = ({ id }: PlaylistProps) => {
         <PageContainer>
             <div className="header">
                 <div className="playlist">
-                    <div className="playlist-image">
+                    <div className="playlist-image" id="playlist-image">
                         {loading ?
                             skeleton
                             : (
@@ -135,6 +136,11 @@ export const Playlist = ({ id }: PlaylistProps) => {
                     </Menu>
                 </div>
             </div>
+
+            <div className="content">
+                <PlaylistTabs {...{ id }} />
+            </div>
+
             <Modal
                 {...{
                     isOpen: editOpen,
@@ -188,6 +194,8 @@ const PageContainer = styled.div`
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+
+    margin-bottom: 24px;
   }
 
   .playlist {
@@ -231,6 +239,10 @@ const PageContainer = styled.div`
     height: 22px;
     width: 180px;
     margin-bottom: 12px;
+  }
+
+  .content {
+    width: 100%;
   }
 `;
 
