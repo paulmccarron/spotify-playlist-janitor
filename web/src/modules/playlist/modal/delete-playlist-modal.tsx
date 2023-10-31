@@ -27,6 +27,7 @@ export const DeletePlaylistModalView = ({
         </SubTitle>
         <Text style={{ marginBottom: 8 }}>
           Are you sure you want to remove {playlist?.name} from monitoring?
+          This will remove all skiiped track records for this playlist.
         </Text>
         <div className="rows">
           {modalError && (

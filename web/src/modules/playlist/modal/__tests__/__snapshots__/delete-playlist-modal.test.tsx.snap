@@ -19,7 +19,7 @@ exports[`<DeletePlaylistModalView /> should render DeletePlaylistModalView compo
     >
       Are you sure you want to remove 
       Playlist 1
-       from monitoring?
+       from monitoring? This will remove all skiiped track records for this playlist.
     </div>
     <div
       class="rows"
@@ -69,7 +69,7 @@ exports[`<DeletePlaylistModalView /> should render DeletePlaylistModalView compo
     >
       Are you sure you want to remove 
       Playlist 1
-       from monitoring?
+       from monitoring? This will remove all skiiped track records for this playlist.
     </div>
     <div
       class="rows"
