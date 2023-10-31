@@ -11,7 +11,13 @@ exports[`<DeletePlaylistModalView /> should render DeletePlaylistModalView compo
       class="sc-guDMob jLqGJD"
       style="margin-bottom: 8px;"
     >
-      Remove 
+      Remove playlist
+    </div>
+    <div
+      class="sc-dmyDmy dcXriK"
+      style="margin-bottom: 8px;"
+    >
+      Are you sure you want to remove 
       Playlist 1
        from monitoring?
     </div>
@@ -55,7 +61,13 @@ exports[`<DeletePlaylistModalView /> should render DeletePlaylistModalView compo
       class="sc-guDMob jLqGJD"
       style="margin-bottom: 8px;"
     >
-      Remove 
+      Remove playlist
+    </div>
+    <div
+      class="sc-dmyDmy dcXriK"
+      style="margin-bottom: 8px;"
+    >
+      Are you sure you want to remove 
       Playlist 1
        from monitoring?
     </div>

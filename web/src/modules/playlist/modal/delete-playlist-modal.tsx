@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { RED } from "shared/constants";
-import { SecondaryText, SubTitle } from "shared/components/typography";
+import { Text, SecondaryText, SubTitle } from "shared/components/typography";
 import { PrimaryButton, SecondaryButton } from "shared/components/button";
 import { DetailedPlaylist } from "../playlist-types";
 
@@ -23,8 +23,11 @@ export const DeletePlaylistModalView = ({
     <form {...{ onSubmit }} autoComplete="off">
       <ModalContainer>
         <SubTitle style={{ marginBottom: 8 }}>
-          Remove {playlist?.name} from monitoring?
+          Remove playlist
         </SubTitle>
+        <Text style={{ marginBottom: 8 }}>
+          Are you sure you want to remove {playlist?.name} from monitoring?
+        </Text>
         <div className="rows">
           {modalError && (
             <div
