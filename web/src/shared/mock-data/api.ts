@@ -18,21 +18,21 @@ export const auth: AuthData = {
 export const databasePlaylists: DatabasePlaylistResponse[] = [
   {
     id: "1",
-    skipThreshold: undefined,
+    skipThreshold: 10,
     ignoreInitialSkips: false,
-    autoCleanupLimit: undefined,
+    autoCleanupLimit: 10,
   },
   {
     id: "2",
     skipThreshold: 2,
     ignoreInitialSkips: false,
-    autoCleanupLimit: undefined,
+    autoCleanupLimit: 2,
   },
   {
     id: "3",
     skipThreshold: 3,
     ignoreInitialSkips: true,
-    autoCleanupLimit: undefined,
+    autoCleanupLimit: 3,
   },
   {
     id: "4",

@@ -38,7 +38,7 @@ exports[`<EditPlaylistModalView /> should render EditPlaylistModalView component
               max="999"
               min="1"
               type="number"
-              value=""
+              value="10"
             />
           </div>
         </div>
@@ -121,7 +121,7 @@ exports[`<EditPlaylistModalView /> should render EditPlaylistModalView component
               max="999"
               min="0"
               type="number"
-              value=""
+              value="10"
             />
           </div>
         </div>
@@ -212,7 +212,7 @@ exports[`<EditPlaylistModalView /> should render EditPlaylistModalView component
               max="999"
               min="1"
               type="number"
-              value=""
+              value="10"
             />
           </div>
         </div>
@@ -295,7 +295,7 @@ exports[`<EditPlaylistModalView /> should render EditPlaylistModalView component
               max="999"
               min="0"
               type="number"
-              value=""
+              value="10"
             />
           </div>
         </div>

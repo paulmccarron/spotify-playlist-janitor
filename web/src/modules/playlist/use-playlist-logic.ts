@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
@@ -16,10 +16,10 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
   const {
     getDatabasePlaylist,
     updateDatabasePlaylist,
-    deleteDatabasePlaylist,
+    // deleteDatabasePlaylist,
   } = useDataApi();
   const { getSpotifyPlaylist } = useSpotifyApi();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,18 +34,18 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
     onOpen: onEditOpen,
     onClose: onEditModalClose,
   } = useModal();
-  const {
-    isOpen: deleteOpen,
-    onOpen: onDeleteOpen,
-    onClose: onDeleteClose,
-  } = useModal();
+  // const {
+  //   isOpen: deleteOpen,
+  //   onOpen: onDeleteOpen,
+  //   onClose: onDeleteClose,
+  // } = useModal();
 
   const onEditClose = useCallback(() => {
     setEditError(undefined);
     onEditModalClose();
   }, [setEditError, onEditModalClose]);
 
-  const getPlaylistData = useCallback(
+  const getPlaylistInfo = useCallback(
     async (id: string) => {
       try {
         setLoading(true);
@@ -66,6 +66,7 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
 
         setLoading(false);
       } catch (e: any) {
+        console.log("error", e)
         if (e?.response?.status === 404) {
           setNotFound(true);
         }
@@ -77,9 +78,9 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
 
   useEffect(() => {
     if (!!id) {
-      getPlaylistData(id);
+      getPlaylistInfo(id);
     }
-  }, [getPlaylistData, id]);
+  }, [getPlaylistInfo, id]);
 
   const onEditSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -110,13 +111,13 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
         await updateDatabasePlaylist(id, request);
         setEditSaving(false);
         onEditClose();
-        await getPlaylistData(id);
+        await getPlaylistInfo(id);
       } catch (e: any) {
         setEditError(e.response?.data?.message || "Unknown error");
         setEditSaving(false);
       }
     },
-    [id, updateDatabasePlaylist, getPlaylistData, onEditClose]
+    [id, updateDatabasePlaylist, getPlaylistInfo, onEditClose]
   );
 
   return {

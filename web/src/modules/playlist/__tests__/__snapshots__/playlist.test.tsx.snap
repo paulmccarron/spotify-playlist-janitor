@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Playlist /> should render Home component with Not Found 1`] = `
+<div
+  class="sc-gLLuHO efEqvT"
+>
+  <div
+    class="sc-hLQTFJ joXFND"
+    data-testid="not-found"
+    id="not-found"
+  >
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`<Playlist /> should render Playlist component 1`] = `
+<div
+  class="sc-gLLuHO efEqvT"
+>
+  <div
+    class="header"
+  >
+    <div
+      class="playlist"
+    >
+      <div
+        class="playlist-image"
+      >
+        <img
+          alt="Playlist 1"
+          height="240"
+          src="https://mosaic.scdn.co/101"
+          width="240"
+        />
+      </div>
+      <div
+        class="playlist-details"
+      >
+        <div
+          class="sc-guDMob cuZJcO playlist-title"
+        >
+          Playlist 1
+        </div>
+        <div
+          class="playlist-details-item"
+        >
+          <div
+            class="sc-eDLKEg jzLtSt"
+          >
+            Skip Threshold: 
+          </div>
+          <div
+            class="sc-hLQTFJ joXFND"
+          >
+            10
+             s
+          </div>
+        </div>
+        <div
+          class="playlist-details-item"
+        >
+          <div
+            class="sc-eDLKEg jzLtSt"
+          >
+            Ignore initial skips: 
+          </div>
+          <div
+            class="sc-hLQTFJ joXFND"
+          >
+            False
+          </div>
+        </div>
+        <div
+          class="playlist-details-item"
+        >
+          <div
+            class="sc-eDLKEg jzLtSt"
+          >
+            Auto-delete after: 
+          </div>
+          <div
+            class="sc-hLQTFJ joXFND"
+          >
+            10
+             
+          </div>
+          <div
+            class="sc-eDLKEg jzLtSt"
+          >
+            skips
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="playlist-menu"
+    >
+      <div>
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          style="cursor: pointer; font-size: 28px;"
+          viewBox="0 0 16 16"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Playlist /> should render Playlist component in loading state 1`] = `
+<div
+  class="sc-gLLuHO efEqvT"
+>
+  <div
+    class="header"
+  >
+    <div
+      class="playlist"
+    >
+      <div
+        class="playlist-image"
+      >
+        <span
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <span
+            class="react-loading-skeleton"
+            style="height: 100%; --base-color: #111111; --highlight-color: #444;"
+          >
+            ‌
+          </span>
+          <br />
+        </span>
+      </div>
+      <div
+        class="playlist-details"
+      >
+        <div
+          class="sc-guDMob cuZJcO playlist-title-loading"
+        >
+          <span
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span
+              class="react-loading-skeleton"
+              style="height: 100%; --base-color: #111111; --highlight-color: #444;"
+            >
+              ‌
+            </span>
+            <br />
+          </span>
+        </div>
+        <div
+          class="playlist-details-item-loading"
+        >
+          <span
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span
+              class="react-loading-skeleton"
+              style="height: 100%; --base-color: #111111; --highlight-color: #444;"
+            >
+              ‌
+            </span>
+            <br />
+          </span>
+        </div>
+        <div
+          class="playlist-details-item-loading"
+        >
+          <span
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span
+              class="react-loading-skeleton"
+              style="height: 100%; --base-color: #111111; --highlight-color: #444;"
+            >
+              ‌
+            </span>
+            <br />
+          </span>
+        </div>
+        <div
+          class="playlist-details-item-loading"
+        >
+          <span
+            aria-busy="true"
+            aria-live="polite"
+          >
+            <span
+              class="react-loading-skeleton"
+              style="height: 100%; --base-color: #111111; --highlight-color: #444;"
+            >
+              ‌
+            </span>
+            <br />
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="playlist-menu"
+    >
+      <div>
+        <svg
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          style="cursor: pointer; font-size: 28px;"
+          viewBox="0 0 16 16"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm5 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
