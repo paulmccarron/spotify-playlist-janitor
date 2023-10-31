@@ -5,7 +5,6 @@ import { usePlaylistLogic } from "../use-playlist-logic";
 import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
 import { databasePlaylists, spotifyPlaylists } from "shared/mock-data/api";
-import { unmonitoredPlaylists } from "shared/mock-data/home";
 
 const mockNavigate = jest.fn();
 
@@ -28,6 +27,7 @@ describe("usePlaylistLogic", () => {
         Promise.resolve({ data: databasePlaylists.find(x => x.id === id), })
       ),
       updateDatabasePlaylist: jest.fn(() => Promise.resolve()),
+      deleteDatabasePlaylist: jest.fn(() => Promise.resolve()),
     };
 
     mockUseSpotifyApi = {
@@ -167,7 +167,7 @@ describe("usePlaylistLogic", () => {
     });
   });
 
-  it("should set fetch playlist info again when onSubmit succeeds", async () => {
+  it("should set fetch playlist info again when onEditSubmit succeeds", async () => {
     act(() => {
       result.current?.onEditSubmit(event);
     });
@@ -200,7 +200,7 @@ describe("usePlaylistLogic", () => {
       }, message: "Unknown error"
     }
   ].forEach((setup) => {
-    it("should set editError when onSubmit fails", async () => {
+    it("should set editError when onEditSubmit fails", async () => {
       mockUseDataApi = {
         ...mockUseDataApi,
         updateDatabasePlaylist: jest.fn(() =>
@@ -210,7 +210,7 @@ describe("usePlaylistLogic", () => {
 
       jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
       await waitFor(() => {
-        ({ result } = renderHook(() => usePlaylistLogic({id})));
+        ({ result } = renderHook(() => usePlaylistLogic({ id })));
       });
 
       act(() => {
@@ -225,8 +225,64 @@ describe("usePlaylistLogic", () => {
     });
   }, []);
 
-  // it("should call naviagte when onPlaylistClick called", () => {
-  //   result.current?.onPlaylistClick("testId");
-  //   expect(mockNavigate).toHaveBeenCalledWith("/playlist/testId");
-  // });
+  it("should delete playlist with request data and nabivate home", async () => {
+    act(() => {
+      //@ts-ignore
+      result.current?.onDeleteSubmit(event);
+    });
+
+    await waitFor(() => {
+      expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenNthCalledWith(
+        1,
+        id,
+      );
+      expect(mockNavigate).toHaveBeenCalledWith("/");
+    });
+  });
+
+  [
+    {
+      e: {
+        response: {
+          status: 500,
+          data: {
+            message:
+              "Can't update.",
+          },
+        }, message: "Can't update."
+      }
+    },
+    {
+      e: {
+        response: {
+          status: 500,
+          message: "Irregular format.",
+        }
+      }, message: "Unknown error"
+    }
+  ].forEach((setup) => {
+    it("should set deleteError when onDeleteSubmit fails", async () => {
+      mockUseDataApi = {
+        ...mockUseDataApi,
+        deleteDatabasePlaylist: jest.fn(() =>
+          Promise.reject(setup.e)
+        ),
+      };
+
+      jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
+      await waitFor(() => {
+        ({ result } = renderHook(() => usePlaylistLogic({ id })));
+      });
+
+      act(() => {
+        result.current?.onDeleteSubmit(event);
+      });
+
+      await waitFor(() => {
+        expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenCalledTimes(1);
+
+        expect(result.current?.deleteError).toBe(setup.message)
+      });
+    });
+  }, []);
 });

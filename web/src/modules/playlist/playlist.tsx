@@ -11,6 +11,7 @@ import { SecondaryText, Text, Title } from "shared/components/typography";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 import { Modal } from "shared/components/modal";
 import { EditPlaylistModalView } from "./modal";
+import { DeletePlaylistModalView } from "./modal/delete-playlist-modal";
 
 type PlaylistProps = {
     id: string;
@@ -35,6 +36,12 @@ export const Playlist = ({ id }: PlaylistProps) => {
         onEditSubmit,
         editError,
         editSaving,
+        deleting,
+        deleteOpen,
+        onDeleteOpen,
+        onDeleteClose,
+        onDeleteSubmit,
+        deleteError,
     } = usePlaylistLogic({ id });
 
     if (notFound) {
@@ -121,7 +128,7 @@ export const Playlist = ({ id }: PlaylistProps) => {
                             <VscEdit style={{ cursor: "pointer", marginRight: 8 }} />
                             Edit
                         </MenuItem>
-                        <MenuItem {...{ onClick: () => alert("Deleting") }}>
+                        <MenuItem {...{ onClick: onDeleteOpen }}>
                             <VscTrash style={{ cursor: "pointer", marginRight: 8 }} />
                             Delete
                         </MenuItem>
@@ -132,7 +139,7 @@ export const Playlist = ({ id }: PlaylistProps) => {
                 {...{
                     isOpen: editOpen,
                     onClose: onEditClose,
-                    label: "Select Playlist Modal",
+                    label: "Edit Playlist Modal",
                 }}
             >
                 <EditPlaylistModalView
@@ -142,6 +149,23 @@ export const Playlist = ({ id }: PlaylistProps) => {
                         modalSaving: editSaving,
                         modalError: editError,
                         onModalClose: onEditClose,
+                    }}
+                />
+            </Modal>
+            <Modal
+                {...{
+                    isOpen: deleteOpen,
+                    onClose: onDeleteClose,
+                    label: "Delete Playlist Modal",
+                }}
+            >
+                <DeletePlaylistModalView
+                    {...{
+                        onSubmit: onDeleteSubmit,
+                        playlist,
+                        modalSaving: deleting,
+                        modalError: deleteError,
+                        onModalClose: onDeleteClose,
                     }}
                 />
             </Modal>

@@ -2,7 +2,7 @@
 
 exports[`<Playlist /> should render Home component with Not Found 1`] = `
 <div
-  class="sc-gLLuHO efEqvT"
+  class="sc-jsEeA-d kytrwn"
 >
   <div
     class="sc-hLQTFJ joXFND"
@@ -16,7 +16,7 @@ exports[`<Playlist /> should render Home component with Not Found 1`] = `
 
 exports[`<Playlist /> should render Playlist component 1`] = `
 <div
-  class="sc-gLLuHO efEqvT"
+  class="sc-jsEeA-d kytrwn"
 >
   <div
     class="header"
@@ -119,7 +119,7 @@ exports[`<Playlist /> should render Playlist component 1`] = `
 
 exports[`<Playlist /> should render Playlist component in loading state 1`] = `
 <div
-  class="sc-gLLuHO efEqvT"
+  class="sc-jsEeA-d kytrwn"
 >
   <div
     class="header"

@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useDataApi } from "api/data-api";
 import { useSpotifyApi } from "api/spotify-api";
 
 import { DetailedPlaylist } from "./playlist-types";
 import { useModal } from "shared/components/modal";
-import { DEFAULT_IMAGE } from "shared/constants";
+import { DEFAULT_IMAGE, HOME } from "shared/constants";
 
 type PlaylistProps = {
   id: string;
@@ -16,29 +16,33 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
   const {
     getDatabasePlaylist,
     updateDatabasePlaylist,
-    // deleteDatabasePlaylist,
+    deleteDatabasePlaylist,
   } = useDataApi();
   const { getSpotifyPlaylist } = useSpotifyApi();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
   const [playlist, setPlaylist] = useState<DetailedPlaylist | undefined>(
     undefined
   );
-  const [editError, setEditError] = useState<string | undefined>(undefined);
+
   const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState<string | undefined>(undefined);
+
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | undefined>(undefined);
 
   const {
     isOpen: editOpen,
     onOpen: onEditOpen,
     onClose: onEditModalClose,
   } = useModal();
-  // const {
-  //   isOpen: deleteOpen,
-  //   onOpen: onDeleteOpen,
-  //   onClose: onDeleteClose,
-  // } = useModal();
+  const {
+    isOpen: deleteOpen,
+    onOpen: onDeleteOpen,
+    onClose: onDeleteClose,
+  } = useModal();
 
   const onEditClose = useCallback(() => {
     setEditError(undefined);
@@ -120,6 +124,24 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
     [id, updateDatabasePlaylist, getPlaylistInfo, onEditClose]
   );
 
+  const onDeleteSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      try {
+        setDeleting(true);
+        await deleteDatabasePlaylist(id);
+        setDeleting(false);
+        onDeleteClose();
+        navigate(HOME)
+      } catch (e: any) {
+        setDeleteError(e.response?.data?.message || "Unknown error");
+        setDeleting(false);
+      }
+    },
+    [id, deleteDatabasePlaylist, navigate, onDeleteClose]
+  );
+
   return {
     loading,
     notFound,
@@ -130,5 +152,11 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
     onEditSubmit,
     editError,
     editSaving,
+    deleting,
+    deleteOpen, 
+    onDeleteOpen, 
+    onDeleteClose,
+    onDeleteSubmit,
+    deleteError,
   } as const;
 };
