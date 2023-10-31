@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { axiosInstance, get, post, put } from '../api';
+import { axiosInstance, get, post, put, deleteRequest } from '../api';
 
 describe('get', () => {
   let axiosGetSpy: jest.SpyInstance;
@@ -34,14 +34,14 @@ describe('get', () => {
 });
 
 describe('post', () => {
-  let axiosGetSpy: jest.SpyInstance;
+  let axiosPostSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    axiosGetSpy = jest.spyOn(axiosInstance, 'post');
+    axiosPostSpy = jest.spyOn(axiosInstance, 'post');
   });
 
   afterAll(() => {
-    axiosGetSpy.mockRestore();
+    axiosPostSpy.mockRestore();
   });
 
   it('should call the axios post method', () => {
@@ -57,7 +57,7 @@ describe('post', () => {
     };
 
     post(URL, BODY, OPTIONS);
-    expect(axiosGetSpy).toHaveBeenNthCalledWith(1, URL, BODY, OPTIONS);
+    expect(axiosPostSpy).toHaveBeenNthCalledWith(1, URL, BODY, OPTIONS);
   });
 
   it('should call the axios post method with empty config object when none is passed', () => {
@@ -68,19 +68,19 @@ describe('post', () => {
     };
 
     post(URL, BODY);
-    expect(axiosGetSpy).toHaveBeenNthCalledWith(2, URL, BODY, {});
+    expect(axiosPostSpy).toHaveBeenNthCalledWith(2, URL, BODY, {});
   });
 });
 
 describe('put', () => {
-  let axiosGetSpy: jest.SpyInstance;
+  let axiosPutSpy: jest.SpyInstance;
 
   beforeAll(() => {
-    axiosGetSpy = jest.spyOn(axiosInstance, 'put');
+    axiosPutSpy = jest.spyOn(axiosInstance, 'put');
   });
 
   afterAll(() => {
-    axiosGetSpy.mockRestore();
+    axiosPutSpy.mockRestore();
   });
 
   it('should call the axios put method', () => {
@@ -96,7 +96,7 @@ describe('put', () => {
     };
 
     put(URL, BODY, OPTIONS);
-    expect(axiosGetSpy).toHaveBeenNthCalledWith(1, URL, BODY, OPTIONS);
+    expect(axiosPutSpy).toHaveBeenNthCalledWith(1, URL, BODY, OPTIONS);
   });
 
   it('should call the axios put method with empty config object when none is passed', () => {
@@ -107,6 +107,38 @@ describe('put', () => {
     };
 
     put(URL, BODY);
-    expect(axiosGetSpy).toHaveBeenNthCalledWith(2, URL, BODY, {});
+    expect(axiosPutSpy).toHaveBeenNthCalledWith(2, URL, BODY, {});
+  });
+});
+
+describe('deleteRequest', () => {
+  let axiosDeleteSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    axios.create.mockReturnThis();
+    axiosDeleteSpy = jest.spyOn(axiosInstance, 'delete');
+  });
+
+  afterEach(() => {
+    axiosDeleteSpy.mockRestore();
+  });
+
+  it('should call the axios delete method', () => {
+    const URL = 'URL';
+    const OPTIONS: AxiosRequestConfig = {
+      headers: {
+        someHeader: 'some header',
+      },
+    };
+
+    deleteRequest(URL, OPTIONS);
+    expect(axiosDeleteSpy).toHaveBeenNthCalledWith(1, URL, OPTIONS);
+  });
+
+  it('should call the axios get method with empty config object when none is passed', () => {
+    const URL = 'URL';
+
+    deleteRequest(URL);
+    expect(axiosDeleteSpy).toHaveBeenNthCalledWith(1, URL, {});
   });
 });
