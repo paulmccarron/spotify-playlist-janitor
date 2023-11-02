@@ -138,7 +138,7 @@ export const Playlist = ({ id }: PlaylistProps) => {
             </div>
 
             <div className="content">
-                <PlaylistTabs {...{ id }} />
+                <PlaylistTabs {...{ id, loading }} />
             </div>
 
             <Modal

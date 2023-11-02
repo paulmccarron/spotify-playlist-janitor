@@ -8,5 +8,5 @@ export type Column = {
   sortable?: boolean;
   sortbyOrder?: SortOrder;
   primary?: boolean;
-  render?(arg: any): string | ReactNode;
+  render?(arg: any, loading?: boolean): string | ReactNode;
 };

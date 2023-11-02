@@ -11,6 +11,7 @@ type TableProps = {
   caption?: string;
   data: any[];
   columns: Column[];
+  loading?: boolean;
 };
 
 const TableComponent = styled.table`
@@ -45,14 +46,14 @@ const TableComponent = styled.table`
   }
 `;
 
-export const Table = ({ caption, data, columns }: TableProps) => {
+export const Table = ({ caption, data, columns, loading }: TableProps) => {
   const [tableData, handleSorting] = useTableSorting({ data, columns });
 
   return (
     <TableComponent>
       {caption && <caption>{caption}</caption>}
       <TableHead {...{ columns, handleSorting }} />
-      <TableBody {...{ columns, tableData }} />
+      <TableBody {...{ columns, tableData, loading }} />
     </TableComponent>
   );
 };

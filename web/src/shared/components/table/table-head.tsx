@@ -31,6 +31,22 @@ const Tr = styled.tr`
     padding-top: 3px;
     margin-bottom: -3px;
   }
+
+  th.image {
+    width: 58px;
+  }
+
+  th.duration {
+    width: 58px;
+  }
+
+  th.skippedTotal{
+    width: 204px;
+  }
+
+  th.id{
+    width: 75px;
+  }
 `;
 
 export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
@@ -57,6 +73,10 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
           if (accessor === sortField) {
             icon = order === "asc" ? <VscArrowUp /> : <VscArrowDown />;
           }
+
+          let className = sortable ? "sortable" : "";
+          className += ` ${accessor}`
+
           return (
             <th
               id={`table-head-cell-${accessor}`}
@@ -65,7 +85,7 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
               onClick={
                 sortable ? () => handleSortingChange(accessor) : () => {}
               }
-              className={sortable ? "sortable" : ""}
+              className={className.trim()}
             >
               <div className="content">
                 <Text>{label}</Text>

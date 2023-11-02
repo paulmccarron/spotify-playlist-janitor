@@ -1,23 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Column, SortOrder } from "../table-types";
 
 type useTableSortingProps = {
   data: any[];
   columns: Column[];
+  loading?: boolean;
 };
 
 const sortCompare = (
-  valueA: string | number | Date | any,
-  valueB: string | number | Date | any,
+  valueA: string | number | Date | any | any[],
+  valueB: string | number | Date | any | any[],
   sortOrder: SortOrder
 ) => {
-  if (valueA === null) {
+  if (valueA === null || valueA === undefined) {
     return 1;
   }
-  if (valueB === null) {
+  if (valueB === null || valueB === undefined) {
     return -1;
   }
-  if (valueA === null && valueB === null) {
+  if ((valueA === null && valueB === null) || (valueA === undefined && valueB === undefined)) {
     return 0;
   }
 
@@ -97,9 +98,9 @@ export const useTableSorting = ({
   data,
   columns,
 }: useTableSortingProps): [
-  any[],
-  (sortField: string, sortOrder: SortOrder) => void
-] => {
+    any[],
+    (sortField: string, sortOrder: SortOrder) => void
+  ] => {
   const [tableData, setTableData] = useState(getDefaultSorting(data, columns));
 
   const handleSorting = (sortField: string, sortOrder: SortOrder) => {
@@ -110,6 +111,10 @@ export const useTableSorting = ({
       setTableData(sorted);
     }
   };
+
+  useEffect(() => {
+    setTableData(getDefaultSorting(data, columns))
+  }, [setTableData, data, columns])
 
   return [tableData, handleSorting];
 };
