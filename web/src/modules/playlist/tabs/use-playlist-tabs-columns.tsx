@@ -37,7 +37,7 @@ export const usePlaylistTabsColumns = ({
         <>
           {artists.map((artist, index) => (
             <>
-              {`${index === 0 ? "" : ",,,,,"}`}
+              {`${index === 0 ? "" : ", "}`}
               {artist.name}
             </>
           ))}
@@ -105,8 +105,11 @@ export const usePlaylistTabsColumns = ({
       sortable: true,
       render: (artists: SkippedTrackArtist[]) => (
         <>
-          {artists.map((artist) => (
-            <>{artist.name}</>
+          {artists.map((artist, index) => (
+            <>
+              {`${index === 0 ? "" : ", "}`}
+              {artist.name}
+            </>
           ))}
         </>
       ),
@@ -175,8 +178,11 @@ export const usePlaylistTabsColumns = ({
       sortbyOrder: "asc",
       render: (artists: SkippedTrackArtist[]) => (
         <>
-          {artists.map((artist) => (
-            <>{artist.name}</>
+          {artists.map((artist, index) => (
+            <>
+              {`${index === 0 ? "" : ", "}`}
+              {artist.name}
+            </>
           ))}
         </>
       ),
