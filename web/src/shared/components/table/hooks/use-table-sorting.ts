@@ -64,13 +64,6 @@ const sortCompare = (
         .filter(Boolean)
         .join(",");
 
-      const thing =
-        valueANames.toString().localeCompare(valueBNames.toString(), "en", {
-          numeric: true,
-        }) * (sortOrder === "asc" ? 1 : -1);
-
-      debugger;
-
       return (
         valueANames.toString().localeCompare(valueBNames.toString(), "en", {
           numeric: true,
