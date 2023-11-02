@@ -8,7 +8,7 @@ import { useTableSorting } from "./hooks/use-table-sorting";
 import { Column } from "./table-types";
 
 type TableProps = {
-  caption: string;
+  caption?: string;
   data: any[];
   columns: Column[];
 };

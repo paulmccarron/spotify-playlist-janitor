@@ -182,6 +182,7 @@ export const skippedTracks: SkippedTrackResponse = [
     playlistId: databasePlaylists[0].id,
     trackId: "track 01",
     name: "Name 1",
+    duration: 185000,
     skippedDate: new Date("2023-10-31T19:51:25Z"),
     artists: [
       {
@@ -207,6 +208,7 @@ export const skippedTracks: SkippedTrackResponse = [
     playlistId: databasePlaylists[0].id,
     trackId: "track 01",
     name: "Name 1",
+    duration: 185000,
     skippedDate: new Date("2023-10-31T19:51:38Z"),
     artists: [
       {
@@ -232,6 +234,7 @@ export const skippedTracks: SkippedTrackResponse = [
     playlistId: databasePlaylists[0].id,
     trackId: "track 01",
     name: "Name 1",
+    duration: 185000,
     skippedDate: new Date("2023-10-31T19:52:07Z"),
     artists: [
       {
@@ -257,6 +260,7 @@ export const skippedTracks: SkippedTrackResponse = [
     playlistId: databasePlaylists[0].id,
     trackId: "track 02",
     name: "Name 2",
+    duration: 180000,
     skippedDate: new Date("2023-10-31T19:53:10Z"),
     artists: [
       {
@@ -282,6 +286,7 @@ export const skippedTracks: SkippedTrackResponse = [
     playlistId: databasePlaylists[0].id,
     trackId: "track 02",
     name: "Name 2",
+    duration: 180000,
     skippedDate: new Date("2023-10-31T19:53:30Z"),
     artists: [
       {

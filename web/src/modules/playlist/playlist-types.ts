@@ -1,4 +1,4 @@
-import { Playlist } from "shared/types";
+import { Playlist, Image } from "shared/types";
 
 export type DetailedPlaylist = Playlist & {
   skipThreshold?: number;

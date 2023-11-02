@@ -12,7 +12,7 @@ export const TableBody = ({
     <tbody>
       {tableData.map((data: any, index: number) => {
         return (
-          <tr key={data.id}>
+          <tr key={`${data.id}-${index}`}>
             {columns.map(({ accessor, primary, render }: Column) => {
               const tData = data[accessor] ? data[accessor] : "";
               const tRender = render ? render(tData) : tData;

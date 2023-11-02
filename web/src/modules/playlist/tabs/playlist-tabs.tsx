@@ -1,4 +1,8 @@
 import { Tab, TabList, TabPanel, Tabs } from "shared/components/tabs";
+import { usePlaylistTabsLogic } from "./use-playlist-tabs-logic";
+import { Table } from "shared/components/table";
+import { skippedTrackColumns, skippedTrackHistoryColumns } from "./playlist-tabs-columns";
+import { useMemo } from "react";
 
 type PlaylistTabsProps = {
     id: string;
@@ -6,7 +10,9 @@ type PlaylistTabsProps = {
 
 export const PlaylistTabs = ({ id }: PlaylistTabsProps) => {
 
-    return <Tabs>
+    const { skippedTracks, skippedTrackHistory, loadingSkippedTracks, loadingSkippedTrackHistory } = usePlaylistTabsLogic({ id });
+
+    const tabs = useMemo(() => <Tabs>
         <TabList>
             <Tab data-testid="skipped-tracks-tab">Skipped Tracks</Tab>
             <Tab data-testid="skipped-track-history-tab">Skipped Track History</Tab>
@@ -14,13 +20,25 @@ export const PlaylistTabs = ({ id }: PlaylistTabsProps) => {
         </TabList>
 
         <TabPanel>
-            <>Skipped Tracks</>
+            {!loadingSkippedTracks &&
+                <Table
+                    data={skippedTracks}
+                    columns={skippedTrackColumns}
+                />
+            }
         </TabPanel>
         <TabPanel>
-            <>Skipped Track History</>
+            {!loadingSkippedTrackHistory &&
+                <Table
+                    data={skippedTrackHistory}
+                    columns={skippedTrackHistoryColumns}
+                />
+            }
         </TabPanel>
         <TabPanel>
             <>Tracks</>
         </TabPanel>
-    </Tabs>
+    </Tabs>, [loadingSkippedTracks, skippedTracks, loadingSkippedTrackHistory, skippedTrackHistory])
+
+    return tabs;
 }

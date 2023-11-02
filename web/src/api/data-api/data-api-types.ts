@@ -33,6 +33,7 @@ type SkippedTrackAlbum = {
 type SkippedTrack = {
   playlistId: string;
   trackId: string;
+  duration: number;
   name: string;
   skippedDate: Date;
   artists: SkippedTrackArtist[];

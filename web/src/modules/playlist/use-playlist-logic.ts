@@ -70,7 +70,6 @@ export const usePlaylistLogic = ({ id }: PlaylistProps) => {
 
         setLoading(false);
       } catch (e: any) {
-        console.log("error", e)
         if (e?.response?.status === 404) {
           setNotFound(true);
         }
