@@ -1,98 +1,220 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDataApi } from "api/data-api";
-import { SkippedTrackHistory, SkippedTrackTotal } from "./playlist-tabs-types";
+import { useSpotifyApi } from "api/spotify-api";
+import {
+  DeleteTrack,
+  SkippedTrackHistory,
+  SkippedTrackTotal,
+  Track,
+} from "./playlist-tabs-types";
+import { useModal } from "shared/components/modal";
+import { usePlaylistTabsColumns } from "./use-playlist-tabs-columns";
 
 type UsePlaylistTabsLogicProps = {
-    id: string;
+  id: string;
 };
 
 export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
-    const {
-        getDatabasePlaylistSkippedTracks
-    } = useDataApi();
+  const { getDatabasePlaylistSkippedTracks } = useDataApi();
+  const { getSpotifyPlaylistTracks, deleteSpotifyPlaylistTracks } =
+    useSpotifyApi();
 
-    const [loadingSkippedTracks, setLoadingSkippedTracks] = useState(false);
-    const [skippedTracks, setSkippedTracks] = useState<SkippedTrackTotal[]>([]);
+  const [loadingSkippedTracks, setLoadingSkippedTracks] = useState(false);
+  const [skippedTracks, setSkippedTracks] = useState<SkippedTrackTotal[]>([]);
 
-    const [loadingSkippedTrackHistory, setLoadingSkippedTrackHistory] = useState(false);
-    const [skippedTrackHistory, setSkippedTrackHistory] = useState<SkippedTrackHistory[]>([]);
+  const [loadingSkippedTrackHistory, setLoadingSkippedTrackHistory] =
+    useState(false);
+  const [skippedTrackHistory, setSkippedTrackHistory] = useState<
+    SkippedTrackHistory[]
+  >([]);
 
-    const getSkippedTracks = useCallback(
-        async (id: string) => {
-            try {
-                setLoadingSkippedTracks(true);
-                setLoadingSkippedTrackHistory(true);
-                setSkippedTracks([]);
-                setSkippedTrackHistory([]);
+  const [loadingSpotifyTracks, setLoadingSpotifyTracks] = useState(false);
+  const [spotifyTracks, setSpotifyTracks] = useState<Track[]>([]);
 
-                const skippedTrackResponse = await getDatabasePlaylistSkippedTracks(id);
+  const { isOpen: deleteOpen, onOpen, onClose } = useModal();
 
-                const skippedTracks: SkippedTrackTotal[] = [];
-                var skippedTracksTotals: { [id: string]: SkippedTrackTotal; } = {};
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | undefined>(undefined);
+  const [deleteTracks, setDeleteTracks] = useState<DeleteTrack[]>([]);
 
-                skippedTrackResponse.data.forEach(skippedTrack => {
-                    if (skippedTracksTotals[skippedTrack.trackId]) {
-                        skippedTracksTotals[skippedTrack.trackId].skippedTotal++
-                    }
-                    else {
-                        skippedTracksTotals[skippedTrack.trackId] = {
-                            id: skippedTrack.trackId,
-                            name: skippedTrack.name,
-                            duration: skippedTrack.duration,
-                            skippedTotal: 1,
-                            album: skippedTrack.album,
-                            artists: skippedTrack.artists,
-                            image: skippedTrack.album.images.reduce((prev, curr) => {
-                                return prev.height < curr.height ? prev : curr;
-                            })
-                        }
-                    }
-                })
-
-                for (let key in skippedTracksTotals) {
-                    skippedTracks.push(skippedTracksTotals[key]);
-                }
-
-                const skippedTrackHistory: SkippedTrackHistory[] = skippedTrackResponse.data
-                    .map(skippedTrack => ({
-                        id: skippedTrack.trackId,
-                        name: skippedTrack.name,
-                        duration: skippedTrack.duration,
-                        skippedDate: new Date(skippedTrack.skippedDate),
-                        album: skippedTrack.album,
-                        artists: skippedTrack.artists,
-                        image: skippedTrack.album.images.reduce((prev, curr) => {
-                            return prev.height < curr.height ? prev : curr;
-                        })
-                    }));
-
-
-                setSkippedTracks(skippedTracks);
-                setSkippedTrackHistory(skippedTrackHistory);
-
-                setLoadingSkippedTracks(false);
-                setLoadingSkippedTrackHistory(false);
-            } catch (e: any) {
-                // if (e?.response?.status === 404) {
-                //   setNotFound(true);
-                // }
-                setLoadingSkippedTracks(false);
-                setLoadingSkippedTrackHistory(false);
-            }
-        },
-        [setLoadingSkippedTracks, setLoadingSkippedTrackHistory, getDatabasePlaylistSkippedTracks]
-    );
-
-    useEffect(() => {
-      if (!!id) {
-        getSkippedTracks(id);
+  const onDeleteOpen = useCallback(
+    (trackId: string) => {
+      const track = skippedTracks.find((track) => track.id === trackId);
+      if (track) {
+        setDeleteTracks([{ id: track?.id, name: track?.name }]);
+        onOpen();
       }
-    }, [getSkippedTracks, id]);
+    },
+    [skippedTracks, setDeleteTracks, onOpen]
+  );
 
-    return {
-        loadingSkippedTracks,
-        skippedTracks,
-        loadingSkippedTrackHistory,
-        skippedTrackHistory,
-    };
-}
+  const onDeleteClose = useCallback(() => {
+    setDeleteTracks([]);
+    setDeleteError(undefined);
+    onClose();
+  }, [setDeleteTracks, onClose]);
+
+  const {
+    skippedTrackColumns,
+    skippedTrackHistoryColumns,
+    spotifyTrackColumns,
+  } = usePlaylistTabsColumns({ onDeleteClick: onDeleteOpen });
+
+  const getSkippedTracks = useCallback(
+    async (id: string) => {
+      try {
+        setLoadingSkippedTracks(true);
+        setLoadingSkippedTrackHistory(true);
+        setSkippedTracks([]);
+        setSkippedTrackHistory([]);
+
+        const skippedTrackResponse = await getDatabasePlaylistSkippedTracks(id);
+
+        const skippedTracks: SkippedTrackTotal[] = [];
+        var skippedTracksTotals: { [id: string]: SkippedTrackTotal } = {};
+
+        skippedTrackResponse.data.forEach((skippedTrack) => {
+          if (skippedTracksTotals[skippedTrack.trackId]) {
+            skippedTracksTotals[skippedTrack.trackId].skippedTotal++;
+          } else {
+            skippedTracksTotals[skippedTrack.trackId] = {
+              id: skippedTrack.trackId,
+              name: skippedTrack.name,
+              duration: skippedTrack.duration,
+              skippedTotal: 1,
+              album: skippedTrack.album,
+              artists: skippedTrack.artists,
+              image: skippedTrack.album.images.reduce((prev, curr) => {
+                return prev.height < curr.height ? prev : curr;
+              }),
+            };
+          }
+        });
+
+        for (let key in skippedTracksTotals) {
+          skippedTracks.push(skippedTracksTotals[key]);
+        }
+
+        const skippedTrackHistory: SkippedTrackHistory[] =
+          skippedTrackResponse.data.map((skippedTrack) => ({
+            id: skippedTrack.trackId,
+            name: skippedTrack.name,
+            duration: skippedTrack.duration,
+            skippedDate: new Date(skippedTrack.skippedDate),
+            album: skippedTrack.album,
+            artists: skippedTrack.artists,
+            image: skippedTrack.album.images.reduce((prev, curr) => {
+              return prev.height < curr.height ? prev : curr;
+            }),
+          }));
+
+        setSkippedTracks(skippedTracks);
+        setSkippedTrackHistory(skippedTrackHistory);
+
+        setLoadingSkippedTracks(false);
+        setLoadingSkippedTrackHistory(false);
+      } catch (e: any) {
+        // if (e?.response?.status === 404) {
+        //   setNotFound(true);
+        // }
+        setLoadingSkippedTracks(false);
+        setLoadingSkippedTrackHistory(false);
+      }
+    },
+    [
+      setLoadingSkippedTracks,
+      setLoadingSkippedTrackHistory,
+      getDatabasePlaylistSkippedTracks,
+    ]
+  );
+
+  const getSpotifyTracks = useCallback(
+    async (id: string) => {
+      try {
+        setLoadingSpotifyTracks(true);
+        setSpotifyTracks([]);
+
+        const spotifyTrackResponse = await getSpotifyPlaylistTracks(id);
+
+        const spotifyTracks: Track[] = spotifyTrackResponse.data.map(
+          (spotifytrack) => ({
+            id: spotifytrack.id,
+            name: spotifytrack.name,
+            duration: spotifytrack.duration,
+            album: spotifytrack.album,
+            artists: spotifytrack.artists,
+            image: spotifytrack.album.images.reduce((prev, curr) => {
+              return prev.height < curr.height ? prev : curr;
+            }),
+          })
+        );
+
+        setSpotifyTracks(spotifyTracks);
+
+        setLoadingSpotifyTracks(false);
+      } catch (e: any) {
+        // if (e?.response?.status === 404) {
+        //   setNotFound(true);
+        // }
+        setLoadingSpotifyTracks(false);
+      }
+    },
+    [setLoadingSpotifyTracks, getSpotifyPlaylistTracks]
+  );
+
+  useEffect(() => {
+    if (!!id) {
+      getSkippedTracks(id);
+      getSpotifyTracks(id);
+    }
+  }, [id, getSkippedTracks, getSpotifyTracks]);
+
+  const onDeleteSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      try {
+        event.preventDefault();
+        setDeleting(true);
+        setDeleteError(undefined);
+        const trackIds = deleteTracks.map((deleteTrack) => deleteTrack.id);
+        await deleteSpotifyPlaylistTracks(id, trackIds);
+
+        setDeleting(false);
+        onDeleteClose();
+
+        await getSkippedTracks(id);
+        await getSpotifyTracks(id);
+      } catch (e: any) {
+        setDeleteError(e.response?.data?.message || "Unknown error");
+        setDeleting(false);
+      }
+    },
+    [
+      id,
+      setDeleting,
+      setDeleteError,
+      deleteTracks,
+      deleteSpotifyPlaylistTracks,
+      onDeleteClose,
+      getSkippedTracks,
+      getSpotifyTracks,
+    ]
+  );
+
+  return {
+    loadingSkippedTracks,
+    skippedTrackColumns,
+    skippedTracks,
+    loadingSkippedTrackHistory,
+    skippedTrackHistoryColumns,
+    skippedTrackHistory,
+    loadingSpotifyTracks,
+    spotifyTrackColumns,
+    spotifyTracks,
+    deleteTracks,
+    deleteOpen,
+    onDeleteClose,
+    deleting,
+    onDeleteSubmit,
+    deleteError,
+  };
+};

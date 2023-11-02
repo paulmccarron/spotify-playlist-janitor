@@ -14,6 +14,7 @@ type TableProps = {
 };
 
 const TableComponent = styled.table`
+  color: ${WHITE};
   border-collapse: collapse;
   width: 100%;
 
@@ -22,7 +23,7 @@ const TableComponent = styled.table`
     border-bottom: 1px solid #121212 !important;
     min-width: 34px;
     text-align: left;
-    color: ${WHITE};
+    padding: 8px;
   }
 
   tbody tr:nth-child(even) {
@@ -37,10 +38,15 @@ const TableComponent = styled.table`
     border: none !important;
     padding: 8px;
   }
+
+  .centered {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Table = ({ caption, data, columns }: TableProps) => {
-  const [tableData, handleSorting] = useTableSorting({data, columns});
+  const [tableData, handleSorting] = useTableSorting({ data, columns });
 
   return (
     <TableComponent>

@@ -7,8 +7,8 @@ type useTableSortingProps = {
 };
 
 const sortCompare = (
-  valueA: string | number | Date,
-  valueB: string | number | Date,
+  valueA: string | number | Date | any,
+  valueB: string | number | Date | any,
   sortOrder: SortOrder
 ) => {
   if (valueA === null) {
@@ -25,6 +25,58 @@ const sortCompare = (
     var aDate: Date = valueA;
     var bDate: Date = valueB;
     return (aDate > bDate ? 1 : -1) * (sortOrder === "asc" ? 1 : -1);
+  }
+
+  if (
+    (typeof valueA === "string" && typeof valueB === "string") ||
+    (typeof valueA === "number" && typeof valueB === "number")
+  ) {
+    return (
+      valueA.toString().localeCompare(valueB.toString(), "en", {
+        numeric: true,
+      }) * (sortOrder === "asc" ? 1 : -1)
+    );
+  }
+
+  if (typeof valueA !== "string" && typeof valueB !== "string") {
+    if ("name" in valueA && "name" in valueA) {
+      return (
+        valueA.name.toString().localeCompare(valueB.name.toString(), "en", {
+          numeric: true,
+        }) * (sortOrder === "asc" ? 1 : -1)
+      );
+    } else if (valueA instanceof Array && valueB instanceof Array) {
+      const valueANames = valueA
+        .map((valueAValue) =>
+          "name" in valueAValue
+            ? (valueAValue.name as string).toLowerCase()
+            : ""
+        )
+        .filter(Boolean)
+        .join(",");
+
+      const valueBNames = valueB
+        .map((valueBValue) =>
+          "name" in valueBValue
+            ? (valueBValue.name as string).toLowerCase()
+            : ""
+        )
+        .filter(Boolean)
+        .join(",");
+
+      const thing =
+        valueANames.toString().localeCompare(valueBNames.toString(), "en", {
+          numeric: true,
+        }) * (sortOrder === "asc" ? 1 : -1);
+
+      debugger;
+
+      return (
+        valueANames.toString().localeCompare(valueBNames.toString(), "en", {
+          numeric: true,
+        }) * (sortOrder === "asc" ? 1 : -1)
+      );
+    }
   }
 
   return (

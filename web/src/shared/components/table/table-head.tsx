@@ -52,7 +52,7 @@ export const TableHead = ({ columns, handleSorting }: TableHeadProps) => {
     <thead>
       <Tr>
         {columns.map(({ label, accessor, sortable }: any) => {
-          let icon = undefined;
+          let icon = <VscArrowUp style={{ color: "transparent" }} />;
 
           if (accessor === sortField) {
             icon = order === "asc" ? <VscArrowUp /> : <VscArrowDown />;
