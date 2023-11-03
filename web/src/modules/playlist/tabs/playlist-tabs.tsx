@@ -7,8 +7,6 @@ import { Modal } from "shared/components/modal";
 import { usePlaylistTabsLogic } from "./use-playlist-tabs-logic";
 import { DeleteTrackModalView } from "./delete-track-modal";
 
-const loadingData: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
-
 type PlaylistTabsProps = {
     id: string;
     loading?: boolean;
@@ -45,30 +43,24 @@ export const PlaylistTabs = ({ id, loading }: PlaylistTabsProps) => {
                 </TabList>
 
                 <TabPanel>
-                    {(loading || loadingSkippedTracks) && <Table data={loadingData} columns={skippedTrackColumns} loading={true} />}
-                    {!loading && !loadingSkippedTracks && skippedTracks.length > 0 && (
-                        <Table data={skippedTracks} columns={skippedTrackColumns} />
+                    {((loading || loadingSkippedTracks) || skippedTracks.length > 0) && (
+                        <Table data={skippedTracks} columns={skippedTrackColumns} loading={loading || loadingSkippedTracks} />
                     )}
                     {!loading && !loadingSkippedTracks && skippedTracks.length === 0 && (
                         <>No skipped tracks found.</>
                     )}
                 </TabPanel>
                 <TabPanel>
-                    {(loading || loadingSkippedTrackHistory) && <Table data={loadingData} columns={skippedTrackHistoryColumns} loading={true} />}
-                    {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length > 0 && (
-                        <Table
-                            data={skippedTrackHistory}
-                            columns={skippedTrackHistoryColumns}
-                        />
+                    {((loading || loadingSkippedTrackHistory) || skippedTrackHistory.length > 0) && (
+                        <Table data={skippedTrackHistory} columns={skippedTrackHistoryColumns} loading={loading || loadingSkippedTrackHistory} />
                     )}
                     {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length === 0 && (
                         <>No skipped tracks found.</>
                     )}
                 </TabPanel>
                 <TabPanel>
-                    {(loading || loadingSpotifyTracks) && <Table data={loadingData} columns={spotifyTrackColumns} loading={true} />}
-                    {!loading && !loadingSpotifyTracks && spotifyTracks.length > 0 && (
-                        <Table data={spotifyTracks} columns={spotifyTrackColumns} />
+                    {((loading || loadingSpotifyTracks) || spotifyTracks.length > 0) && (
+                        <Table data={spotifyTracks} columns={spotifyTrackColumns} loading={loading || loadingSpotifyTracks} />
                     )}
                     {!loading && !loadingSpotifyTracks && spotifyTracks.length === 0 && (
                         <>No Spotify tracks found.</>

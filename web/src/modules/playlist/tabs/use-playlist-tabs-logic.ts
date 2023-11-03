@@ -10,6 +10,8 @@ import {
 import { useModal } from "shared/components/modal";
 import { usePlaylistTabsColumns } from "./use-playlist-tabs-columns";
 
+const loadingData: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+
 type UsePlaylistTabsLogicProps = {
   id: string;
 };
@@ -65,8 +67,8 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
       try {
         setLoadingSkippedTracks(true);
         setLoadingSkippedTrackHistory(true);
-        setSkippedTracks([]);
-        setSkippedTrackHistory([]);
+        setSkippedTracks(loadingData);
+        setSkippedTrackHistory(loadingData);
 
         const skippedTrackResponse = await getDatabasePlaylistSkippedTracks(id);
 
@@ -117,6 +119,10 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
         // if (e?.response?.status === 404) {
         //   setNotFound(true);
         // }
+
+        setSkippedTracks([]);
+        setSkippedTrackHistory([]);
+
         setLoadingSkippedTracks(false);
         setLoadingSkippedTrackHistory(false);
       }
@@ -132,7 +138,7 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
     async (id: string) => {
       try {
         setLoadingSpotifyTracks(true);
-        setSpotifyTracks([]);
+        setSpotifyTracks(loadingData);
 
         const spotifyTrackResponse = await getSpotifyPlaylistTracks(id);
 
@@ -156,6 +162,7 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
         // if (e?.response?.status === 404) {
         //   setNotFound(true);
         // }
+        setSpotifyTracks([]);
         setLoadingSpotifyTracks(false);
       }
     },
