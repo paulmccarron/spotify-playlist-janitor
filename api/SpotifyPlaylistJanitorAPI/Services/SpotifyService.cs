@@ -170,7 +170,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             }
 
             var request = new PlaylistGetItemsRequest();
-            request.Fields.Add("items(track(name,type,id,artists(id,name,external_urls),album(id,name,external_urls,images),duration_ms,is_local))");
+            request.Fields.Add("href,limit,next,offset,previous,total,items(track(name,type,id,artists(id,name,external_urls),album(id,name,external_urls,images),duration_ms,is_local))");
 
             var page = await _spotifyClient.Playlists.GetItems(id, request);
             var allPages = await _spotifyClient.PaginateAll(page);
