@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import styled from "styled-components";
 import { SKELETON_HIGHLIGHT, SKELETON_PLAYLIST_BASE, WHITE } from "shared/constants";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
+import { SecondaryText } from "shared/components/typography";
 
 const Link = styled.a`
   &:link {
@@ -77,13 +78,18 @@ const artistColumn: Column = {
         artists.map((artist, index) => (
           <>
             {`${index === 0 ? "" : ", "}`}
-            <Link
-              href={artist.href}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {artist.name}
-            </Link>
+            {!!artist.href
+              ?
+              <Link
+                href={artist.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {artist.name}
+              </Link>
+              :
+              <SecondaryText>{artist.name}</SecondaryText>
+            }
           </>
         ))}
     </>
@@ -95,13 +101,21 @@ const albumColumn: Column = {
   accessor: "album",
   sortable: true,
   render: (album: SkippedTrackAlbum, loading?: boolean) => (
-    loading ? skeleton : <Link
-      href={album.href}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {album.name}
-    </Link>
+    loading
+      ?
+      skeleton
+      :
+      !!album.href
+        ?
+        <Link
+          href={album.href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {album.name}
+        </Link>
+        :
+        <SecondaryText>{album.name}</SecondaryText>
   ),
 };
 
