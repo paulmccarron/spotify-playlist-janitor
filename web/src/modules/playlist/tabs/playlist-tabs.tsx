@@ -32,8 +32,47 @@ export const PlaylistTabs = ({ id, loading }: PlaylistTabsProps) => {
         deleteError,
     } = usePlaylistTabsLogic({ id });
 
-    const tabs = useMemo(
-        () => (
+    const skippedTracksTable = useMemo(() =>
+        <>
+            {(loading || loadingSkippedTracks) && (
+                <Table data={loadingData} columns={skippedTrackColumns} loading />
+            )}
+            {!loading && !loadingSkippedTracks && skippedTracks.length > 0 && (
+                <Table data={skippedTracks} columns={skippedTrackColumns} />
+            )}
+            {!loading && !loadingSkippedTracks && skippedTracks.length === 0 && (
+                <>No skipped tracks found.</>
+            )}
+        </>, [loading, loadingSkippedTracks, loadingData, skippedTrackColumns, skippedTracks]);
+
+    const skippedTrackHistoryTable = useMemo(() =>
+        <>
+            {(loading || loadingSkippedTrackHistory) && (
+                <Table data={loadingData} columns={skippedTrackHistoryColumns} loading />
+            )}
+            {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length > 0 && (
+                <Table data={skippedTrackHistory} columns={skippedTrackHistoryColumns} />
+            )}
+            {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length === 0 && (
+                <>No skipped tracks found.</>
+            )}
+        </>, [loading, loadingSkippedTrackHistory, loadingData, skippedTrackHistoryColumns, skippedTrackHistory]);
+
+    const spotifyTracksTable = useMemo(() =>
+        <>
+            {(loading || loadingSpotifyTracks) && (
+                <Table data={loadingData} columns={spotifyTrackColumns} loading />
+            )}
+            {!loading && !loadingSpotifyTracks && spotifyTracks.length > 0 && (
+                <Table data={spotifyTracks} columns={spotifyTrackColumns} />
+            )}
+            {!loading && !loadingSpotifyTracks && spotifyTracks.length === 0 && (
+                <>No Spotify tracks found.</>
+            )}
+        </>, [loading, loadingSpotifyTracks, loadingData, spotifyTrackColumns, spotifyTracks]);
+
+    return (
+        <>
             <Tabs>
                 <TabList>
                     <Tab data-testid="skipped-tracks-tab">Skipped Tracks</Tab>
@@ -44,57 +83,15 @@ export const PlaylistTabs = ({ id, loading }: PlaylistTabsProps) => {
                 </TabList>
 
                 <TabPanel>
-                    {(loading || loadingSkippedTracks) && (
-                        <Table data={loadingData} columns={skippedTrackColumns} loading />
-                    )}
-                    {!loading && !loadingSkippedTracks && skippedTracks.length > 0 && (
-                        <Table data={skippedTracks} columns={skippedTrackColumns} />
-                    )}
-                    {!loading && !loadingSkippedTracks && skippedTracks.length === 0 && (
-                        <>No skipped tracks found.</>
-                    )}
+                    {skippedTracksTable}
                 </TabPanel>
                 <TabPanel>
-                    {(loading || loadingSkippedTrackHistory) && (
-                        <Table data={loadingData} columns={skippedTrackHistoryColumns} loading />
-                    )}
-                    {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length > 0 && (
-                        <Table data={skippedTrackHistory} columns={skippedTrackHistoryColumns} />
-                    )}
-                    {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length === 0 && (
-                        <>No skipped tracks found.</>
-                    )}
+                    {skippedTrackHistoryTable}
                 </TabPanel>
                 <TabPanel>
-                    {(loading || loadingSpotifyTracks) && (
-                        <Table data={loadingData} columns={spotifyTrackColumns} loading />
-                    )}
-                    {!loading && !loadingSpotifyTracks && spotifyTracks.length > 0 && (
-                        <Table data={spotifyTracks} columns={spotifyTrackColumns} />
-                    )}
-                    {!loading && !loadingSpotifyTracks && spotifyTracks.length === 0 && (
-                        <>No Spotify tracks found.</>
-                    )}
+                    {spotifyTracksTable}
                 </TabPanel>
             </Tabs>
-        ),
-        [
-            loading,
-            loadingSkippedTracks,
-            skippedTrackColumns,
-            skippedTracks,
-            loadingSkippedTrackHistory,
-            skippedTrackHistoryColumns,
-            skippedTrackHistory,
-            loadingSpotifyTracks,
-            spotifyTrackColumns,
-            spotifyTracks,
-        ]
-    );
-
-    return (
-        <>
-            {tabs}
             <Modal
                 {...{
                     isOpen: deleteOpen,
