@@ -14,6 +14,7 @@ type PlaylistTabsProps = {
 
 export const PlaylistTabs = ({ id, loading }: PlaylistTabsProps) => {
     const {
+        loadingData,
         loadingSkippedTracks,
         skippedTrackColumns,
         skippedTracks,
@@ -43,24 +44,33 @@ export const PlaylistTabs = ({ id, loading }: PlaylistTabsProps) => {
                 </TabList>
 
                 <TabPanel>
-                    {((loading || loadingSkippedTracks) || skippedTracks.length > 0) && (
-                        <Table data={skippedTracks} columns={skippedTrackColumns} loading={loading || loadingSkippedTracks} />
+                    {(loading || loadingSkippedTracks) && (
+                        <Table data={loadingData} columns={skippedTrackColumns} loading />
+                    )}
+                    {!loading && !loadingSkippedTracks && skippedTracks.length > 0 && (
+                        <Table data={skippedTracks} columns={skippedTrackColumns} />
                     )}
                     {!loading && !loadingSkippedTracks && skippedTracks.length === 0 && (
                         <>No skipped tracks found.</>
                     )}
                 </TabPanel>
                 <TabPanel>
-                    {((loading || loadingSkippedTrackHistory) || skippedTrackHistory.length > 0) && (
-                        <Table data={skippedTrackHistory} columns={skippedTrackHistoryColumns} loading={loading || loadingSkippedTrackHistory} />
+                    {(loading || loadingSkippedTrackHistory) && (
+                        <Table data={loadingData} columns={skippedTrackHistoryColumns} loading />
+                    )}
+                    {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length > 0 && (
+                        <Table data={skippedTrackHistory} columns={skippedTrackHistoryColumns} />
                     )}
                     {!loading && !loadingSkippedTrackHistory && skippedTrackHistory.length === 0 && (
                         <>No skipped tracks found.</>
                     )}
                 </TabPanel>
                 <TabPanel>
-                    {((loading || loadingSpotifyTracks) || spotifyTracks.length > 0) && (
-                        <Table data={spotifyTracks} columns={spotifyTrackColumns} loading={loading || loadingSpotifyTracks} />
+                    {(loading || loadingSpotifyTracks) && (
+                        <Table data={loadingData} columns={spotifyTrackColumns} loading />
+                    )}
+                    {!loading && !loadingSpotifyTracks && spotifyTracks.length > 0 && (
+                        <Table data={spotifyTracks} columns={spotifyTrackColumns} />
                     )}
                     {!loading && !loadingSpotifyTracks && spotifyTracks.length === 0 && (
                         <>No Spotify tracks found.</>

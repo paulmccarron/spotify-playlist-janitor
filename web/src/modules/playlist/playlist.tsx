@@ -6,13 +6,14 @@ import {
 } from "shared/constants";
 import { usePlaylistLogic } from "./use-playlist-logic";
 import { Menu, MenuItem } from "shared/components/menu";
-import { VscEdit, VscEllipsis, VscTrash } from "react-icons/vsc";
+import { VscEdit, VscEllipsis, VscLinkExternal, VscTrash } from "react-icons/vsc";
 import { SecondaryText, Text, Title } from "shared/components/typography";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 import { Modal } from "shared/components/modal";
 import { EditPlaylistModalView } from "./modal";
 import { DeletePlaylistModalView } from "./modal/delete-playlist-modal";
 import { PlaylistTabs } from "./tabs/playlist-tabs";
+
 
 type PlaylistProps = {
     id: string;
@@ -74,7 +75,20 @@ export const Playlist = ({ id }: PlaylistProps) => {
                     </div>
                     <div className="playlist-details">
                         <Title className={`playlist-title${loading ? "-loading" : ""}`}>
-                            {playlist?.name || skeleton}
+                            {!!playlist
+                                ?
+                                <>
+                                    {playlist?.name}
+                                    <a className="icon-link"
+                                        href={playlist?.href}
+                                        target="_blank"
+                                        rel="noreferrer">
+                                        <VscLinkExternal style={{ cursor: "pointer", fontSize: 28 }} />
+                                    </a>
+                                </>
+                                :
+                                skeleton
+                            }
                         </Title>
                         <div
                             className={`playlist-details-item${loading ? "-loading" : ""}`}
@@ -243,6 +257,15 @@ const PageContainer = styled.div`
 
   .content {
     width: 100%;
+  }
+
+  .icon-link{
+    color: ${WHITE};
+    margin-left: 12px;
+
+    svg {
+        margin-bottom: -3px;
+    }
   }
 `;
 

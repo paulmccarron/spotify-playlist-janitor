@@ -67,8 +67,8 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
       try {
         setLoadingSkippedTracks(true);
         setLoadingSkippedTrackHistory(true);
-        setSkippedTracks(loadingData);
-        setSkippedTrackHistory(loadingData);
+        setSkippedTracks([]);
+        setSkippedTrackHistory([]);
 
         const skippedTrackResponse = await getDatabasePlaylistSkippedTracks(id);
 
@@ -138,7 +138,7 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
     async (id: string) => {
       try {
         setLoadingSpotifyTracks(true);
-        setSpotifyTracks(loadingData);
+        setSpotifyTracks([]);
 
         const spotifyTrackResponse = await getSpotifyPlaylistTracks(id);
 
@@ -208,6 +208,7 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
   );
 
   return {
+    loadingData,
     loadingSkippedTracks,
     skippedTrackColumns,
     skippedTracks,
