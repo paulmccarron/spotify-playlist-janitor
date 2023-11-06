@@ -6,7 +6,11 @@ import { SkippedTrackAlbum, SkippedTrackArtist } from "./playlist-tabs-types";
 import { Image } from "shared/types";
 import { useMemo } from "react";
 import styled from "styled-components";
-import { SKELETON_HIGHLIGHT, SKELETON_PLAYLIST_BASE, WHITE } from "shared/constants";
+import {
+  SKELETON_HIGHLIGHT,
+  SKELETON_PLAYLIST_BASE,
+  WHITE,
+} from "shared/constants";
 import { Skeleton, SkeletonTheme } from "shared/components/skeleton";
 import { SecondaryText } from "shared/components/typography";
 
@@ -34,13 +38,15 @@ type UsePlaylistTabsColumnsProps = {
   onDeleteClick(id: string): void;
 };
 
-const skeleton = <SkeletonTheme
-  baseColor={SKELETON_PLAYLIST_BASE}
-  highlightColor={SKELETON_HIGHLIGHT}
-  height="100%"
->
-  <Skeleton />
-</SkeletonTheme>;
+const skeleton = (
+  <SkeletonTheme
+    baseColor={SKELETON_PLAYLIST_BASE}
+    highlightColor={SKELETON_HIGHLIGHT}
+    height="100%"
+  >
+    <Skeleton />
+  </SkeletonTheme>
+);
 
 const imageColumn: Column = {
   label: "",
@@ -48,10 +54,11 @@ const imageColumn: Column = {
   primary: true,
   render: (image: Image, loading?: boolean) => (
     <div className="centered">
-      {loading ?
+      {loading ? (
         <div style={{ height: 40, width: 40 }}>{skeleton}</div>
-        :
-        <img alt="" width={40} height={40} src={image.url} />}
+      ) : (
+        <img alt="" width={40} height={40} src={image.url} />
+      )}
     </div>
   ),
 };
@@ -61,9 +68,7 @@ const titleColumn: Column = {
   accessor: "name",
   sortable: true,
   primary: true,
-  render: (value: string, loading?: boolean) => (
-    loading ? skeleton : value
-  ),
+  render: (value: string, loading?: boolean) => (loading ? skeleton : value),
 };
 
 const artistColumn: Column = {
@@ -72,26 +77,20 @@ const artistColumn: Column = {
   sortable: true,
   render: (artists: SkippedTrackArtist[], loading?: boolean) => (
     <>
-      {loading ?
-        skeleton
-        :
-        artists.map((artist, index) => (
-          <>
-            {`${index === 0 ? "" : ", "}`}
-            {!!artist.href
-              ?
-              <Link
-                href={artist.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {artist.name}
-              </Link>
-              :
-              <SecondaryText>{artist.name}</SecondaryText>
-            }
-          </>
-        ))}
+      {loading
+        ? skeleton
+        : artists.map((artist, index) => (
+            <>
+              {`${index === 0 ? "" : ", "}`}
+              {!!artist.href ? (
+                <Link href={artist.href} target="_blank" rel="noreferrer">
+                  {artist.name}
+                </Link>
+              ) : (
+                <SecondaryText>{artist.name}</SecondaryText>
+              )}
+            </>
+          ))}
     </>
   ),
 };
@@ -100,23 +99,16 @@ const albumColumn: Column = {
   label: "Album",
   accessor: "album",
   sortable: true,
-  render: (album: SkippedTrackAlbum, loading?: boolean) => (
-    loading
-      ?
+  render: (album: SkippedTrackAlbum, loading?: boolean) =>
+    loading ? (
       skeleton
-      :
-      !!album.href
-        ?
-        <Link
-          href={album.href}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {album.name}
-        </Link>
-        :
-        <SecondaryText>{album.name}</SecondaryText>
-  ),
+    ) : !!album.href ? (
+      <Link href={album.href} target="_blank" rel="noreferrer">
+        {album.name}
+      </Link>
+    ) : (
+      <SecondaryText>{album.name}</SecondaryText>
+    ),
 };
 
 const durationColumn: Column = {
@@ -138,22 +130,24 @@ const durationColumn: Column = {
 export const usePlaylistTabsColumns = ({
   onDeleteClick,
 }: UsePlaylistTabsColumnsProps) => {
-
-  const deleteColumn = useMemo(() => ({
-    label: "",
-    accessor: "id",
-    render: (id: string, loading?: boolean) => (
-      loading ?
-        <></>
-        :
-        <div className="centered">
-          <VscTrash
-            style={{ cursor: "pointer" }}
-            onClick={() => onDeleteClick(id)}
-          />
-        </div>
-    ),
-  }), [onDeleteClick])
+  const deleteColumn = useMemo(
+    () => ({
+      label: "",
+      accessor: "id",
+      render: (id: string, loading?: boolean) =>
+        loading ? (
+          <></>
+        ) : (
+          <div className="centered">
+            <VscTrash
+              style={{ cursor: "pointer" }}
+              onClick={() => onDeleteClick(id)}
+            />
+          </div>
+        ),
+    }),
+    [onDeleteClick]
+  );
 
   const skippedTrackColumns: Column[] = [
     imageColumn,
@@ -166,9 +160,8 @@ export const usePlaylistTabsColumns = ({
       accessor: "skippedTotal",
       sortable: true,
       sortbyOrder: "desc",
-      render: (value: string, loading?: boolean) => (
-        loading ? skeleton : value
-      ),
+      render: (value: string, loading?: boolean) =>
+        loading ? skeleton : value,
     },
     deleteColumn,
   ];
@@ -185,7 +178,9 @@ export const usePlaylistTabsColumns = ({
       sortable: true,
       sortbyOrder: "desc",
       render: (date: Date, loading?: boolean) =>
-        loading ? skeleton : format(date, "MMM dd yyyy") + " at " + format(date, "HH:mm:ss"),
+        loading
+          ? skeleton
+          : format(date, "MMM dd yyyy") + " at " + format(date, "HH:mm:ss"),
     },
     deleteColumn,
   ];
@@ -193,7 +188,7 @@ export const usePlaylistTabsColumns = ({
   const spotifyTrackColumns: Column[] = [
     imageColumn,
     titleColumn,
-    { ...artistColumn, sortbyOrder: "asc", },
+    { ...artistColumn, sortbyOrder: "asc" },
     albumColumn,
     durationColumn,
     deleteColumn,

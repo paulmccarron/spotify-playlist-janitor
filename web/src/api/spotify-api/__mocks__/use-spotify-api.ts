@@ -1,4 +1,4 @@
-import { spotifyPlaylists } from "../../../shared/mock-data/api";
+import { spotifyPlaylists, spotifyTracks } from "../../../shared/mock-data/api";
 
 export const useSpotifyApi = jest.fn(() => ({
   getSpotifyPlaylists: jest.fn(() =>
@@ -8,9 +8,13 @@ export const useSpotifyApi = jest.fn(() => ({
   ),
   getSpotifyPlaylist: jest.fn((id: string) =>
     Promise.resolve({
-      data: spotifyPlaylists.find(x => x.id === id),
+      data: spotifyPlaylists.find((x) => x.id === id),
     })
   ),
+  getSpotifyPlaylistTracks: jest.fn((id: string) =>
+    Promise.resolve({
+      data: spotifyTracks,
+    })
+  ),
+  deleteSpotifyPlaylistTracks: jest.fn((id: string) => Promise.resolve()),
 }));
-
-

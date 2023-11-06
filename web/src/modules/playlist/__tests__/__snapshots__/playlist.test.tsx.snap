@@ -2,7 +2,7 @@
 
 exports[`<Playlist /> should render Home component with Not Found 1`] = `
 <div
-  class="sc-jsEeA-d kytrwn"
+  class="sc-jsEeA-d rnPeI"
 >
   <div
     class="sc-hLQTFJ joXFND"
@@ -16,7 +16,7 @@ exports[`<Playlist /> should render Home component with Not Found 1`] = `
 
 exports[`<Playlist /> should render Playlist component 1`] = `
 <div
-  class="sc-jsEeA-d kytrwn"
+  class="sc-jsEeA-d rnPeI"
 >
   <div
     class="header"
@@ -26,6 +26,7 @@ exports[`<Playlist /> should render Playlist component 1`] = `
     >
       <div
         class="playlist-image"
+        id="playlist-image"
       >
         <img
           alt="Playlist 1"
@@ -41,6 +42,30 @@ exports[`<Playlist /> should render Playlist component 1`] = `
           class="sc-guDMob cuZJcO playlist-title"
         >
           Playlist 1
+          <a
+            class="icon-link"
+            href="https://open.spotify.com/playlist/1"
+            rel="noreferrer"
+            target="_blank"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              stroke="currentColor"
+              stroke-width="0"
+              style="cursor: pointer; font-size: 28px;"
+              viewBox="0 0 16 16"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.5 1H6v1H2v12h12v-4h1v4.5l-.5.5h-13l-.5-.5v-13l.5-.5z"
+              />
+              <path
+                d="M15 1.5V8h-1V2.707L7.243 9.465l-.707-.708L13.293 2H8V1h6.5l.5.5z"
+              />
+            </svg>
+          </a>
         </div>
         <div
           class="playlist-details-item"
@@ -114,12 +139,19 @@ exports[`<Playlist /> should render Playlist component 1`] = `
       </div>
     </div>
   </div>
+  <div
+    class="content"
+  >
+    <div>
+      Playlist Tabs
+    </div>
+  </div>
 </div>
 `;
 
 exports[`<Playlist /> should render Playlist component in loading state 1`] = `
 <div
-  class="sc-jsEeA-d kytrwn"
+  class="sc-jsEeA-d rnPeI"
 >
   <div
     class="header"
@@ -129,6 +161,7 @@ exports[`<Playlist /> should render Playlist component in loading state 1`] = `
     >
       <div
         class="playlist-image"
+        id="playlist-image"
       >
         <span
           aria-busy="true"
@@ -231,6 +264,13 @@ exports[`<Playlist /> should render Playlist component in loading state 1`] = `
           />
         </svg>
       </div>
+    </div>
+  </div>
+  <div
+    class="content"
+  >
+    <div>
+      Playlist Tabs
     </div>
   </div>
 </div>

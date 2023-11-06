@@ -1,6 +1,6 @@
 import { LoginResponse } from "api/auth-api/auth-api-types";
 import { DatabasePlaylistResponse, SkippedTrackResponse } from "api/data-api";
-import { SpotifyPlaylistResponse } from "api/spotify-api";
+import { SpotifyPlaylistResponse, SpotifyTrackResponse } from "api/spotify-api";
 
 type AuthData = {
   login: LoginResponse;
@@ -308,4 +308,55 @@ export const skippedTracks: SkippedTrackResponse = [
       ]
     }
   }
+];
+
+export const spotifyTracks: SpotifyTrackResponse = [
+  {
+    id: "track 01",
+    name: "Name 1",
+    duration: 185000,
+    artists: [
+      {
+        id: "artist 01",
+        name: "Artist 1",
+        href: "https://open.spotify.com/artist/1",
+      }
+    ],
+    album: {
+      id: "album 01",
+      name: "Album 1",
+      href: "https://open.spotify.com/album/1",
+      images: [
+        {
+          height: 240,
+          width: 240,
+          url: "https://mosaic.scdn.co/101",
+        }
+      ]
+    }
+  },
+  {
+    id: "track 02",
+    name: "Name 2",
+    duration: 180000,
+    artists: [
+      {
+        id: "artist 02",
+        name: "Artist 2",
+        href: "https://open.spotify.com/artist/2",
+      }
+    ],
+    album: {
+      id: "album 01",
+      name: "Album 2",
+      href: "https://open.spotify.com/album/2",
+      images: [
+        {
+          height: 240,
+          width: 240,
+          url: "https://mosaic.scdn.co/201",
+        }
+      ]
+    }
+  },
 ];

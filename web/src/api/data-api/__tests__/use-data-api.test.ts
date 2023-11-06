@@ -15,6 +15,10 @@ describe("useDataApi", () => {
     ({ result } = renderHook(() => useDataApi()));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should call the getDatabasePlaylistsRequest function when the getDatabasePlaylists function is called", () => {
     result.current?.getDatabasePlaylists();
 
