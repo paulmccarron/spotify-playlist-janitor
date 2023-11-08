@@ -43,13 +43,18 @@ export const usePlaylistTabsLogic = ({ id }: UsePlaylistTabsLogicProps) => {
 
   const onDeleteOpen = useCallback(
     (trackId: string) => {
-      const track = skippedTracks.find((track) => track.id === trackId);
-      if (track) {
-        setDeleteTracks([{ id: track?.id, name: track?.name }]);
+      const skippedTrack = skippedTracks.find((track) => track.id === trackId);
+      if (skippedTrack) {
+        setDeleteTracks([{ id: skippedTrack?.id, name: skippedTrack?.name }]);
+        onOpen();
+      }
+      const spotifyTrack = spotifyTracks.find((track) => track.id === trackId);
+      if (spotifyTrack) {
+        setDeleteTracks([{ id: spotifyTrack?.id, name: spotifyTrack?.name }]);
         onOpen();
       }
     },
-    [skippedTracks, setDeleteTracks, onOpen]
+    [skippedTracks, spotifyTracks, setDeleteTracks, onOpen]
   );
 
   const onDeleteClose = useCallback(() => {

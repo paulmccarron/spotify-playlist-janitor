@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DeleteTrackModalView /> should render DeleteTrackModalView component 1`] = `
+<form
+  autocomplete="off"
+>
+  <div
+    class="sc-fsYfxw jIlICe"
+  >
+    <div
+      class="sc-guDMob jLqGJD"
+      style="margin-bottom: 8px;"
+    >
+      Delete Track
+    </div>
+    <div
+      class="sc-dmyDmy dcXriK"
+      style="margin-bottom: 8px;"
+    >
+      Are you sure you want to delete the following track from this playlist?
+    </div>
+    <ul>
+      <li>
+        Track Name
+      </li>
+    </ul>
+    <div
+      class="rows"
+    />
+    <div
+      style="display: flex; flex-direction: row; justify-content: flex-end;"
+    >
+      <button
+        class="sc-jTQDJr sc-iBdoyZ gmttQv bbczBv secondary"
+        data-testid="cancel-modal-button"
+        id="cancel-modal-button"
+        style="margin: 0px 4px;"
+        type="button"
+      >
+        Cancel
+      </button>
+      <button
+        class="sc-jTQDJr sc-gLLuHO gmttQv lckOnr primary"
+        data-testid="confirm-modal-button"
+        id="confirm-modal-button"
+        style="margin: 0px 4px;"
+        type="submit"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`<DeleteTrackModalView /> should render DeleteTrackModalView component with an error 1`] = `
+<form
+  autocomplete="off"
+>
+  <div
+    class="sc-fsYfxw jIlICe"
+  >
+    <div
+      class="sc-guDMob jLqGJD"
+      style="margin-bottom: 8px;"
+    >
+      Delete Track
+    </div>
+    <div
+      class="sc-dmyDmy dcXriK"
+      style="margin-bottom: 8px;"
+    >
+      Are you sure you want to delete the following track from this playlist?
+    </div>
+    <ul>
+      <li>
+        Track Name
+      </li>
+    </ul>
+    <div
+      class="rows"
+    >
+      <div
+        class="row error"
+        data-testid="modal-error"
+        id="modal-error"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          MODAL_ERROR
+        </div>
+      </div>
+    </div>
+    <div
+      style="display: flex; flex-direction: row; justify-content: flex-end;"
+    >
+      <button
+        class="sc-jTQDJr sc-iBdoyZ gmttQv bbczBv secondary"
+        data-testid="cancel-modal-button"
+        id="cancel-modal-button"
+        style="margin: 0px 4px;"
+        type="button"
+      >
+        Cancel
+      </button>
+      <button
+        class="sc-jTQDJr sc-gLLuHO gmttQv lckOnr primary"
+        data-testid="confirm-modal-button"
+        id="confirm-modal-button"
+        style="margin: 0px 4px;"
+        type="submit"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</form>
+`;

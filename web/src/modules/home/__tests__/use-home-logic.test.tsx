@@ -239,27 +239,26 @@ describe("useHomeLogic", () => {
         response: {
           status: 500,
           data: {
-            message:
-              "Can't add.",
+            message: "Can't add.",
           },
-        }, message: "Can't add."
-      }
+        },
+        expectedMessage: "Can't add.",
+      },
     },
     {
       e: {
         response: {
           status: 500,
           message: "Irregular format.",
-        }
-      }, message: "Unknown error"
-    }
+        },
+      },
+      expectedMessage: "Unknown error",
+    },
   ].forEach((setup) => {
-    it("should set modalError when onSubmit fails", async () => {
+    it(`should set modalError: ${setup.expectedMessage} when onSubmit fails`, async () => {
       mockUseDataApi = {
         ...mockUseDataApi,
-        addDatabasePlaylist: jest.fn(() =>
-          Promise.reject(setup.e)
-        ),
+        addDatabasePlaylist: jest.fn(() => Promise.reject(setup.e)),
       };
 
       jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
@@ -274,7 +273,7 @@ describe("useHomeLogic", () => {
       await waitFor(() => {
         expect(mockUseDataApi.addDatabasePlaylist).toHaveBeenCalledTimes(1);
 
-        expect(result.current?.modalError).toBe(setup.message)
+        expect(result.current?.modalError).toBe(setup.expectedMessage);
       });
     });
   }, []);

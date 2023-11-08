@@ -40,7 +40,9 @@ describe("usePlaylistTabsLogic", () => {
           data: spotifyTracks,
         })
       ),
-      deleteSpotifyPlaylistTracks: jest.fn((id: string) => Promise.resolve()),
+      deleteSpotifyPlaylistTracks: jest.fn(
+        (playlistId: string, trackIds: string[]) => Promise.resolve()
+      ),
     };
 
     event = {
@@ -102,6 +104,22 @@ describe("usePlaylistTabsLogic", () => {
     });
   });
 
+  it("should set skipped tracks as [] if api errors", async () => {
+    mockUseDataApi = {
+      getDatabasePlaylistSkippedTracks: jest.fn(() => Promise.reject()),
+    };
+
+    jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
+    await waitFor(() => {
+      ({ result } = renderHook(() => usePlaylistTabsLogic({ id })));
+    });
+
+    await waitFor(() => {
+      expect(result.current?.skippedTracks).toStrictEqual([]);
+      expect(result.current?.skippedTrackHistory).toStrictEqual([]);
+    });
+  });
+
   it("should set skipped track history on load", async () => {
     const expectedSkippedTrackHistory = skippedTracks.map((skippedTrack) => ({
       id: skippedTrack.trackId,
@@ -122,6 +140,22 @@ describe("usePlaylistTabsLogic", () => {
     });
   });
 
+  it("should set skipped tracks and skipped track history as [] if api errors", async () => {
+    mockUseDataApi = {
+      getDatabasePlaylistSkippedTracks: jest.fn(() => Promise.reject()),
+    };
+
+    jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
+    await waitFor(() => {
+      ({ result } = renderHook(() => usePlaylistTabsLogic({ id })));
+    });
+
+    await waitFor(() => {
+      expect(result.current?.skippedTracks).toStrictEqual([]);
+      expect(result.current?.skippedTrackHistory).toStrictEqual([]);
+    });
+  });
+
   it("should set spotify tracks on load", async () => {
     const expectedSpotifyTracks = spotifyTracks.map((spotifyTrack) => {
       return {
@@ -132,212 +166,101 @@ describe("usePlaylistTabsLogic", () => {
       };
     });
     await waitFor(() => {
-      expect(result.current?.spotifyTracks).toStrictEqual(expectedSpotifyTracks);
+      expect(result.current?.spotifyTracks).toStrictEqual(
+        expectedSpotifyTracks
+      );
     });
   });
 
-  // it("should set notFound to true if getDatabasePlaylist errors with 404", async () => {
-  //   mockUseDataApi = {
-  //     ...mockUseDataApi,
-  //     getDatabasePlaylist: jest.fn(() =>
-  //       Promise.reject({
-  //         response: {
-  //           status: 404,
-  //         },
-  //       })
-  //     ),
-  //   };
+  it("should set skipped tracks as [] if api errors", async () => {
+    mockUseSpotifyApi = {
+      getSpotifyPlaylistTracks: jest.fn(() => Promise.reject()),
+    };
 
-  //   jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
-  //   await waitFor(() => {
-  //     ({ result } = renderHook(() => usePlaylistLogic({ id })));
-  //   });
+    jest.mocked(useSpotifyApi).mockImplementation(() => mockUseSpotifyApi);
+    await waitFor(() => {
+      ({ result } = renderHook(() => usePlaylistTabsLogic({ id })));
+    });
 
-  //   await waitFor(() =>
-  //     expect(result.current?.notFound).toBe(true)
-  //   );
-  // });
+    await waitFor(() => {
+      expect(result.current?.spotifyTracks).toStrictEqual([]);
+    });
+  });
 
-  // it("should set editError when onEditSubmit called when autoDeleteTracksAfter is 0", () => {
-  //   event.currentTarget = [
-  //     { value: "10" },
-  //     { checked: false },
-  //     { value: "0" },
-  //   ];
+  it("should delete track when onDeleteSubmit called", async () => {
+    act(() => {
+      result.current?.onDeleteSubmit(event);
+    });
 
-  //   act(() => {
-  //     result.current?.onEditSubmit(event);
-  //   });
+    await waitFor(() => {
+      expect(
+        mockUseSpotifyApi.deleteSpotifyPlaylistTracks
+      ).toHaveBeenNthCalledWith(1, id, []);
+    });
+  });
 
-  //   expect(result.current?.editError).toBe(
-  //     "Auto-delete must be empty or greater than 0"
-  //   );
-  // });
+  it("should set fetch track info again when onDeleteSubmit succeeds", async () => {
+    act(() => {
+      result.current?.onDeleteSubmit(event);
+    });
 
-  // [
-  //   {
-  //     event: {
-  //       preventDefault: jest.fn(),
-  //       currentTarget: [
-  //         { value: "10" },
-  //         { checked: false },
-  //         { value: "10" },
-  //       ],
-  //     },
-  //     request: {
-  //       skipThreshold: 10,
-  //       ignoreInitialSkips: false,
-  //       autoCleanupLimit: 10,
-  //     },
-  //   },
-  //   {
-  //     event: {
-  //       preventDefault: jest.fn(),
-  //       currentTarget: [
-  //         { value: "" },
-  //         { checked: true },
-  //         { value: "" },
-  //       ],
-  //     },
-  //     request: {
-  //       skipThreshold: undefined,
-  //       ignoreInitialSkips: true,
-  //       autoCleanupLimit: undefined,
-  //     },
-  //   },
-  // ].forEach((setup) => {
-  //   it("should edit playlist with request data", async () => {
-  //     act(() => {
-  //       //@ts-ignore
-  //       result.current?.onEditSubmit(setup.event);
-  //     });
+    await waitFor(() => {
+      expect(
+        mockUseSpotifyApi.deleteSpotifyPlaylistTracks
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        mockUseDataApi.getDatabasePlaylistSkippedTracks
+      ).toHaveBeenCalledTimes(2);
+      expect(mockUseSpotifyApi.getSpotifyPlaylistTracks).toHaveBeenCalledTimes(
+        2
+      );
+    });
+  });
 
-  //     await waitFor(() => {
-  //       expect(mockUseDataApi.updateDatabasePlaylist).toHaveBeenNthCalledWith(
-  //         1,
-  //         id,
-  //         setup.request
-  //       );
-  //     });
-  //   });
-  // });
+  [
+    {
+      e: {
+        response: {
+          status: 500,
+          data: {
+            message: "Can't delete.",
+          },
+        },
+      },
+      expectedMessage: "Can't delete.",
+    },
+    {
+      e: {
+        response: {
+          status: 500,
+          message: "Irregular format.",
+        },
+      },
+      expectedMessage: "Unknown error",
+    },
+  ].forEach((setup) => {
+    it(`should set deleteError: ${setup.expectedMessage} when onDeleteSubmit fails `, async () => {
+      mockUseSpotifyApi = {
+        ...mockUseSpotifyApi,
+        deleteSpotifyPlaylistTracks: jest.fn(() => Promise.reject(setup.e)),
+      };
 
-  // it("should set fetch playlist info again when onEditSubmit succeeds", async () => {
-  //   act(() => {
-  //     result.current?.onEditSubmit(event);
-  //   });
+      jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
+      await waitFor(() => {
+        ({ result } = renderHook(() => usePlaylistTabsLogic({ id })));
+      });
 
-  //   await waitFor(() => {
-  //     expect(mockUseDataApi.updateDatabasePlaylist).toHaveBeenCalledTimes(1);
-  //     expect(mockUseDataApi.getDatabasePlaylist).toHaveBeenCalledTimes(2);
-  //     expect(mockUseSpotifyApi.getSpotifyPlaylist).toHaveBeenCalledTimes(2);
-  //   });
-  // });
+      act(() => {
+        result.current?.onDeleteSubmit(event);
+      });
 
-  // [
-  //   {
-  //     e: {
-  //       response: {
-  //         status: 500,
-  //         data: {
-  //           message:
-  //             "Can't update.",
-  //         },
-  //       }, message: "Can't update."
-  //     }
-  //   },
-  //   {
-  //     e: {
-  //       response: {
-  //         status: 500,
-  //         message: "Irregular format.",
-  //       }
-  //     }, message: "Unknown error"
-  //   }
-  // ].forEach((setup) => {
-  //   it("should set editError when onEditSubmit fails", async () => {
-  //     mockUseDataApi = {
-  //       ...mockUseDataApi,
-  //       updateDatabasePlaylist: jest.fn(() =>
-  //         Promise.reject(setup.e)
-  //       ),
-  //     };
+      await waitFor(() => {
+        expect(
+          mockUseSpotifyApi.deleteSpotifyPlaylistTracks
+        ).toHaveBeenCalledTimes(1);
 
-  //     jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
-  //     await waitFor(() => {
-  //       ({ result } = renderHook(() => usePlaylistLogic({ id })));
-  //     });
-
-  //     act(() => {
-  //       result.current?.onEditSubmit(event);
-  //     });
-
-  //     await waitFor(() => {
-  //       expect(mockUseDataApi.updateDatabasePlaylist).toHaveBeenCalledTimes(1);
-
-  //       expect(result.current?.editError).toBe(setup.message)
-  //     });
-  //   });
-  // }, []);
-
-  // it("should delete playlist with request data and nabivate home", async () => {
-  //   act(() => {
-  //     //@ts-ignore
-  //     result.current?.onDeleteSubmit(event);
-  //   });
-
-  //   await waitFor(() => {
-  //     expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenNthCalledWith(
-  //       1,
-  //       id,
-  //     );
-  //     expect(mockNavigate).toHaveBeenCalledWith("/");
-  //   });
-  // });
-
-  // [
-  //   {
-  //     e: {
-  //       response: {
-  //         status: 500,
-  //         data: {
-  //           message:
-  //             "Can't update.",
-  //         },
-  //       }, message: "Can't update."
-  //     }
-  //   },
-  //   {
-  //     e: {
-  //       response: {
-  //         status: 500,
-  //         message: "Irregular format.",
-  //       }
-  //     }, message: "Unknown error"
-  //   }
-  // ].forEach((setup) => {
-  //   it("should set deleteError when onDeleteSubmit fails", async () => {
-  //     mockUseDataApi = {
-  //       ...mockUseDataApi,
-  //       deleteDatabasePlaylist: jest.fn(() =>
-  //         Promise.reject(setup.e)
-  //       ),
-  //     };
-
-  //     jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
-  //     await waitFor(() => {
-  //       ({ result } = renderHook(() => usePlaylistLogic({ id })));
-  //     });
-
-  //     act(() => {
-  //       result.current?.onDeleteSubmit(event);
-  //     });
-
-  //     await waitFor(() => {
-  //       expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenCalledTimes(1);
-
-  //       expect(result.current?.deleteError).toBe(setup.message)
-  //     });
-  //   });
-  // }, []);
+        expect(result.current?.deleteError).toBe(setup.expectedMessage);
+      });
+    });
+  }, []);
 });

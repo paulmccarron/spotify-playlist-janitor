@@ -91,7 +91,7 @@ describe("useLoginLogic", () => {
       expectedMessage: "Unknown error",
     },
   ].forEach((setup) => {
-    it("should set error when onSubmit called login fails", async () => {
+    it(`should set error: ${setup.expectedMessage} when onSubmit called login fails`, async () => {
       mockUseAuthApi = {
         login: jest.fn(() => Promise.reject({ response: setup.response })),
       };

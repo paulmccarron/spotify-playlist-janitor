@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlaylistTabs /> should render PlaylistTabs component 1`] = `
+<div
+  class="sc-beyTiQ kSNZbW"
+  data-rttabs="true"
+>
+  <ul
+    class="react-tabs__tab-list"
+    role="tablist"
+  >
+    <li
+      aria-controls="panel:r0:0"
+      aria-disabled="false"
+      aria-selected="true"
+      class="react-tabs__tab react-tabs__tab--selected"
+      data-rttab="true"
+      data-testid="skipped-tracks-tab"
+      id="tab:r0:0"
+      role="tab"
+      tabindex="0"
+    >
+      Skipped Tracks
+    </li>
+    <li
+      aria-controls="panel:r0:1"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="skipped-track-history-tab"
+      id="tab:r0:1"
+      role="tab"
+    >
+      Skipped Track History
+    </li>
+    <li
+      aria-controls="panel:r0:2"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="tracks-tab"
+      id="tab:r0:2"
+      role="tab"
+    >
+      Tracks
+    </li>
+  </ul>
+  <div
+    aria-labelledby="tab:r0:0"
+    class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+    id="panel:r0:0"
+    role="tabpanel"
+  >
+    No skipped tracks found.
+  </div>
+  <div
+    aria-labelledby="tab:r0:1"
+    class="react-tabs__tab-panel"
+    id="panel:r0:1"
+    role="tabpanel"
+  />
+  <div
+    aria-labelledby="tab:r0:2"
+    class="react-tabs__tab-panel"
+    id="panel:r0:2"
+    role="tabpanel"
+  />
+</div>
+`;
