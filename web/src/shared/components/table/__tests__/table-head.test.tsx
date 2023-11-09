@@ -56,4 +56,36 @@ describe("<TableHead />", () => {
 
     expect(mockHandleSort).not.toHaveBeenCalled();
   });
+
+  it('should execute handleSort when sortable header with {name: "" } format data clicked', () => {
+    const colunHead = getByTestId(container, "table-head-cell-prop_sort");
+    fireEvent.click(colunHead);
+
+    expect(mockHandleSort).toHaveBeenCalledWith("prop_sort", "asc");
+  });
+
+  it('should execute handleSort when sortable header with {name: "" } format data clicked with opposite sort order', () => {
+    const colunHead = getByTestId(container, "table-head-cell-prop_sort");
+    fireEvent.click(colunHead);
+    fireEvent.click(colunHead);
+
+    expect(mockHandleSort).toHaveBeenNthCalledWith(1, "prop_sort", "asc");
+    expect(mockHandleSort).toHaveBeenLastCalledWith("prop_sort", "desc");
+  });
+
+  it('should execute handleSort when sortable header with [{name: "" }] format data clicked', () => {
+    const colunHead = getByTestId(container, "table-head-cell-array_prop_sort");
+    fireEvent.click(colunHead);
+
+    expect(mockHandleSort).toHaveBeenCalledWith("array_prop_sort", "asc");
+  });
+
+  it('should execute handleSort when sortable header with [{name: "" }] format data clicked with opposite sort order', () => {
+    const colunHead = getByTestId(container, "table-head-cell-array_prop_sort");
+    fireEvent.click(colunHead);
+    fireEvent.click(colunHead);
+
+    expect(mockHandleSort).toHaveBeenNthCalledWith(1, "array_prop_sort", "asc");
+    expect(mockHandleSort).toHaveBeenLastCalledWith("array_prop_sort", "desc");
+  });
 });

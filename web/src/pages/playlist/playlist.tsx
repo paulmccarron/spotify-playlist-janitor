@@ -14,7 +14,7 @@ const Content = styled.div`
   height: calc(
     100vh - ${HEADER_HEIGHT} - ${HEADER_PADDING} - ${HEADER_PADDING}
   );  
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 Playlist.displayName = "Playlist";

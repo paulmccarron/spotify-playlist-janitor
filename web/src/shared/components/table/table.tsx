@@ -46,11 +46,11 @@ const TableComponent = styled.table`
   }
 `;
 
-export const Table = ({ caption, data, columns, loading }: TableProps) => {
+export const Table = ({ caption, data, columns, loading, ...props }: TableProps) => {
   const [tableData, handleSorting] = useTableSorting({ data, columns });
 
   return (
-    <TableComponent>
+    <TableComponent {...props}>
       {caption && <caption>{caption}</caption>}
       <TableHead {...{ columns, handleSorting }} />
       <TableBody {...{ columns, tableData, loading }} />

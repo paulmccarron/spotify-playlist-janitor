@@ -50,6 +50,27 @@ export const tableColumns: Column[] = [
       />
     ),
   },
+  {
+    label: "Prop Sort",
+    accessor: "prop_sort",
+    sortable: true,
+    render: (prop: any) => <>{prop.name}</>,
+  },
+  {
+    label: "Array_Prop Sort",
+    accessor: "array_prop_sort",
+    sortable: true,
+    render: (props: any[]) => (
+      <>
+        {props.map((prop: any, index: number) => (
+          <>
+            {`${index === 0 ? "" : ", "}`}
+            <>{prop.name}</>
+          </>
+        ))}
+      </>
+    ),
+  },
 ];
 
 export const tableData = [
@@ -62,6 +83,17 @@ export const tableData = [
     length: 232960,
     date_skipped: new Date(2023, 9, 15, 15, 30, 45, 20),
     delete: undefined,
+    prop_sort: {
+      name: "a",
+    },
+    array_prop_sort: [
+      {
+        name: "a",
+      },
+      {
+        name: "ab",
+      },
+    ],
   },
   {
     id: 2,
@@ -72,6 +104,17 @@ export const tableData = [
     length: 302000,
     date_skipped: new Date(2023, 9, 15, 15, 30, 46, 25),
     delete: undefined,
+    prop_sort: {
+      name: "b",
+    },
+    array_prop_sort: [
+      {
+        name: "b",
+      },
+      {
+        name: "bb",
+      },
+    ],
   },
   {
     id: 3,
@@ -82,6 +125,17 @@ export const tableData = [
     length: 302000,
     date_skipped: new Date(2023, 9, 15, 15, 30, 47, 30),
     delete: undefined,
+    prop_sort: {
+      name: "c",
+    },
+    array_prop_sort: [
+      {
+        name: "c",
+      },
+      {
+        name: "cb",
+      },
+    ],
   },
   {
     id: 4,
@@ -92,5 +146,16 @@ export const tableData = [
     length: 276666,
     date_skipped: new Date(2023, 9, 15, 15, 30, 47, 40),
     delete: undefined,
+    prop_sort: {
+      name: "d",
+    },
+    array_prop_sort: [
+      {
+        name: "d",
+      },
+      {
+        name: "db",
+      },
+    ],
   },
 ];

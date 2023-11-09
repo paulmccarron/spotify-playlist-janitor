@@ -81,7 +81,7 @@ const artistColumn: Column = {
       {loading
         ? skeleton
         : artists.map((artist, index) => (
-            <>
+            <span key={`atist-${index}`}>
               {`${index === 0 ? "" : ", "}`}
               {!!artist.href ? (
                 <Link href={artist.href} target="_blank" rel="noreferrer">
@@ -90,7 +90,7 @@ const artistColumn: Column = {
               ) : (
                 <SecondaryText>{artist.name}</SecondaryText>
               )}
-            </>
+            </span>
           ))}
     </>
   ),

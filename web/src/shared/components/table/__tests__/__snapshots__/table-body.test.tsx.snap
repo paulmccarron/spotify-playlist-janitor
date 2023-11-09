@@ -94,6 +94,28 @@ exports[`<TableBody /> should render TableBody component 1`] = `
           </svg>
         </div>
       </td>
+      <td
+        data-testid="table-body-cell-0-prop_sort"
+        id="table-body-cell-0-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          a
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-array_prop_sort"
+        id="table-body-cell-0-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          a
+          , 
+          ab
+        </div>
+      </td>
     </tr>
     <tr>
       <td
@@ -184,6 +206,28 @@ exports[`<TableBody /> should render TableBody component 1`] = `
               fill-rule="evenodd"
             />
           </svg>
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-prop_sort"
+        id="table-body-cell-1-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          b
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-array_prop_sort"
+        id="table-body-cell-1-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          b
+          , 
+          bb
         </div>
       </td>
     </tr>
@@ -278,6 +322,28 @@ exports[`<TableBody /> should render TableBody component 1`] = `
           </svg>
         </div>
       </td>
+      <td
+        data-testid="table-body-cell-2-prop_sort"
+        id="table-body-cell-2-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          c
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-array_prop_sort"
+        id="table-body-cell-2-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          c
+          , 
+          cb
+        </div>
+      </td>
     </tr>
     <tr>
       <td
@@ -368,6 +434,28 @@ exports[`<TableBody /> should render TableBody component 1`] = `
               fill-rule="evenodd"
             />
           </svg>
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-prop_sort"
+        id="table-body-cell-3-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          d
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-array_prop_sort"
+        id="table-body-cell-3-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          d
+          , 
+          db
         </div>
       </td>
     </tr>

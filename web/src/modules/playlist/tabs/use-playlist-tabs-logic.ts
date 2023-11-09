@@ -12,7 +12,7 @@ import { usePlaylistTabsColumns } from "./use-playlist-tabs-columns";
 import { Image } from "shared/types";
 import { DEFAULT_ALBUM_IMAGE } from "shared/constants";
 
-const loadingData: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+const loadingData: any[] = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
 type UsePlaylistTabsLogicProps = {
   id: string;
