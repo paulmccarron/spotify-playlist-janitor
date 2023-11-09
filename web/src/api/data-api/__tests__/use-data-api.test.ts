@@ -15,6 +15,10 @@ describe("useDataApi", () => {
     ({ result } = renderHook(() => useDataApi()));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should call the getDatabasePlaylistsRequest function when the getDatabasePlaylists function is called", () => {
     result.current?.getDatabasePlaylists();
 
@@ -87,6 +91,16 @@ describe("useDataApi", () => {
     result.current?.deleteDatabasePlaylist("testId");
 
     expect(deleteRequest).toHaveBeenCalledWith("/data/playlists/testId", {
+      headers: {
+        authorization: expect.any(String),
+      },
+    });
+  });
+
+  it("should call the getDatabasePlaylistSkippedTracksRequest function when the getDatabasePlaylistSkippedTracks function is called", () => {
+    result.current?.getDatabasePlaylistSkippedTracks("testId");
+
+    expect(get).toHaveBeenCalledWith("/data/playlists/testId/skipped", {
       headers: {
         authorization: expect.any(String),
       },

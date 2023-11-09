@@ -1,5 +1,5 @@
 import { deleteRequest, get, post, put } from "api/api";
-import { getDatabasePlaylists, getDatabasePlaylist, addDatabasePlaylist, updateDatabasePlaylist, deleteDatabasePlaylist } from "../data-api";
+import { getDatabasePlaylists, getDatabasePlaylist, addDatabasePlaylist, updateDatabasePlaylist, deleteDatabasePlaylist, getDatabasePlaylistSkippedTracks } from "../data-api";
 import { AddDatabasePlaylistRequest, UpdateDatabasePlaylistRequest } from "../data-api-types";
 
 jest.mock("api/api");
@@ -77,5 +77,18 @@ describe("deleteDatabasePlaylist", () => {
   it(`should call the get function with the /data/playlists/{id} URL when the deleteDatabasePlaylist function is called`, () => {
     deleteDatabasePlaylist("testId", config);
     expect(deleteRequest).toHaveBeenLastCalledWith("/data/playlists/testId", config);
+  });
+});
+
+describe("getDatabasePlaylistSkippedTracks", () => {
+  const config = { headers: { HEADER: "HEADER" } };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it(`should call the get function with the /data/playlists/{id}/skipped URL when the getDatabasePlaylistSkippedTracks function is called`, () => {
+    getDatabasePlaylistSkippedTracks("testId", config);
+    expect(get).toHaveBeenLastCalledWith("/data/playlists/testId/skipped", config);
   });
 });

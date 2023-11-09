@@ -706,17 +706,17 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
         </td>
         <td>
           <table
-            class="sc-brSaGm jcGgKY"
+            class="sc-brSaGm cJEwRq"
           >
             <caption>
               Table caption.
             </caption>
             <thead>
               <tr
-                class="sc-eTNxZ bJRgxO"
+                class="sc-eTNxZ eqYzqw"
               >
                 <th
-                  class=""
+                  class="image"
                   data-testid="table-head-cell-image"
                   id="table-head-cell-image"
                 >
@@ -726,10 +726,26 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     <div
                       class="sc-kFCrIq lasdEO"
                     />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th
-                  class="sortable"
+                  class="sortable title"
                   data-testid="table-head-cell-title"
                   id="table-head-cell-title"
                 >
@@ -759,7 +775,7 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                   </div>
                 </th>
                 <th
-                  class="sortable"
+                  class="sortable artist"
                   data-testid="table-head-cell-artist"
                   id="table-head-cell-artist"
                 >
@@ -771,10 +787,26 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     >
                       Artist
                     </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th
-                  class="sortable"
+                  class="sortable album"
                   data-testid="table-head-cell-album"
                   id="table-head-cell-album"
                 >
@@ -786,10 +818,26 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     >
                       Album
                     </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th
-                  class="sortable"
+                  class="sortable length"
                   data-testid="table-head-cell-length"
                   id="table-head-cell-length"
                 >
@@ -813,10 +861,26 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                         />
                       </svg>
                     </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th
-                  class="sortable"
+                  class="sortable date_skipped"
                   data-testid="table-head-cell-date_skipped"
                   id="table-head-cell-date_skipped"
                 >
@@ -828,10 +892,26 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     >
                       Date Skipped
                     </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
                 <th
-                  class=""
+                  class="delete"
                   data-testid="table-head-cell-delete"
                   id="table-head-cell-delete"
                 >
@@ -841,6 +921,84 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     <div
                       class="sc-kFCrIq lasdEO"
                     />
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </th>
+                <th
+                  class="sortable prop_sort"
+                  data-testid="table-head-cell-prop_sort"
+                  id="table-head-cell-prop_sort"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Prop Sort
+                    </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </th>
+                <th
+                  class="sortable array_prop_sort"
+                  data-testid="table-head-cell-array_prop_sort"
+                  id="table-head-cell-array_prop_sort"
+                >
+                  <div
+                    class="content"
+                  >
+                    <div
+                      class="sc-kFCrIq lasdEO"
+                    >
+                      Array_Prop Sort
+                    </div>
+                    <svg
+                      fill="currentColor"
+                      height="1em"
+                      stroke="currentColor"
+                      stroke-width="0"
+                      style="color: transparent;"
+                      viewBox="0 0 16 16"
+                      width="1em"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
                   </div>
                 </th>
               </tr>
@@ -937,6 +1095,28 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     </svg>
                   </div>
                 </td>
+                <td
+                  data-testid="table-body-cell-0-prop_sort"
+                  id="table-body-cell-0-prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    d
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-0-array_prop_sort"
+                  id="table-body-cell-0-array_prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    d
+                    , 
+                    db
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td
@@ -1027,6 +1207,28 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                         fill-rule="evenodd"
                       />
                     </svg>
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-prop_sort"
+                  id="table-body-cell-1-prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    a
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-1-array_prop_sort"
+                  id="table-body-cell-1-array_prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    a
+                    , 
+                    ab
                   </div>
                 </td>
               </tr>
@@ -1121,6 +1323,28 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                     </svg>
                   </div>
                 </td>
+                <td
+                  data-testid="table-body-cell-2-prop_sort"
+                  id="table-body-cell-2-prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    c
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-2-array_prop_sort"
+                  id="table-body-cell-2-array_prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    c
+                    , 
+                    cb
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td
@@ -1211,6 +1435,28 @@ exports[`<Catalogue /> should render a Catalogue component 1`] = `
                         fill-rule="evenodd"
                       />
                     </svg>
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-prop_sort"
+                  id="table-body-cell-3-prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    b
+                  </div>
+                </td>
+                <td
+                  data-testid="table-body-cell-3-array_prop_sort"
+                  id="table-body-cell-3-array_prop_sort"
+                >
+                  <div
+                    class="sc-irLvoH ueHCX"
+                  >
+                    b
+                    , 
+                    bb
                   </div>
                 </td>
               </tr>

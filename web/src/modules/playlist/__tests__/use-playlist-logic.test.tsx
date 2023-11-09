@@ -24,7 +24,7 @@ describe("usePlaylistLogic", () => {
   beforeEach(async () => {
     mockUseDataApi = {
       getDatabasePlaylist: jest.fn((id: string) =>
-        Promise.resolve({ data: databasePlaylists.find(x => x.id === id), })
+        Promise.resolve({ data: databasePlaylists.find((x) => x.id === id) })
       ),
       updateDatabasePlaylist: jest.fn(() => Promise.resolve()),
       deleteDatabasePlaylist: jest.fn(() => Promise.resolve()),
@@ -32,17 +32,13 @@ describe("usePlaylistLogic", () => {
 
     mockUseSpotifyApi = {
       getSpotifyPlaylist: jest.fn((id: string) =>
-        Promise.resolve({ data: spotifyPlaylists.find(x => x.id === id) })
+        Promise.resolve({ data: spotifyPlaylists.find((x) => x.id === id) })
       ),
     };
 
     event = {
       preventDefault: jest.fn(),
-      currentTarget: [
-        { value: "10" },
-        { checked: false },
-        { value: "10" },
-      ],
+      currentTarget: [{ value: "10" }, { checked: false }, { value: "10" }],
     };
 
     jest.mocked(useSpotifyApi).mockImplementation(() => mockUseSpotifyApi);
@@ -59,7 +55,10 @@ describe("usePlaylistLogic", () => {
   it("should fetch playlist data on load", async () => {
     await waitFor(() => {
       expect(mockUseDataApi.getDatabasePlaylist).toHaveBeenNthCalledWith(1, id);
-      expect(mockUseSpotifyApi.getSpotifyPlaylist).toHaveBeenNthCalledWith(1, id);
+      expect(mockUseSpotifyApi.getSpotifyPlaylist).toHaveBeenNthCalledWith(
+        1,
+        id
+      );
     });
   });
 
@@ -71,13 +70,11 @@ describe("usePlaylistLogic", () => {
       autoCleanupLimit: databasePlaylists[0].autoCleanupLimit,
       name: spotifyPlaylists[0].name,
       href: spotifyPlaylists[0].href,
-      image: spotifyPlaylists[0].images[0]
+      image: spotifyPlaylists[0].images[0],
     };
 
     await waitFor(() => {
-      expect(result.current?.playlist).toStrictEqual(
-        expectedPlaylist
-      );
+      expect(result.current?.playlist).toStrictEqual(expectedPlaylist);
     });
   });
 
@@ -98,17 +95,11 @@ describe("usePlaylistLogic", () => {
       ({ result } = renderHook(() => usePlaylistLogic({ id })));
     });
 
-    await waitFor(() =>
-      expect(result.current?.notFound).toBe(true)
-    );
+    await waitFor(() => expect(result.current?.notFound).toBe(true));
   });
 
   it("should set editError when onEditSubmit called when autoDeleteTracksAfter is 0", () => {
-    event.currentTarget = [
-      { value: "10" },
-      { checked: false },
-      { value: "0" },
-    ];
+    event.currentTarget = [{ value: "10" }, { checked: false }, { value: "0" }];
 
     act(() => {
       result.current?.onEditSubmit(event);
@@ -123,11 +114,7 @@ describe("usePlaylistLogic", () => {
     {
       event: {
         preventDefault: jest.fn(),
-        currentTarget: [
-          { value: "10" },
-          { checked: false },
-          { value: "10" },
-        ],
+        currentTarget: [{ value: "10" }, { checked: false }, { value: "10" }],
       },
       request: {
         skipThreshold: 10,
@@ -138,11 +125,7 @@ describe("usePlaylistLogic", () => {
     {
       event: {
         preventDefault: jest.fn(),
-        currentTarget: [
-          { value: "" },
-          { checked: true },
-          { value: "" },
-        ],
+        currentTarget: [{ value: "" }, { checked: true }, { value: "" }],
       },
       request: {
         skipThreshold: undefined,
@@ -185,27 +168,26 @@ describe("usePlaylistLogic", () => {
         response: {
           status: 500,
           data: {
-            message:
-              "Can't update.",
+            message: "Can't update.",
           },
-        }, message: "Can't update."
-      }
+        },
+      },
+      expectedMessage: "Can't update.",
     },
     {
       e: {
         response: {
           status: 500,
           message: "Irregular format.",
-        }
-      }, message: "Unknown error"
-    }
+        },
+      },
+      expectedMessage: "Unknown error",
+    },
   ].forEach((setup) => {
-    it("should set editError when onEditSubmit fails", async () => {
+    it(`should set editError: ${setup.expectedMessage} when onEditSubmit fails`, async () => {
       mockUseDataApi = {
         ...mockUseDataApi,
-        updateDatabasePlaylist: jest.fn(() =>
-          Promise.reject(setup.e)
-        ),
+        updateDatabasePlaylist: jest.fn(() => Promise.reject(setup.e)),
       };
 
       jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
@@ -220,7 +202,7 @@ describe("usePlaylistLogic", () => {
       await waitFor(() => {
         expect(mockUseDataApi.updateDatabasePlaylist).toHaveBeenCalledTimes(1);
 
-        expect(result.current?.editError).toBe(setup.message)
+        expect(result.current?.editError).toBe(setup.expectedMessage);
       });
     });
   }, []);
@@ -234,7 +216,7 @@ describe("usePlaylistLogic", () => {
     await waitFor(() => {
       expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenNthCalledWith(
         1,
-        id,
+        id
       );
       expect(mockNavigate).toHaveBeenCalledWith("/");
     });
@@ -246,27 +228,26 @@ describe("usePlaylistLogic", () => {
         response: {
           status: 500,
           data: {
-            message:
-              "Can't update.",
+            message: "Can't delete.",
           },
-        }, message: "Can't update."
-      }
+        },
+      },
+      expectedMessage: "Can't delete.",
     },
     {
       e: {
         response: {
           status: 500,
           message: "Irregular format.",
-        }
-      }, message: "Unknown error"
-    }
+        },
+      },
+      expectedMessage: "Unknown error",
+    },
   ].forEach((setup) => {
-    it("should set deleteError when onDeleteSubmit fails", async () => {
+    it(`should set deleteError: ${setup.expectedMessage} when onDeleteSubmit fails`, async () => {
       mockUseDataApi = {
         ...mockUseDataApi,
-        deleteDatabasePlaylist: jest.fn(() =>
-          Promise.reject(setup.e)
-        ),
+        deleteDatabasePlaylist: jest.fn(() => Promise.reject(setup.e)),
       };
 
       jest.mocked(useDataApi).mockImplementation(() => mockUseDataApi);
@@ -281,7 +262,7 @@ describe("usePlaylistLogic", () => {
       await waitFor(() => {
         expect(mockUseDataApi.deleteDatabasePlaylist).toHaveBeenCalledTimes(1);
 
-        expect(result.current?.deleteError).toBe(setup.message)
+        expect(result.current?.deleteError).toBe(setup.expectedMessage);
       });
     });
   }, []);

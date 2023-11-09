@@ -24,6 +24,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
                     PlaylistId = "playlist_id",
                     SkippedDate = new DateTime(),
                     Name = "Track 1",
+                    Duration = 100000,
                     Artists = new[]
                     {
                         new DatabaseArtistModel
@@ -56,6 +57,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
                     PlaylistId = "playlist_id",
                     SkippedDate = new DateTime(),
                     Name = "Track 2",
+                    Duration = 100000,
                     Artists = new[]
                     {
                         new DatabaseArtistModel
@@ -88,6 +90,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
                     PlaylistId = "playlist_id",
                     SkippedDate = new DateTime(),
                     Name = "Track 3",
+                    Duration = 100000,
                     Artists = new[]
                     {
                         new DatabaseArtistModel
@@ -120,6 +123,7 @@ namespace SpotifyPlaylistJanitorAPI.SwaggerExamples.Database
                     PlaylistId = "playlist_id",
                     SkippedDate = new DateTime(),
                     Name = "Track 4",
+                    Duration = 100000,
                     Artists = new[]
                     {
                         new DatabaseArtistModel

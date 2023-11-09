@@ -6,6 +6,7 @@ import {
   addDatabasePlaylist as addDatabasePlaylistRequest,
   updateDatabasePlaylist as updateDatabasePlaylistRequest,
   deleteDatabasePlaylist as deleteDatabasePlaylistRequest,
+  getDatabasePlaylistSkippedTracks as getDatabasePlaylistSkippedTracksRequest,
 } from "./data-api";
 import {
   AddDatabasePlaylistRequest,
@@ -67,11 +68,23 @@ export const useDataApi = () => {
     [commonHeaders]
   );
 
+  const getDatabasePlaylistSkippedTracks = useCallback(
+    (id: string) =>
+      getDatabasePlaylistSkippedTracksRequest(id, {
+        headers: {
+          ...commonHeaders,
+        },
+      }),
+
+    [commonHeaders]
+  );
+
   return {
     getDatabasePlaylists,
     getDatabasePlaylist,
     addDatabasePlaylist,
     updateDatabasePlaylist,
     deleteDatabasePlaylist,
+    getDatabasePlaylistSkippedTracks,
   } as const;
 };

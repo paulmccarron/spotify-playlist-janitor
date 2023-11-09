@@ -1,4 +1,4 @@
-import { databasePlaylists } from "../../../shared/mock-data/api";
+import { databasePlaylists, skippedTracks } from "../../../shared/mock-data/api";
 
 export const getDatabasePlaylists = jest.fn(() =>
   Promise.resolve({
@@ -14,4 +14,9 @@ export const getDatabasePlaylist = jest.fn((id: string) =>
 
 export const addDatabasePlaylist = jest.fn(() => Promise.resolve());
 export const updateDatabasePlaylist = jest.fn(() => Promise.resolve());
-export const deleteDatabasePlaylist = jest.fn(() => Promise.resolve());
+
+export const getDatabasePlaylistSkippedTracks = jest.fn((id: string) =>
+  Promise.resolve({
+    data: skippedTracks,
+  })
+);

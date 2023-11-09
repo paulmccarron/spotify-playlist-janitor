@@ -3,6 +3,7 @@ import { get, post, put, deleteRequest } from "api/api";
 import {
   AddDatabasePlaylistRequest,
   DatabasePlaylistResponse,
+  SkippedTrackResponse,
   UpdateDatabasePlaylistRequest,
 } from "./data-api-types";
 
@@ -27,3 +28,6 @@ export const deleteDatabasePlaylist = (
   id: string,
   config: AxiosRequestConfig
 ) => deleteRequest(`/data/playlists/${id}`, config);
+
+export const getDatabasePlaylistSkippedTracks = (id: string, config: AxiosRequestConfig) =>
+  get<SkippedTrackResponse>(`/data/playlists/${id}/skipped`, config);

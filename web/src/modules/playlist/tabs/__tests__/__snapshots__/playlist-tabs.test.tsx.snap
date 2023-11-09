@@ -1,0 +1,850 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlaylistTabs /> should render PlaylistTabs component 1`] = `
+<div
+  class="sc-beyTiQ kSNZbW"
+  data-rttabs="true"
+>
+  <ul
+    class="react-tabs__tab-list"
+    role="tablist"
+  >
+    <li
+      aria-controls="panel:r0:0"
+      aria-disabled="false"
+      aria-selected="true"
+      class="react-tabs__tab react-tabs__tab--selected"
+      data-rttab="true"
+      data-testid="skipped-tracks-tab"
+      id="tab:r0:0"
+      role="tab"
+      tabindex="0"
+    >
+      Skipped Tracks
+    </li>
+    <li
+      aria-controls="panel:r0:1"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="skipped-track-history-tab"
+      id="tab:r0:1"
+      role="tab"
+    >
+      Skipped Track History
+    </li>
+    <li
+      aria-controls="panel:r0:2"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="tracks-tab"
+      id="tab:r0:2"
+      role="tab"
+    >
+      Tracks
+    </li>
+  </ul>
+  <div
+    aria-labelledby="tab:r0:0"
+    class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+    data-testid="skipped-tracks-tab-content"
+    id="panel:r0:0"
+    role="tabpanel"
+  >
+    <table
+      class="sc-iBdoyZ donvsV"
+      data-testid="skipped-tracks-table"
+    >
+      <thead>
+        <tr
+          class="sc-gLLuHO jmECWo"
+        >
+          <th
+            class="image"
+            data-testid="table-head-cell-image"
+            id="table-head-cell-image"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              />
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable name"
+            data-testid="table-head-cell-name"
+            id="table-head-cell-name"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Title
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable artists"
+            data-testid="table-head-cell-artists"
+            id="table-head-cell-artists"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Artist
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable album"
+            data-testid="table-head-cell-album"
+            id="table-head-cell-album"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Album
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable duration"
+            data-testid="table-head-cell-duration"
+            id="table-head-cell-duration"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+                  />
+                </svg>
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable skippedTotal"
+            data-testid="table-head-cell-skippedTotal"
+            id="table-head-cell-skippedTotal"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Total Skipped
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="id"
+            data-testid="table-head-cell-id"
+            id="table-head-cell-id"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              />
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            data-testid="table-body-cell-0-image"
+            id="table-body-cell-0-image"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              <div
+                class="centered"
+              >
+                <img
+                  alt=""
+                  height="40"
+                  src="https://mosaic.scdn.co/101"
+                  width="40"
+                />
+              </div>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-name"
+            id="table-body-cell-0-name"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              Name 1
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-artists"
+            id="table-body-cell-0-artists"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <span>
+                <a
+                  class="sc-irLvoH lgBsFQ"
+                  href="https://open.spotify.com/artist/1"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Artist 1
+                </a>
+              </span>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-album"
+            id="table-body-cell-0-album"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <a
+                class="sc-irLvoH lgBsFQ"
+                href="https://open.spotify.com/album/1"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Album 1
+              </a>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-duration"
+            id="table-body-cell-0-duration"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              3:05
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-skippedTotal"
+            id="table-body-cell-0-skippedTotal"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              3
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-0-id"
+            id="table-body-cell-0-id"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <div
+                class="centered"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  style="cursor: pointer;"
+                  viewBox="0 0 16 16"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td
+            data-testid="table-body-cell-1-image"
+            id="table-body-cell-1-image"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              <div
+                class="centered"
+              >
+                <img
+                  alt=""
+                  height="40"
+                  src="https://mosaic.scdn.co/201"
+                  width="40"
+                />
+              </div>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-name"
+            id="table-body-cell-1-name"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              Name 2
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-artists"
+            id="table-body-cell-1-artists"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <span>
+                <a
+                  class="sc-irLvoH lgBsFQ"
+                  href="https://open.spotify.com/artist/2"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Artist 2
+                </a>
+              </span>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-album"
+            id="table-body-cell-1-album"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <a
+                class="sc-irLvoH lgBsFQ"
+                href="https://open.spotify.com/album/2"
+                rel="noreferrer"
+                target="_blank"
+              >
+                Album 2
+              </a>
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-duration"
+            id="table-body-cell-1-duration"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              3:00
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-skippedTotal"
+            id="table-body-cell-1-skippedTotal"
+          >
+            <div
+              class="sc-hLQTFJ joXFND"
+            >
+              2
+            </div>
+          </td>
+          <td
+            data-testid="table-body-cell-1-id"
+            id="table-body-cell-1-id"
+          >
+            <div
+              class="sc-eDLKEg jzLtSt"
+            >
+              <div
+                class="centered"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  style="cursor: pointer;"
+                  viewBox="0 0 16 16"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3h3v1h-1v9l-1 1H4l-1-1V4H2V3h3V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zM9 2H6v1h3V2zM4 13h7V4H4v9zm2-8H5v7h1V5zm1 0h1v7H7V5zm2 0h1v7H9V5z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    aria-labelledby="tab:r0:1"
+    class="react-tabs__tab-panel"
+    data-testid="skipped-track-history-tab-content"
+    id="panel:r0:1"
+    role="tabpanel"
+  />
+  <div
+    aria-labelledby="tab:r0:2"
+    class="react-tabs__tab-panel"
+    data-testid="tracks-tab-content"
+    id="panel:r0:2"
+    role="tabpanel"
+  />
+</div>
+`;
+
+exports[`<PlaylistTabs /> should render PlaylistTabs component in loading state 1`] = `
+<div
+  class="sc-beyTiQ kSNZbW"
+  data-rttabs="true"
+>
+  <ul
+    class="react-tabs__tab-list"
+    role="tablist"
+  >
+    <li
+      aria-controls="panel:r2:0"
+      aria-disabled="false"
+      aria-selected="true"
+      class="react-tabs__tab react-tabs__tab--selected"
+      data-rttab="true"
+      data-testid="skipped-tracks-tab"
+      id="tab:r2:0"
+      role="tab"
+      tabindex="0"
+    >
+      Skipped Tracks
+    </li>
+    <li
+      aria-controls="panel:r2:1"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="skipped-track-history-tab"
+      id="tab:r2:1"
+      role="tab"
+    >
+      Skipped Track History
+    </li>
+    <li
+      aria-controls="panel:r2:2"
+      aria-disabled="false"
+      aria-selected="false"
+      class="react-tabs__tab"
+      data-rttab="true"
+      data-testid="tracks-tab"
+      id="tab:r2:2"
+      role="tab"
+    >
+      Tracks
+    </li>
+  </ul>
+  <div
+    aria-labelledby="tab:r2:0"
+    class="react-tabs__tab-panel react-tabs__tab-panel--selected"
+    data-testid="skipped-tracks-tab-content"
+    id="panel:r2:0"
+    role="tabpanel"
+  >
+    <table
+      class="sc-iBdoyZ donvsV"
+      data-testid="skipped-tracks-table-loading"
+    >
+      <thead>
+        <tr
+          class="sc-gLLuHO jmECWo"
+        >
+          <th
+            class="image"
+            data-testid="table-head-cell-image"
+            id="table-head-cell-image"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              />
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable name"
+            data-testid="table-head-cell-name"
+            id="table-head-cell-name"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Title
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable artists"
+            data-testid="table-head-cell-artists"
+            id="table-head-cell-artists"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Artist
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable album"
+            data-testid="table-head-cell-album"
+            id="table-head-cell-album"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Album
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable duration"
+            data-testid="table-head-cell-duration"
+            id="table-head-cell-duration"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                <svg
+                  fill="currentColor"
+                  height="1em"
+                  stroke="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 256 256"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"
+                  />
+                </svg>
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="sortable skippedTotal"
+            data-testid="table-head-cell-skippedTotal"
+            id="table-head-cell-skippedTotal"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              >
+                Total Skipped
+              </div>
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M3.147 9l5 5h.707l5-5-.707-.707L9 12.439V2H8v10.44L3.854 8.292 3.147 9z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+          <th
+            class="id"
+            data-testid="table-head-cell-id"
+            id="table-head-cell-id"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="sc-hLQTFJ joXFND"
+              />
+              <svg
+                fill="currentColor"
+                height="1em"
+                stroke="currentColor"
+                stroke-width="0"
+                style="color: transparent;"
+                viewBox="0 0 16 16"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+  </div>
+  <div
+    aria-labelledby="tab:r2:1"
+    class="react-tabs__tab-panel"
+    data-testid="skipped-track-history-tab-content"
+    id="panel:r2:1"
+    role="tabpanel"
+  />
+  <div
+    aria-labelledby="tab:r2:2"
+    class="react-tabs__tab-panel"
+    data-testid="tracks-tab-content"
+    id="panel:r2:2"
+    role="tabpanel"
+  />
+</div>
+`;

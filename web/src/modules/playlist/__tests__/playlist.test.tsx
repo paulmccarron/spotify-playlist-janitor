@@ -14,6 +14,7 @@ import {
 
 jest.mock("../use-playlist-logic");
 jest.mock("../modal");
+jest.mock("../tabs");
 
 describe("<Playlist />", () => {
   let container: HTMLElement;

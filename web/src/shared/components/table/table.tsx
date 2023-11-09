@@ -8,12 +8,14 @@ import { useTableSorting } from "./hooks/use-table-sorting";
 import { Column } from "./table-types";
 
 type TableProps = {
-  caption: string;
+  caption?: string;
   data: any[];
   columns: Column[];
+  loading?: boolean;
 };
 
 const TableComponent = styled.table`
+  color: ${WHITE};
   border-collapse: collapse;
   width: 100%;
 
@@ -22,7 +24,7 @@ const TableComponent = styled.table`
     border-bottom: 1px solid #121212 !important;
     min-width: 34px;
     text-align: left;
-    color: ${WHITE};
+    padding: 8px;
   }
 
   tbody tr:nth-child(even) {
@@ -37,16 +39,21 @@ const TableComponent = styled.table`
     border: none !important;
     padding: 8px;
   }
+
+  .centered {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
-export const Table = ({ caption, data, columns }: TableProps) => {
-  const [tableData, handleSorting] = useTableSorting({data, columns});
+export const Table = ({ caption, data, columns, loading, ...props }: TableProps) => {
+  const [tableData, handleSorting] = useTableSorting({ data, columns });
 
   return (
-    <TableComponent>
+    <TableComponent {...props}>
       {caption && <caption>{caption}</caption>}
       <TableHead {...{ columns, handleSorting }} />
-      <TableBody {...{ columns, tableData }} />
+      <TableBody {...{ columns, tableData, loading }} />
     </TableComponent>
   );
 };

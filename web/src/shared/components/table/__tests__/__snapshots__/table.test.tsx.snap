@@ -2,17 +2,17 @@
 
 exports[`<Table /> should render Table component 1`] = `
 <table
-  class="sc-gLLuHO cpeOrl"
+  class="sc-gLLuHO frCoCb"
 >
   <caption>
     Table caption.
   </caption>
   <thead>
     <tr
-      class="sc-jTQDJr hyFECk"
+      class="sc-jTQDJr kMhvhm"
     >
       <th
-        class=""
+        class="image"
         data-testid="table-head-cell-image"
         id="table-head-cell-image"
       >
@@ -22,10 +22,26 @@ exports[`<Table /> should render Table component 1`] = `
           <div
             class="sc-dmyDmy dcXriK"
           />
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
-        class="sortable"
+        class="sortable title"
         data-testid="table-head-cell-title"
         id="table-head-cell-title"
       >
@@ -55,7 +71,7 @@ exports[`<Table /> should render Table component 1`] = `
         </div>
       </th>
       <th
-        class="sortable"
+        class="sortable artist"
         data-testid="table-head-cell-artist"
         id="table-head-cell-artist"
       >
@@ -67,10 +83,26 @@ exports[`<Table /> should render Table component 1`] = `
           >
             Artist
           </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
-        class="sortable"
+        class="sortable album"
         data-testid="table-head-cell-album"
         id="table-head-cell-album"
       >
@@ -82,10 +114,26 @@ exports[`<Table /> should render Table component 1`] = `
           >
             Album
           </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
-        class="sortable"
+        class="sortable length"
         data-testid="table-head-cell-length"
         id="table-head-cell-length"
       >
@@ -109,10 +157,26 @@ exports[`<Table /> should render Table component 1`] = `
               />
             </svg>
           </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
-        class="sortable"
+        class="sortable date_skipped"
         data-testid="table-head-cell-date_skipped"
         id="table-head-cell-date_skipped"
       >
@@ -124,10 +188,26 @@ exports[`<Table /> should render Table component 1`] = `
           >
             Date Skipped
           </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
       <th
-        class=""
+        class="delete"
         data-testid="table-head-cell-delete"
         id="table-head-cell-delete"
       >
@@ -137,6 +217,84 @@ exports[`<Table /> should render Table component 1`] = `
           <div
             class="sc-dmyDmy dcXriK"
           />
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </th>
+      <th
+        class="sortable prop_sort"
+        data-testid="table-head-cell-prop_sort"
+        id="table-head-cell-prop_sort"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Prop Sort
+          </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </th>
+      <th
+        class="sortable array_prop_sort"
+        data-testid="table-head-cell-array_prop_sort"
+        id="table-head-cell-array_prop_sort"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="sc-dmyDmy dcXriK"
+          >
+            Array_Prop Sort
+          </div>
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            style="color: transparent;"
+            viewBox="0 0 16 16"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M13.854 7l-5-5h-.707l-5 5 .707.707L8 3.561V14h1V3.56l4.146 4.147.708-.707z"
+              fill-rule="evenodd"
+            />
+          </svg>
         </div>
       </th>
     </tr>
@@ -233,6 +391,28 @@ exports[`<Table /> should render Table component 1`] = `
           </svg>
         </div>
       </td>
+      <td
+        data-testid="table-body-cell-0-prop_sort"
+        id="table-body-cell-0-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          d
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-0-array_prop_sort"
+        id="table-body-cell-0-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          d
+          , 
+          db
+        </div>
+      </td>
     </tr>
     <tr>
       <td
@@ -323,6 +503,28 @@ exports[`<Table /> should render Table component 1`] = `
               fill-rule="evenodd"
             />
           </svg>
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-prop_sort"
+        id="table-body-cell-1-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          a
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-1-array_prop_sort"
+        id="table-body-cell-1-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          a
+          , 
+          ab
         </div>
       </td>
     </tr>
@@ -417,6 +619,28 @@ exports[`<Table /> should render Table component 1`] = `
           </svg>
         </div>
       </td>
+      <td
+        data-testid="table-body-cell-2-prop_sort"
+        id="table-body-cell-2-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          c
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-2-array_prop_sort"
+        id="table-body-cell-2-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          c
+          , 
+          cb
+        </div>
+      </td>
     </tr>
     <tr>
       <td
@@ -507,6 +731,28 @@ exports[`<Table /> should render Table component 1`] = `
               fill-rule="evenodd"
             />
           </svg>
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-prop_sort"
+        id="table-body-cell-3-prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          b
+        </div>
+      </td>
+      <td
+        data-testid="table-body-cell-3-array_prop_sort"
+        id="table-body-cell-3-array_prop_sort"
+      >
+        <div
+          class="sc-hLQTFJ gjIzVE"
+        >
+          b
+          , 
+          bb
         </div>
       </td>
     </tr>

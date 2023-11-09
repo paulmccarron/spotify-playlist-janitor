@@ -15,6 +15,10 @@ describe("useAuthApi", () => {
     ({ result } = renderHook(() => useAuthApi()));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should call the loginRequest function when the login function is called", () => {
     const data: LoginRequest = {
       email: "qwer",

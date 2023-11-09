@@ -406,6 +406,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     PlaylistId = playlistId,
                     TrackId = skipped.TrackId,
                     Name = skipped.Track.Name,
+                    Duration = skipped.Track.Length,
                     SkippedDate = skipped.SkippedDate,
                     Artists = skipped.Track.Artists
                     .Select(artist => new DatabaseArtistModel
