@@ -21,6 +21,11 @@
         public required string Name { get; set; }
 
         /// <summary>
+        /// Length of the song in milliseconds.
+        /// </summary>
+        public required int Duration { get; set; }
+
+        /// <summary>
         /// DateTime if when skip occurred.
         /// </summary>
         public required DateTime? SkippedDate { get; set; }

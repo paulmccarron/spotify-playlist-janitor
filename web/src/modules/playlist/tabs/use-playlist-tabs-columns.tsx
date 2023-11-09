@@ -159,6 +159,7 @@ export const usePlaylistTabsColumns = ({
     {
       label: "Total Skipped",
       accessor: "skippedTotal",
+      primary: true,
       sortable: true,
       sortbyOrder: "desc",
       render: (value: string, loading?: boolean) =>
@@ -176,6 +177,7 @@ export const usePlaylistTabsColumns = ({
     {
       label: "Date Skipped",
       accessor: "skippedDate",
+      primary: true,
       sortable: true,
       sortbyOrder: "desc",
       render: (date: Date, loading?: boolean) =>

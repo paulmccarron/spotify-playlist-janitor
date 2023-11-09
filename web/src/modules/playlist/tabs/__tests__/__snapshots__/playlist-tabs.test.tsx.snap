@@ -370,7 +370,7 @@ exports[`<PlaylistTabs /> should render PlaylistTabs component 1`] = `
             id="table-body-cell-0-skippedTotal"
           >
             <div
-              class="sc-eDLKEg jzLtSt"
+              class="sc-hLQTFJ joXFND"
             >
               3
             </div>
@@ -486,7 +486,7 @@ exports[`<PlaylistTabs /> should render PlaylistTabs component 1`] = `
             id="table-body-cell-1-skippedTotal"
           >
             <div
-              class="sc-eDLKEg jzLtSt"
+              class="sc-hLQTFJ joXFND"
             >
               2
             </div>
