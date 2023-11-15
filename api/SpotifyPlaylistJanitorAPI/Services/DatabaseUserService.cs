@@ -54,9 +54,9 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <param name="username"></param>
         /// <param name="passwordHash"></param>
         /// <returns></returns>
-        public async Task AddUser(string username, string passwordHash)
+        public async Task AddUser(string username, string spotifyUsername, string passwordHash)
         {
-            await _databaseService.AddUser(username, passwordHash);
+            await _databaseService.AddUser(username, spotifyUsername, passwordHash);
         }
 
         /// <summary>

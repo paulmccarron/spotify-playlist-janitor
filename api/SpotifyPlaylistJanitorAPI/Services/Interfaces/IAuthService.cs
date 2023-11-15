@@ -20,7 +20,7 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// </summary>
         /// <param name="login"></param>
         ///<returns>Returns a <see cref = "bool" /> signifying successfully registering requested user.</returns>
-        Task<bool> RegisterUser(UserLoginRequest login);
+        Task<bool> RegisterUser(UserRegisterRequest login);
 
         /// <summary>
         /// Re-authenticate user with token refresh request.

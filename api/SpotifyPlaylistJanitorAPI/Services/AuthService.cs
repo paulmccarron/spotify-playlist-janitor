@@ -49,6 +49,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     user = new UserModel
                     {
                         Username = storedUser.Username,
+                        SpotifyUsername = storedUser.SpotifyUsername,
                         Role = storedUser.IsAdmin ? "Admin" : "User",
                     };
                 }
@@ -80,7 +81,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <param name="login"></param>
         ///<returns>Returns a <see cref = "bool" /> signifying successfully registering requested user.</returns>
-        public async Task<bool> RegisterUser(UserLoginRequest login)
+        public async Task<bool> RegisterUser(UserRegisterRequest login)
         {
             var storedUser = await _userService.GetUser(login.Email);
 
@@ -91,7 +92,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
             var passwordHash = _securityService.HashPasword(login.Password, _spotifyOptions.ClientSecret);
 
-            await _userService.AddUser(login.Email, passwordHash);
+            await _userService.AddUser(login.Email, login.SpotifyEmail, passwordHash);
 
             return true;
         }
@@ -124,6 +125,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var user = new UserModel
             {
                 Username = storedUser.Username,
+                SpotifyUsername = storedUser.SpotifyUsername,
                 Role = storedUser.IsAdmin ? "Admin" : "User",
             };
 

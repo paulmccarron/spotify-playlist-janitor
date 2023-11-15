@@ -14,13 +14,13 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Returns playlists from database.
         /// </summary>
         ///<returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
-        Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists();
+        Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists(string username);
 
         /// <summary>
         /// Returns playlist from database by id.
         /// </summary>
         ///<returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
-        Task<DatabasePlaylistModel?> GetPlaylist(string id);
+        Task<DatabasePlaylistModel?> GetPlaylist(string username, string id);
 
         /// <summary>
         /// Add playlist to database.
@@ -106,7 +106,7 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <summary>
         /// Adds user to database.
         /// </summary>
-        Task AddUser(string username, string passwordHash);
+        Task AddUser(string username, string spotifyUsername, string passwordHash);
 
         /// <summary>
         /// Updates user refresh token in database.

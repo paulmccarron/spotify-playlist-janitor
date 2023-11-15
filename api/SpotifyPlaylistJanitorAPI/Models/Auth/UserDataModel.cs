@@ -16,6 +16,11 @@
         public required string Username { get; set; }
 
         /// <summary>
+        /// Users Spotify name.
+        /// </summary>
+        public required string SpotifyUsername { get; set; }
+
+        /// <summary>
         /// Hash of user password.
         /// </summary>
         public required string PasswordHash { get; set; }

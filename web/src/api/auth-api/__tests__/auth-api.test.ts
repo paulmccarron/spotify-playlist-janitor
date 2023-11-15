@@ -1,6 +1,10 @@
 import { post } from "api/api";
 import { login, refresh, register } from "../auth-api";
-import { LoginRequest, RefreshRequest } from "../auth-api-types";
+import {
+  LoginRequest,
+  RefreshRequest,
+  RegisterRequest,
+} from "../auth-api-types";
 
 jest.mock("api/api");
 
@@ -45,8 +49,9 @@ describe("register", () => {
   });
 
   it(`should call the post function with the /register URL when the register function is called`, () => {
-    const body: LoginRequest = {
+    const body: RegisterRequest = {
       email: "qwer",
+      spotifyEmail: "asdf",
       password: "zxcv",
     };
     register(body, config);

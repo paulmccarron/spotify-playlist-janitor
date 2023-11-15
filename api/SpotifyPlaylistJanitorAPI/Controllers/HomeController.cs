@@ -31,9 +31,10 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         /// <returns>Default view.</returns>
         public async Task<IActionResult> Index()
         {
-            if (_spotifyService.IsLoggedIn)
+            if (_spotifyService.SpotifyClients.Count > 0)
             {
-                var profile = await _spotifyService.GetUserDetails();
+                var firstUser = _spotifyService.SpotifyClients.Keys.First();
+                var profile = await _spotifyService.GetUserDetails(firstUser);
                 ViewBag.Message = $"Logged in as Spotify user: {profile.DisplayName}.";
                 ViewBag.Button = "Re-Authorize App";
             }

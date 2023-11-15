@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useCommonHeaders } from "api/use-common-headers";
-import { LoginRequest } from "./auth-api-types";
+import { LoginRequest, RegisterRequest } from "./auth-api-types";
 import { login as loginRequest, register as registerRequest } from "./auth-api";
 
 export const useAuthApi = () => {
@@ -17,7 +17,7 @@ export const useAuthApi = () => {
   );
 
   const register = useCallback(
-    (request: LoginRequest) =>
+    (request: RegisterRequest) =>
       registerRequest(request, {
         headers: {
           ...commonHeaders,

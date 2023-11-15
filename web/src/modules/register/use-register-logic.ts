@@ -15,8 +15,9 @@ export const useRegisterLogic = () => {
       event.preventDefault();
 
       const email = (event.currentTarget[0] as HTMLInputElement).value;
-      const password = (event.currentTarget[1] as HTMLInputElement).value;
-      const confirmPassword = (event.currentTarget[2] as HTMLInputElement)
+      const spotifyEmail = (event.currentTarget[1] as HTMLInputElement).value;
+      const password = (event.currentTarget[2] as HTMLInputElement).value;
+      const confirmPassword = (event.currentTarget[3] as HTMLInputElement)
         .value;
 
       if (!email) {
@@ -41,7 +42,11 @@ export const useRegisterLogic = () => {
 
       try {
         setDisabled(true);
-        await register({ email, password });
+        await register({
+          email,
+          spotifyEmail: !!spotifyEmail ? spotifyEmail : email,
+          password,
+        });
 
         setError(undefined);
         navigate(LOGIN);

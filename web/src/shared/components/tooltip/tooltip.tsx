@@ -5,6 +5,7 @@ import { BLACK } from "shared/constants";
 type TooltipProps = {
   content: string | ReactElement;
   dataTooltipId: string;
+  modalTooltip?: boolean;
 };
 
 export const Tooltip = ({
@@ -20,7 +21,7 @@ export const Tooltip = ({
       <ReactTooltip
         id={dataTooltipId}
         data-testid="tooltip-data-testid"
-        style={{ backgroundColor: BLACK, width: '85%' }}
+        style={{ backgroundColor: BLACK, width: "auto" }}
       >
         {content}
       </ReactTooltip>

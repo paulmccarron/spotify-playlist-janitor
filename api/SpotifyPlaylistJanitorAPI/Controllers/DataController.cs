@@ -38,7 +38,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DatabasePlaylistsModelExample))]
         public async Task<ActionResult<IEnumerable<DatabasePlaylistModel>>> GetMonitoredPlaylists()
         {
-            var playlists = await _databaseService.GetPlaylists();
+            var userName = HttpContext?.User?.Identity?.Name;
+            var playlists = await _databaseService.GetPlaylists(userName);
 
             return Ok(playlists);
         }
@@ -58,7 +59,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
         public async Task<ActionResult<DatabasePlaylistModel>> GetMonitoredPlaylist(string id)
         {
-            var playlist = await _databaseService.GetPlaylist(id);
+            var userName = HttpContext?.User?.Identity?.Name;
+            var playlist = await _databaseService.GetPlaylist(userName, id);
 
             if(playlist is null)
             {
@@ -83,7 +85,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(DatabasePlaylistAlreadyExistsExample))]
         public async Task<ActionResult<DatabasePlaylistModel>> CreateMonitoredPlaylist([FromBody] DatabasePlaylistRequest playlistRequest)
         {
-            var existingPlaylist = await _databaseService.GetPlaylist(playlistRequest.Id);
+            var userName = HttpContext?.User?.Identity?.Name;
+            var existingPlaylist = await _databaseService.GetPlaylist(userName, playlistRequest.Id);
 
             if (existingPlaylist is not null)
             {
@@ -114,7 +117,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
         public async Task<ActionResult<DatabasePlaylistModel>> UpdateMonitoredPlaylist(string id, [FromBody] DatabasePlaylistUpdateRequest playlistUpdateRequest)
         {
-            var playlist = await _databaseService.GetPlaylist(id);
+            var userName = HttpContext?.User?.Identity?.Name;
+            var playlist = await _databaseService.GetPlaylist(userName, id);
 
             if (playlist is null)
             {
@@ -140,7 +144,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
         public async Task<ActionResult> DeleteMonitoredPlaylist(string id)
         {
-            var playlist = await _databaseService.GetPlaylist(id);
+            var userName = HttpContext?.User?.Identity?.Name;
+            var playlist = await _databaseService.GetPlaylist(userName, id);
 
             if(playlist is null)
             {
@@ -167,7 +172,8 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(DatabasePlaylistNotFoundExample))]
         public async Task<ActionResult<IEnumerable<DatabaseSkippedTrackResponse>>> GetMonitoredPlaylistSkippedTracks(string id)
         {
-            var playlist = await _databaseService.GetPlaylist(id);
+            var userName = HttpContext?.User?.Identity?.Name;
+            var playlist = await _databaseService.GetPlaylist(userName, id);
 
             if(playlist is null)
             {

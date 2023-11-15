@@ -125,7 +125,7 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [ProducesResponseType(typeof(ErrorResponseModel), StatusCodes.Status400BadRequest)]
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(UserAlreadyExistsExample))]
         [HttpPost("/register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserLoginRequest newUser)
+        public async Task<IActionResult> RegisterUser([FromBody] UserRegisterRequest newUser)
         {
             var registered = await _authService.RegisterUser(newUser);
 

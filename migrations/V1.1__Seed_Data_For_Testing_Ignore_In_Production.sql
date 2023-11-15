@@ -1,10 +1,14 @@
-INSERT INTO playlists (id, skip_threshold, ignore_initial_skips, auto_cleanup_limit) 
+INSERT INTO users (id, username, spotify_username, password_hash, is_admin) 
 VALUES 
-    ('3RWXoorVz13dot7I11eiu6', null, false, null),
-    ('4jkoiv8phuKuhXboalicqu', null, false, null),
-    ('1aQvavrk6m4hhEj1NJ0rQB', null, false, null),
-    ('4btLcc6A1UmNR7sa2dqlLJ', null, false, null),
-    ('0creVHKMskko3Kv9T2pPQA', null, false, null);
+    (-1, 'paulcmccarron@gmail.com', 'paulcmccarron@gmail.com', '78D1CB9CF2C17E020A030EF07130AA48F5639244B540B94B0E9415FCAB99E4944AE73258B667DFEA3D1C8E35BA5B57ECC115D79395BDB553B935BDFBA0694A3B', TRUE);
+
+INSERT INTO playlists (id, username, skip_threshold, ignore_initial_skips, auto_cleanup_limit) 
+VALUES 
+    ('3RWXoorVz13dot7I11eiu6', 'paulcmccarron@gmail.com', null, false, null),
+    ('4jkoiv8phuKuhXboalicqu', 'paulcmccarron@gmail.com', null, false, null),
+    ('1aQvavrk6m4hhEj1NJ0rQB', 'paulcmccarron@gmail.com', null, false, null),
+    ('4btLcc6A1UmNR7sa2dqlLJ', 'paulcmccarron@gmail.com', null, false, null),
+    ('0creVHKMskko3Kv9T2pPQA', 'paulcmccarron@gmail.com', null, false, null);
 
 INSERT INTO artists (id, name, href) 
 VALUES 
@@ -516,6 +520,3 @@ VALUES
     (-99, '2023-09-10 11:52:32', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG'),
     (-100, '2023-09-10 11:52:33', '4btLcc6A1UmNR7sa2dqlLJ', '2tBxJ43XiwEzhf7Xalc5UG');
 
-INSERT INTO users (id, username, password_hash, is_admin) 
-VALUES 
-    (-1, 'paulcmccarron@gmail.com', '78D1CB9CF2C17E020A030EF07130AA48F5639244B540B94B0E9415FCAB99E4944AE73258B667DFEA3D1C8E35BA5B57ECC115D79395BDB553B935BDFBA0694A3B', TRUE);

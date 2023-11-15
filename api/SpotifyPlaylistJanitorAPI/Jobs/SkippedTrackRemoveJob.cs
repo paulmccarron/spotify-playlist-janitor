@@ -1,4 +1,5 @@
 using Quartz;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 
 namespace SpotifyPlaylistJanitorAPI.Jobs
@@ -35,25 +36,31 @@ namespace SpotifyPlaylistJanitorAPI.Jobs
         /// <returns></returns>
         public async Task Execute(IJobExecutionContext context)
         {
-            if (_spotifyService.IsLoggedIn)
+            if (_spotifyService.SpotifyClients.Keys.Count > 0)
             {
-                var playlists = await _databaseService.GetPlaylists();
-
-                foreach (var playlist in playlists)
+                foreach (var spotifyUsername in _spotifyService.SpotifyClients.Keys)
                 {
-                    if (playlist.AutoCleanupLimit is not null)
+                    var users = await _databaseService.GetUsers();
+                    var user = users.First(us => us.SpotifyUsername == spotifyUsername);
+
+                    var playlists = await _databaseService.GetPlaylists(user.Username);
+
+                    foreach (var playlist in playlists)
                     {
-                        var skippedTracks = await _databaseService.GetPlaylistSkippedTracks(playlist.Id);
-                        var autoDeleteTrackIds = skippedTracks
-                            .GroupBy(skippedTrack => skippedTrack.TrackId)
-                            .Where(grp => grp.Count() > playlist.AutoCleanupLimit)
-                            .Select(grp => grp.Key);
-
-                        if(autoDeleteTrackIds.Count() > 0)
+                        if (playlist.AutoCleanupLimit is not null)
                         {
-                            await _spotifyService.DeletePlaylistTracks(playlist.Id, autoDeleteTrackIds);
-                            await _databaseService.DeleteSkippedTracks(playlist.Id, autoDeleteTrackIds);
+                            var skippedTracks = await _databaseService.GetPlaylistSkippedTracks(playlist.Id);
+                            var autoDeleteTrackIds = skippedTracks
+                                .GroupBy(skippedTrack => skippedTrack.TrackId)
+                                .Where(grp => grp.Count() > playlist.AutoCleanupLimit)
+                                .Select(grp => grp.Key);
 
+                            if (autoDeleteTrackIds.Count() > 0)
+                            {
+                                await _spotifyService.DeletePlaylistTracks(spotifyUsername, playlist.Id, autoDeleteTrackIds);
+                                await _databaseService.DeleteSkippedTracks(playlist.Id, autoDeleteTrackIds);
+
+                            }
                         }
                     }
                 }

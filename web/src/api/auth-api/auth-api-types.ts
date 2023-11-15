@@ -10,6 +10,12 @@ export type LoginResponse = {
   refresh_token: string;
 };
 
+export type RegisterRequest = {
+  email: string;
+  spotifyEmail: string;
+  password: string;
+};
+
 export type RefreshRequest = {
   refreshToken: string;
 };

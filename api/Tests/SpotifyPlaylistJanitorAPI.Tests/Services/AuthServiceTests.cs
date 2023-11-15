@@ -30,21 +30,23 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_AuthenticateUser_Returns_Admin_Data()
         {
             //Arrange
-            var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
+                .With(x => x.Email, USERNAME)
+                .With(x => x.Password, SPOTIFY_USERNAME)
                 .With(x => x.Password, password)
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, true)
                 .Create();
 
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "Admin")
                 .Create();
 
@@ -72,21 +74,23 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_AuthenticateUser_Returns_User_Data()
         {
             //Arrange
-            var username = "username";
             var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
+                .With(x => x.Email, USERNAME)
+                .With(x => x.Password, SPOTIFY_USERNAME)
                 .With(x => x.Password, password)
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, false)
                 .Create();
 
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "User")
                 .Create();
 
@@ -114,15 +118,15 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_AuthenticateUser_Returns_Null_For_Incorrect_Password()
         {
             //Arrange
-            var username = "username";
-            var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
+                .With(x => x.Email, USERNAME)
+                .With(x => x.Password, SPOTIFY_USERNAME)
                 .With(x => x.Password, "incorrect_password")
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, true)
                 .Create();
@@ -147,11 +151,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             UserDataModel userDataModel = null;
-            var username = "username";
-            var password = "test_password";
             var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
-                .With(x => x.Password, password)
+                .With(x => x.Email, USERNAME)
+                .With(x => x.Password, SPOTIFY_USERNAME)
                 .Create();
 
             MockUserService
@@ -170,11 +172,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             UserDataModel user = null;
-            var username = "username";
             var password = "test_password";
 
-            var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
+            var userLogin = Fixture.Build<UserRegisterRequest>()
+                .With(x => x.Email, USERNAME)
+                .With(x => x.SpotifyEmail, SPOTIFY_USERNAME)
                 .With(x => x.Password, password)
                 .Create();
 
@@ -186,7 +188,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RegisterUser(userLogin);
 
             //Assert
-            MockUserService.Verify(mock => mock.AddUser(username, PASSWORD_HASH), Times.Once);
+            MockUserService.Verify(mock => mock.AddUser(USERNAME.ToLower(), SPOTIFY_USERNAME.ToLower(), PASSWORD_HASH), Times.Once);
             result.Should().BeTrue();
         }
 
@@ -194,16 +196,17 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_RegisterUser_Returns_False()
         {
             //Arrange
-            var username = "username";
             var password = "test_password";
 
-            var userLogin = Fixture.Build<UserLoginRequest>()
-                .With(x => x.Email, username)
+            var userLogin = Fixture.Build<UserRegisterRequest>()
+                .With(x => x.Email, USERNAME)
+                .With(x => x.SpotifyEmail, SPOTIFY_USERNAME)
                 .With(x => x.Password, password)
                 .Create();
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, false)
                 .Create();
@@ -216,7 +219,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RegisterUser(userLogin);
 
             //Assert
-            MockUserService.Verify(mock => mock.AddUser(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            MockUserService.Verify(mock => mock.AddUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             result.Should().BeFalse();
         }
 
@@ -224,17 +227,17 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_RefreshUserToken_Returns_Admin_Data()
         {
             //Arrange
-            var username = "username";
-
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "Admin")
                 .Create();
 
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, true)
                 .With(x => x.RefreshToken, REFRESH_TOKEN)
@@ -256,7 +259,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RefreshUserToken(ACCESS_TOKEN, REFRESH_TOKEN);
 
             //Assert
-            MockUserService.Verify(mock => mock.SetUserRefreshToken(username, REFRESH_TOKEN, SystemTime.Now().AddHours(1)), Times.Once);
+            MockUserService.Verify(mock => mock.SetUserRefreshToken(USERNAME, REFRESH_TOKEN, SystemTime.Now().AddHours(1)), Times.Once);
             result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
             result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
             result.RefreshToken.Should().NotBeNullOrWhiteSpace();
@@ -266,17 +269,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_RefreshUserToken_Returns_User_Data()
         {
             //Arrange
-            var username = "username";
+            var spotifyUsername = "spotifyUsername";
 
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "User")
                 .Create();
 
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshToken, REFRESH_TOKEN)
@@ -298,7 +303,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             var result = await _authService.RefreshUserToken(ACCESS_TOKEN, REFRESH_TOKEN);
 
             //Assert
-            MockUserService.Verify(mock => mock.SetUserRefreshToken(username, REFRESH_TOKEN, SystemTime.Now().AddHours(1)), Times.Once);
+            MockUserService.Verify(mock => mock.SetUserRefreshToken(USERNAME, REFRESH_TOKEN, SystemTime.Now().AddHours(1)), Times.Once);
             result.AccessToken.Should().BeEquivalentTo(expectedResult.AccessToken);
             result.ExpiresIn.Should().Be(expectedResult.ExpiresIn);
             result.RefreshToken.Should().NotBeNullOrWhiteSpace();
@@ -310,6 +315,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             //Arrange
             var userModel = Fixture.Build<UserModel>()
                 .With(x => x.Username, string.Empty)
+                .With(x => x.SpotifyUsername, string.Empty)
                 .With(x => x.Role, "User")
                 .Create();
 
@@ -343,17 +349,17 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_RefreshUserToken_Returns_Null_When_Refresh_Token_Wrong()
         {
             //Arrange
-            var username = "username";
-
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "User")
                 .Create();
 
             var refreshTokenExpiry = SystemTime.Now().AddHours(1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshTokenExpiry, refreshTokenExpiry)
@@ -374,18 +380,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_RefreshUserToken_Returns_Null_When_Refresh_Token_Expired()
         {
             //Arrange
-            var username = "username";
             var password = "test_password";
 
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "User")
                 .Create();
 
             var refreshTokenExpiry = SystemTime.Now().AddHours(-1);
 
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.PasswordHash, PASSWORD_HASH)
                 .With(x => x.IsAdmin, false)
                 .With(x => x.RefreshToken, REFRESH_TOKEN)
@@ -407,10 +414,8 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_ExpireUserRefreshToken_Returns_Task()
         {
             //Arrange
-            var username = "username";
-           
             var userDataModel = Fixture.Build<UserDataModel>()
-                .With(x => x.Username, username)
+                .With(x => x.Username, USERNAME)
                 .Create();
 
             MockUserService
@@ -418,7 +423,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .ReturnsAsync(userDataModel);
 
             //Act
-            await _authService.ExpireUserRefreshToken(username);
+            await _authService.ExpireUserRefreshToken(USERNAME);
 
             //Assert
             MockUserService.Verify(mock => mock.ExpireUserRefreshToken(It.IsAny<string>()), Times.Once);
@@ -428,8 +433,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task AuthService_ExpireUserRefreshToken_Skips_And_Returns_Task()
         {
             //Arrange
-            var username = "username";
-
             UserDataModel userDataModel = null;
 
             MockUserService
@@ -437,7 +440,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .ReturnsAsync(userDataModel);
 
             //Act
-            await _authService.ExpireUserRefreshToken(username);
+            await _authService.ExpireUserRefreshToken(USERNAME);
 
             //Assert
             MockUserService.Verify(mock => mock.ExpireUserRefreshToken(It.IsAny<string>()), Times.Never);

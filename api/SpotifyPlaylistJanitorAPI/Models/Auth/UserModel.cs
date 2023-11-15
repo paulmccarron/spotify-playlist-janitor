@@ -11,6 +11,11 @@
         public required string Username { get; set; }
 
         /// <summary>
+        /// User's Spotify name.
+        /// </summary>
+        public required string SpotifyUsername { get; set; }
+
+        /// <summary>
         /// User role.
         /// </summary>
         public required string Role { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework.Internal;
 using Quartz;
+using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.Jobs;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 
@@ -19,10 +20,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             _mockJobContext = new Mock<IJobExecutionContext>();
             _skippedTrackRemoveJob = new SkippedTrackRemoveJob(MockSpotifyService.Object, MockDatabaseService.Object, new Mock<ILogger<SkippedTrackRemoveJob>>().Object);
-
-            MockSpotifyService
-                .Setup(mock => mock.IsLoggedIn)
-                .Returns(true);
         }
 
         [Test]
@@ -30,14 +27,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             MockSpotifyService
-                .Setup(mock => mock.IsLoggedIn)
-                .Returns(false);
+                .Setup(mock => mock.SpotifyClients)
+                .Returns(new Dictionary<string, ISpotifyClient>());
 
             //Act
             await _skippedTrackRemoveJob.Execute(_mockJobContext.Object);
 
             // Assert
-            MockDatabaseService.Verify(mock => mock.GetPlaylists(), Times.Never);
+            MockDatabaseService.Verify(mock => mock.GetPlaylists(It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -47,7 +44,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _skippedTrackRemoveJob.Execute(_mockJobContext.Object);
 
             // Assert
-            MockDatabaseService.Verify(mock => mock.GetPlaylists(), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylists(It.Is<string>(s => s == USERNAME)), Times.Once);
             MockDatabaseService.Verify(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()), Times.Never);
         }
 
@@ -66,14 +63,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockDatabaseService
-                .Setup(mock => mock.GetPlaylists())
+                .Setup(mock => mock.GetPlaylists(It.IsAny<string>()))
                 .ReturnsAsync(new[] { autoCleanupPlaylist, nonCleanupPlaylist });
 
             //Act
             await _skippedTrackRemoveJob.Execute(_mockJobContext.Object);
 
             // Assert
-            MockDatabaseService.Verify(mock => mock.GetPlaylists(), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylists(It.Is<string>(s => s == USERNAME)), Times.Once);
             MockDatabaseService.Verify(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()), Times.Once);
         }
 
@@ -92,7 +89,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockDatabaseService
-                .Setup(mock => mock.GetPlaylists())
+                .Setup(mock => mock.GetPlaylists(It.IsAny<string>()))
                 .ReturnsAsync(new[] { autoCleanupPlaylist, nonCleanupPlaylist });
 
             var trackId1 = "trackId1";
@@ -132,9 +129,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _skippedTrackRemoveJob.Execute(_mockJobContext.Object);
 
             // Assert
-            MockDatabaseService.Verify(mock => mock.GetPlaylists(), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylists(USERNAME), Times.Once);
             MockDatabaseService.Verify(mock => mock.GetPlaylistSkippedTracks(It.IsAny<string>()), Times.Once);
-            MockSpotifyService.Verify(mock => mock.DeletePlaylistTracks(autoCleanupPlaylist.Id, expectedTrackIds), Times.Once);
+            MockSpotifyService.Verify(mock => mock.DeletePlaylistTracks(SPOTIFY_USERNAME, autoCleanupPlaylist.Id, expectedTrackIds), Times.Once);
             MockDatabaseService.Verify(mock => mock.DeleteSkippedTracks(autoCleanupPlaylist.Id, expectedTrackIds), Times.Once);
         }
     }

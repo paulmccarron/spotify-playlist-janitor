@@ -3,7 +3,7 @@
     /// <summary>
     /// Model to hold user login details
     /// </summary>
-    public class UserLoginRequest
+    public class UserRegisterRequest
     {
         private string _email = "";
         private string _spotifyEmail = "";
@@ -20,6 +20,21 @@
             set
             {
                 _email = value;
+            }
+        }
+
+        /// <summary>
+        /// Users Spotify email.
+        /// </summary>
+        public required string SpotifyEmail
+        {
+            get
+            {
+                return _spotifyEmail.ToLower();
+            }
+            set
+            {
+                _spotifyEmail = value;
             }
         }
 

@@ -27,17 +27,17 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public async Task AuthController_RegisterUser_Returns_NoContent()
         {
             // Arrange
-            var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
+            var userRegisterRequest = Fixture.Build<UserRegisterRequest>().Create();
 
             MockAuthService
-                .Setup(mock => mock.RegisterUser(It.IsAny<UserLoginRequest>()))
+                .Setup(mock => mock.RegisterUser(It.IsAny<UserRegisterRequest>()))
                 .ReturnsAsync(true);
 
             //Act
-            var result = await _authController.RegisterUser(userLoginRequest);
+            var result = await _authController.RegisterUser(userRegisterRequest);
 
             // Assert
-            MockAuthService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.RegisterUser(userRegisterRequest), Times.Once);
             result.Should().BeOfType<NoContentResult>();
         }
 
@@ -45,19 +45,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Controllers
         public async Task AuthController_RegisterUser_Returns_BadRequest()
         {
             // Arrange
-            var userLoginRequest = Fixture.Build<UserLoginRequest>().Create();
+            var userRegisterRequest = Fixture.Build<UserRegisterRequest>().Create();
 
             MockAuthService
-                .Setup(mock => mock.RegisterUser(It.IsAny<UserLoginRequest>()))
+                .Setup(mock => mock.RegisterUser(It.IsAny<UserRegisterRequest>()))
                 .ReturnsAsync(false);
 
             var expectedMessage = new { Message = "User already exists." };
 
             //Act
-            var result = await _authController.RegisterUser(userLoginRequest);
+            var result = await _authController.RegisterUser(userRegisterRequest);
 
             // Assert
-            MockAuthService.Verify(mock => mock.RegisterUser(userLoginRequest), Times.Once);
+            MockAuthService.Verify(mock => mock.RegisterUser(userRegisterRequest), Times.Once);
             result.Should().BeOfType<BadRequestObjectResult>();
             var objResult = result as BadRequestObjectResult;
             objResult?.Value.Should().BeEquivalentTo(expectedMessage);

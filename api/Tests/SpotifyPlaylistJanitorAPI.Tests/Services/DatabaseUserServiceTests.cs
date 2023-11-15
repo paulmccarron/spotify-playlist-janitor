@@ -15,7 +15,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         [SetUp]
         public void Init()
         {
-
             _databaseUserService = new DatabaseUserService(MockDatabaseService.Object, MockSecurityService.Object, SpotifyOptions);
         }
 
@@ -80,13 +79,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             // Arrange
             var userName = "username";
+            var spotifyUsername = "spotifyUsername";
             var password = "password";
 
             //Act
-            await _databaseUserService.AddUser(userName, password);
+            await _databaseUserService.AddUser(userName, spotifyUsername, password);
 
             // Assert
-            MockDatabaseService.Verify(mock => mock.AddUser(userName, password), Times.Once);
+            MockDatabaseService.Verify(mock => mock.AddUser(userName, spotifyUsername, password), Times.Once);
         }
 
         [Test]

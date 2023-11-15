@@ -29,6 +29,8 @@ describe("useRegisterLogic", () => {
         //@ts-ignore
         { value: "emailValue" },
         //@ts-ignore
+        { value: "spotifyEmailValue" },
+        //@ts-ignore
         { value: "passwordValue" },
         //@ts-ignore
         { value: "passwordValue" },
@@ -46,6 +48,8 @@ describe("useRegisterLogic", () => {
   it("should set error when onSubmit called and email input is empty", () => {
     //@ts-ignore
     event.currentTarget = [
+      //@ts-ignore
+      { value: "" },
       //@ts-ignore
       { value: "" },
       //@ts-ignore
@@ -69,6 +73,8 @@ describe("useRegisterLogic", () => {
       //@ts-ignore
       { value: "" },
       //@ts-ignore
+      { value: "" },
+      //@ts-ignore
       { value: "passwordValue" },
     ];
 
@@ -84,6 +90,8 @@ describe("useRegisterLogic", () => {
     event.currentTarget = [
       //@ts-ignore
       { value: "email" },
+      //@ts-ignore
+      { value: "" },
       //@ts-ignore
       { value: "passwordValue" },
       //@ts-ignore
@@ -103,6 +111,8 @@ describe("useRegisterLogic", () => {
       //@ts-ignore
       { value: "email" },
       //@ts-ignore
+      { value: "" },
+      //@ts-ignore
       { value: "passwordValue" },
       //@ts-ignore
       { value: "passwordValueDifferent" },
@@ -121,6 +131,63 @@ describe("useRegisterLogic", () => {
     });
 
     await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/login"));
+  });
+
+  [
+    {
+      event: {
+        //@ts-ignore
+        preventDefault: jest.fn(),
+        //@ts-ignore
+        currentTarget: [
+          //@ts-ignore
+          { value: "emailValue" },
+          //@ts-ignore
+          { value: "spotifyEmailValue" },
+          //@ts-ignore
+          { value: "passwordValue" },
+          //@ts-ignore
+          { value: "passwordValue" },
+        ],
+      },
+      expectedBody: {
+        email: "emailValue",
+        spotifyEmail: "spotifyEmailValue",
+        password: "passwordValue",
+      },
+    },
+    {
+      event: {
+        //@ts-ignore
+        preventDefault: jest.fn(),
+        //@ts-ignore
+        currentTarget: [
+          //@ts-ignore
+          { value: "emailValue" },
+          //@ts-ignore
+          { value: "" },
+          //@ts-ignore
+          { value: "passwordValue" },
+          //@ts-ignore
+          { value: "passwordValue" },
+        ],
+      },
+      expectedBody: {
+        email: "emailValue",
+        spotifyEmail: "emailValue",
+        password: "passwordValue",
+      },
+    },
+  ].forEach((setup: { event: any; expectedBody: any }) => {
+    it(`should call api register method with correct body for`, async () => {
+      act(() => {
+        result.current?.onSubmit(setup.event);
+      });
+
+      await waitFor(() =>
+        expect(mockUseAuthApi.register).toHaveBeenCalledWith(setup.expectedBody)
+      );
+    });
   });
 
   [

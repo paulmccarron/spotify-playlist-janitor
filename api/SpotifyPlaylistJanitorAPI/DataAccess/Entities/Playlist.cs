@@ -5,6 +5,8 @@ public partial class Playlist
 {
     public string Id { get; set; } = null!;
 
+    public string Username { get; set; } = null!;
+
     public int? SkipThreshold { get; set; }
 
     public bool IgnoreInitialSkips { get; set; }
@@ -12,4 +14,6 @@ public partial class Playlist
     public int? AutoCleanupLimit { get; set; }
 
     public virtual ICollection<SkippedTrack> SkippedTracks { get; set; } = new List<SkippedTrack>();
+
+    public virtual User UsernameNavigation { get; set; }
 }

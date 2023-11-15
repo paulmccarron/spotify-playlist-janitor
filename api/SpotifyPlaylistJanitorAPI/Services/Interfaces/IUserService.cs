@@ -23,7 +23,7 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <summary>
         /// Adds user to store.
         /// </summary>
-        Task AddUser(string username, string passwordHash);
+        Task AddUser(string username, string spotifyUsername, string passwordHash);
 
         /// <summary>
         /// Set user refresh token in store.

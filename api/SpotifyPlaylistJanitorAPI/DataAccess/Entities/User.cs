@@ -7,6 +7,8 @@ public partial class User
 
     public string Username { get; set; } = null!;
 
+    public string SpotifyUsername { get; set; } = null!;
+
     public string PasswordHash { get; set; } = null!;
 
     public bool IsAdmin { get; set; }
@@ -14,6 +16,8 @@ public partial class User
     public string? RefreshToken { get; set; } = null;
 
     public DateTime? RefreshTokenExpiry { get; set; } = null;
+
+    public virtual ICollection<Playlist> Playlists { get; set; } = new List<Playlist>();
 
     public virtual UsersSpotifyToken? UsersSpotifyToken { get; set; }
 }

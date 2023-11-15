@@ -32,13 +32,14 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var userModel = Fixture.Build<UserModel>()
-                .With(x => x.Username, "username")
+                .With(x => x.Username, USERNAME)
+                .With(x => x.SpotifyUsername, SPOTIFY_USERNAME)
                 .With(x => x.Role, "Admin")
                 .Create();
 
             var now = SystemTime.Now();
 
-            var expectedResult = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlcm5hbWUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY3MDExNTYwMCwiaXNzIjoibW9ja0NsaWVudElkIiwiYXVkIjoibW9ja0NsaWVudElkIn0.jOfrscbtoBjC_Z6TMqerSBrQWSI6deFXOlazdlXHCCY";
+            var expectedResult = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVVNFUk5BTUUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3VzZXJkYXRhIjoiU1BPVElGWV9VU0VSTkFNRSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNjcwMTE1NjAwLCJpc3MiOiJtb2NrQ2xpZW50SWQiLCJhdWQiOiJtb2NrQ2xpZW50SWQifQ.qvPyq_ddZz-mPLNYAyJpDSafKxuwd8_Cv6Xb3-s_NEo";
 
             //Act
             var result = _securityService.GenerateJSONWebToken(userModel, now, CLIENT_ID, CLIENT_ID, CLIENT_SECRET);

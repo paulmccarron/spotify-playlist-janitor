@@ -5,6 +5,7 @@ using SpotifyPlaylistJanitorAPI.Models.Spotify;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
 using SpotifyPlaylistJanitorAPI.SwaggerExamples.Spotify;
 using Swashbuckle.AspNetCore.Filters;
+using System.Security.Claims;
 
 namespace SpotifyPlaylistJanitorAPI.Controllers
 {
@@ -44,12 +45,13 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
         public async Task<ActionResult<SpotifyUserModel>> GetUser()
         {
-            if (!_spotifyService.IsLoggedIn)
+            var spotifyUsername = HttpContext?.User?.FindFirstValue(ClaimTypes.UserData);
+            if (!_spotifyService.UserIsLoggedIn(spotifyUsername))
             {
                 return GetApplicationNotLoggedResponse();
             }
 
-            var user = await _spotifyService.GetUserDetails();
+            var user = await _spotifyService.GetUserDetails(spotifyUsername);
 
             return user;
         }
@@ -68,12 +70,13 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
         public async Task<ActionResult<IEnumerable<SpotifyPlaylistModel>>> GetPlaylists()
         {
-            if (!_spotifyService.IsLoggedIn)
+            var spotifyUsername = HttpContext?.User?.FindFirstValue(ClaimTypes.UserData);
+            if (!_spotifyService.UserIsLoggedIn(spotifyUsername))
             {
                 return GetApplicationNotLoggedResponse();
             }
 
-            var playlists = await _spotifyService.GetUserPlaylists();
+            var playlists = await _spotifyService.GetUserPlaylists(spotifyUsername);
 
             return Ok(playlists);
         }
@@ -95,12 +98,13 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
         public async Task<ActionResult<SpotifyPlaylistModel>> GetPlaylist(string id)
         {
-            if (!_spotifyService.IsLoggedIn)
+            var spotifyUsername = HttpContext?.User?.FindFirstValue(ClaimTypes.UserData);
+            if (!_spotifyService.UserIsLoggedIn(spotifyUsername))
             {
                 return GetApplicationNotLoggedResponse();
             }
 
-            var playlist = await _spotifyService.GetUserPlaylist(id);
+            var playlist = await _spotifyService.GetUserPlaylist(spotifyUsername, id);
 
             if(playlist is null)
             {
@@ -127,19 +131,20 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(ApplicationNotLoggedInExample))]
         public async Task<ActionResult<IEnumerable<SpotifyTrackModel>>> GetPlaylistTracks(string id)
         {
-            if (!_spotifyService.IsLoggedIn)
+            var spotifyUsername = HttpContext?.User?.FindFirstValue(ClaimTypes.UserData);
+            if (!_spotifyService.UserIsLoggedIn(spotifyUsername))
             {
                 return GetApplicationNotLoggedResponse();
             }
 
-            var playlist = await _spotifyService.GetUserPlaylist(id);
+            var playlist = await _spotifyService.GetUserPlaylist(spotifyUsername, id);
 
             if (playlist is null)
             {
                 return PlaylistNotFoundResponse(id);
             }
 
-            var tracks = await _spotifyService.GetUserPlaylistTracks(id);
+            var tracks = await _spotifyService.GetUserPlaylistTracks(spotifyUsername, id);
 
             return Ok(tracks);
         }
@@ -161,19 +166,23 @@ namespace SpotifyPlaylistJanitorAPI.Controllers
         [HttpDelete("playlists/{id}/tracks")]
         public async Task<ActionResult<object>> DeletePlaylistTracks(string id, [FromQuery(Name = "trackIds[]")] IEnumerable<string> trackIds)
         {
-            if (!_spotifyService.IsLoggedIn)
+            var spotifyUsername = HttpContext?.User?.FindFirstValue(ClaimTypes.UserData);
+            if (!_spotifyService.UserIsLoggedIn(spotifyUsername))
             {
                 return GetApplicationNotLoggedResponse();
             }
 
-            var playlist = await _spotifyService.GetUserPlaylist(id);
+            var userName = HttpContext?.User?.Identity?.Name;
 
-            if (playlist is null)
+            var playlist = await _spotifyService.GetUserPlaylist(spotifyUsername, id);
+            var dbPlaylist = await _databaseService.GetPlaylist(userName, id);
+
+            if (playlist is null || dbPlaylist is null)
             {
                 return PlaylistNotFoundResponse(id);
             }
 
-            await _spotifyService.DeletePlaylistTracks(id, trackIds);
+            await _spotifyService.DeletePlaylistTracks(spotifyUsername, id, trackIds);
             await _databaseService.DeleteSkippedTracks(id, trackIds);
 
             return NoContent();

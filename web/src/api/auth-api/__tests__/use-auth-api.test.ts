@@ -2,7 +2,7 @@ import { RefObject } from "react";
 import { renderHook } from "@testing-library/react";
 
 import { post } from "api/api";
-import { LoginRequest } from "../auth-api-types";
+import { LoginRequest, RegisterRequest } from "../auth-api-types";
 import { useAuthApi } from "../use-auth-api";
 
 jest.mock("api/api");
@@ -41,8 +41,9 @@ describe("useAuthApi", () => {
   });
 
   it("should call the registerRequest function when the register function is called", () => {
-    const data: LoginRequest = {
+    const data: RegisterRequest = {
       email: "qwer",
+      spotifyEmail: "asdf",
       password: "zxcv",
     };
     result.current?.register(data);
@@ -51,6 +52,7 @@ describe("useAuthApi", () => {
       "/register",
       {
         email: "qwer",
+        spotifyEmail: "asdf",
         password: "zxcv",
       },
       {

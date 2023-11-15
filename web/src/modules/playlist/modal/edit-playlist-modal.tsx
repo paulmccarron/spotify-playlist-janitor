@@ -26,9 +26,7 @@ export const EditPlaylistModalView = ({
   return (
     <form {...{ onSubmit }} autoComplete="off">
       <ModalContainer>
-        <SubTitle style={{ marginBottom: 8 }}>
-          Edit playlist details
-        </SubTitle>
+        <SubTitle style={{ marginBottom: 8 }}>Edit playlist details</SubTitle>
         <div className="rows">
           <div className="row">
             <Text>Skip threshold (seconds):</Text>
@@ -62,7 +60,7 @@ export const EditPlaylistModalView = ({
                   id: "ignore-intial-skips-toggle",
                   "data-testid": "ignore-intial-skips-toggle",
                   disabled: modalSaving,
-                  defaultChecked: playlist?.ignoreInitialSkips
+                  defaultChecked: playlist?.ignoreInitialSkips,
                 }}
               />
             </div>
@@ -77,19 +75,19 @@ export const EditPlaylistModalView = ({
           </div>
           <div className="row">
             <Text>Auto-delete tracks after:</Text>
-              <TextInput
-                {...{
-                  className: "number-input",
-                  id: "auto-delete-input",
-                  "data-testid": "auto-delete-input",
-                  type: "number",
-                  min: 0,
-                  max: 999,
-                  varaint: "boxed",
-                  disabled: modalSaving,
-                  defaultValue: playlist?.autoCleanupLimit
-                }}
-              />
+            <TextInput
+              {...{
+                className: "number-input",
+                id: "auto-delete-input",
+                "data-testid": "auto-delete-input",
+                type: "number",
+                min: 0,
+                max: 999,
+                varaint: "boxed",
+                disabled: modalSaving,
+                defaultValue: playlist?.autoCleanupLimit,
+              }}
+            />
             <Text className="auto-delete-post-text">skips</Text>
             <Tooltip
               content={

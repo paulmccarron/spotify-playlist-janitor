@@ -221,7 +221,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component 1
           skips
         </div>
         <svg
-          data-tooltip-id="aut-delete-tooltip"
+          data-tooltip-id="auto-delete-tooltip"
           fill="currentColor"
           height="1em"
           stroke="currentColor"
@@ -485,7 +485,7 @@ exports[`<AddPlaylistModalView /> should render AddPlaylistModalView component w
           skips
         </div>
         <svg
-          data-tooltip-id="aut-delete-tooltip"
+          data-tooltip-id="auto-delete-tooltip"
           fill="currentColor"
           height="1em"
           stroke="currentColor"

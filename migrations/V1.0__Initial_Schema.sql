@@ -1,8 +1,28 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY not null,
+    username text not null unique,
+    spotify_username text not null,
+    password_hash text not null,
+    is_admin boolean not null,
+    refresh_token text,
+    refresh_token_expiry timestamp
+);
+
+CREATE TABLE users_spotify_token (
+    username text PRIMARY KEY not null,
+    encoded_spotify_token text,
+
+    FOREIGN KEY (username) REFERENCES users(username)
+);
+
 CREATE TABLE playlists (
     id text PRIMARY KEY not null,
+    username text not null,
     skip_threshold int,
     ignore_initial_skips boolean not null,
-    auto_cleanup_limit int
+    auto_cleanup_limit int,
+    
+    FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE TABLE artists (
@@ -68,20 +88,4 @@ CREATE TABLE skipped_tracks (
 
     FOREIGN KEY (playlist_id) REFERENCES playlists(id),
     FOREIGN KEY (track_id) REFERENCES tracks(id)
-);
-
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY not null,
-    username text not null unique,
-    password_hash text not null,
-    is_admin boolean not null,
-    refresh_token text,
-    refresh_token_expiry timestamp
-);
-
-CREATE TABLE users_spotify_token (
-    username text PRIMARY KEY not null,
-    encoded_spotify_token text,
-
-    FOREIGN KEY (username) REFERENCES users(username)
 );

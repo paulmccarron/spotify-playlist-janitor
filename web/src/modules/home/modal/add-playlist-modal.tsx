@@ -98,24 +98,24 @@ export const AddPlaylistModalView = ({
           </div>
           <div className="row">
             <Text>Auto-delete tracks after:</Text>
-              <TextInput
-                {...{
-                  className: "number-input",
-                  id: "auto-delete-input",
-                  "data-testid": "auto-delete-input",
-                  type: "number",
-                  min: 0,
-                  max: 999,
-                  varaint: "boxed",
-                  disabled: modalSaving,
-                }}
-              />
+            <TextInput
+              {...{
+                className: "number-input",
+                id: "auto-delete-input",
+                "data-testid": "auto-delete-input",
+                type: "number",
+                min: 0,
+                max: 999,
+                varaint: "boxed",
+                disabled: modalSaving,
+              }}
+            />
             <Text className="auto-delete-post-text">skips</Text>
             <Tooltip
               content={
                 "Can be left blank to prevent automatic deletion of any tracks."
               }
-              dataTooltipId="aut-delete-tooltip"
+              dataTooltipId="auto-delete-tooltip"
             >
               <VscQuestion />
             </Tooltip>

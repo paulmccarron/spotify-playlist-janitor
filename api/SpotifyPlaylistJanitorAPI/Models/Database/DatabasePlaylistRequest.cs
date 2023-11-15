@@ -14,6 +14,12 @@ namespace SpotifyPlaylistJanitorAPI.Models.Database
         public required string Id { get; set; }
 
         /// <summary>
+        /// Playlist User.
+        /// </summary>
+        [Required(AllowEmptyStrings = false)]
+        public required string Username { get; set; }
+
+        /// <summary>
         /// Skip threshold for playlist tracks in seconds.
         /// </summary>
         public int? SkipThreshold { get; set; }

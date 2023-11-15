@@ -14,16 +14,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
     {
         private readonly ISpotifyClientService _spotifyClientService;
         private readonly IUserService _userService;
-        private ISpotifyClient? _spotifyClient { get; set; }
+        private Dictionary<string, ISpotifyClient> _spotifyClients { get; set; }
 
         /// <summary>
-        /// Returns true if service has a Spotify Client configured.
+        /// Returns dictionary of Spotify Clients.
         /// </summary>
-        public bool IsLoggedIn
+        public Dictionary<string, ISpotifyClient> SpotifyClients
         {
             get
             {
-                return _spotifyClient != null;
+                return _spotifyClients;
             }
         }
 
@@ -36,6 +36,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             _spotifyClientService = spotifyClientService;
             _userService = userService;
+            _spotifyClients = new Dictionary<string, ISpotifyClient>();
 
             var users = _userService.GetUsers().Result;
             foreach (var user in users)
@@ -44,9 +45,21 @@ namespace SpotifyPlaylistJanitorAPI.Services
 
                 if (spotifyToken is not null)
                 {
-                    _spotifyClient = _spotifyClientService.CreateClient(spotifyToken, user.Username).Result;
+                    var spotifyClient = _spotifyClientService.CreateClient(spotifyToken, user.Username).Result;
+                    if(spotifyClient is not null)
+                    {
+                        _spotifyClients.TryAdd(user.SpotifyUsername, spotifyClient);
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns true if service has a Spotify Client configured for user.
+        /// </summary>
+        public bool UserIsLoggedIn(string spotifyUsername)
+        {
+            return _spotifyClients.ContainsKey(spotifyUsername);
         }
 
         /// <summary>
@@ -61,7 +74,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             _spotifyClientService.CheckSpotifyCredentials();
 
-            _spotifyClient = await _spotifyClientService.CreateClient(code, callbackUrl);
+            var spotifyClient = await _spotifyClientService.CreateClient(code, callbackUrl);
+
+            if(spotifyClient is not null)
+            {
+                var currentUser = await spotifyClient.UserProfile.Current();
+                _spotifyClients.TryAdd(currentUser.Email, spotifyClient);
+            }
         }
 
         /// <summary>
@@ -69,14 +88,11 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <returns><see cref = "SpotifyUserModel" /> with user details</returns>
         /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
-        public async Task<SpotifyUserModel> GetUserDetails()
+        public async Task<SpotifyUserModel> GetUserDetails(string spotifyUsername)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
-            var currentUser = await _spotifyClient.UserProfile.Current();
+            var currentUser = await spotifyClient.UserProfile.Current();
 
             return new SpotifyUserModel
             {
@@ -92,15 +108,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
         /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
-        public async Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists()
+        public async Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists(string spotifyUsername)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
-            var page = await _spotifyClient.Playlists.CurrentUsers();
-            var allPages = await _spotifyClient.PaginateAll(page);
+            var page = await spotifyClient.Playlists.CurrentUsers();
+            var allPages = await spotifyClient.PaginateAll(page);
             var playlists = allPages
                 .Select(playlist => new SpotifyPlaylistModel
                 {
@@ -124,17 +137,14 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <returns><see cref = "SpotifyPlaylistModel" /></returns>
         /// <exception cref="SpotifyArgumentException">Thrown if service has no instance of <see cref="SpotifyClient"/> class.</exception>
-        public async Task<SpotifyPlaylistModel?> GetUserPlaylist(string id)
+        public async Task<SpotifyPlaylistModel?> GetUserPlaylist(string spotifyUsername, string id)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
             try
             {
 
-                var spotifyPlaylist = await _spotifyClient.Playlists.Get(id);
+                var spotifyPlaylist = await spotifyClient.Playlists.Get(id);
 
                 var playlistModel = new SpotifyPlaylistModel
                 {
@@ -162,18 +172,15 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyTrackModel" />.</returns>
         /// <exception cref="SpotifyArgumentException"></exception>
-        public async Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string id)
+        public async Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string spotifyUsername, string id)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
             var request = new PlaylistGetItemsRequest();
             request.Fields.Add("href,limit,next,offset,previous,total,items(track(name,type,id,artists(id,name,external_urls),album(id,name,external_urls,images),duration_ms,is_local))");
 
-            var page = await _spotifyClient.Playlists.GetItems(id, request);
-            var allPages = await _spotifyClient.PaginateAll(page);
+            var page = await spotifyClient.Playlists.GetItems(id, request);
+            var allPages = await spotifyClient.PaginateAll(page);
 
             var tracks = allPages
                 .Where(item => item.Track is FullTrack)
@@ -218,15 +225,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Remove tracks from current users playlist.
         /// </summary>
+        /// <param name="spotifyUsername">Spotify username.</param>
         /// <param name="playlistId">Id of Spotify playlist.</param>
         /// <param name="trackIds">Collection if track Ids to remove.</param>
         /// <returns></returns>
-        public async Task<SnapshotResponse> DeletePlaylistTracks(string playlistId, IEnumerable<string> trackIds)
+        public async Task<SnapshotResponse> DeletePlaylistTracks(string spotifyUsername, string playlistId, IEnumerable<string> trackIds)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
             var request = new PlaylistRemoveItemsRequest
             {
@@ -236,7 +241,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                     .ToList()
             };
 
-            return await _spotifyClient.Playlists.RemoveItems(playlistId, request);
+            return await spotifyClient.Playlists.RemoveItems(playlistId, request);
         }
 
         /// <summary>
@@ -244,19 +249,16 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// </summary>
         /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>
         /// <exception cref="SpotifyArgumentException"></exception>
-        public async Task<SpotifyPlayingState> GetCurrentPlayback()
+        public async Task<SpotifyPlayingState> GetCurrentPlayback(string spotifyUsername)
         {
-            if (_spotifyClient is null)
-            {
-                throw new SpotifyArgumentException("No Spotify Client configured");
-            }
+            var spotifyClient = GetClientFromDictionary(spotifyUsername);
 
             var playingState = new SpotifyPlayingState
             {
                 IsPlaying = false,
             };
 
-            var currently = await _spotifyClient.Player.GetCurrentPlayback();
+            var currently = await spotifyClient.Player.GetCurrentPlayback();
 
             if (currently is not null)
             {
@@ -310,6 +312,17 @@ namespace SpotifyPlaylistJanitorAPI.Services
         {
             var tokenString = await _userService.GetUserSpotifyToken(user);
             return tokenString is null ? null : JsonConvert.DeserializeObject<AuthorizationCodeTokenResponse>(tokenString.SpotifyToken);
+        }
+
+        private ISpotifyClient GetClientFromDictionary(string spotifyUsername)
+        {
+            ISpotifyClient spotifyClient;
+            if (!_spotifyClients.TryGetValue(spotifyUsername, out spotifyClient))
+            {
+                throw new SpotifyArgumentException("No Spotify Client configured");
+            }
+
+            return spotifyClient;
         }
     }
 }

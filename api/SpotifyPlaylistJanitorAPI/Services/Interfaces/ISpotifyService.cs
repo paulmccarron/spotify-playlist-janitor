@@ -10,9 +10,14 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
     public interface ISpotifyService
     {
         /// <summary>
-        /// Returns true if service has a Spotify Client configured.
+        /// Returns dictionary of Spotify Clients.
         /// </summary>
-        bool IsLoggedIn { get; }
+        Dictionary<string, ISpotifyClient> SpotifyClients { get; }
+
+        /// <summary>
+        /// Returns true if service has a Spotify Client configured for user.
+        /// </summary>
+        bool UserIsLoggedIn(string spotifyUsername);
 
         /// <summary>
         /// Create an instance a new instance of the <see cref="SpotifyClient"/> class and sets it to internal field.
@@ -26,31 +31,31 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// Returns current users details.
         /// </summary>
         /// <returns><see cref = "SpotifyUserModel" /> with user details</returns>
-        Task<SpotifyUserModel> GetUserDetails();
+        Task<SpotifyUserModel> GetUserDetails(string spotifyUsername);
 
         /// <summary>
         /// Returns current users playlists.
         /// </summary>
         ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyPlaylistModel" />.</returns>
-        Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists();
+        Task<IEnumerable<SpotifyPlaylistModel>> GetUserPlaylists(string spotifyUsername);
 
         /// <summary>
         /// Returns current users playlist by id.
         /// </summary>
         /// <returns><see cref = "SpotifyPlaylistModel" /></returns>
-        Task<SpotifyPlaylistModel?> GetUserPlaylist(string id);
+        Task<SpotifyPlaylistModel?> GetUserPlaylist(string spotifyUsername, string id);
 
         /// <summary>
         /// Returns tracks from current users playlist by id.
         /// </summary>
         ///<returns>Returns an <see cref="IEnumerable{T}" /> of type <see cref = "SpotifyTrackModel" />.</returns>
-        Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string id);
+        Task<IEnumerable<SpotifyTrackModel>> GetUserPlaylistTracks(string spotifyUsername, string id);
 
         /// <summary>
         /// Returns current playback state.
         /// </summary>
         /// <returns><see cref = "SpotifyPlayingState" /> Current playback state.</returns>
-        Task<SpotifyPlayingState> GetCurrentPlayback();
+        Task<SpotifyPlayingState> GetCurrentPlayback(string spotifyUsername);
 
         /// <summary>
         /// Remove tracks from current users playlist.
@@ -58,6 +63,6 @@ namespace SpotifyPlaylistJanitorAPI.Services.Interfaces
         /// <param name="playlistId">Id of Spotify playlist.</param>
         /// <param name="trackIds">Collection if track Ids to remove.</param>
         /// <returns></returns>
-        Task<SnapshotResponse> DeletePlaylistTracks(string playlistId, IEnumerable<string> trackIds);
+        Task<SnapshotResponse> DeletePlaylistTracks(string spotifyUsername, string playlistId, IEnumerable<string> trackIds);
     }
 }

@@ -40,6 +40,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userInfo.Username),
+                new Claim(ClaimTypes.UserData, userInfo.SpotifyUsername),
                 new Claim(ClaimTypes.Role, userInfo.Role)
             };
 

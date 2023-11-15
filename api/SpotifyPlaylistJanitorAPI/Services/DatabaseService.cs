@@ -28,11 +28,12 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Returns playlists from database.
         /// </summary>
         /// <returns>Returns an<see cref="IEnumerable{T}" /> of type <see cref = "DatabasePlaylistModel" />.</returns>
-        public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists()
+        public async Task<IEnumerable<DatabasePlaylistModel>> GetPlaylists(string username)
         {
             using var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
             var playlists = await dbContext.Playlists
+                .Where(x => x.Username == username)
                 .Select(playlistDto => new DatabasePlaylistModel
                 {
                     Id = playlistDto.Id,
@@ -50,13 +51,13 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// Returns playlist from database by id.
         /// </summary>
         /// <returns>Returns a <see cref = "DatabasePlaylistModel" />.</returns>
-        public async Task<DatabasePlaylistModel?> GetPlaylist(string id)
+        public async Task<DatabasePlaylistModel?> GetPlaylist(string username, string id)
         {
             using var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
             var playlistDto = await dbContext.Playlists
                 .ToAsyncEnumerable()
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Username == username && x.Id == id);
 
             var playlistModel = playlistDto is null ? null : new DatabasePlaylistModel
             {
@@ -81,6 +82,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistDto = new Playlist
             {
                 Id = playlistRequest.Id,
+                Username = playlistRequest.Username,
                 SkipThreshold = playlistRequest.SkipThreshold,
                 IgnoreInitialSkips = playlistRequest.IgnoreInitialSkips,
                 AutoCleanupLimit = playlistRequest.AutoCleanupLimit,
@@ -99,6 +101,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var playlistModel = new DatabasePlaylistModel
             {
                 Id = playlistDto.Id,
+                
                 SkipThreshold = playlistDto.SkipThreshold,
                 IgnoreInitialSkips = playlistDto.IgnoreInitialSkips,
                 AutoCleanupLimit = playlistDto.AutoCleanupLimit,
@@ -450,6 +453,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
                 {
                     Id = userDto.Id,
                     Username = userDto.Username,
+                    SpotifyUsername = userDto.SpotifyUsername,
                     PasswordHash = userDto.PasswordHash,
                     IsAdmin = userDto.IsAdmin,
                     RefreshToken = userDto.RefreshToken,
@@ -478,6 +482,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             {
                 Id = userDto.Id,
                 Username = userDto.Username,
+                SpotifyUsername = userDto.SpotifyUsername,
                 PasswordHash = userDto.PasswordHash,
                 IsAdmin = userDto.IsAdmin,
                 RefreshToken = userDto.RefreshToken,
@@ -490,7 +495,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
         /// <summary>
         /// Adds user to database.
         /// </summary>
-        public async Task AddUser(string username, string passwordHash)
+        public async Task AddUser(string username, string spotifyUsername, string passwordHash)
         {
             using var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<SpotifyPlaylistJanitorDatabaseContext>();
@@ -502,6 +507,7 @@ namespace SpotifyPlaylistJanitorAPI.Services
             var userDto = new User
             {
                 Username = username,
+                SpotifyUsername = spotifyUsername,
                 PasswordHash = passwordHash,
                 IsAdmin = userDtos.Count() == 0,
             };

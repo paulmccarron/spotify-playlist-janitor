@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Moq;
 using SpotifyAPI.Web;
 using SpotifyPlaylistJanitorAPI.DataAccess.Context;
@@ -12,11 +11,7 @@ using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Infrastructure;
 using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Services.Interfaces;
-using SpotifyPlaylistJanitorAPI.System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace SpotifyPlaylistJanitorAPI.Tests
 {
@@ -56,7 +51,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests
         protected const string ACCESS_TOKEN = "ACCESS_TOKEN";
         protected const string REFRESH_TOKEN = "REFRESH_TOKEN";
         protected const string PASSWORD_HASH = "PASSWORD_HASH";
-        
+        protected const string USERNAME = "USERNAME";
+        protected const string SPOTIFY_USERNAME = "SPOTIFY_USERNAME";
+
         protected IOptions<SpotifyOption> SpotifyOptions { get; set; }
         
 
@@ -78,8 +75,9 @@ namespace SpotifyPlaylistJanitorAPI.Tests
                 .Setup(x => x.HttpContext.RequestServices.GetService(typeof(IAuthenticationService)))
                 .Returns(authenticationServiceMock.Object);
 
-            var claim = new Claim(ClaimTypes.Name, "username");
-            var identity = new ClaimsIdentity(new List<Claim>{ claim });
+            var claim = new Claim(ClaimTypes.Name, USERNAME);
+            var claim2 = new Claim(ClaimTypes.UserData, SPOTIFY_USERNAME);
+            var identity = new ClaimsIdentity(new List<Claim>{ claim, claim2 });
             var principal = new ClaimsPrincipal(identity);
 
             MockHttpContextAccessor
@@ -181,6 +179,41 @@ namespace SpotifyPlaylistJanitorAPI.Tests
 
             //Client mocks
             MockSpotifyClient = new Mock<ISpotifyClient>();
+            var mockUserProfile = new Mock<IUserProfileClient>();
+            mockUserProfile
+                .Setup(mock => mock.Current(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new PrivateUser
+                {
+                    Id = SPOTIFY_USERNAME,
+                    DisplayName = SPOTIFY_USERNAME,
+                    Email = SPOTIFY_USERNAME,
+                    Href = SPOTIFY_USERNAME,
+                });
+
+            MockSpotifyClient
+                .Setup(mock => mock.UserProfile)
+                .Returns(mockUserProfile.Object);
+
+            MockSpotifyService
+                .SetupGet(mock => mock.SpotifyClients)
+                .Returns(new Dictionary<string, ISpotifyClient>() { { SPOTIFY_USERNAME, MockSpotifyClient.Object } });
+
+            MockSpotifyService
+                .Setup(mock => mock.UserIsLoggedIn(It.IsAny<string>()))
+                .Returns(true);
+
+            MockDatabaseService
+                .Setup(mock => mock.GetUsers())
+                .ReturnsAsync(new List<UserDataModel>() { 
+                    new UserDataModel 
+                    { 
+                        Id = 1,
+                        Username = USERNAME,
+                        SpotifyUsername = SPOTIFY_USERNAME,
+                        IsAdmin = true,
+                        PasswordHash = PASSWORD_HASH,
+                    } 
+                });
 
             //Configuration mocks setup
             SpotifyOptions = Options.Create(new SpotifyOption

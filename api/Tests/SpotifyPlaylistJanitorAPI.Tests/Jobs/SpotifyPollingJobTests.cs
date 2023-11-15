@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using Quartz;
+using SpotifyAPI.Web;
+using SpotifyPlaylistJanitorAPI.DataAccess.Entities;
 using SpotifyPlaylistJanitorAPI.Jobs;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Models.Spotify;
@@ -27,10 +29,6 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             _loggerMock = new Mock<ILogger<SpotifyPollingJob>>();
 
-            MockSpotifyService
-                .Setup(mock => mock.IsLoggedIn)
-                .Returns(true);
-
             var mockArtists = Fixture.Build<SpotifyArtistModel>()
                 .With(x => x.Id, ARTIST_ID)
                 .CreateMany();
@@ -52,7 +50,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockSpotifyService
-                .Setup(mock => mock.GetCurrentPlayback())
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<string>()))
                 .ReturnsAsync(_playingState);
 
             MockPlayingStateService
@@ -76,15 +74,15 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             MockSpotifyService
-                .Setup(mock => mock.IsLoggedIn)
-                .Returns(false);
+                .SetupGet(mock => mock.SpotifyClients)
+                .Returns(new Dictionary<string, ISpotifyClient>());
 
             //Act
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            VerifyLog(_loggerMock, LogLevel.Trace, "Not currently logged into Spotify");
-            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Never);
+            VerifyLog(_loggerMock, LogLevel.Trace, "No users currently logged into Spotify");
+            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -97,16 +95,16 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             };
 
             MockSpotifyService
-                .Setup(mock => mock.GetCurrentPlayback())
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<string>()))
                 .ReturnsAsync(currentPlayback);
 
             //Act
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Once);
-            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.IsAny<string>()), Times.Never);
-            VerifyLog(_loggerMock, LogLevel.Trace, "Not currently listening to a monitored playlist");
+            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(It.Is<string>(s => s == SPOTIFY_USERNAME)), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s == USERNAME), It.IsAny<string>()), Times.Never);
+            VerifyLog(_loggerMock, LogLevel.Trace, $"{USERNAME}: not currently listening to a monitored playlist");
         }
 
         [Test]
@@ -118,7 +116,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockDatabaseService
-                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(playlist);
 
             MockPlayingStateService
@@ -129,11 +127,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Once);
-            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.IsAny<string>()), Times.Once);
+            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(It.Is<string>(s => s == SPOTIFY_USERNAME)), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s == USERNAME), It.IsAny<string>()), Times.Once);
             MockPlayingStateService.Verify(mock => mock.CheckSkipHasHappened(It.IsAny<SpotifyPlayingState>(), It.IsAny<DatabasePlaylistModel>()), Times.Once);
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently listening to playlist: {_playingState.Track?.PlaylistId}");
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently playing: {_playingState.Track?.Name}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently listening to playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently playing: {_playingState.Track?.Name}");
         }
 
         [Test]
@@ -145,7 +143,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockDatabaseService
-                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(playlist);
 
             var image = Fixture.Build<DatabaseImageModel>().Create();
@@ -158,12 +156,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Once);
-            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.IsAny<string>()), Times.Once);
+            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(It.Is<string>(s => s == SPOTIFY_USERNAME)), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s == USERNAME), It.IsAny<string>()), Times.Once);
             MockPlayingStateService.Verify(mock => mock.CheckSkipHasHappened(It.IsAny<SpotifyPlayingState>(), It.IsAny<DatabasePlaylistModel>()), Times.Once);
 
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently listening to playlist: {_playingState.Track?.PlaylistId}");
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently playing: {_playingState.Track?.Name}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently listening to playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently playing: {_playingState.Track?.Name}");
 
             MockDatabaseService.Verify(mock => mock.AddArtist(It.IsAny<DatabaseArtistModel>()), Times.Exactly(_playingStateTrack.Artists.Count()));
             MockDatabaseService.Verify(mock => mock.AddAlbum(It.IsAny<DatabaseAlbumRequest>()), Times.Once);
@@ -174,7 +172,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDatabaseService.Verify(mock => mock.AddImageToAlbum(It.IsAny<int>(), It.IsAny<string>()), Times.Exactly(_playingStateTrack.Album.Images.Count()));
             MockDatabaseService.Verify(mock => mock.AddSkippedTrack(It.IsAny<DatabaseSkippedTrackRequest>()), Times.Once);
 
-            VerifyLog(_loggerMock, LogLevel.Information, $"Skipped track: {_playingState.Track?.Name} was playing from monitored playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Information, $"{USERNAME}: skipped track: {_playingState.Track?.Name} was playing from monitored playlist: {_playingState.Track?.PlaylistId}");
         }
 
         [Test]
@@ -184,7 +182,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             _playingState.Track.IsLocal = true;
 
             MockSpotifyService
-                .Setup(mock => mock.GetCurrentPlayback())
+                .Setup(mock => mock.GetCurrentPlayback(It.IsAny<string>()))
                 .ReturnsAsync(_playingState);
             
             var playlist = Fixture.Build<DatabasePlaylistModel>()
@@ -192,19 +190,19 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .Create();
 
             MockDatabaseService
-                .Setup(mock => mock.GetPlaylist(It.IsAny<string>()))
+                .Setup(mock => mock.GetPlaylist(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(playlist);
 
             //Act
             await _spotifyPollingJob.Execute(_mockJobContext.Object);
 
             //Assert
-            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(), Times.Once);
-            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.IsAny<string>()), Times.Once);
+            MockSpotifyService.Verify(mock => mock.GetCurrentPlayback(It.Is<string>(s => s == SPOTIFY_USERNAME)), Times.Once);
+            MockDatabaseService.Verify(mock => mock.GetPlaylist(It.Is<string>(s => s == USERNAME), It.IsAny<string>()), Times.Once);
             MockPlayingStateService.Verify(mock => mock.CheckSkipHasHappened(It.IsAny<SpotifyPlayingState>(), It.IsAny<DatabasePlaylistModel>()), Times.Once);
 
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently listening to playlist: {_playingState.Track?.PlaylistId}");
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Currently playing: {_playingState.Track?.Name}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently listening to playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: currently playing: {_playingState.Track?.Name}");
 
             MockDatabaseService.Verify(mock => mock.AddArtist(It.IsAny<DatabaseArtistModel>()), Times.Never);
             MockDatabaseService.Verify(mock => mock.AddAlbum(It.IsAny<DatabaseAlbumRequest>()), Times.Never);
@@ -215,7 +213,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDatabaseService.Verify(mock => mock.AddImageToAlbum(It.IsAny<int>(), It.IsAny<string>()), Times.Never);
             MockDatabaseService.Verify(mock => mock.AddSkippedTrack(It.IsAny<DatabaseSkippedTrackRequest>()), Times.Never);
 
-            VerifyLog(_loggerMock, LogLevel.Debug, $"Local track: ${_playingState.Track?.Name} was skipped while playing from monitored playlist: {_playingState.Track?.PlaylistId}");
+            VerifyLog(_loggerMock, LogLevel.Debug, $"{USERNAME}: local track: ${_playingState.Track?.Name} was skipped while playing from monitored playlist: {_playingState.Track?.PlaylistId}");
         }
     }
 }

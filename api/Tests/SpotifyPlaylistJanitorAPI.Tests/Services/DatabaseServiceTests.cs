@@ -8,6 +8,7 @@ using SpotifyPlaylistJanitorAPI.Models.Auth;
 using SpotifyPlaylistJanitorAPI.Models.Database;
 using SpotifyPlaylistJanitorAPI.Services;
 using SpotifyPlaylistJanitorAPI.System;
+using System.Linq;
 
 namespace SpotifyPlaylistJanitorAPI.Tests.Services
 {
@@ -44,6 +45,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var dbPlaylists = Fixture.Build<Playlist>()
+                .With(x => x.Username, USERNAME)
                 .CreateMany()
                 .AsQueryable();
 
@@ -59,7 +61,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 });
 
             //Act
-            var result = await _databaseService.GetPlaylists();
+            var result = await _databaseService.GetPlaylists(USERNAME);
 
             // Assert
             result.Should().BeOfType<List<DatabasePlaylistModel>>();
@@ -70,15 +72,20 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         public async Task DatabaseService_GetPlaylist_Returns_Data()
         {
             //Arrange
-            var dbPlaylists = Fixture.Build<Playlist>()
-                .CreateMany()
-                .AsQueryable();
+            var validDbPlaylist = Fixture.Build<Playlist>()
+                .With(x => x.Username, USERNAME)
+                .Create();
+            var invalidDbPlaylists = Fixture.Build<Playlist>()
+                .CreateMany();
 
-            var playlistId = dbPlaylists.First().Id;
+            var dbPlaylists = (new List<Playlist>(invalidDbPlaylists) { validDbPlaylist }).AsQueryable();
+
+            var playlistId = validDbPlaylist.Id;
 
             MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             var expectedResult = dbPlaylists
+                .Where(playlistDto => playlistDto.Id == playlistId)
                 .Select(playlistDto => new DatabasePlaylistModel
                 {
                     Id = playlistDto.Id,
@@ -89,7 +96,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 .First();
 
             //Act
-            var result = await _databaseService.GetPlaylist(playlistId);
+            var result = await _databaseService.GetPlaylist(USERNAME, playlistId);
 
             // Assert
             result.Should().BeOfType<DatabasePlaylistModel>();
@@ -101,6 +108,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var dbPlaylists = Fixture.Build<Playlist>()
+                .With(x => x.Username, USERNAME)
                 .CreateMany()
                 .AsQueryable();
 
@@ -109,7 +117,26 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             MockDbSetPlaylist.AddIQueryables(dbPlaylists);
 
             //Act
-            var result = await _databaseService.GetPlaylist(playlistId);
+            var result = await _databaseService.GetPlaylist(USERNAME, playlistId);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Test]
+        public async Task DatabaseService_GetPlaylist_Returns_Null_For_Invalid_Username()
+        {
+            //Arrange
+            var playlistId = "RANDOM_ID";
+            var dbPlaylists = Fixture.Build<Playlist>()
+                .With(x => x.Id, playlistId)
+                .CreateMany()
+                .AsQueryable();
+
+            MockDbSetPlaylist.AddIQueryables(dbPlaylists);
+
+            //Act
+            var result = await _databaseService.GetPlaylist(USERNAME, playlistId);
 
             // Assert
             result.Should().BeNull();
@@ -121,6 +148,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
+            var expectedResult = Fixture.Build<DatabasePlaylistModel>()
+                .With(x => x.Id, databaseRequest.Id)
+                .With(x => x.SkipThreshold, databaseRequest.SkipThreshold)
+                .With(x => x.IgnoreInitialSkips, databaseRequest.IgnoreInitialSkips)
+                .With(x => x.AutoCleanupLimit, databaseRequest.AutoCleanupLimit)
+                .Create();
 
             //Act
             var result = await _databaseService.AddPlaylist(databaseRequest);
@@ -128,7 +161,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             // Assert
             MockDbContext.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Once);
             MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-            result.Should().BeEquivalentTo(databaseRequest);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -136,6 +169,12 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var databaseRequest = Fixture.Build<DatabasePlaylistRequest>().Create();
+            var expectedResult = Fixture.Build<DatabasePlaylistModel>()
+                .With(x => x.Id, databaseRequest.Id)
+                .With(x => x.SkipThreshold, databaseRequest.SkipThreshold)
+                .With(x => x.IgnoreInitialSkips, databaseRequest.IgnoreInitialSkips)
+                .With(x => x.AutoCleanupLimit, databaseRequest.AutoCleanupLimit)
+                .Create();
 
             var dbPlaylists = Fixture.Build<Playlist>()
                 .With(playlist => playlist.Id, databaseRequest.Id)
@@ -150,7 +189,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
             // Assert
             MockDbContext.Verify(context => context.AddAsync(It.IsAny<Playlist>(), It.IsAny<CancellationToken>()), Times.Never);
             MockDbContext.Verify(context => context.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-            result.Should().BeEquivalentTo(databaseRequest);
+            result.Should().BeEquivalentTo(expectedResult);
         }
 
         [Test]
@@ -672,6 +711,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 {
                     Id = x.Id,
                     Username = x.Username,
+                    SpotifyUsername = x.SpotifyUsername,
                     PasswordHash = x.PasswordHash,
                     IsAdmin = x.IsAdmin,
                     RefreshToken = x.RefreshToken,
@@ -703,6 +743,7 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
                 {
                     Id = x.Id,
                     Username = x.Username,
+                    SpotifyUsername = x.SpotifyUsername,
                     PasswordHash = x.PasswordHash,
                     IsAdmin = x.IsAdmin,
                     RefreshToken = x.RefreshToken,
@@ -742,10 +783,11 @@ namespace SpotifyPlaylistJanitorAPI.Tests.Services
         {
             //Arrange
             var username = "username";
+            var spotifyUsername = "spotifyUsername";
             var passwordHash = "paswordHash";
 
             //Act
-            await _databaseService.AddUser(username, passwordHash);
+            await _databaseService.AddUser(username, spotifyUsername, passwordHash);
 
             // Assert
             MockDbContext.Verify(context => context.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Once);

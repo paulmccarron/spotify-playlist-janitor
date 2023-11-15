@@ -140,6 +140,15 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
             entity.Property(e => e.AutoCleanupLimit).HasColumnName("auto_cleanup_limit");
             entity.Property(e => e.IgnoreInitialSkips).HasColumnName("ignore_initial_skips");
             entity.Property(e => e.SkipThreshold).HasColumnName("skip_threshold");
+            entity.Property(e => e.Username)
+                .IsRequired()
+                .HasColumnName("username");
+
+            entity.HasOne(d => d.UsernameNavigation).WithMany(p => p.Playlists)
+                .HasPrincipalKey(p => p.Username)
+                .HasForeignKey(d => d.Username)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("playlists_username_fkey");
         });
 
         modelBuilder.Entity<SkippedTrack>(entity =>
@@ -201,6 +210,9 @@ public partial class SpotifyPlaylistJanitorDatabaseContext : DbContext
             entity.Property(e => e.RefreshTokenExpiry)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("refresh_token_expiry");
+            entity.Property(e => e.SpotifyUsername)
+                .IsRequired()
+                .HasColumnName("spotify_username");
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasColumnName("username");
